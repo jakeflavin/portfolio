@@ -1,16 +1,42 @@
-# React + Vite
+# Portfolio Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains my personal portfolio and utility app hub.  
+It is built from scratch to publicly demonstrate architecture decisions, development workflow, and deployment practices.
 
-Currently, two official plugins are available:
+The site currently serves as a foundation that will progressively showcase small, focused web utilities and engineering case studies.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React (Vite)
+- Firebase Hosting
+- GitHub Actions (CI/CD)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Purpose
+
+This project is intentionally built in the open to:
+
+- demonstrate production-ready setup from day one
+- maintain a visible commit history of engineering decisions
+- host small, practical web utilities
+- serve as a central hub for deployed projects
+
+The site will evolve incrementally rather than launching fully built.
+
+---
+
+## Live Site
+
+The production site is automatically deployed on every push to the `main` branch.
+
+---
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
