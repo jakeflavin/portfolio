@@ -15,8 +15,10 @@
     "build:all": "npm run test && npm run build && npm run build-storybook && cp -r storybook-static dist/storybook"
   },
   "dependencies": {
+    "mapbox-gl": "^3.18.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-map-gl": "^8.1.0",
     "react-router-dom": "^7.13.0",
     "styled-components": "^6.3.9"
   },

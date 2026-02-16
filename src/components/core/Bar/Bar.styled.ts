@@ -6,7 +6,7 @@ interface BarProps {
 
 export const BarContainer = styled.div<BarProps>`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.xs};
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius};
   display: flex;

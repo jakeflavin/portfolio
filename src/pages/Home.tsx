@@ -51,7 +51,7 @@ const Home: React.FC = () => {
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
 
   ${({ theme }) => theme.media.sm} {
     grid-template-columns: repeat(2, 1fr);

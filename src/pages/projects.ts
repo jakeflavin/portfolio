@@ -1,6 +1,6 @@
 import React from "react";
 import type { CardType } from "../components/core/Card";
-import ProjectDetailPage from "./projects/ProjectDetailPage";
+import RunningRouteEstimatorPage from "./projects/RunningRouteEstimatorPage";
 
 export interface Project {
   id: string;
@@ -18,12 +18,12 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     id: "1",
-    title: "My Project",
+    title: "Running Route Estimator",
     type: "project",
     imageSrc: "/images/mockup-example-1.png",
-    description: "A short description of the project. I'll use this to describe the project.",
-    tags: ["React", "Map"],
+    description: "A utility to estimate the distance of a running route based on the user's pace and the route's elevation profile.",
+    tags: ["Running", "Utility"],
     path: "/project/1",
-    component: ProjectDetailPage
+    component: RunningRouteEstimatorPage
   }
 ];

@@ -44,7 +44,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  width: 98%;
+  width: 95%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
