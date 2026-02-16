@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "styled-components";
 import Bar from "../../core/Bar";
 import IconButton from "../../core/IconButton";
 import HouseIcon from "@/assets/icons/house-blank.svg?react";
@@ -8,8 +9,6 @@ import GithubIcon from "@/assets/icons/github.svg?react";
 import MoonIcon from "@/assets/icons/moon.svg?react";
 import MoonActiveIcon from "@/assets/icons/moon-active.svg?react";
 import { IconGroup } from "./NavBar.styled";
-
-const ICON_COLOR = "rgba(255, 255, 255, 0.95)";
 
 export interface NavBarProps {
   isDarkMode?: boolean;
@@ -21,19 +20,20 @@ const NavBar: React.FC<NavBarProps> = ({
   onToggleDarkMode
 }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   return (
     <Bar align="space-between">
       <IconButton
         icon={<HouseIcon />}
-        color={ICON_COLOR}
+        color={theme.colors.text}
         onClick={() => navigate("/")}
         ariaLabel="Go to home"
       />
       <IconGroup>
         <IconButton
           icon={<LinkedinIcon />}
-          color={ICON_COLOR}
+          color={theme.colors.text}
           onClick={() =>
             window.open("https://linkedin.com/in/jakeflavin", "_blank", "noopener,noreferrer")
           }
@@ -41,7 +41,7 @@ const NavBar: React.FC<NavBarProps> = ({
         />
         <IconButton
           icon={<GithubIcon />}
-          color={ICON_COLOR}
+          color={theme.colors.text}
           onClick={() =>
             window.open("https://github.com/jakeflavin", "_blank", "noopener,noreferrer")
           }
@@ -51,7 +51,7 @@ const NavBar: React.FC<NavBarProps> = ({
           icon={<MoonIcon />}
           activeIcon={<MoonActiveIcon />}
           active={isDarkMode}
-          color={ICON_COLOR}
+          color={theme.colors.text}
           onClick={onToggleDarkMode}
           ariaLabel="Toggle dark mode"
         />

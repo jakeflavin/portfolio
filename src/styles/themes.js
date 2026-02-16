@@ -1,4 +1,10 @@
-export const borderRadius = "24px";
+/**
+ * Design tokens: shared values for layout and appearance.
+ * Edit this file to change the look and feel across the site.
+ * Use semantic names only (no component-specific tokens).
+ */
+
+export const borderRadius = "12px";
 
 export const spacing = {
   xs: "4px",
@@ -7,32 +13,88 @@ export const spacing = {
   lg: "24px"
 };
 
+/**
+ * Breakpoints (min-width) for responsive layout.
+ */
+export const breakpoints = {
+  sm: "600px",
+  md: "900px",
+  lg: "1200px"
+};
+
+const createMediaQueries = (bps) => ({
+  sm: `@media (min-width: ${bps.sm})`,
+  md: `@media (min-width: ${bps.md})`,
+  lg: `@media (min-width: ${bps.lg})`
+});
+
+export const typography = {
+  fontFamily: {
+    heading: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif',
+    body: '"Inter", system-ui, -apple-system, sans-serif'
+  }
+};
+
+/**
+ * Semantic color palette: off-black, off-white, and grays only.
+ */
 export const lightTheme = {
   colors: {
-    primary: "#6FAF7A",     // softened + slightly richer
-    secondary: "#EDF7E8",   // cleaner tint of primary
-    accent: "#E9D27A",      // warmer + less saturated
-    background: "#FFFFFF",
-    surface: "#F7F8F7",     // neutral with faint green bias
-    text: "#0F172A",   
-    muted: "#6C757D",      // better readability than gray-black
-    border: "#E6E9E7"       // neutralized to match surface
+    primary: "#1a1a1a",
+    secondary: "#f0f0f0",
+    accent: "#2a2a2a",
+    background: "#fafafa",
+    surface: "#ffffff",
+    text: "#1a1a1a",
+    muted: "#6b6b6b",
+    border: "#e0e0e0",
+    inverse: "#1a1a1a",
+    inverseText: "rgba(255, 255, 255, 0.92)",
+    inverseHover: "rgba(255, 255, 255, 0.1)",
+    inverseFocus: "rgba(255, 255, 255, 0.75)",
+    tagBackground: "#525252",
+    tagText: "#fafafa",
+    inputFocusBorder: "#8e8e8e",
+    inputFocusRing: "rgba(0, 0, 0, 0.12)"
   },
   borderRadius,
-  spacing
+  spacing,
+  breakpoints,
+  media: createMediaQueries(breakpoints),
+  typography,
+  shadows: {
+    sm: "0 1px 2px rgba(0, 0, 0, 0.06)",
+    md: "0 2px 6px rgba(0, 0, 0, 0.08)",
+    focus: "0 0 0 3px rgba(0, 0, 0, 0.15)",
+    focusInput: "0 0 0 3px rgba(0, 0, 0, 0.12)"
+  }
 };
 
 export const darkTheme = {
+  ...lightTheme,
   colors: {
-    primary: "#337357",     // your chosen anchor
-    secondary: "#1E2A24",   // deep muted green surface tint
-    accent: "#C9B25F",      // dimmed version of light accent
-    background: "#0F1412",  // near-black with green undertone
-    surface: "#171E1A",     // elevated surface
-    text: "#E6F1EA", 
-    muted: "#6C757D",       // soft off-white
-    border: "#27332C"       // visible but subtle
+    ...lightTheme.colors,
+    primary: "#e5e5e5",
+    secondary: "#2a2a2a",
+    accent: "#d4d4d4",
+    background: "#141414",
+    surface: "#1a1a1a",
+    text: "#fafafa",
+    muted: "#a3a3a3",
+    border: "#404040",
+    inverse: "#141414",
+    inverseText: "rgba(255, 255, 255, 0.92)",
+    inverseHover: "rgba(255, 255, 255, 0.1)",
+    inverseFocus: "rgba(255, 255, 255, 0.75)",
+    tagBackground: "#525252",
+    tagText: "#fafafa",
+    inputFocusBorder: "#737373",
+    inputFocusRing: "rgba(255, 255, 255, 0.15)"
   },
-  borderRadius,
-  spacing
+  shadows: {
+    sm: "0 1px 2px rgba(0, 0, 0, 0.3)",
+    md: "0 2px 6px rgba(0, 0, 0, 0.35)",
+    focus: "0 0 0 3px rgba(255, 255, 255, 0.2)",
+    focusInput: "0 0 0 3px rgba(255, 255, 255, 0.12)"
+  }
 };

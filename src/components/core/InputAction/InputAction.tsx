@@ -1,8 +1,10 @@
 import React from "react";
-import { Wrapper, Input, ActionButton } from "./InputAction.styled";
+import { Wrapper, Input, LeftIconSlot } from "./InputAction.styled";
+import IconButton from "../IconButton";
+import XmarkIcon from "@/assets/icons/circle-xmark.svg?react";
 
 export interface InputActionProps {
-  /** SVG element to render inside the action button */
+  /** SVG element to render on the left (e.g. search icon) */
   icon: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   /** Controlled value */
   value?: string;
@@ -10,9 +12,9 @@ export interface InputActionProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   /** Placeholder / initial hint text when empty */
   placeholder?: string;
-  /** Click handler for the action button */
+  /** Click handler for the primary action button (right). If not provided, a clear button is shown when value is non-empty. */
   onAction?: () => void;
-  /** Accessible label for the action button */
+  /** Accessible label for the primary action button */
   actionAriaLabel?: string;
   /** Icon size in pixels */
   iconSize?: number;
@@ -20,22 +22,34 @@ export interface InputActionProps {
 
 const InputAction: React.FC<InputActionProps> = ({
   icon,
-  value,
+  value = "",
   onChange,
   placeholder,
   onAction,
   actionAriaLabel,
-  iconSize = 24
+  iconSize = 16
 }) => {
-  const styledIcon = React.cloneElement(icon, {
+  const styledLeftIcon = React.cloneElement(icon, {
     width: iconSize,
     height: iconSize,
     fill: "currentColor",
     display: "block"
   });
 
+  const handleClear = () => {
+    if (onChange) {
+      const syntheticEvent = {
+        target: { value: "" }
+      } as React.ChangeEvent<HTMLInputElement>;
+      onChange(syntheticEvent);
+    }
+  };
+
+  const showClear = value.length > 0 && !!onChange;
+
   return (
     <Wrapper>
+      <LeftIconSlot aria-hidden="true">{styledLeftIcon}</LeftIconSlot>
       <Input
         type="text"
         value={value}
@@ -43,13 +57,23 @@ const InputAction: React.FC<InputActionProps> = ({
         placeholder={placeholder}
         aria-label={placeholder}
       />
-      <ActionButton
-        type="button"
-        onClick={onAction}
-        aria-label={actionAriaLabel}
-      >
-        {styledIcon}
-      </ActionButton>
+      {showClear ? (
+        <IconButton
+          icon={<XmarkIcon />}
+          size={iconSize}
+          variant="default"
+          onClick={handleClear}
+          ariaLabel="Clear input"
+        />
+      ) : onAction ? (
+        <IconButton
+          icon={icon}
+          size={iconSize}
+          variant="default"
+          onClick={onAction}
+          ariaLabel={actionAriaLabel}
+        />
+      ) : null}
     </Wrapper>
   );
 };

@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
     type: "project",
     imageSrc: "/images/mockup-example-1.png",
     description: "A short description of the project. I'll use this to describe the project.",
-    tags: ["React", "TypeScript", "Vite"],
+    tags: ["React", "Map"],
     path: "/project/1",
     component: ProjectDetailPage
   }

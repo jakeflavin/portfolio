@@ -7,6 +7,7 @@ interface IconButtonProps {
   activeIcon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   /** Whether the button is in the active state */
   active?: boolean;
+  /** Override icon color (default: uses variant – bar uses inverseText, default uses primary) */
   color?: string;
   size?: number;
   onClick?: () => void;

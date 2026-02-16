@@ -30,8 +30,6 @@ const Home: React.FC = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search for a project..."
-        onAction={() => null}
-        actionAriaLabel="Search"
       />
       <CardContainer>
         {filteredProjects.map((project) => (
@@ -55,11 +53,11 @@ const CardContainer = styled.div`
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg};
 
-  @media (min-width: 600px) {
+  ${({ theme }) => theme.media.sm} {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 900px) {
+  ${({ theme }) => theme.media.md} {
     grid-template-columns: repeat(3, 1fr);
   }
 `;

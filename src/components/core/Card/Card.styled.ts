@@ -16,17 +16,17 @@ export const CardWrapper = styled.div<CardWrapperProps>`
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: ${({ theme }) => theme.shadows.md};
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: ${({ theme }) => theme.shadows.md};
   }
 
   &:focus-visible {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary}20;
+    box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 `;
 
@@ -38,27 +38,19 @@ export const TitleRow = styled.div`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xs};
 `;
 
-export const TitleIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  line-height: 0;
-`;
-
 export const Title = styled.h3`
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 65{({ theme }) => theme.typography.fontFamily.heading};
   color: ${({ theme }) => theme.colors.text};
 `;
 
 /* NEW: container that controls rounding + clipping */
 export const ImageContainer = styled.div`
   width: 100%;
-  border-radius: calc(${({ theme }) => theme.borderRadius} - 8px);
+  border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.secondary}; // optional subtle frame
+  background: ${({ theme }) => theme.colors.secondary};
 `;
 
 /* UPDATED: image no longer handles spacing or radius */
@@ -87,8 +79,8 @@ export const Tag = styled.span`
   display: inline-block;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   font-size: 0.65rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.text};
-  background: ${({ theme }) => theme.colors.accent};
-  border-radius: 8px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.tagText};
+  background: ${({ theme }) => theme.colors.tagBackground};
+  border-radius: ${({ theme }) => theme.borderRadius};
 `;

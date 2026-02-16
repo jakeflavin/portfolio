@@ -11,12 +11,14 @@ export const Button = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
+  color: ${({ theme }) => theme.colors.primary};
 
   line-height: 0;
-  transition: background-color 0.2s ease, transform 0.15s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color:  ${({ theme }) => `${theme.colors.primary}18`};
+    color: ${({ theme }) => theme.colors.primary};
   }
 
   &:active {
@@ -24,7 +26,7 @@ export const Button = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline: 2px solid ${({ theme}) => theme.colors.primary};
     outline-offset: 2px;
   }
 `;
