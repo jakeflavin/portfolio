@@ -61,7 +61,6 @@ const InputAction: React.FC<InputActionProps> = ({
         <IconButton
           icon={<XmarkIcon />}
           size={iconSize}
-          variant="default"
           onClick={handleClear}
           ariaLabel="Clear input"
         />
@@ -69,7 +68,6 @@ const InputAction: React.FC<InputActionProps> = ({
         <IconButton
           icon={icon}
           size={iconSize}
-          variant="default"
           onClick={onAction}
           ariaLabel={actionAriaLabel}
         />
