@@ -33,7 +33,6 @@ The site will evolve incrementally rather than launching fully built.
 The production site is automatically deployed on every push to the `main` branch.
 
 ---
-
 ## Local Development
 
 Install dependencies:
