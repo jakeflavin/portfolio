@@ -5,6 +5,7 @@ import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "./components/composits/FooterBar";
 import NavBar from "./components/composits/NavBar";
+import { ProjectPageMeta } from "./components/ProjectPageMeta";
 import Home from "./pages/Home";
 import { PROJECTS } from "./pages/projects";
 
@@ -53,7 +54,11 @@ const App: React.FC = () => {
                 <Route
                   key={project.id}
                   path={project.path}
-                  element={<project.component project={project} />}
+                  element={
+                    <ProjectPageMeta project={project}>
+                      <project.component project={project} />
+                    </ProjectPageMeta>
+                  }
                 />
               ))}
             </Routes>
