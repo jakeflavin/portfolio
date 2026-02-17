@@ -14,7 +14,7 @@ const minimalAnimation = { v: "5.5", fr: 30, layers: [], w: 100, h: 100 };
 describe("LottieViewer", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
+    globalThis.fetch = vi.fn();
   });
 
   it("renders empty container when neither animationData nor animationUrl is provided", () => {
@@ -40,7 +40,7 @@ describe("LottieViewer", () => {
   });
 
   it("fetches and renders when animationUrl is provided", async () => {
-    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(minimalAnimation)
     });
@@ -49,7 +49,7 @@ describe("LottieViewer", () => {
       <LottieViewer animationUrl="/animations/test.json" width={200} height={200} />
     );
 
-    expect(global.fetch).toHaveBeenCalledWith("/animations/test.json");
+    expect(globalThis.fetch).toHaveBeenCalledWith("/animations/test.json");
 
     await waitFor(() => {
       expect(screen.getByTestId("lottie-player")).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe("LottieViewer", () => {
   });
 
   it("renders empty container when fetch fails", async () => {
-    (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+    (globalThis.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
       new Error("Network error")
     );
 
@@ -75,7 +75,7 @@ describe("LottieViewer", () => {
     );
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalThis.fetch).toHaveBeenCalled();
     });
 
     expect(screen.queryByTestId("lottie-player")).not.toBeInTheDocument();
