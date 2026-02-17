@@ -67,6 +67,9 @@ export const lightTheme = {
     md: "0 2px 6px rgba(0, 0, 0, 0.08)",
     focus: "0 0 0 3px rgba(0, 0, 0, 0.15)",
     focusInput: "0 0 0 3px rgba(0, 0, 0, 0.12)"
+  },
+  img: {
+    brightness: "brightness(1.0)"
   }
 };
 
@@ -96,5 +99,8 @@ export const darkTheme = {
     md: "0 2px 6px rgba(0, 0, 0, 0.35)",
     focus: "0 0 0 3px rgba(255, 255, 255, 0.2)",
     focusInput: "0 0 0 3px rgba(255, 255, 255, 0.12)"
+  },
+  img: {
+    brightness: "brightness(0.85)"
   }
 };

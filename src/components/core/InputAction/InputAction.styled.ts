@@ -1,22 +1,63 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+interface WrapperProps {
+  $disabled?: boolean;
+  $hasLabel?: boolean;
+}
+
+export const Outer = styled.div`
+  width: 100%;
+`;
+
+export const Label = styled.label`
+  position: absolute;
+  top: 0;
+  left: ${({ theme }) => theme.spacing.md};
+  transform: translateY(-50%);
+  padding: 0 ${({ theme }) => theme.spacing.xs};
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  color: ${({ theme }) => theme.colors.text};
+  background-color: ${({ theme }) => theme.colors.background};
+  z-index: 1;
+  white-space: nowrap;
+`;
+
+export const Wrapper = styled.div<WrapperProps>`
+  position: ${({ $hasLabel }) => ($hasLabel ? "relative" : "static")};
   display: flex;
   align-items: center;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   gap: ${({ theme }) => theme.spacing.sm};
 
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme, $disabled }) =>
+    $disabled ? theme.colors.secondary : theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
 
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+    cursor: not-allowed;
+    pointer-events: none;
+  `}
 
   &:focus-within {
-    border-color: ${({ theme }) => theme.colors.inputFocusBorder};
-    box-shadow: ${({ theme }) => theme.shadows.focusInput};
+    border-color: ${({ theme, $disabled }) =>
+      $disabled ? theme.colors.border : theme.colors.inputFocusBorder};
+    box-shadow: ${({ theme, $disabled }) =>
+      $disabled ? theme.shadows.sm : theme.shadows.focusInput};
+  }
+
+  &:focus-within ${Label} {
+    color: ${({ theme, $disabled }) =>
+      $disabled ? theme.colors.muted : theme.colors.inputFocusBorder};
   }
 `;
 
@@ -47,5 +88,10 @@ export const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.text};
     opacity: 0.5;
+  }
+
+  &:disabled {
+    color: ${({ theme }) => theme.colors.muted};
+    cursor: not-allowed;
   }
 `;

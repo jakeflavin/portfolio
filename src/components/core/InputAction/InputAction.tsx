@@ -1,11 +1,13 @@
-import React from "react";
-import { Wrapper, Input, LeftIconSlot } from "./InputAction.styled";
+import React, { useId } from "react";
+import { Outer, Label, Wrapper, Input, LeftIconSlot } from "./InputAction.styled";
 import IconButton from "../IconButton";
 import XmarkIcon from "@/assets/icons/circle-xmark.svg?react";
 
 export interface InputActionProps {
   /** SVG element to render on the left (e.g. search icon) */
-  icon: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  icon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  /** Optional label shown above the input */
+  label?: string;
   /** Controlled value */
   value?: string;
   /** Change handler */
@@ -18,23 +20,28 @@ export interface InputActionProps {
   actionAriaLabel?: string;
   /** Icon size in pixels */
   iconSize?: number;
+  /** When true, input is read-only and visually clearly disabled */
+  disabled?: boolean;
 }
 
 const InputAction: React.FC<InputActionProps> = ({
   icon,
+  label,
   value = "",
   onChange,
   placeholder,
   onAction,
   actionAriaLabel,
-  iconSize = 16
+  iconSize = 16,
+  disabled = false
 }) => {
-  const styledLeftIcon = React.cloneElement(icon, {
+  const inputId = useId();
+  const styledLeftIcon = icon ? React.cloneElement(icon, {
     width: iconSize,
     height: iconSize,
     fill: "currentColor",
     display: "block"
-  });
+  }) : null;
 
   const handleClear = () => {
     if (onChange) {
@@ -47,24 +54,29 @@ const InputAction: React.FC<InputActionProps> = ({
 
   const showClear = value.length > 0 && !!onChange;
 
-  return (
-    <Wrapper>
+  const content = (
+    <Wrapper $disabled={disabled} $hasLabel={!!label}>
+      {label && (
+        <Label htmlFor={inputId}>{label}</Label>
+      )}
       <LeftIconSlot aria-hidden="true">{styledLeftIcon}</LeftIconSlot>
       <Input
+        id={inputId}
         type="text"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        aria-label={placeholder}
+        aria-label={label ?? placeholder}
+        disabled={disabled}
       />
-      {showClear ? (
+      {showClear && !disabled ? (
         <IconButton
           icon={<XmarkIcon />}
           size={iconSize}
           onClick={handleClear}
           ariaLabel="Clear input"
         />
-      ) : onAction ? (
+      ) : onAction && icon ? (
         <IconButton
           icon={icon}
           size={iconSize}
@@ -74,6 +86,12 @@ const InputAction: React.FC<InputActionProps> = ({
       ) : null}
     </Wrapper>
   );
+
+  if (label) {
+    return <Outer>{content}</Outer>;
+  }
+
+  return content;
 };
 
 export default InputAction;

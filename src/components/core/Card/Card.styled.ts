@@ -59,6 +59,7 @@ export const CardImage = styled.img`
   height: auto;
   display: block;
   border-radius: inherit;
+  filter: ${({theme}) => theme.img.brightness};
 `;
 
 export const Description = styled.p`
@@ -73,6 +74,7 @@ export const TagsRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const Tag = styled.span`

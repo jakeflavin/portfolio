@@ -46,7 +46,7 @@ const RunningRouteEstimatorPage: React.FC<RunningRouteEstimatorPageProps> = ({ p
     <Container>
       <LeftColumn>
         <TitleDescription title={project.title} description={project.description} />
-        <Button onClick={() => setPoints([])} disabled={points.length === 0}>Clear Points</Button>
+        <Button onClick={() => setPoints([])} disabled={points.length === 0}>Start Over</Button>
         <Button onClick={() => setPoints((prev) => prev.slice(0, -1))} disabled={points.length === 0}>Remove Last Point</Button>
         <TotalMilesBlock>
           <TotalMilesLabel>Total Miles</TotalMilesLabel>

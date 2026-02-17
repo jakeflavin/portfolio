@@ -71,4 +71,17 @@ describe("InputAction", () => {
       expect.objectContaining({ target: expect.objectContaining({ value: "" }) })
     );
   });
+
+  it("renders optional label when provided", () => {
+    render(
+      <InputAction
+        label="Hours"
+        value=""
+        onChange={() => {}}
+        placeholder="HH"
+      />
+    );
+    expect(screen.getByLabelText("Hours")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("HH")).toBeInTheDocument();
+  });
 });

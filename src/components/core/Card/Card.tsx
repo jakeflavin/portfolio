@@ -67,16 +67,16 @@ const Card: React.FC<CardProps> = ({
         {/* {titleIcon && <TitleIcon>{titleIcon}</TitleIcon>} */}
         <Title>{title}</Title>
 
-        {tags.length > 0 && (
+        
+      </TitleRow>
+      <Description>{description}</Description>
+      {tags.length > 0 && (
         <TagsRow>
           {tags.map((tag) => (
             <Tag key={tag}>{tag}</Tag>
           ))}
         </TagsRow>
       )}
-      </TitleRow>
-      <Description>{description}</Description>
-      
     </CardWrapper>
   );
 };
