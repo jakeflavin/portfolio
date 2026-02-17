@@ -46,7 +46,10 @@ const App: React.FC = () => {
           <Content>
             <Routes>
               <Route path="/" element={<Home />} />
-              {PROJECTS.map((project) => (
+              {PROJECTS.filter(
+                (p): p is typeof p & { component: NonNullable<typeof p["component"]> } =>
+                  !p.external && !!p.component
+              ).map((project) => (
                 <Route
                   key={project.id}
                   path={project.path}

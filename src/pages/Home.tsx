@@ -12,8 +12,8 @@ import Select from "../components/core/Select";
 const SORT_OPTIONS = [
   { value: "title-asc", label: "Title A–Z" },
   { value: "title-desc", label: "Title Z–A" },
-  { value: "date-asc", label: "Date (oldest first)" },
-  { value: "date-desc", label: "Date (newest first)" }
+  { value: "date-asc", label: "Oldest" },
+  { value: "date-desc", label: "Newest" }
 ] as const;
 
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
@@ -90,7 +90,11 @@ const Home: React.FC = () => {
             imageSrc={project.imageSrc}
             description={project.description}
             tags={project.tags}
-            onAction={() => navigate(project.path)}
+            onAction={() =>
+              project.external
+                ? window.open(project.path, "_blank", "noopener,noreferrer")
+                : navigate(project.path)
+            }
           />
         ))}
       </CardContainer>
