@@ -46,3 +46,12 @@ export const Disabled: Story = {
     "aria-label": "Choose option"
   }
 };
+
+export const WithError: Story = {
+  args: {
+    options,
+    placeholder: "Select a category",
+    "aria-label": "Category",
+    error: "Please select a category."
+  }
+};

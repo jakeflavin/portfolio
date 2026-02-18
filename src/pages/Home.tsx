@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 import Card from "../components/core/Card";
 import Hero from "../components/composits/Hero";
 import InputAction from "../components/core/InputAction";
-import { PROJECTS } from "./projects";
-import type { Project } from "./projects";
+import { PROJECTS } from "./data/projects";
+import type { Project } from "./data/projects";
 import SearchIcon from "@/assets/icons/magnifying-glass.svg?react";
 import Select from "../components/core/Select";
 
@@ -18,6 +18,7 @@ const SORT_OPTIONS = [
 
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 
+/** Returns a new sorted array of projects by the given sort option. */
 function sortProjects(projects: Project[], sortBy: SortValue): Project[] {
   const copy = [...projects];
   switch (sortBy) {

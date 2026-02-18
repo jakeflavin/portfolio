@@ -18,8 +18,8 @@ export const spacing = {
  */
 export const breakpoints = {
   sm: "600px",
-  md: "900px",
-  lg: "1200px"
+  md: "750px",
+  lg: "900px"
 };
 
 const createMediaQueries = (bps) => ({
@@ -65,6 +65,8 @@ export const lightTheme = {
   shadows: {
     sm: "0 1px 2px rgba(0, 0, 0, 0.06)",
     md: "0 2px 6px rgba(0, 0, 0, 0.08)",
+    /** Downward-only shadow to avoid top shadow in column/masonry layouts */
+    mdDown: "0 6px 12px rgba(0, 0, 0, 0.08)",
     focus: "0 0 0 3px rgba(0, 0, 0, 0.15)",
     focusInput: "0 0 0 3px rgba(0, 0, 0, 0.12)"
   },
@@ -97,6 +99,7 @@ export const darkTheme = {
   shadows: {
     sm: "0 1px 2px rgba(0, 0, 0, 0.3)",
     md: "0 2px 6px rgba(0, 0, 0, 0.35)",
+    mdDown: "0 6px 12px rgba(0, 0, 0, 0.35)",
     focus: "0 0 0 3px rgba(255, 255, 255, 0.2)",
     focusInput: "0 0 0 3px rgba(255, 255, 255, 0.12)"
   },

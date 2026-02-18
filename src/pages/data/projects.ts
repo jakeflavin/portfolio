@@ -1,7 +1,8 @@
 import React from "react";
-import type { CardType } from "../components/core/Card";
-import RunningRouteEstimatorPage from "./projects/RunningRouteEstimatorPage";
-import CountDownPage from "./projects/CountDownPage";
+import type { CardType } from "../../components/core/Card";
+import RunningRouteEstimatorPage from "../projects/RunningRouteEstimatorPage";
+import CountDownPage from "../projects/CountDownPage";
+import CoolLinksPage from "../projects/CoolLinksPage";
 
 export interface Project {
   id: string;
@@ -48,14 +49,27 @@ export const PROJECTS: Project[] = [
   {
     id: "2",
     creationDate: new Date("2026-02-17"),
-    disabled: true,
-    title: "Countdown",
+    disabled: false,
+    title: "Countdown Timer",
     type: "project",
     imageSrc: "/images/calm-coutdown-project-cover.png",
-    description: "A calm coutdown timer.",
+    description: "A coutdown timer with calming animations.",
     tags: ["timer", "utility"],
     path: "/project/2",
     external: false,
     component: CountDownPage
+  },
+  {
+    id: "3",
+    creationDate: new Date("2026-02-18"),
+    disabled: true,
+    title: "Cool Links",
+    type: "project",
+    imageSrc: "/images/calm-coutdown-project-cover.png",
+    description: "A collection of cool links categorized by topic.",
+    tags: ["links", "collection"],
+    path: "/project/3",
+    external: false,
+    component: CoolLinksPage
   }
 ];

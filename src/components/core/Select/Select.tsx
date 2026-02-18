@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem } from "./Select.styled";
+import React, { useId, useState, useRef, useEffect } from "react";
+import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, ErrorMessage } from "./Select.styled";
 
 export interface SelectOption {
   value: string;
@@ -23,6 +23,8 @@ export interface SelectProps {
   className?: string;
   /** Accessible label */
   "aria-label"?: string;
+  /** Error message shown inline below the trigger; also applies error styling */
+  error?: string;
 }
 
 const CHEVRON_SVG = (
@@ -48,8 +50,11 @@ const Select: React.FC<SelectProps> = ({
   disabled = false,
   id,
   className,
-  "aria-label": ariaLabel
+  "aria-label": ariaLabel,
+  error
 }) => {
+  const generatedId = useId();
+  const triggerId = id ?? generatedId;
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -156,13 +161,15 @@ const Select: React.FC<SelectProps> = ({
   };
 
   return (
-    <Wrapper ref={wrapperRef} className={className}>
+    <Wrapper ref={wrapperRef} className={className} $hasError={!!error}>
       <Trigger
-        id={id}
+        id={triggerId}
         type="button"
         role="combobox"
         disabled={disabled}
         aria-label={ariaLabel}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${triggerId}-error` : undefined}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-activedescendant={
@@ -176,6 +183,7 @@ const Select: React.FC<SelectProps> = ({
         <TriggerLabel>{displayLabel}</TriggerLabel>
         <Chevron $open={isOpen}>{CHEVRON_SVG}</Chevron>
       </Trigger>
+      {error && <ErrorMessage id={`${triggerId}-error`}>{error}</ErrorMessage>}
       {isOpen && (
         <Listbox
           ref={listboxRef}

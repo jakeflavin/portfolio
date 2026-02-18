@@ -57,4 +57,17 @@ describe("Select", () => {
     );
     expect(screen.getByRole("combobox")).toHaveTextContent("Option B");
   });
+
+  it("renders error message and applies error state when error prop is set", () => {
+    render(
+      <Select
+        options={options}
+        placeholder="Select…"
+        aria-label="Category"
+        error="Please select a category."
+      />
+    );
+    expect(screen.getByText("Please select a category.")).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
+  });
 });

@@ -5,10 +5,11 @@ import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "./components/composits/FooterBar";
 import NavBar from "./components/composits/NavBar";
-import { ProjectPageMeta } from "./components/ProjectPageMeta";
+import ProjectPageMeta from "./components/composits/ProjectPageMeta";
 import Home from "./pages/Home";
-import { PROJECTS } from "./pages/projects";
+import { PROJECTS } from "./pages/data/projects";
 
+/** Scrolls the window to top when the route pathname changes. */
 export function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -19,6 +20,7 @@ export function ScrollToTop() {
   return null;
 }
 
+/** Returns whether the user's OS preference is dark mode. */
 const getPrefersDark = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -102,7 +104,5 @@ const Content = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
 `;
-
-
 
 export default App;

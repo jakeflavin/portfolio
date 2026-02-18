@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ $hasError?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
   height: 100%;
   min-width: 8rem;
   width: 12rem;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  outline: ${({ theme, $hasError }) =>
+    $hasError ? `1px solid ${theme.colors.muted}` : "none"};
+  outline-offset: -1px;
 `;
 
 export const TriggerLabel = styled.span`
@@ -103,4 +107,13 @@ export const OptionItem = styled.li<{ $selected?: boolean }>`
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
   }
+`;
+
+export const ErrorMessage = styled.span`
+  display: block;
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  padding-left: 1px;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: ${({ theme }) => theme.colors.muted};
 `;

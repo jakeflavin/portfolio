@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { Outer, Label, Wrapper, Input, LeftIconSlot } from "./InputAction.styled";
+import { Outer, Label, Wrapper, Input, LeftIconSlot, ErrorMessage } from "./InputAction.styled";
 import IconButton from "../IconButton";
 import XmarkIcon from "@/assets/icons/circle-xmark.svg?react";
 
@@ -22,6 +22,8 @@ export interface InputActionProps {
   iconSize?: number;
   /** When true, input is read-only and visually clearly disabled */
   disabled?: boolean;
+  /** Error message shown inline below the input; also applies error styling */
+  error?: string;
 }
 
 const InputAction: React.FC<InputActionProps> = ({
@@ -33,7 +35,8 @@ const InputAction: React.FC<InputActionProps> = ({
   onAction,
   actionAriaLabel,
   iconSize = 16,
-  disabled = false
+  disabled = false,
+  error
 }) => {
   const inputId = useId();
   const styledLeftIcon = icon ? React.cloneElement(icon, {
@@ -55,7 +58,7 @@ const InputAction: React.FC<InputActionProps> = ({
   const showClear = value.length > 0 && !!onChange;
 
   const content = (
-    <Wrapper $disabled={disabled} $hasLabel={!!label}>
+    <Wrapper $disabled={disabled} $hasLabel={!!label} $hasError={!!error}>
       {label && (
         <Label htmlFor={inputId}>{label}</Label>
       )}
@@ -67,6 +70,8 @@ const InputAction: React.FC<InputActionProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         aria-label={label ?? placeholder}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${inputId}-error` : undefined}
         disabled={disabled}
       />
       {showClear && !disabled ? (
@@ -87,11 +92,12 @@ const InputAction: React.FC<InputActionProps> = ({
     </Wrapper>
   );
 
-  if (label) {
-    return <Outer>{content}</Outer>;
-  }
-
-  return content;
+  return (
+    <Outer>
+      {content}
+      {error && <ErrorMessage id={inputId ? `${inputId}-error` : undefined}>{error}</ErrorMessage>}
+    </Outer>
+  );
 };
 
 export default InputAction;

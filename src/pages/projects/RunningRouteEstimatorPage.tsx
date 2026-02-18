@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import type { Project } from "../projects";
+import type { Project } from "../data/projects";
 import Map, { type MapPoint } from "../../components/core/Map";
 import TitleDescription from "../../components/core/TitleDescription";
 import styled from "styled-components";
@@ -19,6 +19,7 @@ function distanceMiles(a: MapPoint, b: MapPoint): number {
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 
+/** Sums the distance between consecutive points in miles. */
 function totalDistanceMiles(pts: MapPoint[]): number {
   if (pts.length < 2) return 0;
   let total = 0;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TitleDescription from "../../components/core/TitleDescription";
-import { Project } from "../projects";
+import { Project } from "../data/projects";
 import CountdownTimer from "../../components/core/CountdownTimer";
 import InputAction from "../../components/core/InputAction";
 import Button from "../../components/core/Button";
@@ -21,7 +21,7 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
     <Container>
       <LeftColumn>
         <TitleDescription title={project.title} description={project.description} />
-      
+      <FormContainer>
           <InputAction
             value={hours.toString()}
             onChange={(e) => setHours(parseInt(e.target.value, 10) || 0)}
@@ -43,7 +43,7 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
             disabled={play}
             label="Seconds"
           />
-      
+      </FormContainer>
         <Button onClick={() => setPlay((prev) => !prev)}>Start/Stop</Button>
       </LeftColumn>
       <RightColumn>
@@ -59,6 +59,19 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
     </Container>
   );
 };
+
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
+  background-color: ${({ theme }) => theme.colors.secondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ theme }) => theme.shadows.mdDown};
+`;
 
 const Container = styled.div`
   display: grid;

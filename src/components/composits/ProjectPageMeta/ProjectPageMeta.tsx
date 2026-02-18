@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import type { Project } from "../pages/projects";
+import type { Project } from "../../../pages/data/projects";
 
 const SITE_TITLE = "Jake's Portfolio";
 
@@ -10,7 +10,7 @@ function absoluteUrl(path: string): string {
   return path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
 }
 
-interface ProjectPageMetaProps {
+export interface ProjectPageMetaProps {
   project: Project;
   children: React.ReactNode;
 }

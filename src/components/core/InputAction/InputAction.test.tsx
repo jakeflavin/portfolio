@@ -10,6 +10,8 @@ describe("InputAction", () => {
       <InputAction
         icon={<MockIcon />}
         placeholder="Search..."
+        value=""
+        onChange={() => {}}
         onAction={() => {}}
         actionAriaLabel="Search"
       />
@@ -49,6 +51,8 @@ describe("InputAction", () => {
     render(
       <InputAction
         icon={<MockIcon />}
+        value=""
+        onChange={() => {}}
         onAction={onAction}
         actionAriaLabel="Submit"
       />
@@ -83,5 +87,19 @@ describe("InputAction", () => {
     );
     expect(screen.getByLabelText("Hours")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("HH")).toBeInTheDocument();
+  });
+
+  it("renders error message and applies error state when error prop is set", () => {
+    render(
+      <InputAction
+        label="URL"
+        placeholder="https://example.com"
+        value=""
+        onChange={() => {}}
+        error="URL must be a valid HTTPS address."
+      />
+    );
+    expect(screen.getByText("URL must be a valid HTTPS address.")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toHaveAttribute("aria-invalid", "true");
   });
 });

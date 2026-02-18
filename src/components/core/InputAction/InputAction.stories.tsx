@@ -26,3 +26,20 @@ export const WithValue: Story = {
     actionAriaLabel: "Search"
   }
 };
+
+export const WithLabel: Story = {
+  args: {
+    label: "Name",
+    placeholder: "Google",
+    value: ""
+  }
+};
+
+export const WithError: Story = {
+  args: {
+    label: "URL",
+    placeholder: "https://www.example.com",
+    value: "not-a-valid-url",
+    error: "URL must be a valid HTTPS address (e.g. https://www.google.com)."
+  }
+};
