@@ -62,10 +62,10 @@ export const PROJECTS: Project[] = [
   {
     id: "3",
     creationDate: new Date("2026-02-18"),
-    disabled: true,
+    disabled: false,
     title: "Cool Links",
     type: "project",
-    imageSrc: "/images/calm-coutdown-project-cover.png",
+    imageSrc: "/images/cool-links-project-cover.png",
     description: "A collection of cool links categorized by topic.",
     tags: ["links", "collection"],
     path: "/project/3",
