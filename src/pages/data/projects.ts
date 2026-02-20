@@ -3,6 +3,7 @@ import type { CardType } from "../../components/core/Card";
 import RunningRouteEstimatorPage from "../projects/RunningRouteEstimatorPage";
 import CountDownPage from "../projects/CountDownPage";
 import CoolLinksPage from "../projects/CoolLinksPage";
+import TicTacToePage from "../projects/TicTacToePage";
 
 export interface Project {
   id: string;
@@ -71,5 +72,18 @@ export const PROJECTS: Project[] = [
     path: "/project/3",
     external: false,
     component: CoolLinksPage
+  },
+  {
+    id: "4",
+    creationDate: new Date("2026-02-20"),
+    disabled: false,
+    title: "Tic Tac Toe",
+    type: "project",
+    imageSrc: "/images/tic-tac-toe-project-cover.png",
+    description: "Classic tic-tac-toe game with a bot.",
+    tags: ["game", "tic-tac-toe"],
+    path: "/project/4",
+    external: false,
+    component: TicTacToePage
   }
 ];
