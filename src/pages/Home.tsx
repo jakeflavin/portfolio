@@ -115,6 +115,8 @@ const SelectWrap = styled.div`
   align-self: stretch;
   display: flex;
   min-height: 0;
+  min-width: 0;
+  flex: 0 1 12rem;
 `;
 
 const CardContainer = styled.div`

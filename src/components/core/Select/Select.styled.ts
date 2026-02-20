@@ -6,8 +6,9 @@ export const Wrapper = styled.div<{ $hasError?: boolean }>`
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  min-width: 8rem;
+  min-width: 0;
   width: 12rem;
+  max-width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius};
   outline: ${({ theme, $hasError }) =>
     $hasError ? `1px solid ${theme.colors.muted}` : "none"};
