@@ -1,4 +1,5 @@
-import React, { useId, useState, useRef, useEffect } from "react";
+import React, { useId, useState, useRef, useEffect, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
 import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, ErrorMessage } from "./Select.styled";
 
 export interface SelectOption {
@@ -17,6 +18,8 @@ export interface SelectProps {
   placeholder?: string;
   /** When true, the select is disabled */
   disabled?: boolean;
+  /** When true, the trigger and dropdown take full width of the container */
+  fullWidth?: boolean;
   /** Optional id for the trigger (for labels) */
   id?: string;
   /** Optional class name */
@@ -48,6 +51,7 @@ const Select: React.FC<SelectProps> = ({
   options,
   placeholder,
   disabled = false,
+  fullWidth = false,
   id,
   className,
   "aria-label": ariaLabel,
@@ -58,7 +62,14 @@ const Select: React.FC<SelectProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
+  const [listboxRect, setListboxRect] = useState<{
+    top?: number;
+    bottom?: number;
+    left: number;
+    width: number;
+  } | null>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
   const displayLabel = selectedOption ? selectedOption.label : placeholder ?? "";
@@ -66,12 +77,41 @@ const Select: React.FC<SelectProps> = ({
   const close = () => {
     setIsOpen(false);
     setHighlightedIndex(-1);
+    setListboxRect(null);
   };
+
+  const LISTBOX_MAX_HEIGHT = 256; // 16rem
+  const LISTBOX_GAP = 4;
+
+  useLayoutEffect(() => {
+    if (!isOpen || !triggerRef.current) return;
+    const el = triggerRef.current;
+    const rect = el.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom - LISTBOX_GAP;
+    const spaceAbove = rect.top - LISTBOX_GAP;
+    const openAbove = spaceBelow < Math.min(LISTBOX_MAX_HEIGHT, spaceAbove);
+
+    if (openAbove) {
+      setListboxRect({
+        bottom: window.innerHeight - rect.top + LISTBOX_GAP,
+        left: rect.left,
+        width: rect.width
+      });
+    } else {
+      setListboxRect({
+        top: rect.bottom + LISTBOX_GAP,
+        left: rect.left,
+        width: rect.width
+      });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
-      if (wrapperRef.current?.contains(e.target as Node)) return;
+      const target = e.target as Node;
+      if (wrapperRef.current?.contains(target)) return;
+      if (listboxRef.current?.contains(target)) return;
       close();
     };
     const handleEscape = (e: KeyboardEvent) => {
@@ -160,9 +200,39 @@ const Select: React.FC<SelectProps> = ({
     close();
   };
 
+  const listboxContent = isOpen && listboxRect && (
+    <Listbox
+      ref={listboxRef}
+      role="listbox"
+      tabIndex={-1}
+      aria-label={ariaLabel}
+      onKeyDown={handleListboxKeyDown}
+      $position={listboxRect}
+    >
+      {options.map((opt, index) => (
+        <OptionItem
+          key={opt.value}
+          role="option"
+          id={`select-option-${index}`}
+          data-option-index={index}
+          $selected={opt.value === value}
+          aria-selected={opt.value === value}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            selectOption(opt);
+          }}
+          onMouseEnter={() => setHighlightedIndex(index)}
+        >
+          {opt.label}
+        </OptionItem>
+      ))}
+    </Listbox>
+  );
+
   return (
-    <Wrapper ref={wrapperRef} className={className} $hasError={!!error}>
+    <Wrapper ref={wrapperRef} className={className} $hasError={!!error} $fullWidth={fullWidth}>
       <Trigger
+        ref={triggerRef}
         id={triggerId}
         type="button"
         role="combobox"
@@ -184,30 +254,9 @@ const Select: React.FC<SelectProps> = ({
         <Chevron $open={isOpen}>{CHEVRON_SVG}</Chevron>
       </Trigger>
       {error && <ErrorMessage id={`${triggerId}-error`}>{error}</ErrorMessage>}
-      {isOpen && (
-        <Listbox
-          ref={listboxRef}
-          role="listbox"
-          tabIndex={-1}
-          aria-label={ariaLabel}
-          onKeyDown={handleListboxKeyDown}
-        >
-          {options.map((opt, index) => (
-            <OptionItem
-              key={opt.value}
-              role="option"
-              id={`select-option-${index}`}
-              data-option-index={index}
-              $selected={opt.value === value}
-              aria-selected={opt.value === value}
-              onClick={() => selectOption(opt)}
-              onMouseEnter={() => setHighlightedIndex(index)}
-            >
-              {opt.label}
-            </OptionItem>
-          ))}
-        </Listbox>
-      )}
+      {typeof document !== "undefined" && listboxContent
+        ? createPortal(listboxContent, document.body)
+        : null}
     </Wrapper>
   );
 };

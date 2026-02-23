@@ -24,7 +24,8 @@ describe("Select", () => {
       <Select options={options} onChange={onChange} aria-label="Choose" />
     );
     fireEvent.click(screen.getByRole("combobox"));
-    fireEvent.click(screen.getByRole("option", { name: "Option B" }));
+    const optionB = screen.getByRole("option", { name: "Option B" });
+    fireEvent.mouseDown(optionB);
     expect(onChange).toHaveBeenCalledWith("b");
   });
 

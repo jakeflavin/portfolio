@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div<{ $hasError?: boolean }>`
+export const Wrapper = styled.div<{ $hasError?: boolean; $fullWidth?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 0;
   height: 100%;
   min-width: 0;
-  width: 12rem;
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
   max-width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius};
   outline: ${({ theme, $hasError }) =>
@@ -77,12 +77,18 @@ export const Chevron = styled.span<{ $open: boolean }>`
   transform: ${({ $open }) => ($open ? "rotate(180deg)" : "none")};
 `;
 
-export const Listbox = styled.ul`
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  z-index: 10;
+export const Listbox = styled.ul<{
+  $position?: { top?: number; bottom?: number; left: number; width: number };
+}>`
+  position: ${({ $position }) => ($position ? "fixed" : "absolute")};
+  top: ${({ $position }) =>
+    $position?.top != null ? `${$position.top}px` : $position?.bottom != null ? "auto" : "calc(100% + 4px)"};
+  bottom: ${({ $position }) =>
+    $position?.bottom != null ? `${$position.bottom}px` : "auto"};
+  left: ${({ $position }) => ($position ? `${$position.left}px` : "0")};
+  width: ${({ $position }) => ($position ? `${$position.width}px` : "auto")};
+  right: ${({ $position }) => ($position ? "auto" : "0")};
+  z-index: 1000;
   margin: 0;
   padding: ${({ theme }) => theme.spacing.xs} 0;
   list-style: none;
@@ -93,6 +99,7 @@ export const Listbox = styled.ul`
   box-shadow: ${({ theme }) => theme.shadows.md};
   max-height: 16rem;
   overflow-y: auto;
+  isolation: isolate;
 `;
 
 export const OptionItem = styled.li<{ $selected?: boolean }>`
@@ -104,6 +111,9 @@ export const OptionItem = styled.li<{ $selected?: boolean }>`
   background-color: ${({ theme, $selected }) =>
     $selected ? theme.colors.secondary : "transparent"};
   color: ${({ theme }) => theme.colors.text};
+  user-select: none;
+  position: relative;
+  z-index: 1;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};

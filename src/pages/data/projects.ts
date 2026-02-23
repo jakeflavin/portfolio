@@ -4,6 +4,7 @@ import RunningRouteEstimatorPage from "../projects/RunningRouteEstimatorPage";
 import CountDownPage from "../projects/CountDownPage";
 import CoolLinksPage from "../projects/CoolLinksPage";
 import TicTacToePage from "../projects/TicTacToePage";
+import MadlibsPage from "../projects/MadlibsPage";
 
 export interface Project {
   id: string;
@@ -85,5 +86,18 @@ export const PROJECTS: Project[] = [
     path: "/project/4",
     external: false,
     component: TicTacToePage
+  },
+  {
+    id: "5",
+    creationDate: new Date("2026-02-23"),
+    disabled: false,
+    title: "Mad Libs",
+    type: "project",
+    imageSrc: "/images/mad-lib-project-cover.png",
+    description: "Fill in the blanks and generate silly stories with configurable templates.",
+    tags: ["game", "mad libs", "stories"],
+    path: "/project/5",
+    external: false,
+    component: MadlibsPage
   }
 ];
