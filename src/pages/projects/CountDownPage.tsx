@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TitleDescription from "../../components/core/TitleDescription";
+import { StyledSurface } from "../../components/core/Surface";
 import { Project } from "../data/projects";
 import CountdownTimer from "../../components/core/CountdownTimer";
 import InputAction from "../../components/core/InputAction";
@@ -61,16 +62,16 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
 };
 
 
-const FormContainer = styled.div`
+const FormContainer = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "mdDown"
+})`
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.mdDown};
 `;
 
 const Container = styled.div`
@@ -99,13 +100,12 @@ const RightColumn = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-const TimerSurface = styled.div`
+const TimerSurface = styled(StyledSurface).attrs({
+  $padding: "lg",
+  $variant: "secondary",
+  $shadow: "md"
+})`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
   display: flex;
   justify-content: center;
   align-items: center;

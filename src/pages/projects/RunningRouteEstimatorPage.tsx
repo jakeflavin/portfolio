@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import type { Project } from "../data/projects";
 import Map, { type MapPoint } from "../../components/core/Map";
 import TitleDescription from "../../components/core/TitleDescription";
+import { StyledSurface } from "../../components/core/Surface";
 import styled from "styled-components";
 import Button from "../../components/core/Button";
 
@@ -62,13 +63,12 @@ const RunningRouteEstimatorPage: React.FC<RunningRouteEstimatorPageProps> = ({ p
   );
 };
 
-const TotalMilesBlock = styled.div`
+const TotalMilesBlock = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "md"
+})`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
 `;
 
 const TotalMilesLabel = styled.div`

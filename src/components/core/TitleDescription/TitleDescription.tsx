@@ -1,5 +1,6 @@
 import React from "react";
-import { Wrapper, Title, Description } from "./TitleDescription.styled";
+import Surface from "../Surface";
+import { Title, Description } from "./TitleDescription.styled";
 
 export interface TitleDescriptionProps {
   /** Heading text */
@@ -16,10 +17,10 @@ const TitleDescription: React.FC<TitleDescriptionProps> = ({
   className
 }) => {
   return (
-    <Wrapper className={className}>
+    <Surface className={className}>
       <Title>{title}</Title>
       <Description>{description}</Description>
-    </Wrapper>
+    </Surface>
   );
 };
 

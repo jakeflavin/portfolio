@@ -8,6 +8,7 @@ import InputAction from "../../components/core/InputAction";
 import Select from "../../components/core/Select";
 import Button from "../../components/core/Button";
 import DynamicColumnLayout from "../../components/core/DynamicColumnLayout";
+import { StyledSurface } from "../../components/core/Surface";
 import { addCoolLink, subscribeCoolLinks, type CoolLink } from "../../lib/coolLinksDb";
 import {
   CATEGORY_DESCRIPTIONS,
@@ -217,17 +218,17 @@ const CoolLinksPage: React.FC<CoolLinksPageProps> = ({ project }) => {
   );
 };
 
-const AddRow = styled.div`
+const AddRow = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "mdDown"
+})`
   --input-label-bg-top: ${({ theme }) => theme.colors.secondary};
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.mdDown};
 `;
 
 const AddActionsRow = styled.div`

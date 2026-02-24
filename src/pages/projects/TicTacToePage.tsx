@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TitleDescription from "../../components/core/TitleDescription";
+import { StyledSurface } from "../../components/core/Surface";
 import TicTacToeBoard from "../../components/core/TicTacToeBoard";
 import Toggle from "../../components/core/Toggle";
 import Button from "../../components/core/Button";
@@ -57,19 +58,16 @@ const LeftColumn = styled.div`
   min-width: 0;
 `;
 
-const ActionsPanel = styled.div`
+const ActionsPanel = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "mdDown"
+})`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.mdDown};
 `;
-
-
 
 const RightColumn = styled.div`
   display: flex;
@@ -78,15 +76,14 @@ const RightColumn = styled.div`
   width: 100%;
 `;
 
-const BoardSurface = styled.div`
+const BoardSurface = styled(StyledSurface).attrs({
+  $padding: "lg",
+  $variant: "secondary",
+  $shadow: "md"
+})`
   flex: 1;
   width: 100%;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
   display: flex;
   flex-direction: column;
 `;

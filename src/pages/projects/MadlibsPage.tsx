@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import Handlebars from "handlebars";
 import TitleDescription from "../../components/core/TitleDescription";
+import { StyledSurface } from "../../components/core/Surface";
 import InputAction from "../../components/core/InputAction";
 import Select from "../../components/core/Select";
 import Button from "../../components/core/Button";
@@ -110,13 +111,12 @@ const LeftColumn = styled.div`
   min-width: 0;
 `;
 
-const FormPanel = styled.div`
+const FormPanel = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "mdDown"
+})`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.mdDown};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
@@ -164,14 +164,13 @@ const RightColumn = styled.div`
   min-height: 200px;
 `;
 
-const StoryBox = styled.div`
+const StoryBox = styled(StyledSurface).attrs({
+  $padding: "lg",
+  $variant: "secondary",
+  $shadow: "md"
+})`
   flex: 1;
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
   font-size: 1rem;
   line-height: 1.6;
   font-family: ${({ theme }) => theme.typography.fontFamily.body};

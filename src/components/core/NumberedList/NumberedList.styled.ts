@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import { StyledSurface } from "../Surface";
 
-export const Wrapper = styled.section`
+export const Wrapper = styled(StyledSurface).attrs({
+  as: "section",
+  $padding: "md",
+  $variant: "surface",
+  $shadow: "mdDown"
+})`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.mdDown};
 `;
 
 export const Header = styled.div`

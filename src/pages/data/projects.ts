@@ -5,6 +5,7 @@ import CountDownPage from "../projects/CountDownPage";
 import CoolLinksPage from "../projects/CoolLinksPage";
 import TicTacToePage from "../projects/TicTacToePage";
 import MadlibsPage from "../projects/MadlibsPage";
+import LocalWeatherPage from "../projects/LocalWeatherPage";
 
 export interface Project {
   id: string;
@@ -99,5 +100,18 @@ export const PROJECTS: Project[] = [
     path: "/project/5",
     external: false,
     component: MadlibsPage
+  },
+  {
+    id: "6",
+    creationDate: new Date("2026-02-23"),
+    disabled: false,
+    title: "Local Weather",
+    type: "project",
+    imageSrc: "/images/local-weather-project-cover.png",
+    description: "Local weather forecast with today, tomorrow, and useful widgets powered by Open-Meteo.",
+    tags: ["weather", "forecast", "open-meteo"],
+    path: "/project/6",
+    external: false,
+    component: LocalWeatherPage
   }
 ];
