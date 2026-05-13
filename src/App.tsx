@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
-import FooterBar from "./components/composits/FooterBar";
-import NavBar from "./components/composits/NavBar";
-import ProjectPageMeta from "./components/composits/ProjectPageMeta";
-import Home from "./pages/Home";
-import { PROJECTS } from "./pages/data/projects";
+import FooterBar from "@/features/layout/FooterBar";
+import NavBar from "@/features/layout/NavBar";
+import ProjectPageMeta from "@/features/layout/ProjectPageMeta";
+import Home from "@/features/home/Home";
+import { PROJECTS } from "@/features/projects/projects";
 
 /** Scrolls the window to top when the route pathname changes. */
 export function ScrollToTop() {
