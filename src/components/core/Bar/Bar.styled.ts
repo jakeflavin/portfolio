@@ -7,12 +7,11 @@ interface BarProps {
 export const BarContainer = styled.div<BarProps>`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.xs};
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius};
+
   display: flex;
   align-items: center;
   justify-content: ${({ align }) => align};
   gap: ${({ theme }) => theme.spacing.md};
   z-index: 1000;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 `;

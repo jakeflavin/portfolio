@@ -13,14 +13,16 @@ export const StyledButton = styled.button`
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
   line-height: 1.5;
 
-  color: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.inverseText};
   background-color: ${({ theme }) => theme.colors.primary};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 
   cursor: pointer;
-  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover:not(:disabled) {
     background-color: ${({ theme }) => theme.colors.accent};

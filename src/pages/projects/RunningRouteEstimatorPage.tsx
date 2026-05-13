@@ -48,8 +48,10 @@ const RunningRouteEstimatorPage: React.FC<RunningRouteEstimatorPageProps> = ({ p
     <Container>
       <LeftColumn>
         <TitleDescription title={project.title} description={project.description} />
+        <ButtonBlock>
         <Button onClick={() => setPoints([])} disabled={points.length === 0}>Start Over</Button>
         <Button onClick={() => setPoints((prev) => prev.slice(0, -1))} disabled={points.length === 0}>Remove Last Point</Button>
+        </ButtonBlock>
         <TotalMilesBlock>
           <TotalMilesLabel>Total Miles</TotalMilesLabel>
           <TotalMilesValue>{totalMiles.toFixed(2)}</TotalMilesValue>
@@ -62,6 +64,18 @@ const RunningRouteEstimatorPage: React.FC<RunningRouteEstimatorPageProps> = ({ p
     </Container>
   );
 };
+
+const ButtonBlock = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "md"
+})`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: stretch;
+`;
 
 const TotalMilesBlock = styled(StyledSurface).attrs({
   $padding: "md",

@@ -11,16 +11,20 @@ export const CardWrapper = styled.div<CardWrapperProps>`
   min-width: 0;
   grid-column: span ${({ $columnSpan = 1 }) => $columnSpan};
   padding: ${({ theme }) => theme.spacing.sm};
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
+  backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.shadows.md};
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.md};
+    box-shadow: ${({ theme }) => theme.shadows.mdDown};
   }
 
   &:focus-visible {
@@ -41,16 +45,17 @@ export const TitleRow = styled.div`
 export const Title = styled.h3`
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 65{({ theme }) => theme.typography.fontFamily.heading};
+  font-weight: 600;
+  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   color: ${({ theme }) => theme.colors.text};
 `;
 
-/* NEW: container that controls rounding + clipping */
 export const ImageContainer = styled.div`
   width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.secondaryGlass ?? theme.colors.secondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 /* UPDATED: image no longer handles spacing or radius */
@@ -80,9 +85,12 @@ export const TagsRow = styled.div`
 export const Tag = styled.span`
   display: inline-block;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.tagText};
-  background: ${({ theme }) => theme.colors.tagBackground};
-  border-radius: ${({ theme }) => theme.borderRadius};
+  letter-spacing: 0.04em;
+  font-family: ${({ theme }) => theme.typography.fontFamily.body};
+  color: ${({ theme }) => theme.colors.inverseText};
+  background: ${({ theme }) => theme.colors.primary};
+  border-radius: 999px;
+  box-shadow: ${({ theme }) => theme.shadows.sm};
 `;

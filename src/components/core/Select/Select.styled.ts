@@ -40,14 +40,16 @@ export const Trigger = styled.button`
   line-height: 1.5;
   text-align: left;
 
-  color: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.inverseText};
   background-color: ${({ theme }) => theme.colors.primary};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 
   cursor: pointer;
-  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover:not(:disabled) {
     background-color: ${({ theme }) => theme.colors.accent};
@@ -73,7 +75,7 @@ export const Trigger = styled.button`
 export const Chevron = styled.span<{ $open: boolean }>`
   display: inline-flex;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   transform: ${({ $open }) => ($open ? "rotate(180deg)" : "none")};
 `;
 
@@ -93,7 +95,9 @@ export const Listbox = styled.ul<{
   padding: ${({ theme }) => theme.spacing.xs} 0;
   list-style: none;
 
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
+  backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.md};
@@ -104,19 +108,23 @@ export const Listbox = styled.ul<{
 
 export const OptionItem = styled.li<{ $selected?: boolean }>`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  margin: 0 ${({ theme }) => theme.spacing.xs};
+  border-radius: ${({ theme }) => theme.borderRadius};
   font-size: 0.875rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
   cursor: pointer;
   background-color: ${({ theme, $selected }) =>
-    $selected ? theme.colors.secondary : "transparent"};
+    $selected ? (theme.colors.secondaryGlass ?? theme.colors.secondary) : "transparent"};
   color: ${({ theme }) => theme.colors.text};
   user-select: none;
   position: relative;
   z-index: 1;
+  transition: background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.secondary};
+    background-color: ${({ theme }) => theme.colors.secondaryGlass ?? theme.colors.secondary};
   }
 `;
 

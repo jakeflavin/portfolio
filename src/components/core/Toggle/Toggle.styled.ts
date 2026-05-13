@@ -32,7 +32,7 @@ export const Track = styled.span<{ $checked: boolean }>`
   border-radius: 999px;
   background-color: ${({ theme, $checked }) =>
     $checked ? theme.colors.primary : theme.colors.border};
-  transition: background-color 0.2s ease;
+  transition: background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   ${Wrapper}:hover:not([data-disabled]) & {
     background-color: ${({ theme, $checked }) =>
@@ -49,7 +49,7 @@ export const Thumb = styled.span<{ $checked: boolean }>`
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.surface};
   box-shadow: ${({ theme }) => theme.shadows.sm};
-  transition: transform 0.2s ease;
+  transition: transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   transform: ${({ $checked }) => ($checked ? "translateX(1.25rem)" : "translateX(0)")};
 `;
 

@@ -45,7 +45,9 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
             label="Seconds"
           />
       </FormContainer>
+      <ActionContainer>
         <Button onClick={() => setPlay((prev) => !prev)}>Start/Stop</Button>
+      </ActionContainer>
       </LeftColumn>
       <RightColumn>
         <TimerSurface>
@@ -63,6 +65,18 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
 
 
 const FormContainer = styled(StyledSurface).attrs({
+  $padding: "md",
+  $variant: "secondary",
+  $shadow: "mdDown"
+})`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
+`;
+
+const ActionContainer = styled(StyledSurface).attrs({
   $padding: "md",
   $variant: "secondary",
   $shadow: "mdDown"

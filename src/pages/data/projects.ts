@@ -103,11 +103,11 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "6",
-    creationDate: new Date("2026-02-23"),
+    creationDate: new Date("2026-02-24"),
     disabled: false,
     title: "Local Weather",
     type: "project",
-    imageSrc: "/images/local-weather-project-cover.png",
+    imageSrc: "/images/weather-project-cover.png",
     description: "Local weather forecast with today, tomorrow, and useful widgets powered by Open-Meteo.",
     tags: ["weather", "forecast", "open-meteo"],
     path: "/project/6",

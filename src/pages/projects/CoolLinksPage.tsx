@@ -223,7 +223,6 @@ const AddRow = styled(StyledSurface).attrs({
   $variant: "secondary",
   $shadow: "mdDown"
 })`
-  --input-label-bg-top: ${({ theme }) => theme.colors.secondary};
   display: flex;
   flex-direction: column;
   align-items: stretch;

@@ -131,12 +131,8 @@ const FormFields = styled.div`
 const FormFooter = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: ${({ theme }) => theme.spacing.sm};
-
-  ${({ theme }) => theme.media.sm} {
-    flex-direction: row;
-    align-items: stretch;
-  }
 `;
 
 const SelectWrap = styled.div`

@@ -20,19 +20,12 @@ export const Label = styled.label`
   font-weight: 500;
   line-height: 1;
   color: ${({ theme }) => theme.colors.text};
-  /* Top half: container color (--input-label-bg-top). Bottom half: input box color (--input-label-bg) */
-  background: linear-gradient(
-    to bottom,
-    var(--input-label-bg-top, ${({ theme }) => theme.colors.secondary}) 50%,
-    var(--input-label-bg, ${({ theme }) => theme.colors.background}) 50%
-  );
+  background: ${({ theme }) => theme.colors.secondary};
   z-index: 1;
   white-space: nowrap;
 `;
 
 export const Wrapper = styled.div<WrapperProps>`
-  --input-label-bg: ${({ theme, $disabled }) =>
-    $disabled ? theme.colors.secondary : theme.colors.background};
   position: ${({ $hasLabel }) => ($hasLabel ? "relative" : "static")};
   display: flex;
   align-items: center;
@@ -42,14 +35,19 @@ export const Wrapper = styled.div<WrapperProps>`
 
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme, $disabled }) =>
-    $disabled ? theme.colors.secondary : theme.colors.background};
+    $disabled
+      ? theme.colors.secondary
+      : theme.colors.secondaryGlass ?? theme.colors.background};
+  backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
   border: 1px solid
     ${({ theme, $hasError }) =>
       $hasError ? theme.colors.muted : theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.sm};
-
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   ${({ $disabled }) =>
     $disabled &&
@@ -60,14 +58,14 @@ export const Wrapper = styled.div<WrapperProps>`
 
   &:focus-within {
     border-color: ${({ theme, $disabled }) =>
-      $disabled ? theme.colors.border : theme.colors.inputFocusBorder};
+      $disabled ? theme.colors.border : theme.colors.focusBorder};
     box-shadow: ${({ theme, $disabled }) =>
-      $disabled ? theme.shadows.sm : theme.shadows.focusInput};
+      $disabled ? theme.shadows.sm : theme.shadows.focus};
   }
 
   &:focus-within ${Label} {
     color: ${({ theme, $disabled }) =>
-      $disabled ? theme.colors.muted : theme.colors.inputFocusBorder};
+      $disabled ? theme.colors.muted : theme.colors.focusBorder};
   }
 `;
 

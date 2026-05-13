@@ -11,22 +11,30 @@ export interface SurfaceStyledProps {
   $interactive?: boolean;
 }
 
+/** Glass variant key: surface → surfaceGlass, secondary → secondaryGlass */
+const glassVariantKey = (v: SurfaceVariant) =>
+  v === "surface" ? "surfaceGlass" : "secondaryGlass";
+
 export const StyledSurface = styled.div<SurfaceStyledProps>`
   padding: ${({ $padding = "md", theme }) =>
     $padding === "sm"
       ? `${theme.spacing.sm} ${theme.spacing.xs}`
       : theme.spacing[$padding]};
-  background-color: ${({ $variant = "secondary", theme }) => theme.colors[$variant]};
+  background-color: ${({ $variant = "secondary", theme }) =>
+    theme.colors[glassVariantKey($variant)] ?? theme.colors[$variant]};
+  backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ $shadow = "mdDown", theme }) => theme.shadows[$shadow]};
+  transition: box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   ${({ $interactive, theme }) =>
     $interactive &&
     `
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     &:hover {
       box-shadow: ${theme.shadows.md};
-      border-color: ${theme.colors.muted};
     }
   `}
 `;

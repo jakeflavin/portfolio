@@ -47,7 +47,7 @@ export const CountBox = styled.span`
   font-size: 0.875rem;
   font-weight: 500;
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
-  color: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.inverseText};
   background-color: ${({ theme }) => theme.colors.primary};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
