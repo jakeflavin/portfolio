@@ -1,6 +1,9 @@
-import React, { useId, useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useId } from "react";
 import { createPortal } from "react-dom";
+import { CaretDownIcon } from "@phosphor-icons/react";
 import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, ErrorMessage } from "./Select.styled";
+import { getDisplayLabel } from "./select.utils";
+import { useSelect } from "./useSelect";
 
 export interface SelectOption {
   value: string;
@@ -30,21 +33,6 @@ export interface SelectProps {
   error?: string;
 }
 
-const CHEVRON_SVG = (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    aria-hidden
-  >
-    <path d="M2 4l4 4 4-4" />
-  </svg>
-);
-
 const Select: React.FC<SelectProps> = ({
   value = "",
   onChange,
@@ -59,146 +47,20 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const generatedId = useId();
   const triggerId = id ?? generatedId;
-  const [isOpen, setIsOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const listboxRef = useRef<HTMLUListElement>(null);
-  const [listboxRect, setListboxRect] = useState<{
-    top?: number;
-    bottom?: number;
-    left: number;
-    width: number;
-  } | null>(null);
-
-  const selectedOption = options.find((opt) => opt.value === value);
-  const displayLabel = selectedOption ? selectedOption.label : placeholder ?? "";
-
-  const close = () => {
-    setIsOpen(false);
-    setHighlightedIndex(-1);
-    setListboxRect(null);
-  };
-
-  const LISTBOX_MAX_HEIGHT = 256; // 16rem
-  const LISTBOX_GAP = 4;
-
-  useLayoutEffect(() => {
-    if (!isOpen || !triggerRef.current) return;
-    const el = triggerRef.current;
-    const rect = el.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom - LISTBOX_GAP;
-    const spaceAbove = rect.top - LISTBOX_GAP;
-    const openAbove = spaceBelow < Math.min(LISTBOX_MAX_HEIGHT, spaceAbove);
-
-    if (openAbove) {
-      setListboxRect({
-        bottom: window.innerHeight - rect.top + LISTBOX_GAP,
-        left: rect.left,
-        width: rect.width
-      });
-    } else {
-      setListboxRect({
-        top: rect.bottom + LISTBOX_GAP,
-        left: rect.left,
-        width: rect.width
-      });
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (wrapperRef.current?.contains(target)) return;
-      if (listboxRef.current?.contains(target)) return;
-      close();
-    };
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || highlightedIndex < 0) return;
-    listboxRef.current
-      ?.querySelector(`[data-option-index="${highlightedIndex}"]`)
-      ?.scrollIntoView({ block: "nearest" });
-  }, [isOpen, highlightedIndex]);
-
-  const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      if (disabled) return;
-      if (isOpen && highlightedIndex >= 0 && options[highlightedIndex]) {
-        onChange?.(options[highlightedIndex].value);
-        close();
-      } else {
-        setIsOpen((prev) => !prev);
-        if (!isOpen)
-          setHighlightedIndex(
-            value ? Math.max(0, options.findIndex((o) => o.value === value)) : 0
-          );
-      }
-      return;
-    }
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (!isOpen) {
-        setIsOpen(true);
-        setHighlightedIndex(0);
-      } else {
-        setHighlightedIndex((i) =>
-          i < options.length - 1 ? i + 1 : i
-        );
-      }
-      return;
-    }
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (!isOpen) {
-        setIsOpen(true);
-        setHighlightedIndex(options.length - 1);
-      } else {
-        setHighlightedIndex((i) => (i > 0 ? i - 1 : 0));
-      }
-      return;
-    }
-  };
-
-  const handleListboxKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlightedIndex((i) =>
-        i < options.length - 1 ? i + 1 : i
-      );
-      return;
-    }
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightedIndex((i) => (i > 0 ? i - 1 : 0));
-      return;
-    }
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      if (highlightedIndex >= 0 && options[highlightedIndex]) {
-        onChange?.(options[highlightedIndex].value);
-        close();
-      }
-      return;
-    }
-  };
-
-  const selectOption = (opt: SelectOption) => {
-    onChange?.(opt.value);
-    close();
-  };
+  const displayLabel = getDisplayLabel(options, value, placeholder);
+  const {
+    handleListboxKeyDown,
+    handleTriggerKeyDown,
+    highlightedIndex,
+    isOpen,
+    listboxRect,
+    listboxRef,
+    selectOption,
+    setHighlightedIndex,
+    setIsOpen,
+    triggerRef,
+    wrapperRef
+  } = useSelect({ disabled, onChange, options, value });
 
   const listboxContent = isOpen && listboxRect && (
     <Listbox
@@ -251,7 +113,9 @@ const Select: React.FC<SelectProps> = ({
         onKeyDown={handleTriggerKeyDown}
       >
         <TriggerLabel>{displayLabel}</TriggerLabel>
-        <Chevron $open={isOpen}>{CHEVRON_SVG}</Chevron>
+        <Chevron $open={isOpen}>
+          <CaretDownIcon size={12} aria-hidden="true" />
+        </Chevron>
       </Trigger>
       {error && <ErrorMessage id={`${triggerId}-error`}>{error}</ErrorMessage>}
       {typeof document !== "undefined" && listboxContent

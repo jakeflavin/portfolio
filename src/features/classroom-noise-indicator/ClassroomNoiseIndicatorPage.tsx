@@ -112,14 +112,14 @@ const ClassroomNoiseIndicatorPage: React.FC<ClassroomNoiseIndicatorPageProps> = 
       title={project.title}
       description={project.description}
       controls={
-        <ControlsPanel>
+        <ControlsPanel padding="md" variant="secondary" shadow="mdDown">
           <Button onClick={isListening ? stopListening : startListening}>
             {isListening ? "Stop listening" : "Start listening"}
           </Button>
         </ControlsPanel>
       }
       summary={
-        <SummaryPanel>
+        <SummaryPanel padding="md" variant="surface" shadow="md">
           <SummaryRow>
             <span>Status</span>
             <strong>{getStatusLabel(level, isListening)}</strong>

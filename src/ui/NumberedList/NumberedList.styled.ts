@@ -1,14 +1,4 @@
 import styled from "styled-components";
-import { StyledSurface } from "../Surface";
-
-export const Wrapper = styled(StyledSurface).attrs({
-  as: "section",
-  $padding: "md",
-  $variant: "surface",
-  $shadow: "mdDown"
-})`
-  width: 100%;
-`;
 
 export const Header = styled.div`
   display: flex;

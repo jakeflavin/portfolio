@@ -6,7 +6,11 @@ export const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     font-family: ${({ theme }) => theme.typography.fontFamily.body};
     background: ${({ theme }) => theme.bodyBackground ?? theme.colors.background};
+    background-attachment: fixed;
     color: ${({ theme }) => theme.colors.text};
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     transition: background ${({ theme }) => theme.motion?.duration?.slow ?? "0.4s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
       color ${({ theme }) => theme.motion?.duration?.slow ?? "0.4s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   }

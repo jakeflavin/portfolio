@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledSurface } from "@/ui/Surface";
+import Surface from "@/ui/Surface";
 
 export const Layout = styled.div`
   display: grid;
@@ -25,11 +25,7 @@ export const RightColumn = styled.div`
   align-items: flex-start;
 `;
 
-export const ControlsPanel = styled(StyledSurface).attrs({
-  $padding: "md",
-  $variant: "secondary",
-  $shadow: "mdDown"
-})`
+export const ControlsPanel = styled(Surface)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
@@ -47,11 +43,7 @@ export const SelectSlot = styled.div`
   min-width: 0;
 `;
 
-export const SummaryPanel = styled(StyledSurface).attrs({
-  $padding: "md",
-  $variant: "surface",
-  $shadow: "md"
-})`
+export const SummaryPanel = styled(Surface)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
@@ -110,11 +102,7 @@ export const QuickValueButton = styled.button<{ $active: boolean }>`
   }
 `;
 
-export const TablePanel = styled(StyledSurface).attrs({
-  $padding: "lg",
-  $variant: "surface",
-  $shadow: "md"
-})`
+export const TablePanel = styled(Surface)`
   width: 100%;
   overflow-x: auto;
 `;

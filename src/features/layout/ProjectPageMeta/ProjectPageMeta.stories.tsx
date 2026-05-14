@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import Surface from "@/ui/Surface";
 import ProjectPageMeta from "./ProjectPageMeta";
 import type { Project } from "@/features/projects/projects";
 
@@ -26,10 +27,10 @@ export const Default: Story = {
   args: {
     project: mockProject,
     children: (
-      <div style={{ padding: "1rem", border: "1px dashed #ccc" }}>
+      <Surface padding="md" variant="surface" shadow="sm">
         Project page content would render here. Check the document title and
         &lt;head&gt; meta tags (og:*, twitter:*) when this story is active.
-      </div>
+      </Surface>
     )
   }
 };

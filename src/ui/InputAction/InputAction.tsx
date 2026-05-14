@@ -1,7 +1,7 @@
 import React, { useId } from "react";
 import { Outer, Label, Wrapper, Input, LeftIconSlot, ErrorMessage } from "./InputAction.styled";
 import IconButton from "../IconButton";
-import XmarkIcon from "@/assets/icons/circle-xmark.svg?react";
+import { XCircleIcon } from "@phosphor-icons/react";
 
 export interface InputActionProps {
   /** SVG element to render on the left (e.g. search icon) */
@@ -76,7 +76,7 @@ const InputAction: React.FC<InputActionProps> = ({
       />
       {showClear && !disabled ? (
         <IconButton
-          icon={<XmarkIcon />}
+          icon={<XCircleIcon size={iconSize} />}
           size={iconSize}
           onClick={handleClear}
           ariaLabel="Clear input"

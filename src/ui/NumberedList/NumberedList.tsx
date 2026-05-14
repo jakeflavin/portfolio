@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import Surface from "../Surface";
 import {
-  Wrapper,
   Header,
   TitleBlock,
   Title,
@@ -13,6 +13,7 @@ import {
   MoreSection,
   MoreButton
 } from "./NumberedList.styled";
+import { useNumberedList } from "./useNumberedList";
 
 export interface NumberedListProps {
   /** Section title (top left) */
@@ -34,14 +35,20 @@ const NumberedList: React.FC<NumberedListProps> = ({
   children,
   className
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const items = React.Children.toArray(children);
-  const total = items.length;
-  const isTruncated = total > truncate;
-  const visibleItems = expanded || !isTruncated ? items : items.slice(0, truncate);
+  const { expanded, isTruncated, setExpanded, total, visibleItems } = useNumberedList(
+    children,
+    truncate
+  );
 
   return (
-    <Wrapper className={className} aria-label={title}>
+    <Surface
+      as="section"
+      padding="lg"
+      variant="surface"
+      shadow="md"
+      className={className}
+      aria-label={title}
+    >
       <Header>
         <TitleBlock>
           <Title>{title}</Title>
@@ -60,15 +67,15 @@ const NumberedList: React.FC<NumberedListProps> = ({
       {isTruncated && (
         <MoreSection>
           <MoreButton
-          type="button"
-          onClick={() => setExpanded((e) => !e)}
-          aria-expanded={expanded}
-        >
-          {expanded ? "less ▴" : "more ▾"}
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            aria-expanded={expanded}
+          >
+            {expanded ? "less ▴" : "more ▾"}
           </MoreButton>
         </MoreSection>
       )}
-    </Wrapper>
+    </Surface>
   );
 };
 

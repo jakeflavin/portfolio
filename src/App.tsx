@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import { lightTheme, darkTheme } from "./styles/themes";
+import { blueprintTheme, blueprintDarkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "@/features/layout/FooterBar";
 import NavBar from "@/features/layout/NavBar";
@@ -27,7 +27,7 @@ const getPrefersDark = () =>
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(getPrefersDark);
-  const theme = isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? blueprintDarkTheme : blueprintTheme;
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -98,7 +98,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  min-height: 80vh;
+  min-height: 75vh;
   width: 100%;
   display: flex;
   flex-direction: column;

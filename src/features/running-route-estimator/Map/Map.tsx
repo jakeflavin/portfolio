@@ -3,8 +3,9 @@ import MapboxMap from "react-map-gl/mapbox";
 import type { MapRef } from "react-map-gl/mapbox";
 import { Source, Layer } from "react-map-gl/mapbox";
 import type * as mapboxgl from "mapbox-gl";
+import { useTheme } from "styled-components";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { MapWrapper, MapInner } from "./Map.styled";
+import { MapWrapper, MapInner, MapPlaceholder } from "./Map.styled";
 
 const DEFAULT_VIEW_STATE = {
   longitude: -98.5795,
@@ -54,6 +55,7 @@ const Map: React.FC<MapProps> = ({
   height = "70vh",
   className
 }) => {
+  const theme = useTheme();
   const token =
     mapboxAccessToken ?? import.meta.env.VITE_MAPBOX_ACCESS_TOKEN ?? "";
   const mapRef = useRef<MapRef>(null);
@@ -145,20 +147,9 @@ const Map: React.FC<MapProps> = ({
     return (
       <MapWrapper className={className} style={height ? { height } : undefined}>
         <MapInner $interactive={false} data-testid="map-placeholder">
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              minHeight: "300px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#6b6b6b",
-              fontSize: "0.875rem"
-            }}
-          >
+          <MapPlaceholder>
             Set VITE_MAPBOX_ACCESS_TOKEN or pass mapboxAccessToken to display the map.
-          </div>
+          </MapPlaceholder>
         </MapInner>
       </MapWrapper>
     );
@@ -183,7 +174,7 @@ const Map: React.FC<MapProps> = ({
                 type="line"
                 paint={
                   {
-                    "line-color": "#1a1a1a",
+                    "line-color": theme.colors.text,
                     "line-width": 3,
                     "line-join": "round",
                     "line-cap": "round"
@@ -200,9 +191,9 @@ const Map: React.FC<MapProps> = ({
                 paint={
                   {
                     "circle-radius": 6,
-                    "circle-color": "#1a1a1a",
+                    "circle-color": theme.colors.text,
                     "circle-stroke-width": 2,
-                    "circle-stroke-color": "#ffffff"
+                    "circle-stroke-color": theme.colors.surface
                   } as mapboxgl.CircleLayerSpecification["paint"]
                 }
               />

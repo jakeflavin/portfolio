@@ -1,11 +1,7 @@
 import styled from "styled-components";
-import { StyledSurface } from "@/ui/Surface";
+import Surface from "@/ui/Surface";
 
-export const ReceiptSurface = styled(StyledSurface).attrs({
-  $padding: "lg",
-  $variant: "surface",
-  $shadow: "md"
-})`
+export const ReceiptSurface = styled(Surface)`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -13,20 +9,28 @@ export const ReceiptSurface = styled(StyledSurface).attrs({
 
 export const Receipt = styled.div`
   width: min(100%, 420px);
-  color: #1f1f1f;
+  color: ${({ theme }) => theme.colors.paperText};
   background:
-    linear-gradient(135deg, #fffaf0, #f8ecd4),
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 22px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, ${({ theme }) => theme.colors.paper} 88%, ${({ theme }) => theme.colors.surface}),
+      ${({ theme }) => theme.colors.paper}
+    ),
+    repeating-linear-gradient(
+      0deg,
+      color-mix(in srgb, ${({ theme }) => theme.colors.paperBorder} 18%, transparent) 0 1px,
+      transparent 1px 22px
+    );
+  border: 1px solid ${({ theme }) => theme.colors.paperBorder};
   border-bottom: 0;
-  border-radius: 8px 8px 0 0;
+  border-radius: ${({ theme }) => theme.borderRadius} ${({ theme }) => theme.borderRadius} 0 0;
   padding: ${({ theme }) => theme.spacing.lg};
   padding-bottom: calc(${({ theme }) => theme.spacing.lg} + 12px);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
+  box-shadow: ${({ theme }) => theme.shadows.md};
   position: relative;
   overflow: hidden;
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.2))
-    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 1px 0 ${({ theme }) => theme.colors.paperBorder})
+    drop-shadow(0 4px 10px ${({ theme }) => theme.colors.border});
   clip-path: polygon(
     0 0,
     100% 0,
@@ -94,11 +98,11 @@ export const ReceiptTitle = styled.h2`
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   font-size: 1.75rem;
   line-height: 1.1;
-  color: #1f1f1f;
+  color: ${({ theme }) => theme.colors.paperText};
 `;
 
 export const ReceiptMeta = styled.span`
-  color: #6c6258;
+  color: ${({ theme }) => theme.colors.paperMuted};
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -106,7 +110,7 @@ export const ReceiptMeta = styled.span`
 
 export const Divider = styled.hr`
   border: 0;
-  border-top: 1px dashed rgba(0, 0, 0, 0.22);
+  border-top: 1px dashed ${({ theme }) => theme.colors.paperBorder};
   margin: ${({ theme }) => theme.spacing.lg} 0;
 `;
 
@@ -123,11 +127,11 @@ export const ReceiptRow = styled.div`
   font-size: 1rem;
 
   span {
-    color: #6c6258;
+    color: ${({ theme }) => theme.colors.paperMuted};
   }
 
   strong {
-    color: #1f1f1f;
+    color: ${({ theme }) => theme.colors.paperText};
     font-variant-numeric: tabular-nums;
   }
 `;
@@ -138,13 +142,13 @@ export const TotalRow = styled(ReceiptRow)`
 
   span,
   strong {
-    color: #1f1f1f;
+    color: ${({ theme }) => theme.colors.paperText};
   }
 `;
 
 export const ReceiptFooter = styled.p`
   margin: ${({ theme }) => theme.spacing.lg} 0 0;
-  // color: #6c6258;
+  color: ${({ theme }) => theme.colors.paperMuted};
   font-size: 0.875rem;
   line-height: 1.5;
 `;

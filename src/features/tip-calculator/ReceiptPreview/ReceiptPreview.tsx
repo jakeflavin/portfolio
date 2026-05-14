@@ -34,7 +34,7 @@ const ReceiptPreview: React.FC<ReceiptPreviewProps> = ({
   totalValue,
   footer
 }) => (
-  <ReceiptSurface>
+  <ReceiptSurface padding="lg" variant="surface" shadow="md">
     <Receipt>
       <ReceiptHeader>
         <ReceiptTitle>{title}</ReceiptTitle>

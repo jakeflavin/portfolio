@@ -1,2 +1,3 @@
 export { default } from "./TicTacToeBoard";
-export type { TicTacToeBoardProps, Player, CellValue } from "./TicTacToeBoard";
+export type { TicTacToeBoardProps } from "./TicTacToeBoard";
+export type { Player, CellValue } from "./ticTacToe.utils";

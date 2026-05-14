@@ -1,28 +1,33 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
 import TitleDescription from "@/ui/TitleDescription";
-import { StyledSurface } from "@/ui/Surface";
 import { Project } from "@/features/projects/projects";
 import CountdownTimer from "./CountdownTimer";
 import InputAction from "@/ui/InputAction";
 import Button from "@/ui/Button";
 import LottieViewer from "./LottieViewer";
+import {
+  ActionContainer,
+  Container,
+  FormContainer,
+  LeftColumn,
+  RightColumn,
+  TimerSurface
+} from "./CountDownPage.styled";
+import { useCountdownPage } from "./useCountdownPage";
 
 interface CountDownPageProps {
   project: Project;
 }
 
 const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
-  const [play, setPlay] = useState(false);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const { hours, minutes, play, seconds, setHours, setMinutes, setSeconds, togglePlay } =
+    useCountdownPage();
 
   return (
     <Container>
       <LeftColumn>
         <TitleDescription title={project.title} description={project.description} />
-      <FormContainer>
+        <FormContainer padding="md" variant="secondary" shadow="mdDown">
           <InputAction
             value={hours.toString()}
             onChange={(e) => setHours(parseInt(e.target.value, 10) || 0)}
@@ -44,13 +49,13 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
             disabled={play}
             label="Seconds"
           />
-      </FormContainer>
-      <ActionContainer>
-        <Button onClick={() => setPlay((prev) => !prev)}>Start/Stop</Button>
-      </ActionContainer>
+        </FormContainer>
+        <ActionContainer padding="md" variant="secondary" shadow="mdDown">
+          <Button onClick={togglePlay}>Start/Stop</Button>
+        </ActionContainer>
       </LeftColumn>
       <RightColumn>
-        <TimerSurface>
+        <TimerSurface padding="lg" variant="secondary" shadow="md">
           <CountdownTimer hours={hours} minutes={minutes} seconds={seconds} play={play} />
         </TimerSurface>
         <LottieViewer
@@ -62,67 +67,5 @@ const CountDownPage: React.FC<CountDownPageProps> = ({ project }) => {
     </Container>
   );
 };
-
-
-const FormContainer = styled(StyledSurface).attrs({
-  $padding: "md",
-  $variant: "secondary",
-  $shadow: "mdDown"
-})`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
-`;
-
-const ActionContainer = styled(StyledSurface).attrs({
-  $padding: "md",
-  $variant: "secondary",
-  $shadow: "mdDown"
-})`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
-`;
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: ${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.media.md} {
-    grid-template-columns: minmax(0, 280px) 1fr;
-  }
-`;
-
-const LeftColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
-  min-width: 0;
-`;
-
-const RightColumn = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 200px;
-  gap: ${({ theme }) => theme.spacing.md};
-`;
-
-const TimerSurface = styled(StyledSurface).attrs({
-  $padding: "lg",
-  $variant: "secondary",
-  $shadow: "md"
-})`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default CountDownPage;

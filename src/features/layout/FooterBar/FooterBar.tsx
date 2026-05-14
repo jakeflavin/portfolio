@@ -1,11 +1,11 @@
 import React from "react";
 import Bar from "@/ui/Bar";
-import { Text } from "./FooterBar.styled";
+import { Text, Heart } from "./FooterBar.styled";
 
 const FooterBar: React.FC = () => {
   return (
     <Bar align="center">
-      <Text>Made with ♥ by Jake Flavin</Text>
+      <Text>Made with <Heart>♥</Heart> by Jake Flavin</Text>
     </Bar>
   );
 };

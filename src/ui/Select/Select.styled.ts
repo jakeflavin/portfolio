@@ -10,9 +10,6 @@ export const Wrapper = styled.div<{ $hasError?: boolean; $fullWidth?: boolean }>
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
   max-width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius};
-  outline: ${({ theme, $hasError }) =>
-    $hasError ? `1px solid ${theme.colors.muted}` : "none"};
-  outline-offset: -1px;
 `;
 
 export const TriggerLabel = styled.span`
@@ -34,40 +31,42 @@ export const Trigger = styled.button`
 
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 400;
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
   line-height: 1.5;
   text-align: left;
 
-  color: ${({ theme }) => theme.colors.inverseText};
-  background-color: ${({ theme }) => theme.colors.primary};
-  border: 1px solid ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text};
+  background-color: ${({ theme, disabled }) =>
+    disabled
+      ? theme.colors.secondary
+      : theme.colors.secondaryGlass ?? theme.colors.background};
+  backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
+  border: 1px solid ${({ theme, "aria-invalid": ariaInvalid }) =>
+    ariaInvalid ? theme.colors.muted : theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.sm};
 
   cursor: pointer;
-  transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.accent};
-    border-color: ${({ theme }) => theme.colors.accent};
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
+    border-color: ${({ theme }) => theme.colors.focusBorder};
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.primary};
-    outline-offset: 2px;
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.focusBorder};
+    box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
   &:disabled {
+    color: ${({ theme }) => theme.colors.muted};
     cursor: not-allowed;
-    opacity: 0.5;
     pointer-events: none;
   }
 `;
@@ -75,6 +74,7 @@ export const Trigger = styled.button`
 export const Chevron = styled.span<{ $open: boolean }>`
   display: inline-flex;
   flex-shrink: 0;
+  color: ${({ theme }) => theme.colors.muted};
   transition: transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   transform: ${({ $open }) => ($open ? "rotate(180deg)" : "none")};
 `;

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import Surface from "@/ui/Surface";
 import DynamicColumnLayout from "./DynamicColumnLayout";
 
 const meta: Meta<typeof DynamicColumnLayout> = {
@@ -20,16 +21,9 @@ const sampleItems = [
 export const Default: Story = {
   args: {
     children: sampleItems.map((text, i) => (
-      <div
-        key={i}
-        style={{
-          padding: "1rem",
-          background: "var(--color-secondary, #f0f0f0)",
-          borderRadius: "8px"
-        }}
-      >
+      <Surface key={i} padding="md" variant="secondary" shadow="sm">
         {text}
-      </div>
+      </Surface>
     ))
   }
 };
@@ -37,17 +31,15 @@ export const Default: Story = {
 export const WithManyItems: Story = {
   args: {
     children: Array.from({ length: 12 }, (_, i) => (
-      <div
+      <Surface
         key={i}
-        style={{
-          padding: "1rem",
-          background: "var(--color-secondary, #f0f0f0)",
-          borderRadius: "8px",
-          height: `${80 + (i % 3) * 40}px`
-        }}
+        padding="md"
+        variant="secondary"
+        shadow="sm"
+        style={{ height: `${80 + (i % 3) * 40}px` }}
       >
         Item {i + 1}
-      </div>
+      </Surface>
     ))
   }
 };

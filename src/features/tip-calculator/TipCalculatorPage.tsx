@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import InputAction from "@/ui/InputAction";
 import CalculatorPage, {
   ControlsPanel,
@@ -7,65 +7,30 @@ import CalculatorPage, {
 } from "@/features/projects/components/CalculatorPage";
 import ReceiptPreview from "./ReceiptPreview";
 import type { Project } from "@/features/projects/projects";
+import { currencyFormatter, formatPercentage, QUICK_TIP_PERCENTAGES } from "./tipCalculator.utils";
+import { useTipCalculator } from "./useTipCalculator";
 
 interface TipCalculatorPageProps {
   project: Project;
 }
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD"
-});
-
-function sanitizeMoneyInput(value: string): string {
-  const cleaned = value.replace(/[^\d.]/g, "");
-  const [whole = "", ...decimalParts] = cleaned.split(".");
-  const decimal = decimalParts.join("").slice(0, 2);
-  return decimalParts.length > 0 ? `${whole}.${decimal}` : whole;
-}
-
-function sanitizePercentInput(value: string): string {
-  const cleaned = value.replace(/[^\d.]/g, "");
-  const [whole = "", ...decimalParts] = cleaned.split(".");
-  const decimal = decimalParts.join("").slice(0, 2);
-  return decimalParts.length > 0 ? `${whole}.${decimal}` : whole;
-}
-
-function parseAmount(value: string): number {
-  const parsed = Number.parseFloat(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
 const TipCalculatorPage: React.FC<TipCalculatorPageProps> = ({ project }) => {
-  const [billTotal, setBillTotal] = useState("48.75");
-  const [tipPercentage, setTipPercentage] = useState("20");
-
-  const totals = useMemo(() => {
-    const subtotal = parseAmount(billTotal);
-    const tipRate = parseAmount(tipPercentage) / 100;
-    const tip = subtotal * tipRate;
-    return {
-      subtotal,
-      tip,
-      total: subtotal + tip,
-      tipPercentage: parseAmount(tipPercentage)
-    };
-  }, [billTotal, tipPercentage]);
+  const { billTotal, totals, setBillTotal, setTipPercentage } = useTipCalculator();
 
   return (
     <CalculatorPage
       title={project.title}
       description={project.description}
       controls={
-        <ControlsPanel>
+        <ControlsPanel padding="md" variant="secondary" shadow="mdDown">
           <InputAction
             label="Bill total"
             value={billTotal}
-            onChange={(e) => setBillTotal(sanitizeMoneyInput(e.target.value))}
+            onChange={(e) => setBillTotal(e.target.value)}
             placeholder="0.00"
           />
           <QuickValueGrid aria-label="Quick tip percentages">
-            {[15, 18, 20, 22].map((percentage) => (
+            {QUICK_TIP_PERCENTAGES.map((percentage) => (
               <QuickValueButton
                 key={percentage}
                 type="button"
@@ -88,7 +53,7 @@ const TipCalculatorPage: React.FC<TipCalculatorPageProps> = ({ project }) => {
             value: currencyFormatter.format(totals.subtotal)
           },
           {
-            label: `Tip (${totals.tipPercentage.toFixed(totals.tipPercentage % 1 ? 2 : 0)}%)`,
+            label: `Tip (${formatPercentage(totals.tipPercentage)}%)`,
             value: currencyFormatter.format(totals.tip)
           }
         ]}

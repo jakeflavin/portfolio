@@ -1,38 +1,36 @@
 import React from "react";
 import {
   CardWrapper,
+  CardTypeLabel,
   TitleRow,
   Title,
+  CardBody,
   CardImage,
   Description,
   TagsRow,
   Tag,
   ImageContainer
 } from "./Card.styled";
-import SearchIcon from "@/assets/icons/magnifying-glass.svg?react";
+import { handleKeyboardAction } from "./card.utils";
 
 export type CardType = "project";
 
 export interface CardProps {
   /** Card title */
   title: string;
-  /** Card type; determines the icon shown next to the title */
+  /** Card type; shown as an uppercase label above the title */
   type?: CardType;
-  /** Image URL; shown full-width below the title */
+  /** Image URL; shown full-width at the top */
   imageSrc: string;
-  /** Image alt text for accessibility */
+  /** Short description shown below the title */
   description: string;
-  /** Tags displayed below the description */
+  /** Tags displayed at the bottom */
   tags?: string[];
   /** Called when the card is clicked */
   onAction?: () => void;
   /** Number of columns to span in a grid container (default: 1) */
   columnSpan?: number;
 }
-
-const CARD_TYPE_ICON: Record<CardType, React.ReactNode> = {
-  project: <SearchIcon width={18} height={18} />
-};
 
 const Card: React.FC<CardProps> = ({
   title,
@@ -43,40 +41,31 @@ const Card: React.FC<CardProps> = ({
   onAction,
   columnSpan = 1
 }) => {
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onAction?.();
-    }
-  };
-
-  const titleIcon = CARD_TYPE_ICON[type];
-
   return (
     <CardWrapper
       $columnSpan={columnSpan}
       role={onAction ? "button" : undefined}
       tabIndex={onAction ? 0 : undefined}
       onClick={onAction}
-      onKeyDown={onAction ? handleKeyDown : undefined}
+      onKeyDown={onAction ? (event) => handleKeyboardAction(event, onAction) : undefined}
     >
       <ImageContainer>
-        <CardImage src={imageSrc} />
+        <CardImage src={imageSrc} alt={title} />
       </ImageContainer>
-      <TitleRow>
-        {/* {titleIcon && <TitleIcon>{titleIcon}</TitleIcon>} */}
-        <Title>{title}</Title>
-
-        
-      </TitleRow>
-      <Description>{description}</Description>
-      {tags.length > 0 && (
-        <TagsRow>
-          {tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
-        </TagsRow>
-      )}
+      <CardBody>
+        <CardTypeLabel>{type}</CardTypeLabel>
+        <TitleRow>
+          <Title>{title}</Title>
+        </TitleRow>
+        <Description>{description}</Description>
+        {tags.length > 0 && (
+          <TagsRow>
+            {tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </TagsRow>
+        )}
+      </CardBody>
     </CardWrapper>
   );
 };

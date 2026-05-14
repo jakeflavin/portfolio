@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TitleDescription from "@/ui/TitleDescription";
-import Surface, { StyledSurface } from "@/ui/Surface";
+import Surface from "@/ui/Surface";
 import DynamicColumnLayout from "@/ui/DynamicColumnLayout";
 import type { Project } from "@/features/projects/projects";
 import {
@@ -12,35 +12,35 @@ import {
   type OpenMeteoForecast,
   type WeatherIconKey
 } from "./openMeteo";
-import SunIcon from "@/assets/icons/sun.svg?react";
-import MoonIcon from "@/assets/icons/moon.svg?react";
-import SunCloudIcon from "@/assets/icons/sun-cloud.svg?react";
-import CloudsIcon from "@/assets/icons/clouds.svg?react";
-import SunHazeIcon from "@/assets/icons/sun-haze.svg?react";
-import CloudDrizzleIcon from "@/assets/icons/cloud-drizzle.svg?react";
-import CloudSunRainIcon from "@/assets/icons/cloud-sun-rain.svg?react";
-import CloudBoltIcon from "@/assets/icons/cloud-bolt.svg?react";
-import CloudBoltSunIcon from "@/assets/icons/cloud-bolt-sun.svg?react";
-import CloudHailIcon from "@/assets/icons/cloud-hail.svg?react";
-import LocationDotIcon from "@/assets/icons/location-dot.svg?react";
-import RainbowIcon from "@/assets/icons/rainbow.svg?react";
-import WindIcon from "@/assets/icons/wind.svg?react";
-import UmbrellaIcon from "@/assets/icons/umbrella.svg?react";
-import SunriseIcon from "@/assets/icons/sunrise.svg?react";
-import SunsetIcon from "@/assets/icons/sunset.svg?react";
-import TemperatureHalfIcon from "@/assets/icons/temperature-half.svg?react";
+import type { Icon } from "@phosphor-icons/react";
+import {
+  SunIcon,
+  MoonIcon,
+  CloudSunIcon,
+  CloudIcon,
+  CloudFogIcon,
+  CloudRainIcon,
+  CloudLightningIcon,
+  CloudSnowIcon,
+  MapPinIcon,
+  RainbowIcon,
+  WindIcon,
+  UmbrellaIcon,
+  SunHorizonIcon,
+  ThermometerIcon
+} from "@phosphor-icons/react";
 
-const WEATHER_ICONS: Record<WeatherIconKey, React.FC<React.SVGProps<SVGSVGElement>>> = {
+const WEATHER_ICONS: Record<WeatherIconKey, Icon> = {
   sun: SunIcon,
   moon: MoonIcon,
-  "sun-cloud": SunCloudIcon,
-  clouds: CloudsIcon,
-  "sun-haze": SunHazeIcon,
-  "cloud-drizzle": CloudDrizzleIcon,
-  "cloud-sun-rain": CloudSunRainIcon,
-  "cloud-bolt": CloudBoltIcon,
-  "cloud-bolt-sun": CloudBoltSunIcon,
-  "cloud-hail": CloudHailIcon
+  "sun-cloud": CloudSunIcon,
+  clouds: CloudIcon,
+  "sun-haze": CloudFogIcon,
+  "cloud-drizzle": CloudRainIcon,
+  "cloud-sun-rain": CloudRainIcon,
+  "cloud-bolt": CloudLightningIcon,
+  "cloud-bolt-sun": CloudLightningIcon,
+  "cloud-hail": CloudSnowIcon
 };
 
 const ICON_SIZE = 48;
@@ -81,7 +81,7 @@ function WeatherIcon({
 }) {
   const key = weatherCodeToIconKey(code, isDay);
   const Icon = WEATHER_ICONS[key] ?? WEATHER_ICONS["sun-cloud"];
-  return <Icon width={size} height={size} aria-hidden />;
+  return <Icon size={size} aria-hidden />;
 }
 
 /** Reverse geocode lat/lon to city name via Nominatim (OpenStreetMap). */
@@ -180,7 +180,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
     return (
       <PageContainer>
         <TitleDescription title={project.title} description={project.description} />
-        <StatusBox>Loading weather…</StatusBox>
+        <StatusBox padding="md" variant="secondary" shadow="mdDown">Loading weather…</StatusBox>
       </PageContainer>
     );
   }
@@ -189,7 +189,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
     return (
       <PageContainer>
         <TitleDescription title={project.title} description={project.description} />
-        <StatusBox $error>{error}</StatusBox>
+        <StatusBox padding="md" variant="secondary" shadow="mdDown" $error>{error}</StatusBox>
       </PageContainer>
     );
   }
@@ -218,11 +218,11 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
     <PageContainer>
       <TitleDescription title={project.title} description={project.description} />
       <DynamicColumnLayout>
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Location</CardTitle>
           <CardBody>
             <CardIconWrap>
-              <LocationDotIcon width={32} height={32} aria-hidden />
+              <MapPinIcon size={32} aria-hidden />
             </CardIconWrap>
             <LocationText>
               {locationDisplay}
@@ -233,7 +233,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Today</CardTitle>
           <CardBody>
             <CardIconWrap>
@@ -247,7 +247,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Tomorrow</CardTitle>
           <CardBody>
             <CardIconWrap>
@@ -261,7 +261,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>{formatWeekday(daily.time[2])}</CardTitle>
           <CardBody>
             <CardIconWrap>
@@ -274,11 +274,11 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Precipitation</CardTitle>
           <CardBody>
             <CardIconWrap>
-              <UmbrellaIcon width={32} height={32} aria-hidden />
+              <UmbrellaIcon size={32} aria-hidden />
             </CardIconWrap>
             <BigValue>{precipProbMaxToday}%</BigValue>
             <Muted>Max probability today</Muted>
@@ -288,7 +288,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Do you need a coat at the bus stop?</CardTitle>
           <CardBody>
             <BigValue $highlight={needsCoat}>{needsCoat ? "Yes" : "No"}</BigValue>
@@ -300,11 +300,11 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Rainbow probability</CardTitle>
           <CardBody>
             <CardIconWrap>
-              <RainbowIcon width={32} height={32} aria-hidden />
+              <RainbowIcon size={32} aria-hidden />
             </CardIconWrap>
             <BigValue $highlight={rainbowProbability !== "Low"}>
               {rainbowProbability}
@@ -319,7 +319,7 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>UV index (today)</CardTitle>
           <CardBody>
             <BigValue>{uvMaxToday.toFixed(1)}</BigValue>
@@ -327,18 +327,18 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Wind</CardTitle>
           <CardBody>
             <CardIconWrap>
-              <WindIcon width={32} height={32} aria-hidden />
+              <WindIcon size={32} aria-hidden />
             </CardIconWrap>
             <BigValue>{d.current.wind_speed_10m ?? "—"} km/h</BigValue>
             <Muted>Current wind speed</Muted>
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Will it rain today?</CardTitle>
           <CardBody>
             <BigValue $highlight={willRain}>{willRain ? "Likely" : "Unlikely"}</BigValue>
@@ -346,34 +346,34 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Sunrise & sunset (today)</CardTitle>
           <CardBody>
             <SunRow>
-              <SunriseIcon width={24} height={24} aria-hidden />
+              <SunHorizonIcon size={24} aria-hidden />
               <span>Sunrise</span>
               <strong>{formatTime(daily.sunrise[0])}</strong>
             </SunRow>
             <SunRow>
-              <SunsetIcon width={24} height={24} aria-hidden />
+              <SunHorizonIcon size={24} mirrored aria-hidden />
               <span>Sunset</span>
               <strong>{formatTime(daily.sunset[0])}</strong>
             </SunRow>
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Feels like</CardTitle>
           <CardBody>
             <CardIconWrap>
-              <TemperatureHalfIcon width={32} height={32} aria-hidden />
+              <ThermometerIcon size={32} aria-hidden />
             </CardIconWrap>
             <BigValue>{d.current.apparent_temperature}°</BigValue>
             <Muted>Current apparent temperature</Muted>
           </CardBody>
         </WeatherCard>
 
-        <WeatherCard>
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Humidity</CardTitle>
           <CardBody>
             <BigValue>{d.current.relative_humidity_2m}%</BigValue>
@@ -393,23 +393,14 @@ const PageContainer = styled.div`
   max-width: 100%;
 `;
 
-const StatusBox = styled(StyledSurface).attrs({
-  $padding: "md",
-  $variant: "secondary",
-  $shadow: "mdDown"
-})<{ $error?: boolean }>`
+const StatusBox = styled(Surface)<{ $error?: boolean }>`
   color: ${({ theme, $error }) => ($error ? theme.colors.muted : theme.colors.text)};
   font-size: 0.9375rem;
   text-align: center;
   letter-spacing: 0.01em;
 `;
 
-const WeatherCard = styled(Surface).attrs({
-  padding: "md",
-  variant: "secondary",
-  shadow: "mdDown",
-  interactive: true
-})`
+const WeatherCard = styled(Surface)`
   min-height: 140px;
   text-align: center;
 `;

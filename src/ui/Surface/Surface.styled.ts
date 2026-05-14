@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export type SurfacePadding = "sm" | "md" | "lg";
-export type SurfaceVariant = "secondary" | "surface";
+export type SurfaceVariant = "secondary" | "surface" | "paper";
 export type SurfaceShadow = "sm" | "md" | "mdDown";
 
 export interface SurfaceStyledProps {
@@ -11,9 +11,8 @@ export interface SurfaceStyledProps {
   $interactive?: boolean;
 }
 
-/** Glass variant key: surface → surfaceGlass, secondary → secondaryGlass */
 const glassVariantKey = (v: SurfaceVariant) =>
-  v === "surface" ? "surfaceGlass" : "secondaryGlass";
+  v === "surface" ? "surfaceGlass" : v === "paper" ? "paper" : "secondaryGlass";
 
 export const StyledSurface = styled.div<SurfaceStyledProps>`
   padding: ${({ $padding = "md", theme }) =>

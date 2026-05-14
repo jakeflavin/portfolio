@@ -11,7 +11,7 @@ export const StyledLink = styled.a`
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color 0.2s ease;
+  transition: color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
     color: ${({ theme }) => theme.colors.accent};

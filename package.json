@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && node scripts/generateSocialMeta.js",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
@@ -15,6 +15,7 @@
     "build:all": "npm run test && npm run build && npm run build-storybook && cp -r storybook-static dist/storybook"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "dotenv": "^17.3.1",
     "firebase": "^12.9.0",
     "handlebars": "^4.7.8",

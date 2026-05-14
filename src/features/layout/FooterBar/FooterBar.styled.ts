@@ -5,3 +5,7 @@ export const Text = styled.div`
   font-size: 0.75rem;
   padding: ${({ theme }) => theme.spacing.md};
 `;
+
+export const Heart = styled.span`
+  color: ${({ theme }) => theme.colors.heart};
+`;

@@ -1,0 +1,122 @@
+export const PROJECT_RECORDS = [
+  {
+    id: "0",
+    creationDate: "2026-02-15",
+    disabled: false,
+    title: "Component Library",
+    type: "project",
+    imageSrc: "/images/storybook-project-cover.svg",
+    description: "The storybook for my components library.",
+    tags: ["code", "storybook", "lib"],
+    external: true,
+    path: "/storybook"
+  },
+  {
+    id: "1",
+    creationDate: "2026-02-16",
+    disabled: false,
+    title: "Running Route Estimator",
+    type: "project",
+    imageSrc: "/images/running-route-project-cover.svg",
+    description: "A utility to estimate the distance of a running route by drawing it on a map.",
+    tags: ["running", "utility", "map"],
+    external: false,
+    path: "/project/1"
+  },
+  {
+    id: "2",
+    creationDate: "2026-02-17",
+    disabled: false,
+    title: "Countdown Timer",
+    type: "project",
+    imageSrc: "/images/countdown-timer-project-cover.svg",
+    description: "A coutdown timer with calming animations.",
+    tags: ["timer", "utility"],
+    path: "/project/2",
+    external: false
+  },
+  {
+    id: "3",
+    creationDate: "2026-02-18",
+    disabled: false,
+    title: "Cool Links",
+    type: "project",
+    imageSrc: "/images/cool-links-project-cover.svg",
+    description: "A collection of cool links categorized by topic.",
+    tags: ["links", "collection"],
+    path: "/project/3",
+    external: false
+  },
+  {
+    id: "4",
+    creationDate: "2026-02-20",
+    disabled: false,
+    title: "Tic Tac Toe",
+    type: "project",
+    imageSrc: "/images/tic-tac-toe-project-cover.svg",
+    description: "Classic tic-tac-toe game with a bot.",
+    tags: ["game", "tic-tac-toe"],
+    path: "/project/4",
+    external: false
+  },
+  {
+    id: "5",
+    creationDate: "2026-02-23",
+    disabled: false,
+    title: "Mad Libs",
+    type: "project",
+    imageSrc: "/images/mad-lib-project-cover.svg",
+    description: "Fill in the blanks and generate silly stories with configurable templates.",
+    tags: ["game", "mad libs", "stories"],
+    path: "/project/5",
+    external: false
+  },
+  {
+    id: "6",
+    creationDate: "2026-02-24",
+    disabled: false,
+    title: "Local Weather",
+    type: "project",
+    imageSrc: "/images/weather-project-cover.svg",
+    description: "Local weather forecast with today, tomorrow, and useful widgets powered by Open-Meteo.",
+    tags: ["weather", "forecast", "open-meteo"],
+    path: "/project/6",
+    external: false
+  },
+  {
+    id: "7",
+    creationDate: "2026-05-13",
+    disabled: false,
+    title: "Tip Calculator",
+    type: "project",
+    imageSrc: "/images/tip-calculator-project-cover.svg",
+    description: "Calculate the tip and final bill total from a bill amount and tip percentage.",
+    tags: ["calculator", "utility", "tips"],
+    path: "/project/7",
+    external: false
+  },
+  {
+    id: "8",
+    creationDate: "2026-05-14",
+    disabled: true,
+    title: "Run Pace Calculator",
+    type: "project",
+    imageSrc: "/images/run-pace-calculator-project-cover.svg",
+    description: "Enter distance, time, or pace to calculate the missing value and project popular race times.",
+    tags: ["running", "calculator", "pace"],
+    path: "/project/8",
+    external: false
+  },
+  {
+    id: "9",
+    creationDate: "2026-05-15",
+    disabled: true,
+    title: "Classroom Noise Indicator",
+    type: "project",
+    imageSrc: "/images/classroom-noise-indicator-project-cover.svg",
+    description: "A playful microphone-powered noise meter that helps students see when the room gets too loud.",
+    tags: ["classroom", "audio", "meter"],
+    path: "/project/9",
+    external: false
+  }
+];
