@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React from "react";
+import { useTheme } from "styled-components";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from "recharts";
 import TitleDescription from "@/ui/TitleDescription";
-import Surface from "@/ui/Surface";
-import DynamicColumnLayout from "@/ui/DynamicColumnLayout";
 import type { Project } from "@/features/projects/projects";
 import {
-  fetchForecast,
   weatherCodeLabel,
   weatherCodeToIconKey,
   getRainbowProbability,
-  type OpenMeteoForecast,
   type WeatherIconKey
 } from "./openMeteo";
 import type { Icon } from "@phosphor-icons/react";
@@ -27,8 +34,53 @@ import {
   WindIcon,
   UmbrellaIcon,
   SunHorizonIcon,
-  ThermometerIcon
+  ThermometerIcon,
+  DropIcon,
+  GaugeIcon,
+  CloudIcon as CloudCoverIcon,
+  LeafIcon
 } from "@phosphor-icons/react";
+import {
+  BigValue,
+  CardBody,
+  CardIconWrap,
+  CardTitle,
+  CenterBody,
+  ChartFrame,
+  ForecastList,
+  ForecastRow,
+  HeroMeta,
+  HeroSummary,
+  HeroTemp,
+  HeroTop,
+  HeroWeatherCard,
+  HourlyItem,
+  HourlyScroller,
+  LocationText,
+  MetricGrid,
+  MetricPill,
+  Muted,
+  PageContainer,
+  RangeBar,
+  RangeFill,
+  StatusBox,
+  SunRow,
+  TempRow,
+  WeatherCard,
+  WeatherGrid
+} from "./LocalWeatherPage.styled";
+import {
+  formatFullTime,
+  formatTime,
+  formatWeekday,
+  getAirQualityLabel,
+  getHourlyForecast,
+  getPossibleRainSoon,
+  getTenDayForecast,
+  getUvLevel,
+  getWindDirectionLabel
+} from "./localWeather.utils";
+import { useLocalWeather } from "./useLocalWeather";
 
 const WEATHER_ICONS: Record<WeatherIconKey, Icon> = {
   sun: SunIcon,
@@ -43,31 +95,10 @@ const WEATHER_ICONS: Record<WeatherIconKey, Icon> = {
   "cloud-hail": CloudSnowIcon
 };
 
-const ICON_SIZE = 48;
-
-const DEFAULT_LAT = 52.52;
-const DEFAULT_LON = 13.41;
+const ICON_SIZE = 42;
 
 interface LocalWeatherPageProps {
   project: Project;
-}
-
-/** Format time string to HH:MM. */
-function formatTime(iso: string): string {
-  try {
-    return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  } catch {
-    return iso;
-  }
-}
-
-/** Format date string to weekday. */
-function formatWeekday(iso: string): string {
-  try {
-    return new Date(iso + "T12:00:00").toLocaleDateString([], { weekday: "long" });
-  } catch {
-    return iso;
-  }
 }
 
 function WeatherIcon({
@@ -84,103 +115,27 @@ function WeatherIcon({
   return <Icon size={size} aria-hidden />;
 }
 
-/** Reverse geocode lat/lon to city name via Nominatim (OpenStreetMap). */
-async function fetchCityName(lat: number, lon: number): Promise<string | null> {
-  try {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
-    const res = await fetch(url, {
-      headers: { Accept: "application/json", "User-Agent": "Portfolio-Weather-App" }
-    });
-    if (!res.ok) return null;
-    const json = (await res.json()) as { address?: { city?: string; town?: string; village?: string; municipality?: string; county?: string } };
-    const a = json.address;
-    if (!a) return null;
-    return a.city ?? a.town ?? a.village ?? a.municipality ?? a.county ?? null;
-  } catch {
-    return null;
-  }
+function WeatherTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <MetricPill>
+      <strong>{label}</strong>
+      {payload.map((item: any) => (
+        <Muted key={item.dataKey}>{item.name}: {item.value}</Muted>
+      ))}
+    </MetricPill>
+  );
 }
 
 const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
-  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
-  const [cityName, setCityName] = useState<string | null>(null);
-  const [data, setData] = useState<OpenMeteoForecast | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const load = async (lat: number, lon: number) => {
-      try {
-        const forecast = await fetchForecast(lat, lon);
-        if (!cancelled) {
-          setData(forecast);
-          setError(null);
-        }
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load weather");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          if (!cancelled) setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
-        },
-        () => {
-          if (!cancelled) setCoords({ lat: DEFAULT_LAT, lon: DEFAULT_LON });
-        }
-      );
-    } else {
-      setCoords({ lat: DEFAULT_LAT, lon: DEFAULT_LON });
-    }
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!coords) return;
-    let cancelled = false;
-    setLoading(true);
-    fetchForecast(coords.lat, coords.lon)
-      .then((forecast) => {
-        if (!cancelled) {
-          setData(forecast);
-          setError(null);
-        }
-      })
-      .catch((e) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load weather");
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [coords?.lat, coords?.lon]);
-
-  useEffect(() => {
-    if (!coords) return;
-    let cancelled = false;
-    fetchCityName(coords.lat, coords.lon).then((city) => {
-      if (!cancelled) setCityName(city);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [coords?.lat, coords?.lon]);
+  const theme = useTheme();
+  const { airQuality, cityName, data, error, loading } = useLocalWeather();
 
   if (loading && !data) {
     return (
       <PageContainer>
         <TitleDescription title={project.title} description={project.description} />
-        <StatusBox padding="md" variant="secondary" shadow="mdDown">Loading weather…</StatusBox>
+        <StatusBox padding="md" variant="secondary" shadow="mdDown">Loading weather...</StatusBox>
       </PageContainer>
     );
   }
@@ -196,6 +151,9 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
 
   const d = data!;
   const daily = d.daily;
+  const hourly = getHourlyForecast(d);
+  const tenDay = getTenDayForecast(d);
+  const possibleRainSoon = getPossibleRainSoon(d);
   const precipProbMaxToday = daily.precipitation_probability_max[0] ?? 0;
   const tempMinToday = daily.temperature_2m_min[0];
   const tempMaxToday = daily.temperature_2m_max[0];
@@ -204,79 +162,163 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
     precipProbMaxToday >= 40 ||
     (d.current.precipitation ?? 0) > 0;
   const uvMaxToday = daily.uv_index_max[0] ?? 0;
-  const uvLevel =
-    uvMaxToday <= 2 ? "Low" : uvMaxToday <= 5 ? "Moderate" : uvMaxToday <= 7 ? "High" : "Very high";
   const willRain = precipProbMaxToday >= 50;
   const rainbowProbability = getRainbowProbability(
     precipProbMaxToday,
     daily.weather_code[0] ?? 0
   );
-
   const locationDisplay = cityName ?? d.timezone.replace(/_/g, " ");
+  const airQualityValue = airQuality?.current.us_aqi ?? airQuality?.current.european_aqi;
+  const minForecastTemp = Math.min(...tenDay.map((day) => day.low));
+  const maxForecastTemp = Math.max(...tenDay.map((day) => day.high));
+  const tempRange = Math.max(1, maxForecastTemp - minForecastTemp);
 
   return (
     <PageContainer>
       <TitleDescription title={project.title} description={project.description} />
-      <DynamicColumnLayout>
+      <WeatherGrid>
+        <HeroWeatherCard padding="lg" variant="surface" shadow="md" interactive $span="hero">
+          <HeroTop>
+            <HeroSummary>
+              <CardTitle>Current weather</CardTitle>
+              <LocationText>{locationDisplay}</LocationText>
+              <Muted>{weatherCodeLabel(d.current.weather_code)}</Muted>
+              <HeroMeta>
+                <span>H:{Math.round(tempMaxToday)}°</span>
+                <span>L:{Math.round(tempMinToday)}°</span>
+                <span>Feels like {Math.round(d.current.apparent_temperature)}°</span>
+              </HeroMeta>
+            </HeroSummary>
+            <CardIconWrap>
+              <WeatherIcon code={d.current.weather_code} isDay={d.current.is_day} size={64} />
+            </CardIconWrap>
+          </HeroTop>
+          <HeroTemp>{Math.round(d.current.temperature_2m)}°</HeroTemp>
+        </HeroWeatherCard>
+
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Location</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <MapPinIcon size={32} aria-hidden />
             </CardIconWrap>
-            <LocationText>
-              {locationDisplay}
-            </LocationText>
-            <Muted>
-              {d.latitude.toFixed(2)}°, {d.longitude.toFixed(2)}°
-            </Muted>
-          </CardBody>
+            <LocationText>{locationDisplay}</LocationText>
+            <Muted>{d.latitude.toFixed(2)}°, {d.longitude.toFixed(2)}°</Muted>
+          </CenterBody>
+        </WeatherCard>
+
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
+          <CardTitle>Possible rain soon</CardTitle>
+          <CenterBody>
+            <CardIconWrap>
+              <UmbrellaIcon size={32} aria-hidden />
+            </CardIconWrap>
+            <BigValue $highlight={possibleRainSoon.probability >= 40}>
+              {possibleRainSoon.label}
+            </BigValue>
+            <Muted>{possibleRainSoon.detail}</Muted>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Today</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <WeatherIcon code={daily.weather_code[0] ?? 0} isDay={d.current.is_day} />
             </CardIconWrap>
-            <TempRow>
-              <span>{tempMaxToday}°</span>
-              <Muted> / {tempMinToday}°</Muted>
-            </TempRow>
+            <TempRow>{Math.round(tempMaxToday)}° <Muted>/ {Math.round(tempMinToday)}°</Muted></TempRow>
             <Muted>{weatherCodeLabel(daily.weather_code[0] ?? 0)}</Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Tomorrow</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <WeatherIcon code={daily.weather_code[1] ?? 0} isDay={1} />
             </CardIconWrap>
-            <TempRow>
-              <span>{daily.temperature_2m_max[1]}°</span>
-              <Muted> / {daily.temperature_2m_min[1]}°</Muted>
-            </TempRow>
+            <TempRow>{Math.round(daily.temperature_2m_max[1])}° <Muted>/ {Math.round(daily.temperature_2m_min[1])}°</Muted></TempRow>
             <Muted>{formatWeekday(daily.time[1])}</Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>{formatWeekday(daily.time[2])}</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <WeatherIcon code={daily.weather_code[2] ?? 0} isDay={1} />
             </CardIconWrap>
-            <TempRow>
-              <span>{daily.temperature_2m_max[2]}°</span>
-              <Muted> / {daily.temperature_2m_min[2]}°</Muted>
-            </TempRow>
-          </CardBody>
+            <TempRow>{Math.round(daily.temperature_2m_max[2])}° <Muted>/ {Math.round(daily.temperature_2m_min[2])}°</Muted></TempRow>
+          </CenterBody>
+        </WeatherCard>
+
+        <WeatherCard padding="md" variant="surface" shadow="md" interactive $span="wide">
+          <CardTitle>Hourly forecast</CardTitle>
+          <HourlyScroller>
+            {hourly.slice(0, 12).map((hour) => (
+              <HourlyItem key={hour.time}>
+                <span>{hour.label}</span>
+                <WeatherIcon code={hour.weatherCode} isDay={1} size={24} />
+                <strong>{hour.temperature}°</strong>
+                <Muted>{hour.precipitationProbability}%</Muted>
+              </HourlyItem>
+            ))}
+          </HourlyScroller>
+          <ChartFrame>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={hourly.slice(0, 12)}>
+                <CartesianGrid stroke={theme.colors.border} vertical={false} />
+                <XAxis dataKey="label" stroke={theme.colors.muted} tickLine={false} axisLine={false} />
+                <YAxis hide domain={["dataMin - 3", "dataMax + 3"]} />
+                <Tooltip content={<WeatherTooltip />} />
+                <Area
+                  type="monotone"
+                  dataKey="temperature"
+                  name="Temp"
+                  stroke={theme.colors.primary}
+                  fill={theme.colors.secondaryGlass}
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartFrame>
+        </WeatherCard>
+
+        <WeatherCard padding="md" variant="surface" shadow="md" interactive $span="wide">
+          <CardTitle>10 day forecast</CardTitle>
+          <ForecastList>
+            {tenDay.map((day) => {
+              const start = ((day.low - minForecastTemp) / tempRange) * 100;
+              const width = Math.max(8, ((day.high - day.low) / tempRange) * 100);
+              return (
+                <ForecastRow key={day.time}>
+                  <strong>{day.day}</strong>
+                  <WeatherIcon code={day.weatherCode} isDay={1} size={24} />
+                  <RangeBar>
+                    <RangeFill $start={start} $width={Math.min(width, 100 - start)} />
+                  </RangeBar>
+                  <span>{day.low}° / {day.high}°</span>
+                </ForecastRow>
+              );
+            })}
+          </ForecastList>
+        </WeatherCard>
+
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
+          <CardTitle>Air quality</CardTitle>
+          <CenterBody>
+            <CardIconWrap>
+              <LeafIcon size={32} aria-hidden />
+            </CardIconWrap>
+            <BigValue>{airQualityValue ?? "—"}</BigValue>
+            <Muted>{getAirQualityLabel(airQualityValue)}</Muted>
+            {airQuality?.current.pm2_5 != null && <Muted>PM2.5 {airQuality.current.pm2_5}</Muted>}
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Precipitation</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <UmbrellaIcon size={32} aria-hidden />
             </CardIconWrap>
@@ -285,205 +327,159 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
             {daily.precipitation_sum[0] != null && daily.precipitation_sum[0] > 0 && (
               <Muted>~{daily.precipitation_sum[0]} mm expected</Muted>
             )}
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Do you need a coat at the bus stop?</CardTitle>
-          <CardBody>
+          <CenterBody>
             <BigValue $highlight={needsCoat}>{needsCoat ? "Yes" : "No"}</BigValue>
             <Muted>
               {needsCoat
-                ? "Chilly, rain likely, or wet — take a coat."
+                ? "Chilly, rain likely, or wet - take a coat."
                 : "Temperatures and rain chance are manageable."}
             </Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Rainbow probability</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <RainbowIcon size={32} aria-hidden />
             </CardIconWrap>
-            <BigValue $highlight={rainbowProbability !== "Low"}>
-              {rainbowProbability}
-            </BigValue>
+            <BigValue $highlight={rainbowProbability !== "Low"}>{rainbowProbability}</BigValue>
             <Muted>
               {rainbowProbability === "Low"
-                ? "Unlikely — need sun and rain together."
+                ? "Unlikely - need sun and rain together."
                 : rainbowProbability === "Possible"
                   ? "Showers and some sun possible."
                   : "Good chance with showers and sun."}
             </Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
-          <CardTitle>UV index (today)</CardTitle>
-          <CardBody>
+          <CardTitle>UV index today</CardTitle>
+          <CenterBody>
             <BigValue>{uvMaxToday.toFixed(1)}</BigValue>
-            <Muted>{uvLevel}</Muted>
-          </CardBody>
+            <Muted>{getUvLevel(uvMaxToday)}</Muted>
+          </CenterBody>
         </WeatherCard>
 
-        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
+        <WeatherCard padding="md" variant="surface" shadow="md" interactive $span="wide">
           <CardTitle>Wind</CardTitle>
-          <CardBody>
-            <CardIconWrap>
-              <WindIcon size={32} aria-hidden />
-            </CardIconWrap>
-            <BigValue>{d.current.wind_speed_10m ?? "—"} km/h</BigValue>
-            <Muted>Current wind speed</Muted>
-          </CardBody>
+          <MetricGrid>
+            <MetricPill>
+              <Muted>Speed</Muted>
+              <BigValue>{Math.round(d.current.wind_speed_10m ?? 0)}</BigValue>
+              <Muted>km/h</Muted>
+            </MetricPill>
+            <MetricPill>
+              <Muted>Direction</Muted>
+              <BigValue>{getWindDirectionLabel(d.current.wind_direction_10m)}</BigValue>
+              <Muted>{d.current.wind_direction_10m ?? "—"}°</Muted>
+            </MetricPill>
+            <MetricPill>
+              <Muted>Gusts</Muted>
+              <BigValue>{Math.round(d.current.wind_gusts_10m ?? 0)}</BigValue>
+              <Muted>km/h</Muted>
+            </MetricPill>
+            <MetricPill>
+              <Muted>Cloud cover</Muted>
+              <BigValue>{d.current.cloud_cover ?? "—"}%</BigValue>
+            </MetricPill>
+          </MetricGrid>
+          <ChartFrame>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={hourly.slice(0, 12)}>
+                <CartesianGrid stroke={theme.colors.border} vertical={false} />
+                <XAxis dataKey="label" stroke={theme.colors.muted} tickLine={false} axisLine={false} />
+                <YAxis hide />
+                <Tooltip content={<WeatherTooltip />} />
+                <Line
+                  type="monotone"
+                  dataKey="windSpeed"
+                  name="Wind"
+                  stroke={theme.colors.primary}
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartFrame>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Will it rain today?</CardTitle>
-          <CardBody>
+          <CenterBody>
             <BigValue $highlight={willRain}>{willRain ? "Likely" : "Unlikely"}</BigValue>
             <Muted>{precipProbMaxToday}% chance of precipitation</Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
-          <CardTitle>Sunrise & sunset (today)</CardTitle>
+          <CardTitle>Sunrise & sunset today</CardTitle>
           <CardBody>
             <SunRow>
               <SunHorizonIcon size={24} aria-hidden />
               <span>Sunrise</span>
-              <strong>{formatTime(daily.sunrise[0])}</strong>
+              <strong>{formatFullTime(daily.sunrise[0])}</strong>
             </SunRow>
             <SunRow>
               <SunHorizonIcon size={24} mirrored aria-hidden />
               <span>Sunset</span>
-              <strong>{formatTime(daily.sunset[0])}</strong>
+              <strong>{formatFullTime(daily.sunset[0])}</strong>
             </SunRow>
           </CardBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Feels like</CardTitle>
-          <CardBody>
+          <CenterBody>
             <CardIconWrap>
               <ThermometerIcon size={32} aria-hidden />
             </CardIconWrap>
-            <BigValue>{d.current.apparent_temperature}°</BigValue>
+            <BigValue>{Math.round(d.current.apparent_temperature)}°</BigValue>
             <Muted>Current apparent temperature</Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
 
         <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
           <CardTitle>Humidity</CardTitle>
-          <CardBody>
+          <CenterBody>
+            <CardIconWrap>
+              <DropIcon size={32} aria-hidden />
+            </CardIconWrap>
             <BigValue>{d.current.relative_humidity_2m}%</BigValue>
             <Muted>Relative humidity</Muted>
-          </CardBody>
+          </CenterBody>
         </WeatherCard>
-      </DynamicColumnLayout>
+
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
+          <CardTitle>Pressure</CardTitle>
+          <CenterBody>
+            <CardIconWrap>
+              <GaugeIcon size={32} aria-hidden />
+            </CardIconWrap>
+            <BigValue>{Math.round(d.current.pressure_msl ?? d.current.surface_pressure ?? 0)}</BigValue>
+            <Muted>hPa</Muted>
+          </CenterBody>
+        </WeatherCard>
+
+        <WeatherCard padding="md" variant="secondary" shadow="mdDown" interactive>
+          <CardTitle>Cloud cover</CardTitle>
+          <CenterBody>
+            <CardIconWrap>
+              <CloudCoverIcon size={32} aria-hidden />
+            </CardIconWrap>
+            <BigValue>{d.current.cloud_cover ?? "—"}%</BigValue>
+            <Muted>Current sky coverage</Muted>
+          </CenterBody>
+        </WeatherCard>
+      </WeatherGrid>
     </PageContainer>
   );
 };
-
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.lg} 0;
-  max-width: 100%;
-`;
-
-const StatusBox = styled(Surface)<{ $error?: boolean }>`
-  color: ${({ theme, $error }) => ($error ? theme.colors.muted : theme.colors.text)};
-  font-size: 0.9375rem;
-  text-align: center;
-  letter-spacing: 0.01em;
-`;
-
-const WeatherCard = styled(Surface)`
-  min-height: 140px;
-  text-align: center;
-`;
-
-const CardTitle = styled.h3`
-  margin: 0 0 ${({ theme }) => theme.spacing.md};
-  font-size: 0.8125rem;
-  font-weight: 600;
-  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
-  color: ${({ theme }) => theme.colors.muted};
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-`;
-
-const CardBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  text-align: center;
-`;
-
-const CardIconWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.text};
-
-  svg {
-    flex-shrink: 0;
-    fill: currentColor;
-    stroke: currentColor;
-  }
-`;
-
-const TempRow = styled.div`
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
-const BigValue = styled.span<{ $highlight?: boolean }>`
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: ${({ theme, $highlight }) =>
-    $highlight ? theme.colors.primary : theme.colors.text};
-`;
-
-const Muted = styled.span`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.muted};
-`;
-
-const LocationText = styled.span`
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
-const SunRow = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  font-size: 0.9375rem;
-  color: ${({ theme }) => theme.colors.text};
-
-  svg {
-    flex-shrink: 0;
-    opacity: 0.9;
-    fill: currentColor;
-    stroke: currentColor;
-  }
-
-  strong {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-`;
 
 export default LocalWeatherPage;

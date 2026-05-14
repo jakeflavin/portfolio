@@ -12,6 +12,22 @@ export interface OpenMeteoCurrent {
   precipitation: number;
   is_day: 0 | 1;
   wind_speed_10m?: number;
+  wind_direction_10m?: number;
+  wind_gusts_10m?: number;
+  pressure_msl?: number;
+  surface_pressure?: number;
+  cloud_cover?: number;
+}
+
+export interface OpenMeteoHourly {
+  time: string[];
+  temperature_2m: number[];
+  apparent_temperature: number[];
+  precipitation_probability: number[];
+  precipitation: number[];
+  relative_humidity_2m: number[];
+  weather_code: number[];
+  wind_speed_10m: number[];
 }
 
 export interface OpenMeteoDaily {
@@ -32,26 +48,64 @@ export interface OpenMeteoForecast {
   timezone: string;
   timezone_abbreviation: string;
   current: OpenMeteoCurrent;
+  hourly: OpenMeteoHourly;
   daily: OpenMeteoDaily;
 }
 
+export interface OpenMeteoAirQualityCurrent {
+  time: string;
+  european_aqi?: number;
+  us_aqi?: number;
+  pm10?: number;
+  pm2_5?: number;
+  carbon_monoxide?: number;
+  nitrogen_dioxide?: number;
+  ozone?: number;
+}
+
+export interface OpenMeteoAirQuality {
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  current: OpenMeteoAirQualityCurrent;
+}
+
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
+const AIR_QUALITY_URL = "https://air-quality-api.open-meteo.com/v1/air-quality";
 
 const CURRENT_PARAMS =
-  "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,precipitation,is_day,wind_speed_10m";
+  "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,precipitation,is_day,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,surface_pressure,cloud_cover";
+const HOURLY_PARAMS =
+  "temperature_2m,apparent_temperature,precipitation_probability,precipitation,relative_humidity_2m,weather_code,wind_speed_10m";
 const DAILY_PARAMS =
   "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset,uv_index_max";
+const AIR_QUALITY_PARAMS =
+  "european_aqi,us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,ozone";
 
 export async function fetchForecast(lat: number, lon: number): Promise<OpenMeteoForecast> {
   const params = new URLSearchParams({
     latitude: String(lat),
     longitude: String(lon),
     current: CURRENT_PARAMS,
+    hourly: HOURLY_PARAMS,
     daily: DAILY_PARAMS,
+    forecast_days: "10",
     timezone: "auto"
   });
   const res = await fetch(`${FORECAST_URL}?${params}`);
   if (!res.ok) throw new Error(`Open-Meteo error: ${res.status}`);
+  return res.json();
+}
+
+export async function fetchAirQuality(lat: number, lon: number): Promise<OpenMeteoAirQuality> {
+  const params = new URLSearchParams({
+    latitude: String(lat),
+    longitude: String(lon),
+    current: AIR_QUALITY_PARAMS,
+    timezone: "auto"
+  });
+  const res = await fetch(`${AIR_QUALITY_URL}?${params}`);
+  if (!res.ok) throw new Error(`Open-Meteo air quality error: ${res.status}`);
   return res.json();
 }
 
