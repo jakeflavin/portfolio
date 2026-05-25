@@ -34,29 +34,10 @@ export const WeatherGrid = styled.div`
 export const WeatherCard = styled(Surface)<{ $span?: "wide" | "tall" | "hero" }>`
   min-height: ${({ $span }) => ($span === "hero" ? "280px" : $span === "tall" ? "260px" : "160px")};
   height: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   overflow: hidden;
-  border-color: ${({ theme }) => theme.colors.border};
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    box-shadow:
-      inset 0 1px 0 ${({ theme }) => theme.colors.inverseFocus},
-      inset 0 -24px 48px ${({ theme }) => theme.colors.focusRing};
-    opacity: 0.45;
-  }
-
-  & > * {
-    position: relative;
-    z-index: 1;
-  }
 
   ${({ theme, $span }) =>
     ($span === "wide" || $span === "hero") &&
@@ -69,20 +50,6 @@ export const WeatherCard = styled(Surface)<{ $span?: "wide" | "tall" | "hero" }>
 
 export const HeroWeatherCard = styled(WeatherCard)`
   justify-content: space-between;
-
-  &::after {
-    content: "";
-    position: absolute;
-    right: -4rem;
-    bottom: -5rem;
-    width: 14rem;
-    height: 14rem;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.secondaryGlass};
-    filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"});
-    opacity: 0.8;
-    pointer-events: none;
-  }
 `;
 
 export const CardTitle = styled.h3`
@@ -93,15 +60,13 @@ export const CardTitle = styled.h3`
   color: ${({ theme }) => theme.colors.muted};
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const CardBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
+  min-height: 0;
 `;
 
 export const CenterBody = styled(CardBody)`
@@ -109,7 +74,6 @@ export const CenterBody = styled(CardBody)`
   justify-content: center;
   text-align: center;
   flex: 1;
-  min-height: 0;
 `;
 
 export const HeroTop = styled.div`
@@ -125,7 +89,6 @@ export const HeroTemp = styled.div`
   line-height: 0.9;
   color: ${({ theme }) => theme.colors.text};
   letter-spacing: ${({ theme }) => theme.typography.heading.tracking};
-  text-shadow: 0 1px 0 ${({ theme }) => theme.colors.inverseFocus};
 `;
 
 export const HeroSummary = styled.div`
@@ -143,16 +106,11 @@ export const HeroMeta = styled.div`
 `;
 
 export const CardIconWrap = styled.div`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.colors.text};
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.colors.secondaryGlass};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
+  line-height: 0;
 
   svg {
     flex-shrink: 0;
@@ -212,8 +170,7 @@ export const HourlyItem = styled.div`
   padding: ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
-  background: ${({ theme }) => theme.colors.secondaryGlass};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
+  background: ${({ theme }) => theme.colors.surface};
   font-size: 0.8125rem;
   color: ${({ theme }) => theme.colors.text};
 `;
@@ -265,8 +222,7 @@ export const MetricPill = styled.div`
   padding: ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
-  background: ${({ theme }) => theme.colors.secondaryGlass};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
+  background: ${({ theme }) => theme.colors.surface};
   min-width: 0;
 `;
 

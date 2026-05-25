@@ -1,8 +1,8 @@
 import React from "react";
 import { useTheme } from "styled-components";
 import {
-  Area,
-  AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Line,
   LineChart,
@@ -266,20 +266,18 @@ const LocalWeatherPage: React.FC<LocalWeatherPageProps> = ({ project }) => {
           </HourlyScroller>
           <ChartFrame>
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={hourly.slice(0, 12)}>
+              <BarChart data={hourly.slice(0, 12)}>
                 <CartesianGrid stroke={theme.colors.border} vertical={false} />
                 <XAxis dataKey="label" stroke={theme.colors.muted} tickLine={false} axisLine={false} />
-                <YAxis hide domain={["dataMin - 3", "dataMax + 3"]} />
+                <YAxis hide domain={[0, 100]} />
                 <Tooltip content={<WeatherTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="temperature"
-                  name="Temp"
-                  stroke={theme.colors.primary}
-                  fill={theme.colors.secondaryGlass}
-                  strokeWidth={2}
+                <Bar
+                  dataKey="precipitationProbability"
+                  name="Rain %"
+                  fill={theme.colors.primary}
+                  radius={[6, 6, 0, 0]}
                 />
-              </AreaChart>
+              </BarChart>
             </ResponsiveContainer>
           </ChartFrame>
         </WeatherCard>
