@@ -1,7 +1,7 @@
 import React, { useId } from "react";
 import { createPortal } from "react-dom";
-import { ChevronDown, Check as CheckIcon } from "lucide-react";
-import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, Check, ErrorMessage } from "./Select.styled";
+import { ChevronDown, ArrowUpDown, Check as CheckIcon } from "lucide-react";
+import { Wrapper, Trigger, TriggerLabel, TriggerGlyph, Chevron, Listbox, OptionItem, Check, ErrorMessage } from "./Select.styled";
 import { getDisplayLabel } from "./select.utils";
 import { useSelect } from "./useSelect";
 
@@ -127,6 +127,9 @@ const Select: React.FC<SelectProps> = ({
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
       >
+        <TriggerGlyph aria-hidden="true">
+          <ArrowUpDown size={15} />
+        </TriggerGlyph>
         <TriggerLabel>{displayLabel}</TriggerLabel>
         <Chevron $open={isOpen}>
           <ChevronDown size={14} aria-hidden="true" />

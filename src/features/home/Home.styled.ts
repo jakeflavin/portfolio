@@ -7,8 +7,8 @@ import { styled } from "styled-components";
 export const SearchContainer = styled.div`
   width: 100%;
   display: flex;
-  /* Stacked on phones — side by side the sort control gets squeezed to an ellipsis. */
-  flex-direction: column;
+  /* One row at every width; the sort label is what gives way on narrow screens. */
+  flex-direction: row;
   align-items: stretch;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
@@ -21,9 +21,6 @@ export const SearchContainer = styled.div`
     border-color: ${({ theme }) => theme.colors.focusBorder};
   }
 
-  ${({ theme }) => theme.media.sm} {
-    flex-direction: row;
-  }
 `;
 
 /** An internal rule between the two halves, rather than a gap. */
@@ -32,12 +29,11 @@ export const SelectWrap = styled.div`
   display: flex;
   min-height: 0;
   min-width: 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.divider};
+  flex: 0 0 auto;
+  border-left: 1px solid ${({ theme }) => theme.colors.divider};
 
   ${({ theme }) => theme.media.sm} {
     flex: 0 1 12rem;
-    border-top: none;
-    border-left: 1px solid ${({ theme }) => theme.colors.divider};
   }
 `;
 

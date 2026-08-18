@@ -11,9 +11,27 @@ export const Wrapper = styled.div<{
   min-height: 0;
   height: 100%;
   min-width: 0;
-  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   max-width: 100%;
+
+  ${({ theme }) => theme.media.sm} {
+    width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
+  }
   border-radius: ${({ theme, $bare }) => ($bare ? "0" : (theme.radii?.sm ?? "8px"))};
+`;
+
+/**
+ * Stands in for the label on the narrowest screens. A lone chevron does not say "sort";
+ * this does.
+ */
+export const TriggerGlyph = styled.span`
+  display: flex;
+  line-height: 0;
+  color: ${({ theme }) => theme.colors.muted};
+
+  ${({ theme }) => theme.media.sm} {
+    display: none;
+  }
 `;
 
 export const TriggerLabel = styled.span`
@@ -21,6 +39,16 @@ export const TriggerLabel = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  /*
+   * Hidden on the narrowest screens so search and sort stay on one line. The chevron is
+   * still a visible control, and the trigger keeps its accessible name.
+   */
+  display: none;
+
+  ${({ theme }) => theme.media.sm} {
+    display: block;
+  }
 `;
 
 export const Trigger = styled.button<{ $bare?: boolean }>`

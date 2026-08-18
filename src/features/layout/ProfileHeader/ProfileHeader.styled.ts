@@ -22,10 +22,12 @@ export const Panel = styled.header`
     padding: ${({ theme }) => theme.spacing.lg};
     display: grid;
     grid-template-columns: auto 1fr;
+    /* The avatar spans every row, so the rows size to their own content instead of
+       being stretched to the avatar's height. */
     grid-template-areas:
       "avatar identity"
-      "gutter bio"
-      "gutter highlights";
+      "avatar bio"
+      "avatar highlights";
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
@@ -49,16 +51,17 @@ export const Identity = styled.div`
  */
 export const AvatarRing = styled.div`
   grid-area: avatar;
+  align-self: center;
   flex-shrink: 0;
-  width: 78px;
-  height: 78px;
+  width: 86px;
+  height: 86px;
   padding: 3px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
   background: ${({ theme }) => theme.gradient?.brand ?? "none"};
 
   ${({ theme }) => theme.media.md} {
-    width: 88px;
-    height: 88px;
+    width: 132px;
+    height: 132px;
   }
 `;
 
@@ -87,6 +90,14 @@ export const IdentityColumn = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
+
+  /* One row from md — stacked they left most of the width empty. */
+  ${({ theme }) => theme.media.md} {
+    flex-direction: row;
+    align-items: baseline;
+    gap: ${({ theme }) => theme.spacing.lg};
+    flex-wrap: wrap;
+  }
 `;
 
 export const Handle = styled.h1`

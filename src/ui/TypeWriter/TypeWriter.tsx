@@ -1,25 +1,31 @@
 import React from "react";
 import { Wrapper, Cursor } from "./TypeWriter.styled";
 import { useTypeWriter } from "./useTypeWriter";
+import type { TypingStep } from "./typing";
 
 export interface TypeWriterProps {
-  sentences: string[];
+  /** The keystrokes to play, mistakes and all. */
+  script: TypingStep[];
   typingSpeed?: number;
   deletingSpeed?: number;
-  pauseTime?: number;
+  /** How long the finished text rests before replaying. 0 leaves it up. */
+  restartDelay?: number;
+  /** Varies keystroke timing so it reads as human. Turn off for deterministic tests. */
+  jitter?: boolean;
 }
 
 const TypeWriter: React.FC<TypeWriterProps> = ({
-  sentences,
-  typingSpeed = 70,
-  deletingSpeed = 40,
-  pauseTime = 1200
+  script,
+  typingSpeed = 55,
+  deletingSpeed = 28,
+  restartDelay = 6000,
+  jitter = true
 }) => {
-  const displayText = useTypeWriter({ sentences, typingSpeed, deletingSpeed, pauseTime });
+  const text = useTypeWriter({ script, typingSpeed, deletingSpeed, restartDelay, jitter });
 
   return (
     <Wrapper>
-      {displayText}
+      {text}
       <Cursor>|</Cursor>
     </Wrapper>
   );

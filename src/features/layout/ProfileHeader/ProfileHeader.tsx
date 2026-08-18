@@ -1,6 +1,7 @@
 import React from "react";
 import { Moon, Sun } from "lucide-react";
 import TypeWriter from "@/ui/TypeWriter";
+import { BIO_SCRIPT } from "./bio";
 import BrandIcon, { type BrandName } from "@/ui/BrandIcon";
 import CrownMark from "./CrownMark";
 import { PROJECTS } from "@/features/projects/projects";
@@ -86,14 +87,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       </Identity>
 
       <Bio>
-        <TypeWriter
-          sentences={[
-            "Hi, I'm Jake.",
-            "I build useful tools.",
-            "I design clean systems.",
-            "Welcome to my portfolio."
-          ]}
-        />
+        <TypeWriter script={BIO_SCRIPT} />
         {tags.length > 0 && (
           <BioTags>
             {tags.map((tag) => (
