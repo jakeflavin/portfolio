@@ -1,4 +1,5 @@
 import React, { useId } from "react";
+import { useTheme } from "styled-components";
 import { Outer, Label, Wrapper, Input, LeftIconSlot, ErrorMessage } from "./InputAction.styled";
 import IconButton from "../IconButton";
 import { XCircleIcon } from "@phosphor-icons/react";
@@ -39,6 +40,7 @@ const InputAction: React.FC<InputActionProps> = ({
   error
 }) => {
   const inputId = useId();
+  const theme = useTheme();
   const styledLeftIcon = icon ? React.cloneElement(icon, {
     width: iconSize,
     height: iconSize,
@@ -76,8 +78,10 @@ const InputAction: React.FC<InputActionProps> = ({
       />
       {showClear && !disabled ? (
         <IconButton
-          icon={<XCircleIcon size={iconSize} />}
+          // A muted filled circle, as in Instagram's search field.
+          icon={<XCircleIcon size={iconSize} weight="fill" />}
           size={iconSize}
+          color={theme.colors.muted}
           onClick={handleClear}
           ariaLabel="Clear input"
         />

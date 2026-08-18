@@ -1,7 +1,7 @@
 import React, { useId } from "react";
 import { createPortal } from "react-dom";
-import { CaretDownIcon } from "@phosphor-icons/react";
-import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, ErrorMessage } from "./Select.styled";
+import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react";
+import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, Check, ErrorMessage } from "./Select.styled";
 import { getDisplayLabel } from "./select.utils";
 import { useSelect } from "./useSelect";
 
@@ -86,6 +86,11 @@ const Select: React.FC<SelectProps> = ({
           onMouseEnter={() => setHighlightedIndex(index)}
         >
           {opt.label}
+          {opt.value === value && (
+            <Check aria-hidden="true">
+              <CheckIcon size={16} />
+            </Check>
+          )}
         </OptionItem>
       ))}
     </Listbox>

@@ -33,7 +33,9 @@ export const Wrapper = styled.div<WrapperProps>`
   min-width: 0;
   gap: ${({ theme }) => theme.spacing.sm};
 
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  /* Instagram's search sits around 38px — noticeably tighter than a form input. */
+  min-height: 38px;
+  padding: 0 ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme }) => theme.colors.secondary};
   border: none;
   border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
@@ -47,12 +49,14 @@ export const Wrapper = styled.div<WrapperProps>`
     pointer-events: none;
   `}
 
-  &:focus-within {
+  /* Keyboard focus only. Instagram shows no ring when you click into search, but
+     dropping it entirely would strand keyboard users. */
+  &:has(:focus-visible) {
     box-shadow: ${({ theme, $disabled }) =>
       $disabled ? "none" : theme.shadows.focus};
   }
 
-  &:focus-within ${Label} {
+  &:has(:focus-visible) ${Label} {
     color: ${({ theme, $disabled }) =>
       $disabled ? theme.colors.muted : theme.colors.focusBorder};
   }
@@ -71,7 +75,7 @@ export const Input = styled.input`
   flex: 1;
   min-width: 0;
 
-  padding: ${({ theme }) => theme.spacing.sm} 0;
+  padding: 0;
   margin: 0;
 
   font: inherit;

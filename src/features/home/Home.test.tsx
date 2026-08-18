@@ -35,7 +35,7 @@ describe("Home", () => {
 
   it("filters the grid as you type", () => {
     render(<Home />);
-    const input = screen.getByPlaceholderText("Search for a project...");
+    const input = screen.getByPlaceholderText("Search");
 
     fireEvent.change(input, { target: { value: PROJECTS[0].title } });
 
@@ -45,7 +45,7 @@ describe("Home", () => {
 
   it("shows an empty state when nothing matches", () => {
     render(<Home />);
-    const input = screen.getByPlaceholderText("Search for a project...");
+    const input = screen.getByPlaceholderText("Search");
 
     fireEvent.change(input, { target: { value: "zzzz-no-such-project" } });
 
@@ -55,7 +55,7 @@ describe("Home", () => {
 
   it("recovers when the search is cleared", () => {
     render(<Home />);
-    const input = screen.getByPlaceholderText("Search for a project...");
+    const input = screen.getByPlaceholderText("Search");
 
     fireEvent.change(input, { target: { value: "zzzz" } });
     fireEvent.change(input, { target: { value: "" } });

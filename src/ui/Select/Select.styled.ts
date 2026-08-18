@@ -29,9 +29,11 @@ export const Trigger = styled.button`
   min-height: 0;
   width: 100%;
 
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  /* Matches the search field beside it. */
+  min-height: 38px;
+  padding: 0 ${({ theme }) => theme.spacing.md};
   font: inherit;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   font-weight: 400;
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
   line-height: 1.5;
@@ -88,24 +90,33 @@ export const Listbox = styled.ul<{
   list-style: none;
 
   background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   box-shadow: ${({ theme }) => theme.shadows.mdDown};
   max-height: 16rem;
-  overflow-y: auto;
+  overflow: hidden auto;
+  padding: ${({ theme }) => theme.spacing.xs} 0;
   isolation: isolate;
 `;
 
+/**
+ * Full-bleed rows with a checkmark on the selected one, the way a native menu reads.
+ * A filled selected row competed with the hover state.
+ */
 export const OptionItem = styled.li<{ $selected?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  margin: 0 ${({ theme }) => theme.spacing.xs};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-weight: ${({ theme, $selected }) =>
+    $selected
+      ? (theme.typography.weight?.semibold ?? 600)
+      : (theme.typography.weight?.normal ?? 400)};
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
   cursor: pointer;
-  background-color: ${({ theme, $selected }) =>
-    $selected ? (theme.colors.secondaryGlass ?? theme.colors.secondary) : "transparent"};
+  background-color: transparent;
   color: ${({ theme }) => theme.colors.text};
   user-select: none;
   position: relative;
@@ -114,8 +125,15 @@ export const OptionItem = styled.li<{ $selected?: boolean }>`
     box-shadow ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.secondaryGlass ?? theme.colors.secondary};
+    background-color: ${({ theme }) => theme.colors.secondary};
   }
+`;
+
+export const Check = styled.span`
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const ErrorMessage = styled.span`

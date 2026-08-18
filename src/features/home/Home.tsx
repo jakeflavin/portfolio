@@ -28,7 +28,7 @@ const Home: React.FC = () => {
           icon={<MagnifyingGlassIcon size={16} />}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for a project..."
+          placeholder="Search"
         />
         <SelectWrap>
           <Select
