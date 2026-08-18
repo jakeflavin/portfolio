@@ -23,6 +23,9 @@
  *   --port <port>      Preview server port          (default: 4319)
  *   --theme <scheme>   `light` or `dark`            (default: light)
  *   --keep-chrome      Skip hiding anything
+ *
+ * An app that opens empty can record `shot.actions` in apps.json — ordered click/type
+ * steps replayed before the shot, so the framing reproduces without anyone remembering it.
  */
 
 import fs from "node:fs";
@@ -84,6 +87,12 @@ const HIDE = flags["keep-chrome"]
       .split(",")
       .map((selector) => selector.trim())
       .filter(Boolean);
+
+/**
+ * Ordered interaction steps run before the shot. Each is one of `click: [x, y]`,
+ * `selector`, `press` or `type`, with an optional `wait` in ms after it.
+ */
+const ACTIONS = Array.isArray(shot.actions) ? shot.actions : [];
 
 const outPath = path.resolve(ROOT, flags.out ?? `public/images/${slug}-cover.jpg`);
 
@@ -147,6 +156,25 @@ try {
     await page.addStyleTag({
       content: `${HIDE.join(", ")} { display: none !important; }`
     });
+  }
+
+  /*
+   * Some apps show nothing worth capturing until they are used — runify opens on an empty
+   * world map, and its cover is meaningless without a route on it. The steps live in
+   * apps.json so the same cover comes back in any later session.
+   */
+  for (const action of ACTIONS) {
+    if (action.click) {
+      const [x, y] = action.click;
+      await page.mouse.click(x, y);
+    } else if (action.selector) {
+      await page.click(action.selector);
+    } else if (action.press) {
+      await page.keyboard.press(action.press);
+    } else if (action.type) {
+      await page.keyboard.type(action.type);
+    }
+    await page.waitForTimeout(action.wait ?? 400);
   }
 
   // Videos, fonts and entry animations all settle after load.

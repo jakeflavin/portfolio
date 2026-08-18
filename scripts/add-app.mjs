@@ -16,6 +16,7 @@
  *   --cover <path>          Cover image under public/  (default: /images/<slug>-project-cover.svg)
  *   --date <YYYY-MM-DD>     Creation date         (default: today)
  *   --dry-run               Do the local checks and the audit, then stop
+ *   --accept-audit          Proceed despite audit findings you have reviewed as false
  *   --yes                   Skip the confirmation prompt
  *   --shot-wait <ms>        Settle time before the cover screenshot  (default: 2500)
  *   --shot-theme <scheme>   Capture in `light` or `dark`             (default: light)
@@ -47,7 +48,7 @@ function parseArgs(argv) {
       continue;
     }
     const key = arg.slice(2);
-    if (key === "dry-run" || key === "yes") {
+    if (key === "dry-run" || key === "yes" || key === "accept-audit") {
       flags[key] = true;
     } else {
       flags[key] = argv[++i];
@@ -201,6 +202,71 @@ const blockers = [];
  * Vite rewrites bundled imports and index.html attributes itself. What it cannot rewrite is
  * a URL built at runtime, or the contents of a file copied verbatim out of public/.
  */
+/**
+ * Blanks out comments while preserving line numbers, so the audit reports code rather than
+ * prose. Doc comments that name an endpoint — "`/route` snaps a pair of pins" — were being
+ * reported as broken paths, which trains you to wave the audit through.
+ *
+ * Quotes are tracked so a `//` inside a string literal is not mistaken for a comment.
+ * `//` only starts a comment in JS/TS; in CSS it is not a comment at all.
+ */
+function stripComments(source, extension) {
+  const lineComments = extension !== ".css";
+  let out = "";
+  let quote = null;
+  let block = false;
+
+  for (let i = 0; i < source.length; i += 1) {
+    const char = source[i];
+    const next = source[i + 1];
+
+    if (block) {
+      if (char === "*" && next === "/") {
+        block = false;
+        out += "  ";
+        i += 1;
+      } else {
+        out += char === "\n" ? "\n" : " ";
+      }
+      continue;
+    }
+
+    if (quote) {
+      out += char;
+      if (char === "\\") {
+        out += source[i + 1] ?? "";
+        i += 1;
+      } else if (char === quote) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === "'" || char === '"' || char === "`") {
+      quote = char;
+      out += char;
+      continue;
+    }
+
+    if (char === "/" && next === "*") {
+      block = true;
+      out += "  ";
+      i += 1;
+      continue;
+    }
+
+    if (lineComments && char === "/" && next === "/") {
+      while (i < source.length && source[i] !== "\n") i += 1;
+      out += "\n";
+      continue;
+    }
+
+    out += char;
+  }
+
+  return out;
+}
+
 function auditSourceLiterals() {
   const srcDir = path.join(appDir, "src");
   if (!fs.existsSync(srcDir)) return;
@@ -216,7 +282,8 @@ function auditSourceLiterals() {
   walk(srcDir);
 
   for (const file of files) {
-    const lines = fs.readFileSync(file, "utf8").split("\n");
+    const source = fs.readFileSync(file, "utf8");
+    const lines = stripComments(source, path.extname(file)).split("\n");
     lines.forEach((line, index) => {
       // A quoted literal that starts with a single slash and looks like a path.
       const matches = line.matchAll(/(['"`])(\/[A-Za-z0-9_-][^'"`\n]*)\1/g);
@@ -321,11 +388,25 @@ if (blockers.length > 0) {
     console.error(`    ${blocker.file}:${blocker.line}  ${blocker.literal}`);
     console.error(`      ${blocker.hint}`);
   }
-  console.error(
-    `\n  These resolve against the domain root and will 404 under /${slug}/.\n` +
-      `  Fix them, then re-run this command — everything above is already applied.\n`
-  );
-  process.exit(1);
+
+  /*
+   * Not every match is a URL. The check cannot tell a fetch path from a unit label like
+   * `/mi`, so a reviewed false positive needs a way past that is not "edit the app to
+   * please the script" — but it stays an explicit act, so the default is still to stop.
+   */
+  if (flags["accept-audit"]) {
+    console.error(
+      `\n  --accept-audit given: treating the ${blockers.length} finding(s) above as ` +
+        `reviewed and not URLs.\n`
+    );
+  } else {
+    console.error(
+      `\n  These resolve against the domain root and will 404 under /${slug}/.\n` +
+        `  Fix them, then re-run this command — everything above is already applied.\n` +
+        `  If they are not URLs, re-run with --accept-audit.\n`
+    );
+    process.exit(1);
+  }
 }
 
 done("No root-absolute paths in src/");
@@ -358,9 +439,25 @@ if (flags["dry-run"]) {
 
 step("5. Publishing the repository");
 
+/** Set when an existing repo had to be moved off master, so the remote can be tidied too. */
+let renamedFrom = null;
+
 if (!fs.existsSync(path.join(appDir, ".git"))) {
   run("git", ["init", "-b", "main"]);
   done("Initialised a git repository");
+}
+
+/*
+ * release.yml triggers on pushes to `main`. A repo still on `master` therefore publishes
+ * nothing and fails ten minutes later at the "waiting for the release" step, with a green
+ * push and no workflow run to explain it — so the branch is normalised up front instead.
+ */
+const branch = tryRun("git", ["branch", "--show-current"]);
+if (branch.ok && branch.out.trim() && branch.out.trim() !== "main") {
+  const current = branch.out.trim();
+  run("git", ["branch", "-m", current, "main"]);
+  done(`Renamed branch ${current} -> main (release.yml triggers on main)`);
+  renamedFrom = current;
 }
 
 const remote = tryRun("git", ["remote", "get-url", "origin"]);
@@ -409,6 +506,17 @@ if (!repoExists.ok) {
   const push = gitPush(["-u", "origin", "main"]);
   if (!push.ok) fail(`git push failed:\n${push.out}`);
   done("Pushed to main");
+
+  /*
+   * A repo that was on master still has master as its default branch, and still has the
+   * branch itself, so the old head keeps showing up as the repo's landing page.
+   */
+  if (renamedFrom) {
+    const moved = tryRun("gh", ["repo", "edit", repoSlug, "--default-branch", "main"]);
+    if (moved.ok) done("Set the default branch to main");
+    const dropped = gitPush(["origin", "--delete", renamedFrom]);
+    if (dropped.ok) done(`Deleted the old ${renamedFrom} branch on the remote`);
+  }
 }
 
 // ------------------------------------------------------- 7. wait for a release

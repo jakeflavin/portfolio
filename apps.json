@@ -3,7 +3,7 @@
     {
       "slug": "countdown",
       "title": "Countdown Timer",
-      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it — a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
+      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it \u2014 a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
       "tags": [
         "timer",
         "utility"
@@ -29,7 +29,7 @@
     {
       "slug": "weather",
       "title": "Weather",
-      "description": "A dense, chart-first weather dashboard. Hourly and daily forecasts, wind, pressure, UV and air quality for anywhere you search — no accounts, no ads, no location prompt unless you ask for it.",
+      "description": "A dense, chart-first weather dashboard. Hourly and daily forecasts, wind, pressure, UV and air quality for anywhere you search \u2014 no accounts, no ads, no location prompt unless you ask for it.",
       "tags": [
         "weather",
         "forecast",
@@ -56,7 +56,11 @@
       "cover": "/images/madlib-cover.jpg",
       "creationDate": "2026-08-18",
       "disabled": false,
-      "repo": "jakeflavin/madlib"
+      "repo": "jakeflavin/madlib",
+      "shot": {
+        "hide": "header,footer,.banner",
+        "wait": 2500
+      }
     },
     {
       "slug": "hush",
@@ -86,7 +90,49 @@
       "disabled": false,
       "repo": "jakeflavin/runify",
       "shot": {
-        "wait": 6000
+        "wait": 2500,
+        "actions": [
+          {
+            "selector": "input[placeholder='Search for a place']",
+            "wait": 300
+          },
+          {
+            "type": "Boulder, Colorado",
+            "wait": 2500
+          },
+          {
+            "selector": "button:has-text('Boulder County, Colorado, United States')",
+            "wait": 3000
+          },
+          {
+            "click": [
+              270,
+              540
+            ],
+            "wait": 1800
+          },
+          {
+            "click": [
+              317,
+              493
+            ],
+            "wait": 1800
+          },
+          {
+            "click": [
+              351,
+              547
+            ],
+            "wait": 1800
+          },
+          {
+            "click": [
+              304,
+              594
+            ],
+            "wait": 3000
+          }
+        ]
       }
     }
   ]
