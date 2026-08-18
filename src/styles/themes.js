@@ -65,8 +65,9 @@ export const typography = {
     transform: "none"
   },
   typewriter: {
-    size: "clamp(28px, 4.2vw, 40px)",
-    tracking: "-0.035em",
+    /* The typewriter is the profile bio now, not a display headline. */
+    size: "0.875rem",
+    tracking: "0",
     transform: "none"
   },
   card: {

@@ -3,7 +3,6 @@ import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "@/features/layout/FooterBar";
-import NavBar from "@/features/layout/NavBar";
 import Home from "@/features/home/Home";
 
 /** Every app shares one origin now, so storage keys are namespaced. */
@@ -48,12 +47,8 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Container>
-        <NavBar
-          isDarkMode={isDarkMode}
-          onToggleDarkMode={toggleDarkMode}
-        />
         <Content>
-          <Home />
+          <Home isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
         </Content>
         <FooterBar />
       </Container>
@@ -64,8 +59,7 @@ const App: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* No gap: the nav and hero carry their own hairline dividers. */
-  gap: 0;
+  gap: ${({ theme }) => theme.spacing.lg};
   width: 95%;
   max-width: 1200px;
   margin-left: auto;

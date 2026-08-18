@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "@/ui/Card";
-import Hero from "@/features/layout/Hero";
 import InputAction from "@/ui/InputAction";
 import { PROJECTS } from "@/features/projects/projects";
 import { Search } from "lucide-react";
 import Select from "@/ui/Select";
+import ProfileHeader from "@/features/layout/ProfileHeader";
 import {
   CardContainer,
   SearchContainer,
@@ -16,13 +16,22 @@ import {
 import { SORT_OPTIONS, type SortValue } from "./home.utils";
 import { useProjectSearch } from "./useProjectSearch";
 
-const Home: React.FC = () => {
+export interface HomeProps {
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
+}
+
+const Home: React.FC<HomeProps> = ({ isDarkMode, onToggleDarkMode }) => {
   const { searchQuery, setSearchQuery, sortBy, setSortBy, visibleProjects } =
     useProjectSearch(PROJECTS);
 
   return (
     <>
-      <Hero />
+      <ProfileHeader
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={onToggleDarkMode}
+        onTagClick={setSearchQuery}
+      />
       <SearchContainer>
         <InputAction
           icon={<Search size={16} />}

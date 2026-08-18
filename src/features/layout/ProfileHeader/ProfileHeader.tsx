@@ -1,0 +1,131 @@
+import React from "react";
+import { Moon, Sun } from "lucide-react";
+import TypeWriter from "@/ui/TypeWriter";
+import BrandIcon, { type BrandName } from "@/ui/BrandIcon";
+import CrownMark from "./CrownMark";
+import { PROJECTS } from "@/features/projects/projects";
+import {
+  Panel,
+  Identity,
+  AvatarRing,
+  Avatar,
+  IdentityColumn,
+  Handle,
+  Stats,
+  Stat,
+  Bio,
+  BioTags,
+  BioTag,
+  Highlights,
+  Highlight,
+  HighlightRing,
+  HighlightLabel
+} from "./ProfileHeader.styled";
+
+export interface ProfileHeaderProps {
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
+  /** Called with a tag when one of the bio hashtags is clicked */
+  onTagClick?: (tag: string) => void;
+}
+
+const ICON_SIZE = 22;
+
+const SOCIALS: { name: BrandName; href: string; label: string }[] = [
+  { name: "threads", href: "https://www.threads.com/@jakeflavin", label: "Threads" },
+  { name: "linkedin", href: "https://linkedin.com/in/jakeflavin", label: "LinkedIn" },
+  { name: "github", href: "https://github.com/jakeflavin", label: "GitHub" }
+];
+
+/** Counts drawn from the manifest, standing in for posts/followers/following. */
+function useStats() {
+  const live = PROJECTS.filter((project) => !project.disabled);
+  const tags = new Set(PROJECTS.flatMap((project) => project.tags ?? []));
+  return [
+    { label: PROJECTS.length === 1 ? "tool" : "tools", value: PROJECTS.length },
+    { label: tags.size === 1 ? "tag" : "tags", value: tags.size },
+    { label: "live", value: live.length }
+  ];
+}
+
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+  isDarkMode = false,
+  onToggleDarkMode,
+  onTagClick
+}) => {
+  const stats = useStats();
+  const tags = [...new Set(PROJECTS.flatMap((project) => project.tags ?? []))].sort();
+
+  return (
+    <Panel>
+      <Identity>
+        <AvatarRing>
+          <Avatar>
+            <CrownMark />
+          </Avatar>
+        </AvatarRing>
+
+        <IdentityColumn>
+          <Handle>Jake&apos;s Tools</Handle>
+          <Stats>
+            {stats.map(({ label, value }) => (
+              <Stat key={label}>
+                <dd>{value}</dd>
+                <dt>{label}</dt>
+              </Stat>
+            ))}
+          </Stats>
+        </IdentityColumn>
+      </Identity>
+
+      <Bio>
+        <TypeWriter
+          sentences={[
+            "Hi, I'm Jake.",
+            "I build useful tools.",
+            "I design clean systems.",
+            "Welcome to my portfolio."
+          ]}
+        />
+        {tags.length > 0 && (
+          <BioTags>
+            {tags.map((tag) => (
+              <BioTag
+                key={tag}
+                type="button"
+                onClick={() => onTagClick?.(tag)}
+                aria-label={`Filter by ${tag}`}
+              >
+                #{tag.replace(/\s+/g, "")}
+              </BioTag>
+            ))}
+          </BioTags>
+        )}
+      </Bio>
+
+      <Highlights>
+        {SOCIALS.map(({ name, href, label }) => (
+          <Highlight
+            key={name}
+            type="button"
+            onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
+            aria-label={`Open ${label} profile`}
+          >
+            <HighlightRing>
+              <BrandIcon name={name} size={ICON_SIZE} />
+            </HighlightRing>
+            <HighlightLabel>{label}</HighlightLabel>
+          </Highlight>
+        ))}
+        <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
+          <HighlightRing>
+            {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
+          </HighlightRing>
+          <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
+        </Highlight>
+      </Highlights>
+    </Panel>
+  );
+};
+
+export default ProfileHeader;
