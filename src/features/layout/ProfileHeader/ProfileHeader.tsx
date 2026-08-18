@@ -19,6 +19,7 @@ import {
   BioTags,
   BioTag,
   Highlights,
+  HighlightDivider,
   Highlight,
   HighlightRing,
   HighlightFill,
@@ -60,6 +61,12 @@ const LINKS: { key: string; href: string; label: string; icon: React.ReactNode }
     href: "https://github.com/jakeflavin",
     label: "GitHub",
     icon: <BrandIcon name={"github" as BrandName} size={ICON_SIZE} />
+  },
+  {
+    key: "instagram",
+    href: "https://www.instagram.com/jakeflavin",
+    label: "Instagram",
+    icon: <BrandIcon name={"instagram" as BrandName} size={ICON_SIZE} />
   },
   {
     key: "blog",
@@ -125,6 +132,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         </Bio>
 
         <Highlights>
+          {/* First and pinned, so it stays visible when the rail scrolls. */}
+          <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
+            <HighlightRing>
+              <HighlightFill>
+                {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
+              </HighlightFill>
+            </HighlightRing>
+            <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
+          </Highlight>
+
+          <HighlightDivider aria-hidden="true" />
+
           {LINKS.map(({ key, href, label, icon }) => (
             <Highlight
               key={key}
@@ -138,14 +157,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <HighlightLabel>{label}</HighlightLabel>
             </Highlight>
           ))}
-          <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
-            <HighlightRing>
-              <HighlightFill>
-                {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
-              </HighlightFill>
-            </HighlightRing>
-            <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
-          </Highlight>
         </Highlights>
       </Content>
     </Panel>

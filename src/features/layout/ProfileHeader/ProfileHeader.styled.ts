@@ -190,12 +190,35 @@ export const Highlights = styled.div`
   grid-area: highlights;
   display: flex;
   justify-self: stretch;
-  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing.md};
+
+  /*
+   * Scrolls rather than shrinking. The items had been sharing the row, which pushed the
+   * circles below a usable tap target once there were six of them.
+   */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ theme }) => theme.media.md} {
     gap: ${({ theme }) => theme.spacing.lg};
     padding-top: ${({ theme }) => theme.spacing.sm};
+    overflow-x: visible;
   }
+`;
+
+/** Sets the appearance toggle apart from the outbound links. */
+export const HighlightDivider = styled.span`
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 1px;
+  margin: 4px ${({ theme }) => theme.spacing.xs};
+  background: ${({ theme }) => theme.colors.border};
 `;
 
 /**
@@ -206,14 +229,13 @@ export const Highlights = styled.div`
  */
 export const Highlight = styled.button`
   /*
-   * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
-   * inside it, so the ring sat 8px in from the block's left edge while the button sat on
-   * it — the first thing a grid overlay picks up. Labels centre under the ring and
-   * truncate, which is what the app does too.
+   * Sized to its ring, not wider. A wider button centred the circle inside it, so the ring
+   * sat in from the block's left edge while the button sat on it — the first thing a grid
+   * overlay picks up. Labels centre under the ring and truncate, as the app does.
    */
   flex: 0 0 auto;
-  width: 52px;
-  min-width: 0;
+  width: 62px;
+  min-width: 62px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -226,6 +248,7 @@ export const Highlight = styled.button`
 
   ${({ theme }) => theme.media.md} {
     width: 58px;
+    min-width: 58px;
   }
 
   &:focus-visible {
@@ -240,8 +263,9 @@ export const Highlight = styled.button`
  * thumbnail inside. The gap is the panel surface showing through the padding.
  */
 export const HighlightRing = styled.span`
-  width: 52px;
-  height: 52px;
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
   flex-shrink: 0;
   padding: 3px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
@@ -252,6 +276,7 @@ export const HighlightRing = styled.span`
   ${({ theme }) => theme.media.md} {
     width: 58px;
     height: 58px;
+    min-width: 58px;
   }
 
   ${Highlight}:hover & {

@@ -120,8 +120,14 @@ export const gradient = {
   /** The logo sweep, used for the wordmark and accents. */
   brand:
     "linear-gradient(45deg, #405de6, #833ab4, #c13584, #e1306c, #fd1d1d, #f77737, #fcaf45)",
-  /** The tighter three-stop version, for small surfaces like rings and bars. */
-  compact: "linear-gradient(45deg, #833ab4, #e1306c, #fcaf45)"
+  /**
+   * The tighter three-stop version, for small surfaces like rings and bars.
+   *
+   * Horizontal rather than diagonal on purpose: a 45deg sweep running dark at one corner
+   * to light at the opposite one reads as a lit sphere on a circle, which is where the
+   * bevelled look came from.
+   */
+  compact: "linear-gradient(to right, #833ab4, #e1306c, #fcaf45)"
 };
 
 /** Motion: short and unfussy. */
