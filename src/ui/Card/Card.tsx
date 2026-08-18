@@ -16,9 +16,14 @@ import {
   MoreButton,
   HashTags,
   HashTag,
-  Timestamp
+  Meta,
+  Timestamp,
+  MetaDot,
+  Build,
+  Pinned
 } from "./Card.styled";
 import { formatPostAge } from "./card.utils";
+import { NAV_ITEM_ATTRIBUTE } from "@/features/home/useKeyboardNav";
 
 export type CardType = "project";
 
@@ -45,6 +50,10 @@ export interface CardProps {
   repo?: string;
   /** Called with a tag when its chip is clicked */
   onTagClick?: (tag: string) => void;
+  /** Release tag this slug shipped from, per the deploy manifest */
+  build?: string;
+  /** Whether that release is pinned in apps.json rather than tracking the latest */
+  pinned?: boolean;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -56,7 +65,9 @@ const Card: React.FC<CardProps> = ({
   disabled = false,
   date,
   repo,
-  onTagClick
+  onTagClick,
+  build,
+  pinned = false
 }) => {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -116,7 +127,11 @@ const Card: React.FC<CardProps> = ({
   return (
     <CardWrapper $disabled={disabled}>
       <PostHeader>
-        <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
+        <HeaderTitle
+          as={isLink ? "a" : "span"}
+          href={isLink ? href : undefined}
+          {...(isLink ? { [NAV_ITEM_ATTRIBUTE]: "" } : {})}
+        >
           {title}
         </HeaderTitle>
       </PostHeader>
@@ -188,7 +203,16 @@ const Card: React.FC<CardProps> = ({
             ))}
           </HashTags>
         )}
-        {age && <Timestamp>{age}</Timestamp>}
+        {(age || build) && (
+          <Meta>
+            {age && <Timestamp>{age}</Timestamp>}
+            {age && build && <MetaDot aria-hidden="true">·</MetaDot>}
+            {build && (
+              <Build title={`Deployed from release ${build}`}>{build}</Build>
+            )}
+            {build && pinned && <Pinned title="Held at this release">pinned</Pinned>}
+          </Meta>
+        )}
       </Caption>
     </CardWrapper>
   );

@@ -85,3 +85,11 @@ export const EmptyHint = styled.p`
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   color: ${({ theme }) => theme.colors.muted};
 `;
+
+/**
+ * Wraps whichever layout is showing, so keyboard navigation has one element to search for
+ * focusable results inside regardless of view.
+ */
+export const Results = styled.div`
+  width: 100%;
+`;

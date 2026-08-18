@@ -7,6 +7,8 @@ import appsManifest from "../../../apps.json";
  */
 export interface Project {
   id: string;
+  /** Path segment the app is served from, and the key the deploy manifest uses. */
+  slug: string;
   creationDate: Date;
   disabled: boolean;
   title: string;
@@ -37,6 +39,7 @@ export const APPS: AppRecord[] = (appsManifest as { apps: AppRecord[] }).apps;
 
 export const PROJECTS: Project[] = APPS.map((app) => ({
   id: app.slug,
+  slug: app.slug,
   creationDate: new Date(app.creationDate),
   disabled: app.disabled,
   title: app.title,

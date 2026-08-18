@@ -284,12 +284,41 @@ export const HashTag = styled.button`
   }
 `;
 
-/** Post age. Deliberately the quietest thing in the caption. */
-export const Timestamp = styled.time`
+/**
+ * Post age and build. Deliberately the quietest thing in the caption.
+ *
+ * The build joins the line that already existed rather than becoming a row of its own:
+ * the caption's rhythm — description, tags, one faint line — is what makes the card read
+ * as a post, and a second faint row underneath breaks it.
+ */
+export const Meta = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   margin-top: 2px;
   font-size: 0.6875rem;
   color: ${({ theme }) => theme.colors.muted};
   opacity: 0.8;
+`;
+
+export const Timestamp = styled.time``;
+
+/** The separator between age and build, hidden from assistive tech as pure decoration. */
+export const MetaDot = styled.span`
+  opacity: 0.6;
+`;
+
+/**
+ * The release tag this slug actually shipped. Tabular figures so the build numbers line
+ * up between cards in the grid rather than jittering by digit width.
+ */
+export const Build = styled.span`
+  font-variant-numeric: tabular-nums;
+`;
+
+/** Marks a slug held at a fixed release instead of tracking the latest. */
+export const Pinned = styled.span`
+  color: ${({ theme }) => theme.colors.link};
 `;
 
 

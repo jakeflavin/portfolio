@@ -5,6 +5,7 @@ import type { Project } from "@/features/projects/projects";
 function project(overrides: Partial<Project> = {}): Project {
   return {
     id: "countdown",
+    slug: "countdown",
     creationDate: new Date("2026-02-17"),
     disabled: false,
     title: "Countdown Timer",

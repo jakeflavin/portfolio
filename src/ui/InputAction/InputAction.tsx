@@ -29,7 +29,11 @@ export interface InputActionProps {
   bare?: boolean;
 }
 
-const InputAction: React.FC<InputActionProps> = ({
+/**
+ * Forwards a ref to the input itself rather than the wrapper, so a caller can focus the
+ * field — the directory's `/` shortcut needs exactly that.
+ */
+const InputAction = React.forwardRef<HTMLInputElement, InputActionProps>(({
   icon,
   label,
   value = "",
@@ -41,7 +45,7 @@ const InputAction: React.FC<InputActionProps> = ({
   disabled = false,
   error,
   bare = false
-}) => {
+}, ref) => {
   const inputId = useId();
   const theme = useTheme();
   // Size only. Setting `fill` here floods stroke-based icons solid, and colour is
@@ -68,6 +72,7 @@ const InputAction: React.FC<InputActionProps> = ({
       )}
       <LeftIconSlot aria-hidden="true">{styledLeftIcon}</LeftIconSlot>
       <Input
+        ref={ref}
         id={inputId}
         type="text"
         value={value}
@@ -103,6 +108,8 @@ const InputAction: React.FC<InputActionProps> = ({
       {error && <ErrorMessage id={inputId ? `${inputId}-error` : undefined}>{error}</ErrorMessage>}
     </Outer>
   );
-};
+});
+
+InputAction.displayName = "InputAction";
 
 export default InputAction;
