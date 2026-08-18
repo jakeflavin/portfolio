@@ -198,25 +198,35 @@ export const Highlights = styled.div`
   }
 `;
 
+/**
+ * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
+ * inside it, so the ring sat 8px in from the block's left edge while the button sat on it —
+ * the first thing a grid overlay picks up. Labels centre under the ring and truncate, which
+ * is what the app does too.
+ */
 export const Highlight = styled.button`
-  /* Shares the row on narrow screens so nothing scrolls off; fixed width once there is
-     space for it. */
-  flex: 1 1 0;
+  /*
+   * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
+   * inside it, so the ring sat 8px in from the block's left edge while the button sat on
+   * it — the first thing a grid overlay picks up. Labels centre under the ring and
+   * truncate, which is what the app does too.
+   */
+  flex: 0 0 auto;
+  width: 52px;
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   padding: 0;
-
-  ${({ theme }) => theme.media.md} {
-    flex: 0 0 auto;
-    width: 74px;
-  }
   background: none;
   border: none;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
+
+  ${({ theme }) => theme.media.md} {
+    width: 58px;
+  }
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
