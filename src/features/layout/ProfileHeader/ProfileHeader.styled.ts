@@ -10,11 +10,7 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
-  /*
-   * Left-aligned, not centred. Centred, the profile block shared a left edge with nothing
-   * — the search field and the cards below both start at the container edge.
-   */
-  justify-content: flex-start;
+  justify-content: center;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
@@ -27,15 +23,16 @@ export const Panel = styled.header`
 `;
 
 /**
- * Full width, like the search field and the card grid. Capped at a narrower measure it
- * hugged the left edge of a much wider page and left a void beside it; the bio caps its
- * own line length instead.
+ * A centred block, as the profile header is. Inside it there are exactly two left edges:
+ * the avatar and the highlights sit on the block's edge, and the name, counts and bio all
+ * share the column beside the avatar.
  */
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
+  max-width: 560px;
 
   ${({ theme }) => theme.media.md} {
     display: grid;
@@ -51,6 +48,7 @@ export const Content = styled.div`
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
+    justify-items: start;
     width: auto;
   }
 `;
@@ -170,8 +168,6 @@ export const Bio = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
-  /* The one thing that needs a measure, since it is the only prose here. */
-  max-width: 62ch;
 `;
 
 /** Bio hashtags. Static text: they describe the person, they do not filter anything. */
@@ -193,6 +189,7 @@ export const BioTag = styled.span`
 export const Highlights = styled.div`
   grid-area: highlights;
   display: flex;
+  justify-self: stretch;
   gap: ${({ theme }) => theme.spacing.sm};
 
   ${({ theme }) => theme.media.md} {
