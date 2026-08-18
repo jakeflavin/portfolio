@@ -53,8 +53,11 @@ export const typography = {
   fontFamily: {
     heading: systemSans,
     body: systemSans,
-    /** Wordmark only. Deliberately not the UI face. */
-    display: '"Instrument Serif", ui-serif, Georgia, serif'
+    /**
+     * Wordmark only. Currently the UI face; swap this one value for a custom
+     * display font and the wordmark picks it up.
+     */
+    display: systemSans
   },
   heading: {
     weight: 600,

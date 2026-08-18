@@ -2,11 +2,9 @@ import styled from "styled-components";
 
 export const Wordmark = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  /* Instrument Serif ships a single weight, so size and letterform carry the emphasis. */
-  font-size: 1.625rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.1;
+  font-size: ${({ theme }) => theme.typography.size?.xl ?? "1.25rem"};
+  font-weight: ${({ theme }) => theme.typography.weight?.bold ?? 700};
+  letter-spacing: -0.02em;
   color: ${({ theme }) => theme.colors.text};
   white-space: nowrap;
 `;
