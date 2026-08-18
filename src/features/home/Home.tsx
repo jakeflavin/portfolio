@@ -67,6 +67,7 @@ const Home: React.FC = () => {
               disabled={project.disabled}
               date={project.creationDate}
               repo={project.repo}
+              onTagClick={setSearchQuery}
             />
           ))}
         </CardContainer>

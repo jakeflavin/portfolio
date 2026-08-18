@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@/test/test-utils";
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent } from "@/test/test-utils";
 import Card from "./Card";
 
 describe("Card", () => {
@@ -18,10 +18,32 @@ describe("Card", () => {
     expect(screen.getByText(/A test description/)).toBeInTheDocument();
   });
 
-  it("renders tags as hashtags", () => {
+  it("renders each tag as its own hashtag", () => {
     render(<Card {...defaultProps} tags={["React", "type script"]} />);
     // Whitespace is stripped so each tag is a single hashtag token.
-    expect(screen.getByText("#React #typescript")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Filter by React" })).toHaveTextContent(
+      "#React"
+    );
+    expect(
+      screen.getByRole("button", { name: "Filter by type script" })
+    ).toHaveTextContent("#typescript");
+  });
+
+  it("reports the original tag when a hashtag is clicked, not the stripped label", () => {
+    const onTagClick = vi.fn();
+    render(<Card {...defaultProps} tags={["type script"]} onTagClick={onTagClick} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Filter by type script" }));
+    expect(onTagClick).toHaveBeenCalledWith("type script");
+  });
+
+  it("marks a live app with the verified badge and a coming-soon one without", () => {
+    const { unmount } = render(<Card {...defaultProps} href="/hat/" />);
+    expect(screen.getByLabelText("Live")).toBeInTheDocument();
+    unmount();
+
+    render(<Card {...defaultProps} href="/hat/" disabled />);
+    expect(screen.queryByLabelText("Live")).not.toBeInTheDocument();
   });
 
   it("renders no hashtag line when there are no tags", () => {

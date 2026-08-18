@@ -11,10 +11,19 @@ export const Grid = styled.div`
   }
 `;
 
-export const Tile = styled.a<{ $disabled?: boolean }>`
+export const Tile = styled.a<{ $disabled?: boolean; $featured?: boolean }>`
   position: relative;
   display: block;
   aspect-ratio: 1 / 1;
+
+  /* Explore breaks its rhythm with an occasional double-height tile. */
+  ${({ $featured }) =>
+    $featured &&
+    `
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: 1 / 1;
+  `}
   overflow: hidden;
   background: ${({ theme }) => theme.colors.secondary};
   cursor: pointer;
@@ -74,4 +83,19 @@ export const OverlayTitle = styled.span`
 export const OverlayMeta = styled.span`
   font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
   opacity: 0.85;
+`;
+
+/** Instagram marks a multi-image post with a corner glyph; this marks a live app. */
+export const TileBadge = styled.span`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing.sm};
+  right: ${({ theme }) => theme.spacing.sm};
+  display: inline-flex;
+  line-height: 0;
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+
+  ${Tile}:hover & {
+    opacity: 0;
+  }
 `;

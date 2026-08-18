@@ -16,6 +16,10 @@ export const BarContainer = styled.div<BarProps>`
   justify-content: ${({ align }) => align};
   gap: ${({ theme }) => theme.spacing.md};
   z-index: 1000;
-  background: transparent;
+  /* Sticky, like Instagram's top bar. Needs an opaque fill so content does not show
+     through as it scrolls underneath. */
+  position: sticky;
+  top: 0;
+  background: ${({ theme }) => theme.colors.background};
   border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
 `;

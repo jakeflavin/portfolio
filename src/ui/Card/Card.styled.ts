@@ -148,12 +148,36 @@ export const Description = styled.p`
   text-wrap: pretty;
 `;
 
-/** Caption links on Instagram are a dark navy, not the bright action blue. */
 export const HashTags = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
   line-height: 1.4;
+`;
+
+/**
+ * Hashtags are links on Instagram, so these filter the directory. Caption links there are
+ * a dark navy rather than the bright action blue.
+ */
+export const HashTag = styled.button`
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
   color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
+  cursor: pointer;
   word-break: break-word;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 `;
 
 /** Post age, small and muted at the foot of the caption, as on a post. */
@@ -163,4 +187,12 @@ export const Timestamp = styled.time`
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.muted};
+`;
+
+/** Instagram's verified check, here meaning the app is deployed and reachable. */
+export const Verified = styled.span`
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+  color: ${({ theme }) => theme.colors.accent};
 `;

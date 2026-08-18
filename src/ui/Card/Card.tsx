@@ -3,12 +3,14 @@ import {
   ArrowSquareOutIcon,
   GithubLogoIcon,
   PaperPlaneTiltIcon,
-  CheckIcon
+  CheckIcon,
+  SealCheckIcon
 } from "@phosphor-icons/react";
 import {
   CardWrapper,
   PostHeader,
   HeaderTitle,
+  Verified,
   Media,
   CardImage,
   Actions,
@@ -17,6 +19,7 @@ import {
   Caption,
   Description,
   HashTags,
+  HashTag,
   Timestamp
 } from "./Card.styled";
 import { formatPostAge } from "./card.utils";
@@ -44,6 +47,8 @@ export interface CardProps {
   date?: Date;
   /** `owner/name` on GitHub, linked from the action row */
   repo?: string;
+  /** Called with a tag when its hashtag is clicked */
+  onTagClick?: (tag: string) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -54,7 +59,8 @@ const Card: React.FC<CardProps> = ({
   href,
   disabled = false,
   date,
-  repo
+  repo,
+  onTagClick
 }) => {
   const [copied, setCopied] = useState(false);
   const isLink = Boolean(href) && !disabled;
@@ -94,6 +100,11 @@ const Card: React.FC<CardProps> = ({
         <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
           {title}
         </HeaderTitle>
+        {!disabled && (
+          <Verified title="Live" aria-label="Live">
+            <SealCheckIcon size={14} weight="fill" />
+          </Verified>
+        )}
       </PostHeader>
 
       <Media as={isLink ? "a" : "div"} href={isLink ? href : undefined} tabIndex={-1}>
@@ -137,7 +148,18 @@ const Card: React.FC<CardProps> = ({
       <Caption>
         <Description>{description}</Description>
         {tags.length > 0 && (
-          <HashTags>{tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}</HashTags>
+          <HashTags>
+            {tags.map((tag) => (
+              <HashTag
+                key={tag}
+                type="button"
+                onClick={() => onTagClick?.(tag)}
+                aria-label={`Filter by ${tag}`}
+              >
+                #{tag.replace(/\s+/g, "")}
+              </HashTag>
+            ))}
+          </HashTags>
         )}
         {age && <Timestamp>{age}</Timestamp>}
       </Caption>

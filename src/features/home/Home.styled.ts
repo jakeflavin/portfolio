@@ -24,13 +24,12 @@ export const SelectWrap = styled.div`
   }
 `;
 
+/** One column, as a feed is. Density lives in the grid view instead. */
 export const CardContainer = styled.div`
-  display: grid;
-  /* Column count follows the available width. Fixed breakpoints squeezed posts to ~200px
-     on mid-size screens, which wrapped every title. */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  justify-content: center;
-  gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 export const EmptyState = styled.div`

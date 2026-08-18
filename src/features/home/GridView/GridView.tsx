@@ -1,15 +1,23 @@
 import React from "react";
 import type { Project } from "@/features/projects/projects";
-import { Grid, Tile, TileImage, Overlay, OverlayTitle, OverlayMeta } from "./GridView.styled";
+import { SealCheckIcon } from "@phosphor-icons/react";
+import { Grid, Tile, TileImage, Overlay, OverlayTitle, OverlayMeta, TileBadge } from "./GridView.styled";
 
 export interface GridViewProps {
   projects: Project[];
 }
 
+/**
+ * Only feature a tile once there are enough others for the break in rhythm to read as
+ * deliberate. Below that it just looks like one tile rendered wrong.
+ */
+const FEATURE_THRESHOLD = 5;
+
 const GridView: React.FC<GridViewProps> = ({ projects }) => (
   <Grid>
-    {projects.map((project) => {
+    {projects.map((project, index) => {
       const isLink = !project.disabled;
+      const featured = index === 0 && projects.length >= FEATURE_THRESHOLD;
 
       return (
         <Tile
@@ -17,9 +25,15 @@ const GridView: React.FC<GridViewProps> = ({ projects }) => (
           as={isLink ? "a" : "div"}
           href={isLink ? project.path : undefined}
           $disabled={project.disabled}
+          $featured={featured}
           aria-label={isLink ? `Open ${project.title}` : undefined}
         >
           <TileImage src={project.imageSrc} alt={`${project.title} preview`} />
+          {isLink && (
+            <TileBadge title="Live" aria-label="Live">
+              <SealCheckIcon size={16} weight="fill" />
+            </TileBadge>
+          )}
           <Overlay>
             <OverlayTitle>{project.title}</OverlayTitle>
             <OverlayMeta>
