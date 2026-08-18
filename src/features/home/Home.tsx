@@ -5,8 +5,6 @@ import InputAction from "@/ui/InputAction";
 import { PROJECTS } from "@/features/projects/projects";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import Select from "@/ui/Select";
-import ViewTabs from "./ViewTabs";
-import GridView from "./GridView";
 import {
   CardContainer,
   SearchContainer,
@@ -19,7 +17,7 @@ import { SORT_OPTIONS, type SortValue } from "./home.utils";
 import { useProjectSearch } from "./useProjectSearch";
 
 const Home: React.FC = () => {
-  const { searchQuery, setSearchQuery, sortBy, setSortBy, view, setView, visibleProjects } =
+  const { searchQuery, setSearchQuery, sortBy, setSortBy, visibleProjects } =
     useProjectSearch(PROJECTS);
 
   return (
@@ -42,7 +40,6 @@ const Home: React.FC = () => {
           />
         </SelectWrap>
       </SearchContainer>
-      <ViewTabs value={view} onChange={setView} />
       {visibleProjects.length === 0 ? (
         <EmptyState>
           <EmptyTitle>No projects found</EmptyTitle>
@@ -51,8 +48,6 @@ const Home: React.FC = () => {
             the search.
           </EmptyHint>
         </EmptyState>
-      ) : view === "grid" ? (
-        <GridView projects={visibleProjects} />
       ) : (
         <CardContainer>
           {visibleProjects.map((project) => (

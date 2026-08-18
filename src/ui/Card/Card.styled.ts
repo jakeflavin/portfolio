@@ -16,10 +16,6 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   flex-direction: column;
   width: 100%;
   min-width: 0;
-  /* Instagram pins a post to ~470px. Without a cap the media grows absurdly tall on a
-     wide single-column layout. */
-  max-width: 470px;
-  margin: 0 auto;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};

@@ -24,12 +24,14 @@ export const SelectWrap = styled.div`
   }
 `;
 
-/** One column, as a feed is. Density lives in the grid view instead. */
+/**
+ * A directory is a finder, so everything stays scannable at once. A single 470px feed
+ * column is right for endless browsing and wrong for showing what is available.
+ */
 export const CardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
 `;
 
 export const EmptyState = styled.div`
