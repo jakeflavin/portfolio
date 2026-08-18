@@ -4,11 +4,27 @@
       "slug": "countdown",
       "title": "Countdown Timer",
       "description": "A countdown timer with calming, cinematic scenes.",
-      "tags": ["timer", "utility"],
+      "tags": [
+        "timer",
+        "utility"
+      ],
       "cover": "/images/countdown-timer-project-cover.svg",
       "creationDate": "2026-02-17",
       "disabled": false,
       "repo": "jakeflavin/countdown"
+    },
+    {
+      "slug": "hat",
+      "title": "Hat",
+      "description": "Pull a name, a number or an emoji out of a hat.",
+      "tags": [
+        "picker",
+        "random"
+      ],
+      "cover": "/images/hat-project-cover.svg",
+      "creationDate": "2026-08-18",
+      "disabled": false,
+      "repo": "jakeflavin/roll"
     }
   ]
 }
