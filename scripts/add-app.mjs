@@ -96,6 +96,17 @@ function run(cmd, args, options = {}) {
   });
 }
 
+/**
+ * Pushes with gh's credentials rather than whatever the OS keychain holds.
+ *
+ * These commits add .github/workflows/release.yml, and a token without the `workflow`
+ * scope gets a bare 403 on push. gh's token has it; the keychain's often does not. Passed
+ * per-command so the user's global git config is left alone.
+ */
+function gitPush(args, options = {}) {
+  return tryRun("git", ["-c", "credential.helper=!gh auth git-credential", "push", ...args], options);
+}
+
 function tryRun(cmd, args, options = {}) {
   try {
     return { ok: true, out: run(cmd, args, options).trim() };
@@ -391,7 +402,7 @@ if (!repoExists.ok) {
     run("gh", ["repo", "edit", repoSlug, "--visibility", "public", "--accept-visibility-change-consequences"]);
     done("Switched the repo to public");
   }
-  const push = tryRun("git", ["push", "-u", "origin", "main"]);
+  const push = gitPush(["-u", "origin", "main"]);
   if (!push.ok) fail(`git push failed:\n${push.out}`);
   done("Pushed to main");
 }
@@ -455,7 +466,8 @@ done(`Added "${slug}" to apps.json`);
 
 run("git", ["add", "apps.json"], { cwd: ROOT });
 run("git", ["commit", "-m", `Add ${slug} to the directory`], { cwd: ROOT });
-run("git", ["push"], { cwd: ROOT });
+const portfolioPush = gitPush([], { cwd: ROOT });
+if (!portfolioPush.ok) fail(`Pushing the portfolio failed:\n${portfolioPush.out}`);
 done("Committed and pushed the portfolio");
 
 step("8. Deploying");
