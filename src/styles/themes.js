@@ -161,8 +161,11 @@ export const lightTheme = {
     text: "#262626",
     muted: "#737373",
     border: "#dbdbdb",
-    /** Lighter than `border`, for separating stacked content rather than outlining it. */
-    divider: "#e2e2e2",
+    /**
+     * Transparent while the flat experiment is in place. Every outline in the app is
+     * drawn with this, so one value switches them all off. Revert to "#efefef".
+     */
+    divider: "transparent",
     paper: "#fafafa",
     paperText: "#000000",
     paperMuted: "#737373",
@@ -198,7 +201,8 @@ export const lightTheme = {
     md: "none",
     raised: "none",
     hover: "none",
-    mdDown: "none",
+    /* The sort dropdown's only means of separating itself from the page. */
+    mdDown: "0 4px 16px rgba(0, 0, 0, 0.16)",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.28)"
   },
   img: {
@@ -225,7 +229,7 @@ export const darkTheme = {
     text: "#e8e8e8",
     muted: "#a8a8a8",
     border: "#363636",
-    divider: "#303030",
+    divider: "transparent",
     paper: "#1a1a1a",
     paperText: "#e8e8e8",
     paperMuted: "#a8a8a8",
@@ -247,7 +251,7 @@ export const darkTheme = {
     md: "none",
     raised: "none",
     hover: "none",
-    mdDown: "none",
+    mdDown: "0 4px 20px rgba(0, 0, 0, 0.7)",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },
   img: {
