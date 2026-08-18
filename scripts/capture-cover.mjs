@@ -23,6 +23,7 @@
  *   --port <port>      Preview server port          (default: 4319)
  *   --theme <scheme>   `light` or `dark`            (default: light)
  *   --keep-chrome      Skip hiding anything
+ *   --preview-dir <p>  Where to serve from, for workspace repos (default: the app root)
  *
  * An app that opens empty can record `shot.actions` in apps.json — ordered click/type
  * steps replayed before the shot, so the framing reproduces without anyone remembering it.
@@ -94,6 +95,13 @@ const HIDE = flags["keep-chrome"]
  */
 const ACTIONS = Array.isArray(shot.actions) ? shot.actions : [];
 
+/**
+ * Where `vite preview` runs. A workspace repo builds from the root but its output — and
+ * the vite config that knows how to serve it — live in the package, so the two commands
+ * need different directories.
+ */
+const previewDir = path.resolve(appDir, flags["preview-dir"] ?? shot.previewDir ?? ".");
+
 const outPath = path.resolve(ROOT, flags.out ?? `public/images/${slug}-cover.jpg`);
 
 function run(command, args, options = {}) {
@@ -132,7 +140,7 @@ console.log(`  Serving on :${PORT}`);
 const preview = spawn(
   "npx",
   ["vite", "preview", "--port", String(PORT), "--strictPort"],
-  { cwd: appDir, stdio: "ignore", detached: true }
+  { cwd: previewDir, stdio: "ignore", detached: true }
 );
 
 let browser;

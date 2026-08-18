@@ -8,6 +8,17 @@
     ],
     "rewrites": [
       {
+        "source": "/fibo/mcp",
+        "function": {
+          "functionId": "mcp",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/fibo/**",
+        "destination": "/fibo/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
