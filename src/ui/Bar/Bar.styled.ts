@@ -4,17 +4,18 @@ interface BarProps {
   align?: "center" | "space-between";
 }
 
+/**
+ * A flat top row, not a card. Instagram and Threads separate the nav from the feed with a
+ * single hairline rather than boxing it in.
+ */
 export const BarContainer = styled.div<BarProps>`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.sm} 0;
   display: flex;
   align-items: center;
   justify-content: ${({ align }) => align};
   gap: ${({ theme }) => theme.spacing.md};
   z-index: 1000;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    background ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  background: transparent;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
 `;

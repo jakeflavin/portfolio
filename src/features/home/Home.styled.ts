@@ -27,7 +27,8 @@ export const SelectWrap = styled.div`
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: ${({ theme }) => theme.spacing.md};
+  /* Roomier between rows than columns, so untiled text never runs together. */
+  gap: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
 
   ${({ theme }) => theme.media.sm} {
     grid-template-columns: repeat(2, 1fr);
@@ -45,16 +46,14 @@ export const EmptyState = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
   padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
+  background: transparent;
 `;
 
 export const EmptyTitle = styled.p`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   font-size: ${({ theme }) => theme.typography.size?.lg ?? "1rem"};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: ${({ theme }) => theme.typography.heading.tracking};
   color: ${({ theme }) => theme.colors.text};
 `;

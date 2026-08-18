@@ -34,20 +34,11 @@ export const Wrapper = styled.div<WrapperProps>`
   gap: ${({ theme }) => theme.spacing.sm};
 
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme, $disabled }) =>
-    $disabled
-      ? theme.colors.secondary
-      : theme.colors.secondaryGlass ?? theme.colors.background};
-  backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
-  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
-  border: 1px solid
-    ${({ theme, $hasError }) =>
-      $hasError ? theme.colors.muted : theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
-  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  background-color: ${({ theme }) => theme.colors.secondary};
+  border: none;
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   ${({ $disabled }) =>
     $disabled &&
@@ -57,10 +48,8 @@ export const Wrapper = styled.div<WrapperProps>`
   `}
 
   &:focus-within {
-    border-color: ${({ theme, $disabled }) =>
-      $disabled ? theme.colors.border : theme.colors.focusBorder};
     box-shadow: ${({ theme, $disabled }) =>
-      $disabled ? theme.shadows.sm : theme.shadows.focus};
+      $disabled ? "none" : theme.shadows.focus};
   }
 
   &:focus-within ${Label} {
@@ -86,7 +75,7 @@ export const Input = styled.input`
   margin: 0;
 
   font: inherit;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.text};
   background: transparent;
@@ -94,8 +83,8 @@ export const Input = styled.input`
   outline: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.text};
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.muted};
+    opacity: 1;
   }
 
   &:disabled {

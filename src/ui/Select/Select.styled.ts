@@ -9,7 +9,7 @@ export const Wrapper = styled.div<{ $hasError?: boolean; $fullWidth?: boolean }>
   min-width: 0;
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
   max-width: 100%;
-  border-radius: ${({ theme }) => theme.borderRadius};
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
 `;
 
 export const TriggerLabel = styled.span`
@@ -41,26 +41,18 @@ export const Trigger = styled.button`
   background-color: ${({ theme, disabled }) =>
     disabled
       ? theme.colors.secondary
-      : theme.colors.secondaryGlass ?? theme.colors.background};
-  backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
-  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.sm ?? "8px"});
-  border: 1px solid ${({ theme, "aria-invalid": ariaInvalid }) =>
-    ariaInvalid ? theme.colors.muted : theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
+      : theme.colors.secondary};
+  border: none;
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  box-shadow: none;
 
   cursor: pointer;
   transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
-  &:hover:not(:disabled) {
-    border-color: ${({ theme }) => theme.colors.focusBorder};
-  }
-
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.focusBorder};
     box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
@@ -95,12 +87,10 @@ export const Listbox = styled.ul<{
   padding: ${({ theme }) => theme.spacing.xs} 0;
   list-style: none;
 
-  background-color: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
-  backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
-  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
+  background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
+  box-shadow: ${({ theme }) => theme.shadows.mdDown};
   max-height: 16rem;
   overflow-y: auto;
   isolation: isolate;

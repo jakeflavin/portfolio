@@ -64,7 +64,8 @@ const App: React.FC = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  /* No gap: the nav and hero carry their own hairline dividers. */
+  gap: 0;
   width: 95%;
   max-width: 1200px;
   margin-left: auto;
@@ -91,7 +92,8 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  /* Whitespace separates sections now that nothing is boxed. */
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 export default App;

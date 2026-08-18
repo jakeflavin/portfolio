@@ -1,14 +1,26 @@
 /**
  * Design tokens.
  *
- * Visual language follows Instagram/Threads: a near-monochrome palette, the system sans
- * stack, 1px hairline borders instead of shadows, and generous whitespace. The only
- * technical flourish is a faint grid on the page background.
+ * Visual language follows Instagram and Threads:
+ *  - one flat surface, not a stack of nested cards; separation comes from hairline
+ *    dividers and whitespace rather than borders, shadows or elevation
+ *  - the system sans stack, small tight type, 14px body
+ *  - near-monochrome, with a single blue reserved for focus and links
+ *
+ * The only technical flourish is a faint grid on the page background.
  *
  * Use semantic names only (no component-specific tokens).
  */
 
-export const borderRadius = "16px";
+/** Corner radii. Media and controls are softer than containers, as in both apps. */
+export const radii = {
+  sm: "8px",
+  md: "12px",
+  lg: "16px",
+  pill: "999px"
+};
+
+export const borderRadius = radii.md;
 
 export const spacing = {
   xs: "4px",
@@ -43,34 +55,37 @@ export const typography = {
     body: systemSans
   },
   heading: {
-    weight: 700,
-    tracking: "-0.02em",
+    weight: 600,
+    tracking: "-0.01em",
     transform: "none"
   },
   typewriter: {
-    size: "clamp(24px, 3.6vw, 38px)",
-    tracking: "-0.02em",
+    size: "clamp(26px, 4vw, 40px)",
+    tracking: "-0.03em",
     transform: "none"
   },
   card: {
-    titleSize: "1rem",
+    titleSize: "0.9375rem",
     titleTracking: "-0.01em",
     titleTransform: "none"
   },
-  /** Type scale. Sizes were previously hardcoded across styled files. */
+  /** 14px body, with everything else close to it — both apps keep a very tight scale. */
   size: {
-    xs: "0.6875rem",
-    sm: "0.75rem",
+    xs: "0.75rem",
+    sm: "0.8125rem",
     md: "0.875rem",
-    lg: "1rem",
+    lg: "0.9375rem",
     xl: "1.25rem"
+  },
+  weight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700
   }
 };
 
-/**
- * Blur strength. Kept low and mostly decorative — surfaces are opaque in this language,
- * so borders rather than glass carry the hierarchy.
- */
+/** Kept for API compatibility; surfaces are opaque in this language, so barely used. */
 export const blur = {
   sm: "4px",
   md: "8px",
@@ -90,36 +105,39 @@ const gridBackground = (line, base) =>
   base;
 
 /**
- * Semantic color palette. Near-monochrome: hierarchy comes from text weight and hairline
- * borders, not from colour or elevation.
+ * Light palette, following Instagram: pure white page, #efefef control fills,
+ * #737373 secondary text, #dbdbdb hairlines.
  */
 export const lightTheme = {
   colors: {
-    primary: "#0a0a0a",
-    secondary: "#fafafa",
-    accent: "#737373",
+    primary: "#000000",
+    secondary: "#efefef",
+    accent: "#0095f6",
     background: "#ffffff",
     surface: "#ffffff",
     surfaceGlass: "#ffffff",
-    secondaryGlass: "#fafafa",
-    text: "#0a0a0a",
+    secondaryGlass: "#efefef",
+    text: "#000000",
     muted: "#737373",
     border: "#dbdbdb",
+    /** Lighter than `border`, for separating stacked content rather than outlining it. */
+    divider: "#efefef",
     paper: "#fafafa",
-    paperText: "#0a0a0a",
+    paperText: "#000000",
     paperMuted: "#737373",
     paperBorder: "#dbdbdb",
     success: "#1d7a37",
     warning: "#8a6100",
     danger: "#ed4956",
-    inverse: "#0a0a0a",
+    inverse: "#000000",
     inverseText: "#ffffff",
     inverseHover: "rgba(255, 255, 255, 0.12)",
     inverseFocus: "rgba(255, 255, 255, 0.8)",
-    focusBorder: "#0a0a0a",
-    focusRing: "rgba(0, 0, 0, 0.1)",
+    focusBorder: "#0095f6",
+    focusRing: "rgba(0, 149, 246, 0.28)",
     heart: "#ed4956"
   },
+  radii,
   borderRadius,
   spacing,
   breakpoints,
@@ -127,56 +145,61 @@ export const lightTheme = {
   typography,
   blur,
   motion,
-  /** Hairlines do the work; shadows stay almost invisible. */
+  /** Dividers and fills carry hierarchy; only overlays get elevation. */
   shadows: {
     sm: "none",
     md: "none",
-    mdDown: "0 2px 8px rgba(0, 0, 0, 0.06)",
-    focus: "0 0 0 2px rgba(0, 0, 0, 0.1)"
+    mdDown: "0 4px 16px rgba(0, 0, 0, 0.1)",
+    focus: "0 0 0 2px rgba(0, 149, 246, 0.28)"
   },
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(0, 0, 0, 0.045)", "#ffffff")
+  bodyBackground: gridBackground("rgba(0, 0, 0, 0.04)", "#ffffff")
 };
 
+/**
+ * Dark palette, following Threads: #101010 rather than pure black, with #181818
+ * surfaces and #262626 fills.
+ */
 export const darkTheme = {
   ...lightTheme,
   colors: {
     ...lightTheme.colors,
-    primary: "#f5f5f5",
-    secondary: "#121212",
-    accent: "#8e8e8e",
-    background: "#000000",
-    surface: "#0a0a0a",
-    surfaceGlass: "#0a0a0a",
-    secondaryGlass: "#121212",
-    text: "#f5f5f5",
-    muted: "#8e8e8e",
-    border: "#262626",
-    paper: "#121212",
-    paperText: "#f5f5f5",
-    paperMuted: "#8e8e8e",
-    paperBorder: "#262626",
+    primary: "#f3f5f7",
+    secondary: "#262626",
+    accent: "#0095f6",
+    background: "#101010",
+    surface: "#181818",
+    surfaceGlass: "#181818",
+    secondaryGlass: "#262626",
+    text: "#f3f5f7",
+    muted: "#777777",
+    border: "#2e2e2e",
+    divider: "#242424",
+    paper: "#181818",
+    paperText: "#f3f5f7",
+    paperMuted: "#777777",
+    paperBorder: "#2e2e2e",
     success: "#4bb563",
     warning: "#d9a441",
     danger: "#ff5a67",
-    inverse: "#f5f5f5",
-    inverseText: "#000000",
+    inverse: "#f3f5f7",
+    inverseText: "#101010",
     inverseHover: "rgba(0, 0, 0, 0.12)",
     inverseFocus: "rgba(0, 0, 0, 0.8)",
-    focusBorder: "#f5f5f5",
-    focusRing: "rgba(255, 255, 255, 0.16)",
+    focusBorder: "#0095f6",
+    focusRing: "rgba(0, 149, 246, 0.36)",
     heart: "#ff5a67"
   },
   shadows: {
     sm: "none",
     md: "none",
-    mdDown: "0 2px 8px rgba(0, 0, 0, 0.5)",
-    focus: "0 0 0 2px rgba(255, 255, 255, 0.16)"
+    mdDown: "0 4px 16px rgba(0, 0, 0, 0.6)",
+    focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },
   img: {
-    brightness: "brightness(0.95)"
+    brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#000000")
+  bodyBackground: gridBackground("rgba(255, 255, 255, 0.045)", "#101010")
 };

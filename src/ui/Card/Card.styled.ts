@@ -4,6 +4,10 @@ interface CardWrapperProps {
   $disabled?: boolean;
 }
 
+/**
+ * Borderless, like a tile in an Instagram profile grid: the media carries the card and the
+ * text sits directly beneath it on the page background. No box, no shadow, no lift.
+ */
 export const CardWrapper = styled.a<CardWrapperProps>`
   display: flex;
   flex-direction: column;
@@ -11,45 +15,46 @@ export const CardWrapper = styled.a<CardWrapperProps>`
   min-width: 0;
   color: inherit;
   text-decoration: none;
-  padding: ${({ theme }) => theme.spacing.md};
   gap: ${({ theme }) => theme.spacing.sm};
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  overflow: hidden;
+  background: transparent;
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
   cursor: pointer;
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    background ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.secondary};
-  }
 
   &:focus-visible {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.focusBorder};
-    box-shadow: ${({ theme }) => theme.shadows.focus};
+    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
+    outline-offset: 4px;
   }
 
   ${({ $disabled }) =>
     $disabled &&
     `
     cursor: default;
-    opacity: 0.45;
-
-    &:hover {
-      background: inherit;
-    }
+    opacity: 0.4;
   `}
 `;
 
 export const ImageContainer = styled.div`
   width: 100%;
-  aspect-ratio: 16 / 10;
-  border-radius: calc(${({ theme }) => theme.borderRadius} - 8px);
+  /* Matches the 960x540 cover art, so nothing gets cropped. */
+  aspect-ratio: 16 / 9;
+  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  position: relative;
+
+  /* Instagram dims the tile on hover rather than moving it. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #000000;
+    opacity: 0;
+    transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  }
+
+  ${CardWrapper}:hover &::after {
+    opacity: 0.06;
+  }
 `;
 
 export const CardImage = styled.img`
@@ -63,17 +68,14 @@ export const CardImage = styled.img`
 export const CardBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => theme.spacing.xs} 2px 0;
+  gap: 2px;
 `;
 
 export const CardTypeLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.6875rem"};
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
   color: ${({ theme }) => theme.colors.muted};
-  font-weight: 600;
-  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  font-weight: ${({ theme }) => theme.typography.weight?.normal ?? 400};
+  font-family: ${({ theme }) => theme.typography.fontFamily.body};
 `;
 
 export const TitleRow = styled.div`
@@ -85,9 +87,9 @@ export const TitleRow = styled.div`
 
 export const Title = styled.h3`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.card?.titleSize ?? "1rem"};
-  line-height: 1.3;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.typography.card?.titleSize ?? "0.9375rem"};
+  line-height: 1.35;
+  font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: ${({ theme }) => theme.typography.card?.titleTracking ?? "-0.01em"};
   text-transform: ${({ theme }) => theme.typography.card?.titleTransform ?? "none"};
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
@@ -97,7 +99,7 @@ export const Title = styled.h3`
 export const Description = styled.p`
   margin: 0;
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
-  line-height: 1.5;
+  line-height: 1.45;
   color: ${({ theme }) => theme.colors.muted};
   text-wrap: pretty;
 `;
@@ -112,11 +114,11 @@ export const TagsRow = styled.div`
 export const Tag = styled.span`
   display: inline-flex;
   align-items: center;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.75rem"};
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-weight: ${({ theme }) => theme.typography.weight?.medium ?? 500};
   color: ${({ theme }) => theme.colors.muted};
-  background: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 999px;
-  padding: 3px 10px;
+  background: ${({ theme }) => theme.colors.secondary};
+  border: none;
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  padding: 3px 8px;
 `;

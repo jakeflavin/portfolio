@@ -6,7 +6,7 @@ export const Button = styled.button`
   justify-content: center;
 
   padding: ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
 
   background: transparent;
   border: none;
@@ -19,7 +19,7 @@ export const Button = styled.button`
     transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    background-color:  ${({ theme }) => `${theme.colors.primary}18`};
+    background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.primary};
   }
 
@@ -28,7 +28,7 @@ export const Button = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme}) => theme.colors.primary};
+    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: 2px;
   }
 `;
