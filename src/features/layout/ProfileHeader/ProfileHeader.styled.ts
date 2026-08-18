@@ -10,6 +10,7 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
+  justify-content: center;
   background: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
@@ -25,15 +26,19 @@ export const Panel = styled.header`
 `;
 
 /**
- * Spans the content width rather than sitting centred in it. Centred, the profile started
- * 120px right of the search field and the cards, so the page carried two competing left
- * edges. Now everything shares one.
+ * A centred block. Inside it there are exactly two left edges: the avatar and the stories
+ * sit on the block's edge, and the name, counts and bio share the column beside the avatar.
+ *
+ * Held to a measure rather than spanning the page: full width, its content stopped well
+ * short of the right edge while the card grid below ran flush to it. Centred, the leftover
+ * splits evenly either side.
  */
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
+  max-width: 560px;
 
   ${({ theme }) => theme.media.md} {
     display: grid;
