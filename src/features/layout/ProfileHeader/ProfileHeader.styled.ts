@@ -267,9 +267,13 @@ export const HighlightRing = styled.span`
   height: 62px;
   min-width: 62px;
   flex-shrink: 0;
-  padding: 3px;
+  /*
+   * 3px of ring and 2px of gap, matching the avatar: its gradient band is the 3px padding
+   * and its inner border is the 2px gap. A 1px border read as a hairline beside it.
+   */
+  padding: 2px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 3px solid ${({ theme }) => theme.colors.border};
   transition: transform ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 

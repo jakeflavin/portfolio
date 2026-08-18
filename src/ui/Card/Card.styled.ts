@@ -74,9 +74,23 @@ export const HeaderTitle = styled.a`
 /** Portrait media is the single most recognisable thing about a post. */
 export const Media = styled.a`
   display: block;
-  width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+
+  /*
+   * Full-bleed on phones: the grid is a single column there, so the media breaks out of
+   * the container's gutter to meet the screen edges. Reset at sm, where the grid splits
+   * into columns and a bleed would run cards into each other.
+   */
+  width: calc(100% + ${({ theme }) => theme.spacing.md} * 2);
+  margin-left: -${({ theme }) => theme.spacing.md};
+  margin-right: -${({ theme }) => theme.spacing.md};
+
+  ${({ theme }) => theme.media.sm} {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
   background: ${({ theme }) => theme.colors.secondary};
   border-top: 1px solid ${({ theme }) => theme.colors.divider};
   position: relative;
