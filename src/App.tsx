@@ -60,24 +60,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
-  width: 95%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: stretch;
-  border-radius: ${({ theme }) => theme.borderRadius};
+  /*
+   * A single measure with gutters, rather than a percentage that changed at every
+   * breakpoint. The old 95/90/80/70% ladder meant the content width moved constantly and
+   * never settled anywhere deliberate.
+   */
+  width: 100%;
+  max-width: 1040px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
-
-  ${({ theme }) => theme.media.sm} {
-    width: 90%;
-  }
+  padding: 0 ${({ theme }) => theme.spacing.md};
 
   ${({ theme }) => theme.media.md} {
-    width: 80%;
-  }
-
-  ${({ theme }) => theme.media.lg} {
-    width: 70%;
+    padding: 0 ${({ theme }) => theme.spacing.lg};
   }
 `;
 
@@ -86,7 +80,6 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  /* Whitespace separates sections now that nothing is boxed. */
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 

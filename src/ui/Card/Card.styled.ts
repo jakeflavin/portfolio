@@ -20,15 +20,13 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
-  overflow: hidden;
   transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     box-shadow ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     transform ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
-  /* Lifts off the page rather than only recolouring its border. */
+  /* Nothing is outlined, so the lift and the media scrim carry the hover on their own. */
   &:hover {
-    border-color: ${({ theme }) => theme.colors.border};
-    box-shadow: ${({ theme }) => theme.shadows.hover ?? theme.shadows.raised ?? "none"};
+    box-shadow: ${({ theme }) => theme.shadows.hover ?? "none"};
     transform: translateY(-3px);
   }
 
@@ -54,8 +52,7 @@ export const PostHeader = styled.header`
   display: flex;
   align-items: baseline;
   gap: 5px;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
-    ${({ theme }) => theme.spacing.sm};
+  padding: 0 0 ${({ theme }) => theme.spacing.sm};
 `;
 
 /** The title slot: semibold, and a link, where a post carries its username. */
@@ -81,6 +78,7 @@ export const Media = styled.a`
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   background: ${({ theme }) => theme.colors.secondary};
   border-top: 1px solid ${({ theme }) => theme.colors.divider};
   position: relative;
@@ -113,8 +111,7 @@ export const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
-    ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.sm};
 `;
 
 const actionStyles = `
@@ -154,7 +151,7 @@ export const Caption = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
-  padding: 0 ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md};
+  padding: 0;
 `;
 
 export const Description = styled.p<{ $clamped?: boolean }>`

@@ -10,15 +10,15 @@ export const SearchContainer = styled.div`
   /* One row at every width; the sort label is what gives way on narrow screens. */
   flex-direction: row;
   align-items: stretch;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.divider};
+  /* Filled rather than outlined: with the surfaces and hairlines gone this is the only
+     thing marking the control out from the page. */
+  background: ${({ theme }) => theme.colors.secondary};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
-  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
   transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   /* The children are bare, so focus is shown once, here, for the whole control. */
   &:has(:focus-visible) {
-    border-color: ${({ theme }) => theme.colors.focusBorder};
+    box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
 `;
@@ -30,7 +30,8 @@ export const SelectWrap = styled.div`
   min-height: 0;
   min-width: 0;
   flex: 0 0 auto;
-  border-left: 1px solid ${({ theme }) => theme.colors.divider};
+  /* Its own colour, since the divider token is switched off. */
+  border-left: 1px solid ${({ theme }) => theme.colors.border};
 
   ${({ theme }) => theme.media.sm} {
     flex: 0 1 12rem;
@@ -41,10 +42,23 @@ export const SelectWrap = styled.div`
  * A directory is a finder, so everything stays scannable at once. A single 470px feed
  * column is right for endless browsing and wrong for showing what is available.
  */
+/**
+ * Explicit column counts rather than auto-fill. A minmax of 300px meant three columns only
+ * appeared past a ~930px container, so a browser at 830px still showed two — the breakpoint
+ * was an accident of the arithmetic rather than a decision.
+ */
 export const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+
+  ${({ theme }) => theme.media.sm} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  ${({ theme }) => theme.media.md} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const EmptyState = styled.div`
