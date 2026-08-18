@@ -1,15 +1,19 @@
-name: Preview
+name: Deploy
 
-on: pull_request
+# Deploys are deliberate. Pushing to an app repo publishes a build artifact but does not
+# reach production until this workflow runs and pulls the artifacts in.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-permissions:
-  checks: write
-  contents: read
-  pull-requests: write
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
-  build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +28,8 @@ jobs:
       - run: npm test
       - run: npm run build
 
+      # Must run after the build (and after generateSocialMeta.js, which `build` invokes)
+      # so nothing overwrites an extracted app's index.html.
       - name: Fetch app build artifacts
         run: node scripts/fetchApps.mjs
         env:
@@ -33,4 +39,5 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_4B9FE }}
+          channelId: live
           projectId: portfolio-4b9fe

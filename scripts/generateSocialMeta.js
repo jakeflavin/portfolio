@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import dotenv from "dotenv";
-import { PROJECT_RECORDS } from "../src/features/projects/projectRecords.js";
 
 dotenv.config({ quiet: true });
 dotenv.config({ path: ".env.local", quiet: true });
@@ -29,6 +28,7 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;");
 }
 
+/** Swaps an .svg for a sibling .png, since most social crawlers will not render SVG. */
 function preferSocialImage(imageSrc) {
   const parsed = path.parse(imageSrc);
   if (parsed.ext !== ".svg") return imageSrc;
@@ -38,14 +38,13 @@ function preferSocialImage(imageSrc) {
 }
 
 function socialMeta({ title, description, imageSrc, url }) {
-  const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
   const imageUrl = absoluteUrl(preferSocialImage(imageSrc));
   const pageUrl = absoluteUrl(url);
 
   return [
     "<!-- social-meta:start -->",
     `<meta name="description" content="${escapeHtml(description)}" />`,
-    `<meta property="og:title" content="${escapeHtml(fullTitle)}" />`,
+    `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(SITE_TITLE)}" />`,
     `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`,
@@ -54,7 +53,7 @@ function socialMeta({ title, description, imageSrc, url }) {
     `<meta property="og:url" content="${escapeHtml(pageUrl)}" />`,
     '<meta property="og:type" content="website" />',
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:title" content="${escapeHtml(fullTitle)}" />`,
+    `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(imageUrl)}" />`,
     `<meta name="twitter:image:alt" content="${escapeHtml(title)}" />`,
@@ -74,13 +73,8 @@ function applyMeta(html, meta) {
     .replace("</head>", `    ${meta}\n  </head>`);
 }
 
-function pageHtml(template, page) {
-  return applyMeta(template, socialMeta(page)).replace(
-    `<title>${escapeHtml(SITE_TITLE)}</title>`,
-    `<title>${escapeHtml(page.title)} | ${escapeHtml(SITE_TITLE)}</title>`
-  );
-}
-
+// Only the directory's own index.html is generated here. Each app under /<slug>/ ships
+// its own index.html inside its release artifact, and must not be overwritten.
 const template = fs.readFileSync(INDEX_PATH, "utf8");
 
 fs.writeFileSync(
@@ -96,20 +90,4 @@ fs.writeFileSync(
   )
 );
 
-for (const project of PROJECT_RECORDS) {
-  if (project.external) continue;
-
-  const routeDir = path.join(DIST_DIR, project.path);
-  fs.mkdirSync(routeDir, { recursive: true });
-  fs.writeFileSync(
-    path.join(routeDir, "index.html"),
-    pageHtml(template, {
-      title: project.title,
-      description: project.description,
-      imageSrc: project.imageSrc,
-      url: project.path
-    })
-  );
-}
-
-console.log(`Generated static social meta for ${PROJECT_RECORDS.length - 1} project routes.`);
+console.log("Generated social meta for the directory index.");

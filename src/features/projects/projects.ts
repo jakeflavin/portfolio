@@ -1,16 +1,10 @@
-import React from "react";
 import type { CardType } from "@/ui/Card";
-import RunningRouteEstimatorPage from "@/features/running-route-estimator/RunningRouteEstimatorPage";
-import CountDownPage from "@/features/countdown-timer/CountDownPage";
-import CoolLinksPage from "@/features/cool-links/CoolLinksPage";
-import TicTacToePage from "@/features/tic-tac-toe/TicTacToePage";
-import MadlibsPage from "@/features/madlibs/MadlibsPage";
-import LocalWeatherPage from "@/features/local-weather/LocalWeatherPage";
-import TipCalculatorPage from "@/features/tip-calculator/TipCalculatorPage";
-import RunPaceCalculatorPage from "@/features/run-pace-calculator/RunPaceCalculatorPage";
-import ClassroomNoiseIndicatorPage from "@/features/classroom-noise-indicator/ClassroomNoiseIndicatorPage";
-import { PROJECT_RECORDS } from "./projectRecords";
+import appsManifest from "../../../apps.json";
 
+/**
+ * One entry in the directory. Every project is a standalone app deployed into
+ * `/<slug>/` on this same Hosting site; the portfolio only links to it.
+ */
 export interface Project {
   id: string;
   creationDate: Date;
@@ -20,28 +14,36 @@ export interface Project {
   imageSrc: string;
   description: string;
   tags?: string[];
-  /** Route path for this project */
+  /** Public path this app is served from, e.g. `/countdown/` */
   path: string;
-  external: boolean;
-  /** Component to render when the route is active */
-  component?: React.ComponentType<{ project: Project }>;
+  /** GitHub repo the build artifact is published from, e.g. `jakeflavin/countdown` */
+  repo: string;
 }
 
-const PROJECT_COMPONENTS: Record<string, React.ComponentType<{ project: Project }>> = {
-  "1": RunningRouteEstimatorPage,
-  "2": CountDownPage,
-  "3": CoolLinksPage,
-  "4": TicTacToePage,
-  "5": MadlibsPage,
-  "6": LocalWeatherPage,
-  "7": TipCalculatorPage,
-  "8": RunPaceCalculatorPage,
-  "9": ClassroomNoiseIndicatorPage
-};
+export interface AppRecord {
+  slug: string;
+  title: string;
+  description: string;
+  tags?: string[];
+  cover: string;
+  creationDate: string;
+  disabled: boolean;
+  repo: string;
+  /** Pins a specific release tag. Omit to take the latest build at deploy time. */
+  ref?: string;
+}
 
-export const PROJECTS: Project[] = PROJECT_RECORDS.map((project) => ({
-  ...project,
-  creationDate: new Date(project.creationDate),
-  type: project.type as CardType,
-  component: PROJECT_COMPONENTS[project.id]
+export const APPS: AppRecord[] = (appsManifest as { apps: AppRecord[] }).apps;
+
+export const PROJECTS: Project[] = APPS.map((app) => ({
+  id: app.slug,
+  creationDate: new Date(app.creationDate),
+  disabled: app.disabled,
+  title: app.title,
+  type: "project" as CardType,
+  imageSrc: app.cover,
+  description: app.description,
+  tags: app.tags,
+  path: `/${app.slug}/`,
+  repo: app.repo
 }));

@@ -1,24 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { blueprintTheme, blueprintDarkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "@/features/layout/FooterBar";
 import NavBar from "@/features/layout/NavBar";
-import ProjectPageMeta from "@/features/layout/ProjectPageMeta";
 import Home from "@/features/home/Home";
-import { PROJECTS } from "@/features/projects/projects";
-
-/** Scrolls the window to top when the route pathname changes. */
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, [pathname]);
-
-  return null;
-}
 
 /** Returns whether the user's OS preference is dark mode. */
 const getPrefersDark = () =>
@@ -39,35 +25,16 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Container>
-          <NavBar
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={() => setIsDarkMode((prev) => !prev)}
-          />
-          <Content>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              {PROJECTS.filter(
-                (p): p is typeof p & { component: NonNullable<typeof p["component"]> } =>
-                  !p.external && !!p.component
-              ).map((project) => (
-                <Route
-                  key={project.id}
-                  path={project.path}
-                  element={
-                    <ProjectPageMeta project={project}>
-                      <project.component project={project} />
-                    </ProjectPageMeta>
-                  }
-                />
-              ))}
-            </Routes>
-          </Content>
-          <FooterBar />
-        </Container>
-      </BrowserRouter>
+      <Container>
+        <NavBar
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={() => setIsDarkMode((prev) => !prev)}
+        />
+        <Content>
+          <Home />
+        </Content>
+        <FooterBar />
+      </Container>
     </ThemeProvider>
   );
 };
@@ -92,7 +59,7 @@ const Container = styled.div`
     width: 80%;
   }
 
-    ${({ theme }) => theme.media.lg} {
+  ${({ theme }) => theme.media.lg} {
     width: 70%;
   }
 `;

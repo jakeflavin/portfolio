@@ -1,6 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
-
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -26,4 +23,12 @@ export default defineConfig([globalIgnores(['dist']), {
   rules: {
     'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
   },
-}, ...storybook.configs["flat/recommended"]])
+}, {
+  // Build-time scripts run in Node, not the browser.
+  files: ['scripts/**/*.{js,mjs}'],
+  extends: [js.configs.recommended],
+  languageOptions: {
+    globals: globals.node,
+    parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  },
+}])

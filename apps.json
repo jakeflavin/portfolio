@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "slug": "countdown",
+      "title": "Countdown Timer",
+      "description": "A countdown timer with calming, cinematic scenes.",
+      "tags": ["timer", "utility"],
+      "cover": "/images/countdown-timer-project-cover.svg",
+      "creationDate": "2026-02-17",
+      "disabled": false,
+      "repo": "jakeflavin/countdown"
+    }
+  ]
+}

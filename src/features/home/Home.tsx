@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "@/ui/Card";
 import Hero from "@/features/layout/Hero";
 import InputAction from "@/ui/InputAction";
@@ -11,7 +10,6 @@ import { SORT_OPTIONS, type SortValue } from "./home.utils";
 import { useProjectSearch } from "./useProjectSearch";
 
 const Home: React.FC = () => {
-  const navigate = useNavigate();
   const { searchQuery, setSearchQuery, sortBy, setSortBy, visibleProjects } =
     useProjectSearch(PROJECTS);
 
@@ -44,11 +42,8 @@ const Home: React.FC = () => {
             imageSrc={project.imageSrc}
             description={project.description}
             tags={project.tags}
-            onAction={() =>
-              project.external
-                ? window.open(project.path, "_blank", "noopener,noreferrer")
-                : navigate(project.path)
-            }
+            href={project.path}
+            disabled={project.disabled}
           />
         ))}
       </CardContainer>

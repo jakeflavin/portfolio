@@ -11,7 +11,6 @@ import {
   Tag,
   ImageContainer
 } from "./Card.styled";
-import { handleKeyboardAction } from "./card.utils";
 
 export type CardType = "project";
 
@@ -26,10 +25,10 @@ export interface CardProps {
   description: string;
   /** Tags displayed at the bottom */
   tags?: string[];
-  /** Called when the card is clicked */
-  onAction?: () => void;
-  /** Number of columns to span in a grid container (default: 1) */
-  columnSpan?: number;
+  /** Destination for the card. Omit to render a non-interactive card. */
+  href?: string;
+  /** Renders the card as unavailable and drops the link */
+  disabled?: boolean;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -38,22 +37,23 @@ const Card: React.FC<CardProps> = ({
   imageSrc,
   description,
   tags = [],
-  onAction,
-  columnSpan = 1
+  href,
+  disabled = false
 }) => {
+  const isLink = Boolean(href) && !disabled;
+
   return (
     <CardWrapper
-      $columnSpan={columnSpan}
-      role={onAction ? "button" : undefined}
-      tabIndex={onAction ? 0 : undefined}
-      onClick={onAction}
-      onKeyDown={onAction ? (event) => handleKeyboardAction(event, onAction) : undefined}
+      as={isLink ? "a" : "div"}
+      href={isLink ? href : undefined}
+      $disabled={disabled}
+      aria-disabled={disabled || undefined}
     >
       <ImageContainer>
         <CardImage src={imageSrc} alt={title} />
       </ImageContainer>
       <CardBody>
-        <CardTypeLabel>{type}</CardTypeLabel>
+        <CardTypeLabel>{disabled ? "coming soon" : type}</CardTypeLabel>
         <TitleRow>
           <Title>{title}</Title>
         </TitleRow>

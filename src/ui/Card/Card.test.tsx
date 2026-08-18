@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@/test/test-utils";
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@/test/test-utils";
 import Card from "./Card";
 
 describe("Card", () => {
@@ -23,34 +23,20 @@ describe("Card", () => {
     expect(screen.getByText("TypeScript")).toBeInTheDocument();
   });
 
-  it("does not render role button when onAction is not provided", () => {
+  it("renders a link when href is provided", () => {
+    render(<Card {...defaultProps} href="/countdown/" />);
+    const link = screen.getByRole("link", { name: /test project/i });
+    expect(link).toHaveAttribute("href", "/countdown/");
+  });
+
+  it("does not render a link when href is omitted", () => {
     render(<Card {...defaultProps} />);
-    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
-  it("renders as button and calls onAction when clicked", () => {
-    const onAction = vi.fn();
-    render(<Card {...defaultProps} onAction={onAction} />);
-    const card = screen.getByRole("button");
-    fireEvent.click(card);
-    expect(onAction).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls onAction on Enter key", () => {
-    const onAction = vi.fn();
-    render(<Card {...defaultProps} onAction={onAction} />);
-    const card = screen.getByRole("button");
-    card.focus();
-    fireEvent.keyDown(card, { key: "Enter", code: "Enter" });
-    expect(onAction).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls onAction on Space key", () => {
-    const onAction = vi.fn();
-    render(<Card {...defaultProps} onAction={onAction} />);
-    const card = screen.getByRole("button");
-    card.focus();
-    fireEvent.keyDown(card, { key: " ", code: "Space" });
-    expect(onAction).toHaveBeenCalledTimes(1);
+  it("drops the link and marks the card disabled when disabled", () => {
+    render(<Card {...defaultProps} href="/countdown/" disabled />);
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    expect(screen.getByText("coming soon")).toBeInTheDocument();
   });
 });

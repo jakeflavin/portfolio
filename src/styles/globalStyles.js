@@ -15,16 +15,6 @@ export const GlobalStyles = createGlobalStyle`
       color ${({ theme }) => theme.motion?.duration?.slow ?? "0.4s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("/noise.png");
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 0;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     body,
     body * {

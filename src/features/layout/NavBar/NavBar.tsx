@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useTheme } from "styled-components";
 import Bar from "@/ui/Bar";
 import IconButton from "@/ui/IconButton";
@@ -15,7 +14,6 @@ const NavBar: React.FC<NavBarProps> = ({
   isDarkMode = false,
   onToggleDarkMode
 }) => {
-  const navigate = useNavigate();
   const theme = useTheme();
 
   return (
@@ -23,7 +21,7 @@ const NavBar: React.FC<NavBarProps> = ({
       <IconButton
         icon={<HouseIcon size={20} />}
         color={theme.colors.text}
-        onClick={() => navigate("/")}
+        onClick={() => window.location.assign("/")}
         ariaLabel="Go to home"
       />
       <IconGroup>

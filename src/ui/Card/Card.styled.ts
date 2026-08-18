@@ -1,15 +1,16 @@
 import styled from "styled-components";
 
 interface CardWrapperProps {
-  $columnSpan?: number;
+  $disabled?: boolean;
 }
 
-export const CardWrapper = styled.div<CardWrapperProps>`
+export const CardWrapper = styled.a<CardWrapperProps>`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 0;
-  grid-column: span ${({ $columnSpan = 1 }) => $columnSpan};
+  color: inherit;
+  text-decoration: none;
   padding: ${({ theme }) => theme.spacing.md};
   gap: ${({ theme }) => theme.spacing.sm};
   background: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
@@ -40,6 +41,22 @@ export const CardWrapper = styled.div<CardWrapperProps>`
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: ${({ theme }) => theme.shadows.focus};
   }
+
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+    cursor: default;
+    opacity: 0.55;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    &:hover img {
+      transform: none;
+    }
+  `}
 `;
 
 export const ImageContainer = styled.div`
