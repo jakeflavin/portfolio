@@ -57,6 +57,20 @@
       "creationDate": "2026-08-18",
       "disabled": false,
       "repo": "jakeflavin/madlib"
+    },
+    {
+      "slug": "hush",
+      "title": "Hush",
+      "description": "A classroom noise meter. A colourful dial shows the room how loud it is, and speaks up when it stays too loud.",
+      "tags": [
+        "classroom",
+        "audio",
+        "meter"
+      ],
+      "cover": "/images/hush-cover.jpg",
+      "creationDate": "2026-08-18",
+      "disabled": false,
+      "repo": "jakeflavin/noise"
     }
   ]
 }
