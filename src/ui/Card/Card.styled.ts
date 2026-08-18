@@ -43,7 +43,7 @@ export const PostHeader = styled.header`
 /** The title slot: semibold, and a link, where a post carries its username. */
 export const HeaderTitle = styled.a`
   min-width: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.lg ?? "0.9375rem"};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
@@ -55,13 +55,6 @@ export const HeaderTitle = styled.a`
   &:hover {
     text-decoration: underline;
   }
-`;
-
-/** Sits inline after the title separated by a middot, as on a post — not pinned right. */
-export const Age = styled.span`
-  flex-shrink: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
-  color: ${({ theme }) => theme.colors.muted};
 `;
 
 /** Portrait media is the single most recognisable thing about a post. */
@@ -118,9 +111,11 @@ const actionStyles = `
   cursor: pointer;
 `;
 
-export const ActionLink = styled.a`
+export const ActionLink = styled.a<{ $end?: boolean }>`
   ${actionStyles}
   color: ${({ theme }) => theme.colors.text};
+  /* Pushed hard right, where a post keeps its bookmark. */
+  ${({ $end }) => $end && "margin-left: auto;"}
   transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
@@ -149,14 +144,23 @@ export const Description = styled.p`
   margin: 0;
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   line-height: 1.45;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.muted};
   text-wrap: pretty;
 `;
 
 /** Caption links on Instagram are a dark navy, not the bright action blue. */
 export const HashTags = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
   line-height: 1.4;
   color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
   word-break: break-word;
+`;
+
+/** Post age, small and muted at the foot of the caption, as on a post. */
+export const Timestamp = styled.time`
+  margin-top: 2px;
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.muted};
 `;

@@ -9,7 +9,6 @@ import {
   CardWrapper,
   PostHeader,
   HeaderTitle,
-  Age,
   Media,
   CardImage,
   Actions,
@@ -17,14 +16,14 @@ import {
   ActionLink,
   Caption,
   Description,
-  HashTags
+  HashTags,
+  Timestamp
 } from "./Card.styled";
 import { formatPostAge } from "./card.utils";
 
 export type CardType = "project";
 
-/** Instagram's action icons sit at 24px in an outline weight. */
-const ICON_SIZE = 24;
+const ICON_SIZE = 20;
 
 export interface CardProps {
   /** Card title */
@@ -95,7 +94,6 @@ const Card: React.FC<CardProps> = ({
         <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
           {title}
         </HeaderTitle>
-        {age && <Age>&middot; {age}</Age>}
       </PostHeader>
 
       <Media as={isLink ? "a" : "div"} href={isLink ? href : undefined} tabIndex={-1}>
@@ -106,17 +104,6 @@ const Card: React.FC<CardProps> = ({
         {isLink && (
           <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
             <ArrowSquareOutIcon size={ICON_SIZE} />
-          </ActionLink>
-        )}
-        {repo && (
-          <ActionLink
-            href={`https://github.com/${repo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`View source for ${title}`}
-            title="Source"
-          >
-            <GithubLogoIcon size={ICON_SIZE} />
           </ActionLink>
         )}
         {isLink && (
@@ -133,6 +120,18 @@ const Card: React.FC<CardProps> = ({
             )}
           </ActionButton>
         )}
+        {repo && (
+          <ActionLink
+            $end
+            href={`https://github.com/${repo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View source for ${title}`}
+            title="Source"
+          >
+            <GithubLogoIcon size={ICON_SIZE} />
+          </ActionLink>
+        )}
       </Actions>
 
       <Caption>
@@ -140,6 +139,7 @@ const Card: React.FC<CardProps> = ({
         {tags.length > 0 && (
           <HashTags>{tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}</HashTags>
         )}
+        {age && <Timestamp>{age}</Timestamp>}
       </Caption>
     </CardWrapper>
   );
