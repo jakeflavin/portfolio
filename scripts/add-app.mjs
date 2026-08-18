@@ -19,6 +19,7 @@
  *   --yes                   Skip the confirmation prompt
  *   --shot-wait <ms>        Settle time before the cover screenshot  (default: 2500)
  *   --shot-theme <scheme>   Capture in `light` or `dark`             (default: light)
+ *   --hide <selectors>      Extra CSS to hide in the shot  (default: header,footer)
  *   --skip-cover            Do not capture a cover
  *
  * Every step is idempotent: re-running after fixing an audit finding picks up where it left off.
@@ -464,7 +465,8 @@ if (flags["skip-cover"]) {
       "--wait",
       String(flags["shot-wait"] ?? 2500),
       "--theme",
-      flags["shot-theme"] ?? "light"
+      flags["shot-theme"] ?? "light",
+      ...(flags.hide ? ["--hide", flags.hide] : [])
     ],
     { cwd: ROOT }
   );
@@ -485,7 +487,7 @@ if (!fs.existsSync(path.join(ROOT, "public", cover.replace(/^\//, "")))) {
   note(`Warning: ${cover} does not exist in public/ — the card image will 404.`);
 }
 
-manifest.apps.push({
+const entry = {
   slug,
   title: flags.title ?? titleCase(slug),
   description,
@@ -494,7 +496,16 @@ manifest.apps.push({
   creationDate: flags.date ?? new Date().toISOString().slice(0, 10),
   disabled: false,
   repo: repoSlug
-});
+};
+
+// Recorded so a later re-capture reproduces this framing without the flags.
+const shot = {};
+if (flags.hide) shot.hide = flags.hide;
+if (flags["shot-wait"]) shot.wait = Number(flags["shot-wait"]);
+if (flags["shot-theme"]) shot.theme = flags["shot-theme"];
+if (Object.keys(shot).length > 0) entry.shot = shot;
+
+manifest.apps.push(entry);
 
 fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + "\n");
 done(`Added "${slug}" to apps.json`);

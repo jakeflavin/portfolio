@@ -7,6 +7,10 @@
  * Serving the local build rather than the live URL means a cover can be captured before the
  * app has ever been deployed — which is the order `add-app.mjs` needs.
  *
+ * Per-app settings live in apps.json under the entry's `shot` key, so a re-capture in any
+ * later session reproduces the same framing without anyone remembering the flags. CLI flags
+ * override them.
+ *
  * Usage:
  *   node scripts/capture-cover.mjs <path-to-app> --slug <slug> [options]
  *
@@ -55,14 +59,31 @@ if (!appDir || !slug) {
   process.exit(1);
 }
 
+/**
+ * Defaults recorded against the app in apps.json. Not every app marks its chrome up as
+ * `<header>`/`<footer>` — weather's search bar is a plain div — so the selectors that
+ * worked get written down rather than rediscovered.
+ */
+function manifestShot(slugName) {
+  const manifestPath = path.join(ROOT, "apps.json");
+  if (!fs.existsSync(manifestPath)) return {};
+  const { apps = [] } = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  return apps.find((app) => app.slug === slugName)?.shot ?? {};
+}
+
+const shot = manifestShot(slug);
+
 /** Matches the card's 1:1 media, so the capture lands without cropping. */
-const SIZE = Number(flags.size ?? 1080);
+const SIZE = Number(flags.size ?? shot.size ?? 1080);
 const PORT = Number(flags.port ?? 4319);
-const WAIT = Number(flags.wait ?? 1500);
-const THEME = flags.theme === "dark" ? "dark" : "light";
+const WAIT = Number(flags.wait ?? shot.wait ?? 1500);
+const THEME = (flags.theme ?? shot.theme) === "dark" ? "dark" : "light";
 const HIDE = flags["keep-chrome"]
   ? []
-  : (flags.hide ?? "header,footer").split(",").map((s) => s.trim()).filter(Boolean);
+  : (flags.hide ?? shot.hide ?? "header,footer")
+      .split(",")
+      .map((selector) => selector.trim())
+      .filter(Boolean);
 
 const outPath = path.resolve(ROOT, flags.out ?? `public/images/${slug}-cover.jpg`);
 
