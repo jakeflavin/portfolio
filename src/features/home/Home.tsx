@@ -60,6 +60,7 @@ const Home: React.FC = () => {
               tags={project.tags}
               href={project.path}
               disabled={project.disabled}
+              date={project.creationDate}
             />
           ))}
         </CardContainer>

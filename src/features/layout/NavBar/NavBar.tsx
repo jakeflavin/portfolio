@@ -3,7 +3,7 @@ import { useTheme } from "styled-components";
 import Bar from "@/ui/Bar";
 import IconButton from "@/ui/IconButton";
 import { LinkedinLogoIcon, GithubLogoIcon, ThreadsLogoIcon, MoonIcon } from "@phosphor-icons/react";
-import { IconGroup } from "./NavBar.styled";
+import { IconGroup, Wordmark } from "./NavBar.styled";
 
 export interface NavBarProps {
   isDarkMode?: boolean;
@@ -18,6 +18,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
   return (
     <Bar align="space-between">
+      <Wordmark>Jake's Tools</Wordmark>
       <IconGroup>
         <IconButton
           icon={<ThreadsLogoIcon size={20} />}

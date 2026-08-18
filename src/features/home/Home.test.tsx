@@ -22,7 +22,9 @@ describe("Home", () => {
     for (const project of PROJECTS.filter((p) => !p.disabled)) {
       const link = links.find((element) => element.getAttribute("href") === project.path);
       expect(link, `no card links to ${project.path}`).toBeDefined();
-      expect(within(link!).getByText(project.title)).toBeInTheDocument();
+      expect(
+        within(link!).getByRole("heading", { name: project.title })
+      ).toBeInTheDocument();
     }
   });
 

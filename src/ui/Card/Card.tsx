@@ -1,15 +1,19 @@
 import React from "react";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import {
   CardWrapper,
-  CardTypeLabel,
-  TitleRow,
+  PostHeader,
+  Mark,
+  HeaderText,
   Title,
-  CardBody,
+  Subtitle,
+  OpenIcon,
+  ImageContainer,
   CardImage,
+  Caption,
   Description,
-  TagsRow,
-  Tag,
-  ImageContainer
+  HashTags,
+  Timestamp
 } from "./Card.styled";
 
 export type CardType = "project";
@@ -17,19 +21,33 @@ export type CardType = "project";
 export interface CardProps {
   /** Card title */
   title: string;
-  /** Card type; shown as an uppercase label above the title */
+  /** Card type; shown as the header subtitle when there are no tags */
   type?: CardType;
-  /** Image URL; shown full-width at the top */
+  /** Image URL; shown as the post media */
   imageSrc: string;
-  /** Short description shown below the title */
+  /** Short description shown as the caption */
   description: string;
-  /** Tags displayed at the bottom */
+  /** Tags rendered as hashtags under the caption */
   tags?: string[];
   /** Destination for the card. Omit to render a non-interactive card. */
   href?: string;
   /** Renders the card as unavailable and drops the link */
   disabled?: boolean;
+  /** Shown as the post timestamp */
+  date?: Date;
 }
+
+/**
+ * Rendered in UTC on purpose. Manifest dates are plain `YYYY-MM-DD`, which Date parses as
+ * UTC midnight; formatting those in a behind-UTC local zone shows the previous day.
+ */
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  });
 
 const Card: React.FC<CardProps> = ({
   title,
@@ -38,7 +56,8 @@ const Card: React.FC<CardProps> = ({
   description,
   tags = [],
   href,
-  disabled = false
+  disabled = false,
+  date
 }) => {
   const isLink = Boolean(href) && !disabled;
 
@@ -49,23 +68,32 @@ const Card: React.FC<CardProps> = ({
       $disabled={disabled}
       aria-disabled={disabled || undefined}
     >
+      <PostHeader>
+        <Mark aria-hidden="true">{title.charAt(0)}</Mark>
+        <HeaderText>
+          <Title>{title}</Title>
+          <Subtitle>{disabled ? "coming soon" : type}</Subtitle>
+        </HeaderText>
+        {isLink && (
+          <OpenIcon>
+            <ArrowUpRightIcon size={16} />
+          </OpenIcon>
+        )}
+      </PostHeader>
+
       <ImageContainer>
         <CardImage src={imageSrc} alt={title} />
       </ImageContainer>
-      <CardBody>
-        <CardTypeLabel>{disabled ? "coming soon" : type}</CardTypeLabel>
-        <TitleRow>
-          <Title>{title}</Title>
-        </TitleRow>
-        <Description>{description}</Description>
+
+      <Caption>
+        <Description>
+          <strong>{title}</strong> {description}
+        </Description>
         {tags.length > 0 && (
-          <TagsRow>
-            {tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
-          </TagsRow>
+          <HashTags>{tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}</HashTags>
         )}
-      </CardBody>
+        {date && <Timestamp>{formatDate(date)}</Timestamp>}
+      </Caption>
     </CardWrapper>
   );
 };

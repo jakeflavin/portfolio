@@ -26,17 +26,10 @@ export const SelectWrap = styled.div`
 
 export const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
-  /* Roomier between rows than columns, so untiled text never runs together. */
-  gap: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.media.sm} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  ${({ theme }) => theme.media.md} {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  /* Column count follows the available width. Fixed breakpoints squeezed posts to ~200px
+     on mid-size screens, which wrapped every title. */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
 `;
 
 export const EmptyState = styled.div`
