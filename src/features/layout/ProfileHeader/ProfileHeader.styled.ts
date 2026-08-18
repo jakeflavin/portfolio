@@ -11,7 +11,7 @@ export const Panel = styled.header`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
@@ -19,15 +19,15 @@ export const Panel = styled.header`
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
 
   ${({ theme }) => theme.media.md} {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
+    padding: ${({ theme }) => theme.spacing.lg};
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "avatar identity"
       "gutter bio"
-      "highlights highlights";
-    column-gap: ${({ theme }) => theme.spacing.xl};
-    row-gap: ${({ theme }) => theme.spacing.md};
+      "gutter highlights";
+    column-gap: ${({ theme }) => theme.spacing.lg};
+    row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
   }
 `;
@@ -57,8 +57,8 @@ export const AvatarRing = styled.div`
   background: ${({ theme }) => theme.gradient?.brand ?? "none"};
 
   ${({ theme }) => theme.media.md} {
-    width: 104px;
-    height: 104px;
+    width: 88px;
+    height: 88px;
   }
 `;
 
@@ -85,12 +85,8 @@ export const IdentityColumn = styled.div`
   grid-area: identity;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
-
-  ${({ theme }) => theme.media.md} {
-    gap: ${({ theme }) => theme.spacing.md};
-  }
 `;
 
 export const Handle = styled.h1`
@@ -176,32 +172,39 @@ export const BioTag = styled.button`
   }
 `;
 
-/** A horizontally scrolling rail, as the highlights row is. */
+/**
+ * All the highlights fit inline at every width — they share the row rather than scrolling,
+ * so nothing is hidden off the edge on a phone.
+ */
 export const Highlights = styled.div`
   grid-area: highlights;
   display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
-  overflow-x: auto;
+  gap: ${({ theme }) => theme.spacing.sm};
   padding-top: ${({ theme }) => theme.spacing.xs};
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   ${({ theme }) => theme.media.md} {
-    gap: ${({ theme }) => theme.spacing.lg};
+    gap: ${({ theme }) => theme.spacing.md};
+    /* Aligned under the bio rather than spanning the panel, so the row does not strand
+       the whole right-hand side empty. */
+    justify-content: flex-start;
+    padding-top: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
 export const Highlight = styled.button`
-  flex-shrink: 0;
+  /* Shares the row on narrow screens; fixed width once there is space. */
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  width: 74px;
   padding: 0;
+
+  ${({ theme }) => theme.media.md} {
+    flex: 0 0 auto;
+    width: 74px;
+  }
   background: none;
   border: none;
   cursor: pointer;
@@ -214,28 +217,58 @@ export const Highlight = styled.button`
   }
 `;
 
-/** Highlights get a plain ring; the gradient is reserved for the avatar. */
+/**
+ * The outer ring, as on a highlight: a hairline circle with a gap between it and the
+ * thumbnail inside. The gap is the panel surface showing through the padding.
+ */
 export const HighlightRing = styled.span`
-  width: 62px;
-  height: 62px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  padding: 3px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
-  background: ${({ theme }) => theme.colors.secondary};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    transform ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: transform ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  ${({ theme }) => theme.media.md} {
+    width: 62px;
+    height: 62px;
+  }
 
   ${Highlight}:hover & {
-    background: ${({ theme }) => theme.colors.border};
     transform: translateY(-2px);
+    border-color: ${({ theme }) => theme.colors.muted};
   }
 
   @media (prefers-reduced-motion: reduce) {
     ${Highlight}:hover & {
       transform: none;
     }
+  }
+`;
+
+/**
+ * The thumbnail itself. The three-stop gradient reads better than the full sweep at this
+ * size, and the icon sits in white since the fill is saturated.
+ */
+export const HighlightFill = styled.span`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
+  background: ${({ theme }) => theme.gradient?.compact ?? theme.colors.secondary};
+  color: #ffffff;
+  transition: filter ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  ${Highlight}:hover & {
+    filter: brightness(1.08);
+  }
+
+  svg {
+    display: block;
   }
 `;
 

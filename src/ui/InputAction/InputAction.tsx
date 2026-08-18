@@ -44,12 +44,11 @@ const InputAction: React.FC<InputActionProps> = ({
 }) => {
   const inputId = useId();
   const theme = useTheme();
-  const styledLeftIcon = icon ? React.cloneElement(icon, {
-    width: iconSize,
-    height: iconSize,
-    fill: "currentColor",
-    display: "block"
-  }) : null;
+  // Size only. Setting `fill` here floods stroke-based icons solid, and colour is
+  // inherited from the slot via currentColor anyway.
+  const styledLeftIcon = icon
+    ? React.cloneElement(icon, { width: iconSize, height: iconSize })
+    : null;
 
   const handleClear = () => {
     if (onChange) {

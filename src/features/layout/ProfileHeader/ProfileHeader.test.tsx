@@ -17,18 +17,18 @@ describe("ProfileHeader", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Jake's Tools" })).toBeInTheDocument();
   });
 
-  it("counts tools, tags and live apps from the manifest", () => {
+  it("counts tools and tags from the manifest, and shows the ideas tally", () => {
     render(<ProfileHeader />);
     const expected = {
-      tools: PROJECTS.length,
-      tags: new Set(PROJECTS.flatMap((project) => project.tags ?? [])).size,
-      live: PROJECTS.filter((project) => !project.disabled).length
+      tools: String(PROJECTS.length),
+      tags: String(new Set(PROJECTS.flatMap((project) => project.tags ?? [])).size),
+      ideas: "2,319"
     };
 
     // Scoped per stat, since two counts can legitimately hold the same value.
     for (const [label, value] of Object.entries(expected)) {
       const term = screen.getByText(label);
-      expect(term.parentElement).toHaveTextContent(String(value));
+      expect(term.parentElement).toHaveTextContent(value);
     }
   });
 

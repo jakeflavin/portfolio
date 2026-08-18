@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ExternalLink, Send, Check } from "lucide-react";
+import { ArrowUpRight, Send, Check } from "lucide-react";
 import BrandIcon from "@/ui/BrandIcon";
 import {
   CardWrapper,
@@ -128,7 +128,7 @@ const Card: React.FC<CardProps> = ({
       <Actions>
         {isLink && (
           <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
-            <ExternalLink size={ICON_SIZE} />
+            <ArrowUpRight size={ICON_SIZE} />
           </ActionLink>
         )}
         {isLink && (

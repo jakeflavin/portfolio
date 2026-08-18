@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const Button = styled.button<{ $color?: string }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -11,16 +11,22 @@ export const Button = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.primary};
+  /* The icon inherits this through currentColor. */
+  color: ${({ theme, $color }) => $color ?? theme.colors.primary};
 
   line-height: 0;
+
+  svg {
+    display: block;
+  }
   transition: background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.primary};
+    /* The icon inherits this through currentColor. */
+  color: ${({ theme, $color }) => $color ?? theme.colors.primary};
   }
 
   &:active {

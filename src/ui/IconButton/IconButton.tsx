@@ -24,15 +24,12 @@ const IconButton: React.FC<IconButtonProps> = ({
   ariaLabel
 }) => {
   const sourceIcon = active && activeIcon ? activeIcon : icon;
-  const styledIcon = React.cloneElement(sourceIcon, {
-    width: size,
-    height: size,
-    fill: color ?? "currentColor",
-    display: "block"
-  });
+  // Size only. Setting `fill` floods stroke-based icons solid; the button carries the
+  // colour and the icon inherits it through currentColor.
+  const styledIcon = React.cloneElement(sourceIcon, { width: size, height: size });
 
   return (
-    <Button onClick={onClick} aria-label={ariaLabel}>
+    <Button onClick={onClick} aria-label={ariaLabel} $color={color}>
       {styledIcon}
     </Button>
   );

@@ -19,6 +19,7 @@ import {
   Highlights,
   Highlight,
   HighlightRing,
+  HighlightFill,
   HighlightLabel
 } from "./ProfileHeader.styled";
 
@@ -37,14 +38,20 @@ const SOCIALS: { name: BrandName; href: string; label: string }[] = [
   { name: "github", href: "https://github.com/jakeflavin", label: "GitHub" }
 ];
 
-/** Counts drawn from the manifest, standing in for posts/followers/following. */
+/**
+ * The vanity stat. Not derived from anything — it is the "followers" slot, and the joke
+ * is that the ideas outnumber the shipped tools by three orders of magnitude.
+ */
+const IDEAS = 2319;
+
+/** The counts row. Tools and tags are real manifest data; ideas is the vanity number. */
 function useStats() {
-  const live = PROJECTS.filter((project) => !project.disabled);
   const tags = new Set(PROJECTS.flatMap((project) => project.tags ?? []));
   return [
     { label: PROJECTS.length === 1 ? "tool" : "tools", value: PROJECTS.length },
     { label: tags.size === 1 ? "tag" : "tags", value: tags.size },
-    { label: "live", value: live.length }
+    // Grouped, as Instagram formats its counts.
+    { label: "ideas", value: IDEAS.toLocaleString("en-US") }
   ];
 }
 
@@ -112,14 +119,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             aria-label={`Open ${label} profile`}
           >
             <HighlightRing>
-              <BrandIcon name={name} size={ICON_SIZE} />
+              <HighlightFill>
+                <BrandIcon name={name} size={ICON_SIZE} />
+              </HighlightFill>
             </HighlightRing>
             <HighlightLabel>{label}</HighlightLabel>
           </Highlight>
         ))}
         <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
           <HighlightRing>
-            {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
+            <HighlightFill>
+              {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
+            </HighlightFill>
           </HighlightRing>
           <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
         </Highlight>
