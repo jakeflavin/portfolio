@@ -70,8 +70,10 @@ export function useKeyboardNav({
             : all.length - 1
           : Math.min(Math.max(current + delta, 0), all.length - 1);
 
-      all[nextIndex]?.focus();
-      all[nextIndex]?.scrollIntoView({ block: "nearest" });
+      const next = all[nextIndex];
+      next?.focus();
+      // Optional: jsdom does not implement it, and it is a nicety rather than the point.
+      next?.scrollIntoView?.({ block: "nearest" });
     },
     [items]
   );
