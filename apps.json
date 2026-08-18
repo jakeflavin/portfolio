@@ -3,7 +3,7 @@
     {
       "slug": "countdown",
       "title": "Countdown Timer",
-      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it \u2014 a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
+      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it — a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
       "tags": [
         "timer",
         "utility"
@@ -25,6 +25,20 @@
       "creationDate": "2026-08-18",
       "disabled": false,
       "repo": "jakeflavin/roll"
+    },
+    {
+      "slug": "weather",
+      "title": "Weather",
+      "description": "A dense, chart-first weather dashboard. Hourly and daily forecasts, wind, pressure, UV and air quality for anywhere you search — no accounts, no ads, no location prompt unless you ask for it.",
+      "tags": [
+        "weather",
+        "forecast",
+        "charts"
+      ],
+      "cover": "/images/weather-cover.jpg",
+      "creationDate": "2026-08-18",
+      "disabled": false,
+      "repo": "jakeflavin/weather"
     }
   ]
 }
