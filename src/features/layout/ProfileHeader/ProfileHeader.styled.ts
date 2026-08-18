@@ -10,32 +10,36 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
-  justify-content: center;
+  /*
+   * Left-aligned, not centred. Centred, the profile block shared a left edge with nothing
+   * — the search field and the cards below both start at the container edge.
+   */
+  justify-content: flex-start;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.lg};
 
   ${({ theme }) => theme.media.md} {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
+    padding: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.xl};
   }
 `;
 
 /**
- * The content block, centred in the panel as a unit. Rows inside it stay left-aligned —
- * centring each row individually made the whole thing read as a link-in-bio page.
+ * Full width, like the search field and the card grid. Capped at a narrower measure it
+ * hugged the left edge of a much wider page and left a void beside it; the bio caps its
+ * own line length instead.
  */
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
-  max-width: 620px;
 
   ${({ theme }) => theme.media.md} {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     /*
      * The avatar spans the identity and bio rows so those size to their own content, then
      * the highlights break out into a full-width row of their own beneath everything.
@@ -70,15 +74,15 @@ export const AvatarRing = styled.div`
   grid-area: avatar;
   align-self: center;
   flex-shrink: 0;
-  width: 86px;
-  height: 86px;
+  width: 72px;
+  height: 72px;
   padding: 3px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
   background: ${({ theme }) => theme.gradient?.brand ?? "none"};
 
   ${({ theme }) => theme.media.md} {
-    width: 132px;
-    height: 132px;
+    width: 96px;
+    height: 96px;
   }
 `;
 
@@ -166,6 +170,8 @@ export const Bio = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
+  /* The one thing that needs a measure, since it is the only prose here. */
+  max-width: 62ch;
 `;
 
 /** Bio hashtags. Static text: they describe the person, they do not filter anything. */
@@ -227,8 +233,8 @@ export const Highlight = styled.button`
  * thumbnail inside. The gap is the panel surface showing through the padding.
  */
 export const HighlightRing = styled.span`
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   flex-shrink: 0;
   padding: 3px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
@@ -237,8 +243,8 @@ export const HighlightRing = styled.span`
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   ${({ theme }) => theme.media.md} {
-    width: 62px;
-    height: 62px;
+    width: 58px;
+    height: 58px;
   }
 
   ${Highlight}:hover & {
