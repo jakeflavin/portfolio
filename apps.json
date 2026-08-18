@@ -3,7 +3,7 @@
     {
       "slug": "countdown",
       "title": "Countdown Timer",
-      "description": "A countdown timer with calming, cinematic scenes.",
+      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it \u2014 a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
       "tags": [
         "timer",
         "utility"
@@ -16,7 +16,7 @@
     {
       "slug": "hat",
       "title": "Hat",
-      "description": "Pull a name, a number or an emoji out of a hat.",
+      "description": "A random picker for when something just needs choosing. Drop in names, numbers or emoji, then pull one out of the hat. Recent pulls stay on screen so you can see what has already come up, and the whole setup shares as a link so everyone draws from the same hat.",
       "tags": [
         "picker",
         "random"

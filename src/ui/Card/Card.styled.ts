@@ -19,12 +19,34 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
+  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
   overflow: hidden;
+  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    box-shadow ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    transform ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  /* Lifts off the page rather than only recolouring its border. */
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.border};
+    box-shadow: ${({ theme }) => theme.shadows.hover ?? theme.shadows.raised ?? "none"};
+    transform: translateY(-3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
+  }
 
   ${({ $disabled }) =>
     $disabled &&
     `
     opacity: 0.5;
+
+    &:hover {
+      transform: none;
+      box-shadow: ${"${({ theme }) => theme.shadows.raised}"};
+    }
   `}
 `;
 
@@ -136,12 +158,74 @@ export const Caption = styled.div`
   padding: 0 ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md};
 `;
 
-export const Description = styled.p`
+export const Description = styled.p<{ $clamped?: boolean }>`
   margin: 0;
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   line-height: 1.45;
   color: ${({ theme }) => theme.colors.muted};
   text-wrap: pretty;
+
+  ${({ $clamped }) =>
+    $clamped &&
+    `
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  `}
+`;
+
+/** Holds the clamped text so the control can sit on its last line. */
+export const DescriptionWrap = styled.div`
+  position: relative;
+`;
+
+/**
+ * While clamped this sits at the end of the second line rather than below the text, which
+ * is how a truncated caption reads. It is overlaid on the clamp, so it carries the card
+ * surface plus a short fade to hide the words running underneath it.
+ */
+export const MoreButton = styled.button<{ $inline?: boolean }>`
+  padding: 0;
+  border: none;
+  font: inherit;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  line-height: 1.45;
+  /* Full-strength and medium weight, so it stands out as a control against the muted
+     description rather than reading as more of the same text. */
+  font-weight: ${({ theme }) => theme.typography.weight?.medium ?? 500};
+  color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
+  background: none;
+
+  ${({ theme, $inline }) =>
+    $inline
+      ? `
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-left: 28px;
+    background: linear-gradient(
+      to right,
+      transparent 0,
+      ${theme.colors.surface} 22px,
+      ${theme.colors.surface} 100%
+    );
+  `
+      : `
+    display: block;
+    margin-top: 2px;
+  `}
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 `;
 
 export const HashTags = styled.div`
@@ -152,8 +236,8 @@ export const HashTags = styled.div`
 `;
 
 /**
- * Hashtags are links on Instagram, so these filter the directory. Caption links there are
- * a dark navy rather than the bright action blue.
+ * Plain hashtag text, not blue. They filter the directory, so they stay interactive, but
+ * the link colour made them read as navigation to somewhere else.
  */
 export const HashTag = styled.button`
   padding: 0;
@@ -161,9 +245,10 @@ export const HashTag = styled.button`
   border: none;
   font: inherit;
   font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
-  color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
+  color: ${({ theme }) => theme.colors.muted};
   cursor: pointer;
   word-break: break-word;
+  transition: color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
     text-decoration: underline;
@@ -176,19 +261,12 @@ export const HashTag = styled.button`
   }
 `;
 
-/** Post age, small and muted at the foot of the caption, as on a post. */
+/** Post age. Deliberately the quietest thing in the caption. */
 export const Timestamp = styled.time`
   margin-top: 2px;
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-size: 0.6875rem;
   color: ${({ theme }) => theme.colors.muted};
+  opacity: 0.8;
 `;
 
-/** Instagram's verified check, here meaning the app is deployed and reachable. */
-export const Verified = styled.span`
-  display: inline-flex;
-  flex-shrink: 0;
-  line-height: 0;
-  color: ${({ theme }) => theme.colors.accent};
-`;
+

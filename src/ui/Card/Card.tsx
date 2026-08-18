@@ -1,16 +1,10 @@
-import React, { useState } from "react";
-import {
-  ArrowSquareOutIcon,
-  GithubLogoIcon,
-  PaperPlaneTiltIcon,
-  CheckIcon,
-  SealCheckIcon
-} from "@phosphor-icons/react";
+import React, { useEffect, useRef, useState } from "react";
+import { ExternalLink, Send, Check } from "lucide-react";
+import BrandIcon from "@/ui/BrandIcon";
 import {
   CardWrapper,
   PostHeader,
   HeaderTitle,
-  Verified,
   Media,
   CardImage,
   Actions,
@@ -18,6 +12,8 @@ import {
   ActionLink,
   Caption,
   Description,
+  DescriptionWrap,
+  MoreButton,
   HashTags,
   HashTag,
   Timestamp
@@ -26,7 +22,7 @@ import { formatPostAge } from "./card.utils";
 
 export type CardType = "project";
 
-const ICON_SIZE = 20;
+const ICON_SIZE = 18;
 
 export interface CardProps {
   /** Card title */
@@ -35,7 +31,7 @@ export interface CardProps {
   type?: CardType;
   /** Image URL; shown as the post media */
   imageSrc: string;
-  /** Short description shown as the caption */
+  /** Description shown as the caption, clamped to two lines until expanded */
   description: string;
   /** Tags rendered as hashtags under the caption */
   tags?: string[];
@@ -43,11 +39,11 @@ export interface CardProps {
   href?: string;
   /** Renders the card as unavailable and drops the links */
   disabled?: boolean;
-  /** Shown next to the title, as the post age */
+  /** Shown as the post age */
   date?: Date;
   /** `owner/name` on GitHub, linked from the action row */
   repo?: string;
-  /** Called with a tag when its hashtag is clicked */
+  /** Called with a tag when its chip is clicked */
   onTagClick?: (tag: string) => void;
 }
 
@@ -63,8 +59,31 @@ const Card: React.FC<CardProps> = ({
   onTagClick
 }) => {
   const [copied, setCopied] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [overflows, setOverflows] = useState(false);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+
   const isLink = Boolean(href) && !disabled;
-  const age = disabled ? "coming soon" : date ? formatPostAge(date) : null;
+  const age = disabled ? "Coming soon" : date ? formatPostAge(date) : null;
+
+  /**
+   * Only offer "more" when the text actually overflows its two lines — otherwise a short
+   * description gets a control that does nothing. Measured while clamped, and re-measured
+   * on resize, since the card's width decides where the text wraps.
+   */
+  useEffect(() => {
+    if (expanded) return;
+    const element = descriptionRef.current;
+    if (!element) return;
+
+    const measure = () => setOverflows(element.scrollHeight > element.clientHeight + 1);
+    measure();
+
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [description, expanded]);
 
   /**
    * clipboard.writeText rejects on a permission denial, an unfocused document, or an
@@ -100,11 +119,6 @@ const Card: React.FC<CardProps> = ({
         <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
           {title}
         </HeaderTitle>
-        {!disabled && (
-          <Verified title="Live" aria-label="Live">
-            <SealCheckIcon size={14} weight="fill" />
-          </Verified>
-        )}
       </PostHeader>
 
       <Media as={isLink ? "a" : "div"} href={isLink ? href : undefined} tabIndex={-1}>
@@ -114,7 +128,7 @@ const Card: React.FC<CardProps> = ({
       <Actions>
         {isLink && (
           <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
-            <ArrowSquareOutIcon size={ICON_SIZE} />
+            <ExternalLink size={ICON_SIZE} />
           </ActionLink>
         )}
         {isLink && (
@@ -125,9 +139,9 @@ const Card: React.FC<CardProps> = ({
             title={copied ? "Copied" : "Copy link"}
           >
             {copied ? (
-              <CheckIcon size={ICON_SIZE} />
+              <Check size={ICON_SIZE} />
             ) : (
-              <PaperPlaneTiltIcon size={ICON_SIZE} />
+              <Send size={ICON_SIZE} />
             )}
           </ActionButton>
         )}
@@ -140,13 +154,26 @@ const Card: React.FC<CardProps> = ({
             aria-label={`View source for ${title}`}
             title="Source"
           >
-            <GithubLogoIcon size={ICON_SIZE} />
+            <BrandIcon name="github" size={ICON_SIZE} />
           </ActionLink>
         )}
       </Actions>
 
       <Caption>
-        <Description>{description}</Description>
+        <DescriptionWrap>
+          <Description ref={descriptionRef} $clamped={!expanded}>
+            {description}
+          </Description>
+          {(overflows || expanded) && (
+            <MoreButton
+              type="button"
+              $inline={!expanded}
+              onClick={() => setExpanded((previous) => !previous)}
+            >
+              {expanded ? "less" : "\u2026 more"}
+            </MoreButton>
+          )}
+        </DescriptionWrap>
         {tags.length > 0 && (
           <HashTags>
             {tags.map((tag) => (

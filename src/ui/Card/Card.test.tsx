@@ -20,7 +20,7 @@ describe("Card", () => {
 
   it("renders each tag as its own hashtag", () => {
     render(<Card {...defaultProps} tags={["React", "type script"]} />);
-    // Whitespace is stripped so each tag is a single hashtag token.
+    // Whitespace is stripped so each tag stays a single token.
     expect(screen.getByRole("button", { name: "Filter by React" })).toHaveTextContent(
       "#React"
     );
@@ -29,7 +29,7 @@ describe("Card", () => {
     ).toHaveTextContent("#typescript");
   });
 
-  it("reports the original tag when a hashtag is clicked, not the stripped label", () => {
+  it("reports the tag when a chip is clicked", () => {
     const onTagClick = vi.fn();
     render(<Card {...defaultProps} tags={["type script"]} onTagClick={onTagClick} />);
 
@@ -37,18 +37,14 @@ describe("Card", () => {
     expect(onTagClick).toHaveBeenCalledWith("type script");
   });
 
-  it("marks a live app with the verified badge and a coming-soon one without", () => {
-    const { unmount } = render(<Card {...defaultProps} href="/hat/" />);
-    expect(screen.getByLabelText("Live")).toBeInTheDocument();
-    unmount();
-
-    render(<Card {...defaultProps} href="/hat/" disabled />);
+  it("renders no verified badge", () => {
+    render(<Card {...defaultProps} href="/hat/" />);
     expect(screen.queryByLabelText("Live")).not.toBeInTheDocument();
   });
 
-  it("renders no hashtag line when there are no tags", () => {
+  it("renders no hashtags when there are no tags", () => {
     render(<Card {...defaultProps} />);
-    expect(screen.queryByText(/^#/)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /^Filter by/ })).not.toBeInTheDocument();
   });
 
   it("links the title and media to the app, and offers an open action", () => {
@@ -78,6 +74,6 @@ describe("Card", () => {
   it("drops the links and marks the card disabled when disabled", () => {
     render(<Card {...defaultProps} href="/countdown/" disabled />);
     expect(screen.queryAllByRole("link")).toHaveLength(0);
-    expect(screen.getByText(/coming soon/)).toBeInTheDocument();
+    expect(screen.getByText("Coming soon")).toBeInTheDocument();
   });
 });

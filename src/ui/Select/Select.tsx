@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 import { createPortal } from "react-dom";
-import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react";
+import { ChevronDown, Check as CheckIcon } from "lucide-react";
 import { Wrapper, Trigger, TriggerLabel, Chevron, Listbox, OptionItem, Check, ErrorMessage } from "./Select.styled";
 import { getDisplayLabel } from "./select.utils";
 import { useSelect } from "./useSelect";
@@ -91,7 +91,7 @@ const Select: React.FC<SelectProps> = ({
           {opt.label}
           {opt.value === value && (
             <Check aria-hidden="true">
-              <CheckIcon size={16} />
+              <CheckIcon size={15} />
             </Check>
           )}
         </OptionItem>
@@ -129,7 +129,7 @@ const Select: React.FC<SelectProps> = ({
       >
         <TriggerLabel>{displayLabel}</TriggerLabel>
         <Chevron $open={isOpen}>
-          <CaretDownIcon size={12} aria-hidden="true" />
+          <ChevronDown size={14} aria-hidden="true" />
         </Chevron>
       </Trigger>
       {error && <ErrorMessage id={`${triggerId}-error`}>{error}</ErrorMessage>}

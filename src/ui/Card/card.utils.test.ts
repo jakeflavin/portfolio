@@ -4,8 +4,8 @@ import { formatPostAge } from "./card.utils";
 describe("formatPostAge", () => {
   const now = new Date("2026-08-18T12:00:00Z");
 
-  it("uses compact relative ages while a post is recent", () => {
-    expect(formatPostAge(new Date("2026-08-18"), now)).toBe("today");
+  it("uses compact relative ages while a post is recent, cased to match the dates", () => {
+    expect(formatPostAge(new Date("2026-08-18"), now)).toBe("Today");
     expect(formatPostAge(new Date("2026-08-17"), now)).toBe("1d");
     expect(formatPostAge(new Date("2026-08-14"), now)).toBe("4d");
     expect(formatPostAge(new Date("2026-08-04"), now)).toBe("2w");
@@ -25,6 +25,6 @@ describe("formatPostAge", () => {
   });
 
   it("handles a future date without producing a negative age", () => {
-    expect(formatPostAge(new Date("2026-09-01"), now)).toBe("just now");
+    expect(formatPostAge(new Date("2026-09-01"), now)).toBe("Just now");
   });
 });

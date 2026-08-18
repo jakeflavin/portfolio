@@ -12,7 +12,7 @@ interface BarProps {
  */
 export const BarContainer = styled.div<BarProps>`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.sm} 0;
+  padding: ${({ theme }) => theme.spacing.xs} 0;
   display: flex;
   align-items: center;
   justify-content: ${({ align }) => align};

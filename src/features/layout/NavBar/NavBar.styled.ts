@@ -12,6 +12,14 @@ export const Wordmark = styled.span`
 export const IconGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
+  gap: 2px;
   margin-left: auto;
+`;
+
+/** Separates the outbound profile links from the appearance control. */
+export const Divider = styled.span`
+  width: 1px;
+  align-self: stretch;
+  margin: 4px ${({ theme }) => theme.spacing.xs};
+  background: ${({ theme }) => theme.colors.border};
 `;

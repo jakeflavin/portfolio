@@ -2,7 +2,7 @@ import React, { useId } from "react";
 import { useTheme } from "styled-components";
 import { Outer, Label, Wrapper, Input, LeftIconSlot, ErrorMessage } from "./InputAction.styled";
 import IconButton from "../IconButton";
-import { XCircleIcon } from "@phosphor-icons/react";
+import { CircleX } from "lucide-react";
 
 export interface InputActionProps {
   /** SVG element to render on the left (e.g. search icon) */
@@ -81,8 +81,7 @@ const InputAction: React.FC<InputActionProps> = ({
       />
       {showClear && !disabled ? (
         <IconButton
-          // A muted filled circle, as in Instagram's search field.
-          icon={<XCircleIcon size={iconSize} weight="fill" />}
+          icon={<CircleX size={iconSize} />}
           size={iconSize}
           color={theme.colors.muted}
           onClick={handleClear}

@@ -3,7 +3,7 @@ import Card from "@/ui/Card";
 import Hero from "@/features/layout/Hero";
 import InputAction from "@/ui/InputAction";
 import { PROJECTS } from "@/features/projects/projects";
-import { MagnifyingGlassIcon } from "@phosphor-icons/react";
+import { Search } from "lucide-react";
 import Select from "@/ui/Select";
 import {
   CardContainer,
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       <Hero />
       <SearchContainer>
         <InputAction
-          icon={<MagnifyingGlassIcon size={16} />}
+          icon={<Search size={16} />}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search"
