@@ -1,18 +1,21 @@
 import styled from "styled-components";
 
 /**
- * A filled block rather than an open region — flat and borderless still, but with enough
- * surface to read as a deliberate section instead of empty page.
+ * Wears the same surface as a post: white/dark fill, hairline border, matching radius.
+ * A large secondary-coloured block read as an oversized input next to the search field.
  */
 export const HeroContainer = styled.div`
   width: 100%;
-  min-height: 200px;
-  height: 32vh;
+  /* Hugs its content rather than filling a slice of the viewport, which left the block
+     looking empty. The min-height only reserves room for the line to wrap to two without
+     the box jumping as the typewriter runs. */
+  min-height: 132px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.secondary};
-  border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
+  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.divider};
+  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
 `;
