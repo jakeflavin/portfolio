@@ -4,6 +4,8 @@ interface WrapperProps {
   $disabled?: boolean;
   $hasLabel?: boolean;
   $hasError?: boolean;
+  /** Drops the field's own fill and radius so a parent container can own the surface. */
+  $bare?: boolean;
 }
 
 export const Outer = styled.div`
@@ -36,9 +38,10 @@ export const Wrapper = styled.div<WrapperProps>`
   /* Instagram's search sits around 38px — noticeably tighter than a form input. */
   min-height: 38px;
   padding: 0 ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme, $bare }) =>
+    $bare ? "transparent" : theme.colors.secondary};
   border: none;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  border-radius: ${({ theme, $bare }) => ($bare ? "0" : (theme.radii?.sm ?? "8px"))};
   transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
@@ -51,9 +54,10 @@ export const Wrapper = styled.div<WrapperProps>`
 
   /* Keyboard focus only. Instagram shows no ring when you click into search, but
      dropping it entirely would strand keyboard users. */
+  /* In bare mode the parent shows focus, so the field does not draw its own ring. */
   &:has(:focus-visible) {
-    box-shadow: ${({ theme, $disabled }) =>
-      $disabled ? "none" : theme.shadows.focus};
+    box-shadow: ${({ theme, $disabled, $bare }) =>
+      $disabled || $bare ? "none" : theme.shadows.focus};
   }
 
   &:has(:focus-visible) ${Label} {

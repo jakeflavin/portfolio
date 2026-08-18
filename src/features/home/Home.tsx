@@ -29,6 +29,7 @@ const Home: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search"
+          bare
         />
         <SelectWrap>
           <Select
@@ -37,6 +38,7 @@ const Home: React.FC = () => {
             value={sortBy}
             onChange={(v) => setSortBy(v as SortValue)}
             aria-label="Sort projects"
+            bare
           />
         </SelectWrap>
       </SearchContainer>

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div<{ $hasError?: boolean; $fullWidth?: boolean }>`
+export const Wrapper = styled.div<{
+  $hasError?: boolean;
+  $fullWidth?: boolean;
+  $bare?: boolean;
+}>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -9,7 +13,7 @@ export const Wrapper = styled.div<{ $hasError?: boolean; $fullWidth?: boolean }>
   min-width: 0;
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "12rem")};
   max-width: 100%;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  border-radius: ${({ theme, $bare }) => ($bare ? "0" : (theme.radii?.sm ?? "8px"))};
 `;
 
 export const TriggerLabel = styled.span`
@@ -19,7 +23,7 @@ export const TriggerLabel = styled.span`
   white-space: nowrap;
 `;
 
-export const Trigger = styled.button`
+export const Trigger = styled.button<{ $bare?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -40,12 +44,10 @@ export const Trigger = styled.button`
   text-align: left;
 
   color: ${({ theme }) => theme.colors.text};
-  background-color: ${({ theme, disabled }) =>
-    disabled
-      ? theme.colors.secondary
-      : theme.colors.secondary};
+  background-color: ${({ theme, $bare }) =>
+    $bare ? "transparent" : theme.colors.secondary};
   border: none;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  border-radius: ${({ theme, $bare }) => ($bare ? "0" : (theme.radii?.sm ?? "8px"))};
   box-shadow: none;
 
   cursor: pointer;
@@ -53,9 +55,10 @@ export const Trigger = styled.button`
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
+  /* In bare mode the parent shows focus, so the trigger does not draw its own ring. */
   &:focus-visible {
     outline: none;
-    box-shadow: ${({ theme }) => theme.shadows.focus};
+    box-shadow: ${({ theme, $bare }) => ($bare ? "none" : theme.shadows.focus)};
   }
 
   &:disabled {

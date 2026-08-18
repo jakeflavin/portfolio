@@ -31,6 +31,8 @@ export interface SelectProps {
   "aria-label"?: string;
   /** Error message shown inline below the trigger; also applies error styling */
   error?: string;
+  /** Drops the trigger's own fill and radius so a parent container can own the surface */
+  bare?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -43,7 +45,8 @@ const Select: React.FC<SelectProps> = ({
   id,
   className,
   "aria-label": ariaLabel,
-  error
+  error,
+  bare = false
 }) => {
   const generatedId = useId();
   const triggerId = id ?? generatedId;
@@ -97,9 +100,16 @@ const Select: React.FC<SelectProps> = ({
   );
 
   return (
-    <Wrapper ref={wrapperRef} className={className} $hasError={!!error} $fullWidth={fullWidth}>
+    <Wrapper
+      ref={wrapperRef}
+      className={className}
+      $hasError={!!error}
+      $fullWidth={fullWidth}
+      $bare={bare}
+    >
       <Trigger
         ref={triggerRef}
+        $bare={bare}
         id={triggerId}
         type="button"
         role="combobox"

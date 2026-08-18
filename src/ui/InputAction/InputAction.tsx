@@ -25,6 +25,8 @@ export interface InputActionProps {
   disabled?: boolean;
   /** Error message shown inline below the input; also applies error styling */
   error?: string;
+  /** Drops the field's own fill and radius so a parent container can own the surface */
+  bare?: boolean;
 }
 
 const InputAction: React.FC<InputActionProps> = ({
@@ -37,7 +39,8 @@ const InputAction: React.FC<InputActionProps> = ({
   actionAriaLabel,
   iconSize = 16,
   disabled = false,
-  error
+  error,
+  bare = false
 }) => {
   const inputId = useId();
   const theme = useTheme();
@@ -60,7 +63,7 @@ const InputAction: React.FC<InputActionProps> = ({
   const showClear = value.length > 0 && !!onChange;
 
   const content = (
-    <Wrapper $disabled={disabled} $hasLabel={!!label} $hasError={!!error}>
+    <Wrapper $disabled={disabled} $hasLabel={!!label} $hasError={!!error} $bare={bare}>
       {label && (
         <Label htmlFor={inputId}>{label}</Label>
       )}

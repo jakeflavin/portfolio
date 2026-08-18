@@ -1,26 +1,43 @@
 import { styled } from "styled-components";
 
+/**
+ * Search and sort share one surface, matching the hero's border, radius and elevation.
+ * Previously they were two separate pills that happened to sit next to each other.
+ */
 export const SearchContainer = styled.div`
   width: 100%;
   display: flex;
-  gap: ${({ theme }) => theme.spacing.xs};
   /* Stacked on phones — side by side the sort control gets squeezed to an ellipsis. */
   flex-direction: column;
   align-items: stretch;
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.divider};
+  border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
+  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
+  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  /* The children are bare, so focus is shown once, here, for the whole control. */
+  &:has(:focus-visible) {
+    border-color: ${({ theme }) => theme.colors.focusBorder};
+  }
 
   ${({ theme }) => theme.media.sm} {
     flex-direction: row;
   }
 `;
 
+/** An internal rule between the two halves, rather than a gap. */
 export const SelectWrap = styled.div`
   align-self: stretch;
   display: flex;
   min-height: 0;
   min-width: 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.divider};
 
   ${({ theme }) => theme.media.sm} {
     flex: 0 1 12rem;
+    border-top: none;
+    border-left: 1px solid ${({ theme }) => theme.colors.divider};
   }
 `;
 
