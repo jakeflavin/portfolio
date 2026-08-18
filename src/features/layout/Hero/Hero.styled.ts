@@ -1,19 +1,25 @@
 import styled from "styled-components";
 
 /**
- * Unboxed on purpose. In this language a bordered surface means a post, so wrapping the
- * hero in one made it read as another card rather than as the page's opening statement.
- * Its presence comes from scale and space instead.
+ * A panel on the page rather than a post: it takes the card surface but a wider radius and
+ * far more room, and keeps its display type. Boxing it previously cost it its presence
+ * only because the type was shrunk to card scale at the same time.
  */
 export const HeroContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   text-align: center;
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.divider};
+  border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
+  /* Weighted towards the top, so the headline sits below open space rather than centred
+     in the panel. */
+  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.lg};
 
   ${({ theme }) => theme.media.md} {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
+    padding: 64px ${({ theme }) => theme.spacing.lg} 44px;
   }
 `;
 
