@@ -13,8 +13,8 @@ export const BarContainer = styled.div<BarProps>`
   gap: ${({ theme }) => theme.spacing.md};
   z-index: 1000;
   background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadows.md};

@@ -10,14 +10,16 @@ export const spacing = {
   xs: "4px",
   sm: "8px",
   md: "16px",
-  lg: "24px"
+  lg: "24px",
+  xl: "40px"
 };
 
 const compactSpacing = {
   xs: "4px",
   sm: "8px",
   md: "12px",
-  lg: "18px"
+  lg: "18px",
+  xl: "30px"
 };
 
 /**
@@ -54,6 +56,14 @@ export const typography = {
     titleSize: "1.25rem",
     titleTracking: "-0.025em",
     titleTransform: "none"
+  },
+  /** Type scale. Sizes were previously hardcoded across styled files. */
+  size: {
+    xs: "11px",
+    sm: "0.75rem",
+    md: "0.875rem",
+    lg: "1rem",
+    xl: "1.5rem"
   }
 };
 
@@ -68,14 +78,21 @@ const blueprintTypography = {
     transform: "uppercase"
   },
   typewriter: {
-    size: "clamp(22px, 3.4vw, 34px)",
-    tracking: "0.02em",
+    size: "clamp(15px, 1.9vw, 20px)",
+    tracking: "0.08em",
     transform: "uppercase"
   },
   card: {
     titleSize: "16px",
     titleTracking: "0.04em",
     titleTransform: "uppercase"
+  },
+  size: {
+    xs: "10px",
+    sm: "0.7rem",
+    md: "0.8125rem",
+    lg: "0.9375rem",
+    xl: "clamp(26px, 3.6vw, 38px)"
   }
 };
 

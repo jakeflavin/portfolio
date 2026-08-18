@@ -28,11 +28,10 @@ export function sortProjects(projects: Project[], sortBy: SortValue): Project[] 
 
 export function filterProjects(projects: Project[], searchQuery: string): Project[] {
   const query = searchQuery.trim().toLowerCase();
-  const enabledProjects = projects.filter((project) => project.disabled === false);
 
-  if (!query) return enabledProjects;
+  if (!query) return [...projects];
 
-  return enabledProjects.filter(
+  return projects.filter(
     (project) =>
       project.title.toLowerCase().includes(query) ||
       project.description.toLowerCase().includes(query) ||
@@ -45,5 +44,12 @@ export function getVisibleProjects(
   searchQuery: string,
   sortBy: SortValue
 ): Project[] {
-  return sortProjects(filterProjects(projects, searchQuery), sortBy);
+  const sorted = sortProjects(filterProjects(projects, searchQuery), sortBy);
+
+  // Projects that aren't live yet still show, as "coming soon", but never above a
+  // project someone can actually open.
+  return [
+    ...sorted.filter((project) => !project.disabled),
+    ...sorted.filter((project) => project.disabled)
+  ];
 }

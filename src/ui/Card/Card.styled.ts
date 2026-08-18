@@ -14,8 +14,8 @@ export const CardWrapper = styled.a<CardWrapperProps>`
   padding: ${({ theme }) => theme.spacing.md};
   gap: ${({ theme }) => theme.spacing.sm};
   background: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
@@ -86,7 +86,7 @@ export const CardBody = styled.div`
 `;
 
 export const CardTypeLabel = styled.div`
-  font-size: 11px;
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? "11px"};
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: ${({ theme }) => theme.colors.accent};
@@ -114,7 +114,7 @@ export const Title = styled.h3`
 
 export const Description = styled.p`
   margin: 0;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.muted};
   text-wrap: pretty;
@@ -130,7 +130,7 @@ export const TagsRow = styled.div`
 export const Tag = styled.span`
   display: inline-flex;
   align-items: center;
-  font-size: 11px;
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? "11px"};
   font-weight: 500;
   letter-spacing: 0.01em;
   color: ${({ theme }) => theme.colors.text};
