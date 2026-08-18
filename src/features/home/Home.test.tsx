@@ -5,6 +5,7 @@ import { PROJECTS } from "@/features/projects/projects";
 
 describe("Home", () => {
   beforeEach(() => {
+    window.localStorage.clear();
     vi.useFakeTimers({ shouldAdvanceTime: true });
   });
 
@@ -62,5 +63,48 @@ describe("Home", () => {
 
     expect(screen.queryByText("No projects found")).not.toBeInTheDocument();
     expect(posts().length).toBeGreaterThan(0);
+  });
+
+  describe("view tabs", () => {
+    const tab = (name: RegExp) => screen.getByRole("tab", { name });
+
+    it("shows the feed by default", () => {
+      render(<Home />);
+      expect(tab(/feed/i)).toHaveAttribute("aria-selected", "true");
+      expect(posts().length).toBeGreaterThan(0);
+    });
+
+    it("switches to the grid and drops the post chrome", () => {
+      render(<Home />);
+      fireEvent.click(tab(/grid/i));
+
+      expect(tab(/grid/i)).toHaveAttribute("aria-selected", "true");
+      expect(posts()).toHaveLength(0);
+      // Every live project is still reachable, just as a tile.
+      for (const project of PROJECTS.filter((p) => !p.disabled)) {
+        expect(
+          screen.getByRole("link", { name: `Open ${project.title}` })
+        ).toHaveAttribute("href", project.path);
+      }
+    });
+
+    it("remembers the choice across mounts", () => {
+      const first = render(<Home />);
+      fireEvent.click(tab(/grid/i));
+      first.unmount();
+
+      render(<Home />);
+      expect(tab(/grid/i)).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("keeps filtering the grid, not just the feed", () => {
+      render(<Home />);
+      fireEvent.click(tab(/grid/i));
+      fireEvent.change(screen.getByPlaceholderText("Search"), {
+        target: { value: PROJECTS[0].title }
+      });
+
+      expect(screen.getAllByRole("link")).toHaveLength(1);
+    });
   });
 });

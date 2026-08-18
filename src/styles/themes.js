@@ -92,6 +92,28 @@ export const blur = {
   lg: "12px"
 };
 
+/**
+ * Instagram has no single brand colour — its identity is the gradient, running blue
+ * through purple and pink into orange and gold.
+ */
+export const gradient = {
+  stops: [
+    "#405de6",
+    "#5851db",
+    "#833ab4",
+    "#c13584",
+    "#e1306c",
+    "#fd1d1d",
+    "#f77737",
+    "#fcaf45"
+  ],
+  /** The logo sweep, used for the wordmark and accents. */
+  brand:
+    "linear-gradient(45deg, #405de6, #833ab4, #c13584, #e1306c, #fd1d1d, #f77737, #fcaf45)",
+  /** The tighter three-stop version, for small surfaces like rings and bars. */
+  compact: "linear-gradient(45deg, #833ab4, #e1306c, #fcaf45)"
+};
+
 /** Motion: short and unfussy. */
 export const motion = {
   duration: { fast: "0.1s", normal: "0.15s", slow: "0.25s" },
@@ -119,6 +141,8 @@ export const lightTheme = {
     secondaryGlass: "#efefef",
     text: "#000000",
     muted: "#737373",
+    /** Instagram's dimmer secondary, for timestamps and placeholders. */
+    subtle: "#8e8e8e",
     border: "#dbdbdb",
     /** Lighter than `border`, for separating stacked content rather than outlining it. */
     divider: "#efefef",
@@ -147,6 +171,7 @@ export const lightTheme = {
   typography,
   blur,
   motion,
+  gradient,
   /** Dividers and fills carry hierarchy; only overlays get elevation. */
   shadows: {
     sm: "none",
@@ -171,18 +196,19 @@ export const darkTheme = {
     primary: "#f3f5f7",
     secondary: "#262626",
     accent: "#0095f6",
-    background: "#101010",
-    surface: "#181818",
-    surfaceGlass: "#181818",
+    background: "#000000",
+    surface: "#121212",
+    surfaceGlass: "#121212",
     secondaryGlass: "#262626",
     text: "#f3f5f7",
-    muted: "#777777",
-    border: "#2e2e2e",
-    divider: "#242424",
-    paper: "#181818",
+    muted: "#a8a8a8",
+    subtle: "#8e8e8e",
+    border: "#363636",
+    divider: "#262626",
+    paper: "#121212",
     paperText: "#f3f5f7",
-    paperMuted: "#777777",
-    paperBorder: "#2e2e2e",
+    paperMuted: "#a8a8a8",
+    paperBorder: "#363636",
     success: "#4bb563",
     warning: "#d9a441",
     danger: "#ff5a67",
@@ -204,5 +230,5 @@ export const darkTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(255, 255, 255, 0.045)", "#101010")
+  bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#000000")
 };
