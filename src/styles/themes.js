@@ -140,17 +140,15 @@ const gridBackground = (line, base) =>
  */
 export const lightTheme = {
   colors: {
-    primary: "#000000",
+    primary: "#262626",
     secondary: "#efefef",
     accent: "#0095f6",
-    background: "#ffffff",
+    background: "#fafafa",
     surface: "#ffffff",
     surfaceGlass: "#ffffff",
     secondaryGlass: "#efefef",
-    text: "#000000",
+    text: "#262626",
     muted: "#737373",
-    /** Instagram's dimmer secondary, for timestamps and placeholders. */
-    subtle: "#8e8e8e",
     border: "#dbdbdb",
     /** Lighter than `border`, for separating stacked content rather than outlining it. */
     divider: "#efefef",
@@ -161,14 +159,17 @@ export const lightTheme = {
     success: "#1d7a37",
     warning: "#8a6100",
     danger: "#ed4956",
-    inverse: "#000000",
-    inverseText: "#ffffff",
+    inverse: "#262626",
+    inverseText: "#fafafa",
     inverseHover: "rgba(255, 255, 255, 0.12)",
     inverseFocus: "rgba(255, 255, 255, 0.8)",
     focusBorder: "#0095f6",
     focusRing: "rgba(0, 149, 246, 0.28)",
-    /** Interactive text: hashtags and links. Blue is the interactive signal. */
-    link: "#0095f6",
+    /**
+     * Interactive text: hashtags and links. Darker than the action blue on purpose —
+     * #0095f6 is only 3.17:1 on white, which fails AA for text this size.
+     */
+    link: "#0064c8",
     heart: "#ed4956"
   },
   radii,
@@ -190,7 +191,7 @@ export const lightTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(0, 0, 0, 0.045)", "#ffffff")
+  bodyBackground: gridBackground("rgba(0, 0, 0, 0.05)", "#fafafa")
 };
 
 /**
@@ -201,27 +202,26 @@ export const darkTheme = {
   ...lightTheme,
   colors: {
     ...lightTheme.colors,
-    primary: "#f3f5f7",
+    primary: "#e8e8e8",
     secondary: "#262626",
     accent: "#0095f6",
-    background: "#000000",
-    surface: "#121212",
-    surfaceGlass: "#121212",
+    background: "#0f0f0f",
+    surface: "#1a1a1a",
+    surfaceGlass: "#1a1a1a",
     secondaryGlass: "#262626",
-    text: "#f3f5f7",
+    text: "#e8e8e8",
     muted: "#a8a8a8",
-    subtle: "#8e8e8e",
     border: "#363636",
-    divider: "#262626",
-    paper: "#121212",
-    paperText: "#f3f5f7",
+    divider: "#2a2a2a",
+    paper: "#1a1a1a",
+    paperText: "#e8e8e8",
     paperMuted: "#a8a8a8",
     paperBorder: "#363636",
     success: "#4bb563",
     warning: "#d9a441",
     danger: "#ff5a67",
-    inverse: "#f3f5f7",
-    inverseText: "#101010",
+    inverse: "#e8e8e8",
+    inverseText: "#0f0f0f",
     inverseHover: "rgba(0, 0, 0, 0.12)",
     inverseFocus: "rgba(0, 0, 0, 0.8)",
     focusBorder: "#0095f6",
@@ -236,7 +236,9 @@ export const darkTheme = {
     focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },
   img: {
-    brightness: "brightness(1)"
+    /* Takes the edge off the white-background placeholder art. Real screenshots will
+       carry their own dark themes, at which point this can go back to 1. */
+    brightness: "brightness(0.92)"
   },
-  bodyBackground: gridBackground("rgba(255, 255, 255, 0.055)", "#000000")
+  bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#0f0f0f")
 };
