@@ -118,9 +118,13 @@ to the app's router, and both have to precede the catch-all.
 ## Adding an app
 
 ```bash
-node scripts/add-app.mjs ../weather --slug weather --title "Weather" \
+node scripts/add-app.mjs apps/weather --slug weather --title "Weather" \
   --description "A dense, chart-first weather dashboard." --tags weather,forecast,charts
 ```
+
+Every app is cloned into `apps/`, which is gitignored — the checkouts are their own
+repositories and this one must never swallow them. Nothing about the pipeline depends on
+that location; the scripts take a path, so a clone anywhere works.
 
 Nine steps, each idempotent, so a re-run after fixing something resumes rather than
 restarting:

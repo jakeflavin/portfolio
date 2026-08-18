@@ -25,3 +25,10 @@ dist-ssr
 
 *storybook.log
 storybook-static
+
+# Working clones of the apps this directory publishes.
+#
+# They are their own repositories — cloned here so everything the portfolio deploys sits
+# in one place locally, and ignored so this repo never swallows them. `apps.json` is the
+# manifest and is tracked; this is just where the checkouts live.
+apps/
