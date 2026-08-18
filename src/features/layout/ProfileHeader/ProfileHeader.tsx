@@ -1,5 +1,5 @@
 import React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Newspaper } from "lucide-react";
 import TypeWriter from "@/ui/TypeWriter";
 import { BIO_SCRIPT } from "./bio";
 import BrandIcon, { type BrandName } from "@/ui/BrandIcon";
@@ -34,10 +34,35 @@ export interface ProfileHeaderProps {
 
 const ICON_SIZE = 22;
 
-const SOCIALS: { name: BrandName; href: string; label: string }[] = [
-  { name: "threads", href: "https://www.threads.com/@jakeflavin", label: "Threads" },
-  { name: "linkedin", href: "https://linkedin.com/in/jakeflavin", label: "LinkedIn" },
-  { name: "github", href: "https://github.com/jakeflavin", label: "GitHub" }
+/**
+ * Holds an icon rather than a brand name, since not every destination has a brand mark —
+ * the blog is a plain lucide glyph alongside the three logos.
+ */
+const LINKS: { key: string; href: string; label: string; icon: React.ReactNode }[] = [
+  {
+    key: "threads",
+    href: "https://www.threads.com/@jakeflavin",
+    label: "Threads",
+    icon: <BrandIcon name={"threads" as BrandName} size={ICON_SIZE} />
+  },
+  {
+    key: "linkedin",
+    href: "https://linkedin.com/in/jakeflavin",
+    label: "LinkedIn",
+    icon: <BrandIcon name={"linkedin" as BrandName} size={ICON_SIZE} />
+  },
+  {
+    key: "github",
+    href: "https://github.com/jakeflavin",
+    label: "GitHub",
+    icon: <BrandIcon name={"github" as BrandName} size={ICON_SIZE} />
+  },
+  {
+    key: "blog",
+    href: "https://jakeflavin.com",
+    label: "Blog",
+    icon: <Newspaper size={ICON_SIZE} />
+  }
 ];
 
 /**
@@ -107,17 +132,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         </Bio>
 
         <Highlights>
-          {SOCIALS.map(({ name, href, label }) => (
+          {LINKS.map(({ key, href, label, icon }) => (
             <Highlight
-              key={name}
+              key={key}
               type="button"
               onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
-              aria-label={`Open ${label} profile`}
+              aria-label={`Open ${label}`}
             >
               <HighlightRing>
-                <HighlightFill>
-                  <BrandIcon name={name} size={ICON_SIZE} />
-                </HighlightFill>
+                <HighlightFill>{icon}</HighlightFill>
               </HighlightRing>
               <HighlightLabel>{label}</HighlightLabel>
             </Highlight>

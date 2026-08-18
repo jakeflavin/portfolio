@@ -18,7 +18,6 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   min-width: 0;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
-  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
   transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
     box-shadow ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
@@ -78,7 +77,6 @@ export const Media = styled.a`
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   background: ${({ theme }) => theme.colors.secondary};
   border-top: 1px solid ${({ theme }) => theme.colors.divider};
   position: relative;
@@ -214,7 +212,7 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
   `}
 
   &:hover {
-    color: ${({ theme }) => theme.colors.text};
+    text-decoration: underline;
   }
 
   &:focus-visible {
@@ -224,11 +222,18 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
   }
 `;
 
+/**
+ * The gradient is painted on the row and clipped to its text, so the tags share one sweep
+ * rather than each getting its own slice of it.
+ */
 export const HashTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0 6px;
   line-height: 1.4;
+  background: ${({ theme }) => theme.gradient?.compact ?? "none"};
+  background-clip: text;
+  -webkit-background-clip: text;
 `;
 
 /**
@@ -241,13 +246,19 @@ export const HashTag = styled.button`
   border: none;
   font: inherit;
   font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
-  color: ${({ theme }) => theme.colors.muted};
   cursor: pointer;
   word-break: break-word;
-  transition: color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  /*
+   * The declared colour is the fallback and the transparent fill is the gradient path: any
+   * browser lacking -webkit-text-fill-color also lacks the background-clip this depends on,
+   * so it simply keeps the muted text.
+   */
+  color: ${({ theme }) => theme.colors.muted};
+  -webkit-text-fill-color: transparent;
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.7;
   }
 
   &:focus-visible {

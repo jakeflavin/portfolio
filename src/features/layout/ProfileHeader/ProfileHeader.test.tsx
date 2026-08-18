@@ -37,10 +37,10 @@ describe("ProfileHeader", () => {
     expect(screen.getByText("|")).toBeInTheDocument();
   });
 
-  it("renders a highlight for each social plus the appearance toggle", () => {
+  it("renders a highlight for each link plus the appearance toggle", () => {
     render(<ProfileHeader />);
-    for (const label of ["Threads", "LinkedIn", "GitHub"]) {
-      expect(screen.getByRole("button", { name: `Open ${label} profile` })).toBeInTheDocument();
+    for (const label of ["Threads", "LinkedIn", "GitHub", "Blog"]) {
+      expect(screen.getByRole("button", { name: `Open ${label}` })).toBeInTheDocument();
     }
     expect(screen.getByRole("button", { name: "Toggle dark mode" })).toBeInTheDocument();
   });

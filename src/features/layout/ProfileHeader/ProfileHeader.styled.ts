@@ -36,12 +36,14 @@ export const Content = styled.div`
   ${({ theme }) => theme.media.md} {
     display: grid;
     grid-template-columns: auto 1fr;
-    /* The avatar spans every row, so rows size to their own content rather than being
-       stretched to the avatar's height. */
+    /*
+     * The avatar spans the identity and bio rows so those size to their own content, then
+     * the highlights break out into a full-width row of their own beneath everything.
+     */
     grid-template-areas:
       "avatar identity"
       "avatar bio"
-      "avatar highlights";
+      "highlights highlights";
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
@@ -207,7 +209,8 @@ export const Highlights = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 
   ${({ theme }) => theme.media.md} {
-    gap: ${({ theme }) => theme.spacing.md};
+    gap: ${({ theme }) => theme.spacing.lg};
+    padding-top: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
