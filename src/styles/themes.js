@@ -181,10 +181,12 @@ export const lightTheme = {
   blur,
   motion,
   gradient,
-  /** Dividers and fills carry hierarchy; only overlays get elevation. */
+  /** Dividers and fills carry hierarchy; overlays and the hero panel get elevation. */
   shadows: {
     sm: "none",
     md: "none",
+    /** Panel elevation. Two layers — a tight contact shadow plus a wide soft one. */
+    raised: "0 1px 3px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.07)",
     mdDown: "0 4px 16px rgba(0, 0, 0, 0.1)",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.28)"
   },
@@ -232,6 +234,9 @@ export const darkTheme = {
   shadows: {
     sm: "none",
     md: "none",
+    /* On a dark page a shadow barely reads, so the lighter surface does most of the
+       lifting; this only deepens the edge. */
+    raised: "0 1px 3px rgba(0, 0, 0, 0.6), 0 12px 32px rgba(0, 0, 0, 0.5)",
     mdDown: "0 4px 16px rgba(0, 0, 0, 0.6)",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },

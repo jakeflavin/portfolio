@@ -13,6 +13,7 @@ export const HeroContainer = styled.div`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
+  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
   /* Weighted towards the top, so the headline sits below open space rather than centred
      in the panel. */
   padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md}
