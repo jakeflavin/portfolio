@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import {
   ArrowSquareOutIcon,
   GithubLogoIcon,
-  LinkSimpleIcon,
+  PaperPlaneTiltIcon,
   CheckIcon
 } from "@phosphor-icons/react";
 import {
   CardWrapper,
   PostHeader,
-  Mark,
   HeaderTitle,
   Age,
   Media,
@@ -24,10 +23,13 @@ import { formatPostAge } from "./card.utils";
 
 export type CardType = "project";
 
+/** Instagram's action icons sit at 24px in an outline weight. */
+const ICON_SIZE = 24;
+
 export interface CardProps {
   /** Card title */
   title: string;
-  /** Card type; unused in the header now that the age sits there */
+  /** Card type; retained for the directory's data shape */
   type?: CardType;
   /** Image URL; shown as the post media */
   imageSrc: string;
@@ -39,7 +41,7 @@ export interface CardProps {
   href?: string;
   /** Renders the card as unavailable and drops the links */
   disabled?: boolean;
-  /** Shown as the post age */
+  /** Shown next to the title, as the post age */
   date?: Date;
   /** `owner/name` on GitHub, linked from the action row */
   repo?: string;
@@ -57,6 +59,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const isLink = Boolean(href) && !disabled;
+  const age = disabled ? "coming soon" : date ? formatPostAge(date) : null;
 
   /**
    * clipboard.writeText rejects on a permission denial, an unfocused document, or an
@@ -89,11 +92,10 @@ const Card: React.FC<CardProps> = ({
   return (
     <CardWrapper $disabled={disabled}>
       <PostHeader>
-        <Mark aria-hidden="true">{title.charAt(0)}</Mark>
         <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
           {title}
         </HeaderTitle>
-        <Age>{disabled ? "coming soon" : date ? formatPostAge(date) : null}</Age>
+        {age && <Age>&middot; {age}</Age>}
       </PostHeader>
 
       <Media as={isLink ? "a" : "div"} href={isLink ? href : undefined} tabIndex={-1}>
@@ -103,7 +105,7 @@ const Card: React.FC<CardProps> = ({
       <Actions>
         {isLink && (
           <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
-            <ArrowSquareOutIcon size={22} />
+            <ArrowSquareOutIcon size={ICON_SIZE} />
           </ActionLink>
         )}
         {repo && (
@@ -114,7 +116,7 @@ const Card: React.FC<CardProps> = ({
             aria-label={`View source for ${title}`}
             title="Source"
           >
-            <GithubLogoIcon size={22} />
+            <GithubLogoIcon size={ICON_SIZE} />
           </ActionLink>
         )}
         {isLink && (
@@ -124,15 +126,17 @@ const Card: React.FC<CardProps> = ({
             aria-label={`Copy link to ${title}`}
             title={copied ? "Copied" : "Copy link"}
           >
-            {copied ? <CheckIcon size={22} /> : <LinkSimpleIcon size={22} />}
+            {copied ? (
+              <CheckIcon size={ICON_SIZE} />
+            ) : (
+              <PaperPlaneTiltIcon size={ICON_SIZE} />
+            )}
           </ActionButton>
         )}
       </Actions>
 
       <Caption>
-        <Description>
-          <strong>{title}</strong> {description}
-        </Description>
+        <Description>{description}</Description>
         {tags.length > 0 && (
           <HashTags>{tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}</HashTags>
         )}

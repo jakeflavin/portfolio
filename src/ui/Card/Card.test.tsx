@@ -9,11 +9,10 @@ describe("Card", () => {
     description: "A test description"
   };
 
-  it("renders the title, media and caption", () => {
+  it("renders the title once, plus the media and caption", () => {
     render(<Card {...defaultProps} />);
-    // The title appears twice by design: in the header and again opening the caption,
-    // which is exactly how a post reads.
-    expect(screen.getAllByText("Test Project")).toHaveLength(2);
+    // The title belongs in the header only; repeating it in the caption read as noise.
+    expect(screen.getAllByText("Test Project")).toHaveLength(1);
     expect(screen.getByRole("img")).toHaveAttribute("src", "/test.png");
     // The caption leads with the title in bold, the way an Instagram caption does.
     expect(screen.getByText(/A test description/)).toBeInTheDocument();
@@ -57,6 +56,6 @@ describe("Card", () => {
   it("drops the links and marks the card disabled when disabled", () => {
     render(<Card {...defaultProps} href="/countdown/" disabled />);
     expect(screen.queryAllByRole("link")).toHaveLength(0);
-    expect(screen.getByText("coming soon")).toBeInTheDocument();
+    expect(screen.getByText(/coming soon/)).toBeInTheDocument();
   });
 });

@@ -34,30 +34,14 @@ export const CardWrapper = styled.article<CardWrapperProps>`
 
 export const PostHeader = styled.header`
   display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  align-items: baseline;
+  gap: 5px;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.sm};
 `;
 
-/** Stands in for the avatar on a post. */
-export const Mark = styled.div`
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: ${({ theme }) => theme.colors.secondary};
-  color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
-  font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
-  line-height: 1;
-`;
-
-/** The username slot: semibold, and a link, exactly as on a post. */
+/** The title slot: semibold, and a link, where a post carries its username. */
 export const HeaderTitle = styled.a`
-  flex: 1;
   min-width: 0;
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
@@ -73,9 +57,10 @@ export const HeaderTitle = styled.a`
   }
 `;
 
+/** Sits inline after the title separated by a middot, as on a post — not pinned right. */
 export const Age = styled.span`
   flex-shrink: 0;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   color: ${({ theme }) => theme.colors.muted};
 `;
 
@@ -118,7 +103,8 @@ export const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md} 0;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.sm};
 `;
 
 const actionStyles = `
@@ -156,8 +142,7 @@ export const Caption = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md}
-    ${({ theme }) => theme.spacing.md};
+  padding: 0 ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md};
 `;
 
 export const Description = styled.p`
@@ -166,16 +151,12 @@ export const Description = styled.p`
   line-height: 1.45;
   color: ${({ theme }) => theme.colors.text};
   text-wrap: pretty;
-
-  strong {
-    font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
-  }
 `;
 
-/** Instagram renders hashtags in a link colour rather than as chips. */
+/** Caption links on Instagram are a dark navy, not the bright action blue. */
 export const HashTags = styled.div`
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   line-height: 1.4;
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
   word-break: break-word;
 `;

@@ -135,6 +135,8 @@ export const lightTheme = {
     inverseFocus: "rgba(255, 255, 255, 0.8)",
     focusBorder: "#0095f6",
     focusRing: "rgba(0, 149, 246, 0.28)",
+    /** Caption links and hashtags — deliberately subtler than the action blue. */
+    link: "#00376b",
     heart: "#ed4956"
   },
   radii,
@@ -190,6 +192,7 @@ export const darkTheme = {
     inverseFocus: "rgba(0, 0, 0, 0.8)",
     focusBorder: "#0095f6",
     focusRing: "rgba(0, 149, 246, 0.36)",
+    link: "#e0f1ff",
     heart: "#ff5a67"
   },
   shadows: {
