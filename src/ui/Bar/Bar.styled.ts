@@ -5,8 +5,10 @@ interface BarProps {
 }
 
 /**
- * A flat top row, not a card. Instagram and Threads separate the nav from the feed with a
- * single hairline rather than boxing it in.
+ * Sits on the page with no fill and no rule.
+ *
+ * That rules out making it sticky: with nothing behind it, content scrolls through the
+ * bar rather than under it. It scrolls away with the page instead.
  */
 export const BarContainer = styled.div<BarProps>`
   width: 100%;
@@ -15,11 +17,5 @@ export const BarContainer = styled.div<BarProps>`
   align-items: center;
   justify-content: ${({ align }) => align};
   gap: ${({ theme }) => theme.spacing.md};
-  z-index: 1000;
-  /* Sticky, like Instagram's top bar. Needs an opaque fill so content does not show
-     through as it scrolls underneath. */
-  position: sticky;
-  top: 0;
-  background: ${({ theme }) => theme.colors.background};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+  background: transparent;
 `;
