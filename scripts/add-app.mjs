@@ -415,11 +415,45 @@ done("No root-absolute paths in src/");
 
 step("4. Removing stale Firebase config and installing the release workflow");
 
-for (const stale of ["firebase.json", ".firebaserc", ".github/workflows/deploy.yml", ".github/workflows/ci.yml"]) {
-  const target = path.join(appDir, stale);
+/*
+ * Hosting moves to the portfolio, so the app's own hosting config and deploy workflow go.
+ *
+ * Its firebase.json is not automatically stale, though: an app that keeps a backend uses
+ * the same file to deploy Firestore rules or database rules, and deleting it would strand
+ * them with no way to ship a rule change. Only the hosting section is removed in that
+ * case, and .firebaserc stays so `firebase deploy --only firestore` still resolves a
+ * project.
+ */
+const firebaseConfigPath = path.join(appDir, "firebase.json");
+let keepsOwnBackend = false;
+
+if (fs.existsSync(firebaseConfigPath)) {
+  const config = JSON.parse(fs.readFileSync(firebaseConfigPath, "utf8"));
+  const backendKeys = ["firestore", "database", "functions", "storage"].filter((key) => key in config);
+  keepsOwnBackend = backendKeys.length > 0;
+
+  if (keepsOwnBackend) {
+    delete config.hosting;
+    if (config.emulators) delete config.emulators.hosting;
+    if (!flags["dry-run"]) {
+      fs.writeFileSync(firebaseConfigPath, JSON.stringify(config, null, 2) + "\n");
+    }
+    done(`Dropped the hosting section from firebase.json, kept ${backendKeys.join(", ")}`);
+    note(".firebaserc kept so the app can still deploy its own rules");
+  } else {
+    if (!flags["dry-run"]) fs.rmSync(firebaseConfigPath);
+    done("Removed firebase.json");
+  }
+}
+
+const stale = [".github/workflows/deploy.yml", ".github/workflows/ci.yml"];
+if (!keepsOwnBackend) stale.unshift(".firebaserc");
+
+for (const name of stale) {
+  const target = path.join(appDir, name);
   if (fs.existsSync(target)) {
     if (!flags["dry-run"]) fs.rmSync(target);
-    done(`Removed ${stale}`);
+    done(`Removed ${name}`);
   }
 }
 
@@ -618,7 +652,13 @@ manifest.apps.push(entry);
 fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + "\n");
 done(`Added "${slug}" to apps.json`);
 
-run("git", ["add", "apps.json"], { cwd: ROOT });
+/*
+ * The cover is staged alongside the manifest. Staging only apps.json left the freshly
+ * captured image untracked, so the deploy shipped a card pointing at a file that was
+ * never committed — the entry looked right and the image 404'd.
+ */
+const coverPath = path.join("public", cover.replace(/^\//, ""));
+run("git", ["add", "apps.json", coverPath], { cwd: ROOT });
 run("git", ["commit", "-m", `Add ${slug} to the directory`], { cwd: ROOT });
 const portfolioPush = gitPush([], { cwd: ROOT });
 if (!portfolioPush.ok) fail(`Pushing the portfolio failed:\n${portfolioPush.out}`);
