@@ -120,10 +120,13 @@ export const motion = {
   easing: "cubic-bezier(0.4, 0, 0.2, 1)"
 };
 
-/** A faint 32px grid — the one technical element in an otherwise plain surface. */
+/** Grid cell size. Fine enough to read as paper texture rather than as a layout grid. */
+export const gridSize = "16px";
+
+/** A faint grid — the one technical element in an otherwise plain surface. */
 const gridBackground = (line, base) =>
-  `linear-gradient(${line} 1px, transparent 1px) 0 0 / 32px 32px, ` +
-  `linear-gradient(90deg, ${line} 1px, transparent 1px) 0 0 / 32px 32px, ` +
+  `linear-gradient(${line} 1px, transparent 1px) 0 0 / ${gridSize} ${gridSize}, ` +
+  `linear-gradient(90deg, ${line} 1px, transparent 1px) 0 0 / ${gridSize} ${gridSize}, ` +
   base;
 
 /**
@@ -182,7 +185,7 @@ export const lightTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(0, 0, 0, 0.04)", "#ffffff")
+  bodyBackground: gridBackground("rgba(0, 0, 0, 0.045)", "#ffffff")
 };
 
 /**
@@ -230,5 +233,5 @@ export const darkTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#000000")
+  bodyBackground: gridBackground("rgba(255, 255, 255, 0.055)", "#000000")
 };
