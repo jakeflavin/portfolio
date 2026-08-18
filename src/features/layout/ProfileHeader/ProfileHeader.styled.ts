@@ -168,35 +168,16 @@ export const Bio = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-/**
- * Bio hashtags. They double as a tag index for the directory, so they filter rather than
- * being decoration — consistent with the hashtags on each card.
- */
+/** Bio hashtags. Static text: they describe the person, they do not filter anything. */
 export const BioTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0 8px;
 `;
 
-export const BioTag = styled.button`
-  padding: 0;
-  background: none;
-  border: none;
-  font: inherit;
+export const BioTag = styled.span`
   font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   color: ${({ theme }) => theme.colors.muted};
-  cursor: pointer;
-  transition: color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
 `;
 
 /**

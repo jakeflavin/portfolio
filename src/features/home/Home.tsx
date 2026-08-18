@@ -27,11 +27,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, onToggleDarkMode }) => {
 
   return (
     <>
-      <ProfileHeader
-        isDarkMode={isDarkMode}
-        onToggleDarkMode={onToggleDarkMode}
-        onTagClick={setSearchQuery}
-      />
+      <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
       <SearchContainer>
         <InputAction
           icon={<Search size={16} />}

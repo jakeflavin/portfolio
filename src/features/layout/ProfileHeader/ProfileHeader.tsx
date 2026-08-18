@@ -28,9 +28,13 @@ import {
 export interface ProfileHeaderProps {
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
-  /** Called with a tag when one of the bio hashtags is clicked */
-  onTagClick?: (tag: string) => void;
 }
+
+/**
+ * Part of the bio, not a filter. These describe the person rather than indexing the
+ * directory, so they are static text — the card hashtags are the ones that search.
+ */
+const BIO_TAGS = ["developer", "react", "java", "runner", "girldad"];
 
 const ICON_SIZE = 22;
 
@@ -84,11 +88,9 @@ function useStats() {
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   isDarkMode = false,
-  onToggleDarkMode,
-  onTagClick
+  onToggleDarkMode
 }) => {
   const stats = useStats();
-  const tags = [...new Set(PROJECTS.flatMap((project) => project.tags ?? []))].sort();
 
   return (
     <Panel>
@@ -115,20 +117,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
         <Bio>
           <TypeWriter script={BIO_SCRIPT} />
-          {tags.length > 0 && (
-            <BioTags>
-              {tags.map((tag) => (
-                <BioTag
-                  key={tag}
-                  type="button"
-                  onClick={() => onTagClick?.(tag)}
-                  aria-label={`Filter by ${tag}`}
-                >
-                  #{tag.replace(/\s+/g, "")}
-                </BioTag>
-              ))}
-            </BioTags>
-          )}
+          <BioTags>
+            {BIO_TAGS.map((tag) => (
+              <BioTag key={tag}>#{tag}</BioTag>
+            ))}
+          </BioTags>
         </Bio>
 
         <Highlights>
