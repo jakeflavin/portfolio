@@ -212,13 +212,24 @@ export const Highlights = styled.div`
   }
 `;
 
-/** Sets the appearance toggle apart from the outbound links. */
+/**
+ * Sets the appearance toggle apart from the outbound links.
+ *
+ * Sized and positioned against the circle rather than stretched: stretching ran it past
+ * the labels as well, and its side margins widened the gap around it so the rhythm of the
+ * row broke at that point.
+ */
 export const HighlightDivider = styled.span`
   flex: 0 0 auto;
-  align-self: stretch;
+  align-self: flex-start;
   width: 1px;
-  margin: 4px ${({ theme }) => theme.spacing.xs};
+  height: 28px;
+  margin: 17px 0 0;
   background: ${({ theme }) => theme.colors.border};
+
+  ${({ theme }) => theme.media.md} {
+    margin-top: 15px;
+  }
 `;
 
 /**
