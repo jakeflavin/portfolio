@@ -1,4 +1,8 @@
 /**
+ * EXPERIMENT: the grid background, the surfaces and all elevation are switched off here,
+ * so the whole thing is flat. Kept in the tokens rather than the components so it is a
+ * single revert. Hairline outlines remain.
+ *
  * Design tokens.
  *
  * Visual language follows Instagram and Threads:
@@ -129,7 +133,13 @@ export const motion = {
 /** Grid cell size. Fine enough to read as paper texture rather than as a layout grid. */
 export const gridSize = "16px";
 
-/** A faint grid — the one technical element in an otherwise plain surface. */
+/**
+ * A faint grid — the one technical element in an otherwise plain surface.
+ *
+ * Unused while the flat experiment is in place; kept so reverting it is a one-line change
+ * back to `gridBackground(...)` in bodyBackground.
+ */
+// eslint-disable-next-line no-unused-vars
 const gridBackground = (line, base) =>
   `linear-gradient(${line} 1px, transparent 1px) 0 0 / ${gridSize} ${gridSize}, ` +
   `linear-gradient(90deg, ${line} 1px, transparent 1px) 0 0 / ${gridSize} ${gridSize}, ` +
@@ -145,14 +155,14 @@ export const lightTheme = {
     secondary: "#efefef",
     accent: "#0095f6",
     background: "#fafafa",
-    surface: "#ffffff",
-    surfaceGlass: "#ffffff",
+    surface: "#fafafa",
+    surfaceGlass: "#fafafa",
     secondaryGlass: "#efefef",
     text: "#262626",
     muted: "#737373",
     border: "#dbdbdb",
     /** Lighter than `border`, for separating stacked content rather than outlining it. */
-    divider: "#efefef",
+    divider: "#e2e2e2",
     paper: "#fafafa",
     paperText: "#000000",
     paperMuted: "#737373",
@@ -186,17 +196,15 @@ export const lightTheme = {
   shadows: {
     sm: "none",
     md: "none",
-    /** Panel elevation. Two layers — a tight contact shadow plus a wide soft one. */
-    raised: "0 1px 3px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.07)",
-    /** `raised` lifted further, for hover. */
-    hover: "0 2px 6px rgba(0, 0, 0, 0.05), 0 18px 44px rgba(0, 0, 0, 0.1)",
-    mdDown: "0 4px 16px rgba(0, 0, 0, 0.1)",
+    raised: "none",
+    hover: "none",
+    mdDown: "none",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.28)"
   },
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(0, 0, 0, 0.05)", "#fafafa")
+  bodyBackground: "#fafafa"
 };
 
 /**
@@ -211,13 +219,13 @@ export const darkTheme = {
     secondary: "#262626",
     accent: "#0095f6",
     background: "#0f0f0f",
-    surface: "#1a1a1a",
-    surfaceGlass: "#1a1a1a",
+    surface: "#0f0f0f",
+    surfaceGlass: "#0f0f0f",
     secondaryGlass: "#262626",
     text: "#e8e8e8",
     muted: "#a8a8a8",
     border: "#363636",
-    divider: "#2a2a2a",
+    divider: "#303030",
     paper: "#1a1a1a",
     paperText: "#e8e8e8",
     paperMuted: "#a8a8a8",
@@ -237,15 +245,13 @@ export const darkTheme = {
   shadows: {
     sm: "none",
     md: "none",
-    /* On a dark page a shadow barely reads, so the lighter surface does most of the
-       lifting; this only deepens the edge. */
-    raised: "0 1px 3px rgba(0, 0, 0, 0.6), 0 12px 32px rgba(0, 0, 0, 0.5)",
-    hover: "0 2px 6px rgba(0, 0, 0, 0.7), 0 20px 48px rgba(0, 0, 0, 0.6)",
-    mdDown: "0 4px 16px rgba(0, 0, 0, 0.6)",
+    raised: "none",
+    hover: "none",
+    mdDown: "none",
     focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#0f0f0f")
+  bodyBackground: "#0f0f0f"
 };
