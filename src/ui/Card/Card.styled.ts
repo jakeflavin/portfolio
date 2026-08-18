@@ -5,116 +5,88 @@ interface CardWrapperProps {
 }
 
 /**
- * Laid out like an Instagram post: header row, full-bleed media, then a caption with
- * hashtags and a timestamp. The hairline is the post container itself — it is the one
- * border in the design, because a grid of posts needs each one bounded.
+ * An Instagram post: header, tall full-bleed media, an action row, then the caption.
+ *
+ * The card is not one big anchor — a post never is. The title, the media and each action
+ * are their own controls, which is both how Instagram behaves and the only valid way to
+ * nest buttons and links inside it.
  */
-export const CardWrapper = styled.a<CardWrapperProps>`
+export const CardWrapper = styled.article<CardWrapperProps>`
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 0;
-  color: inherit;
-  text-decoration: none;
+  /* Instagram pins a post to ~470px. Without a cap the media grows absurdly tall on a
+     wide single-column layout. */
+  max-width: 470px;
+  margin: 0 auto;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.md ?? "12px"};
   overflow: hidden;
-  cursor: pointer;
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.border};
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
-    outline-offset: 2px;
-  }
 
   ${({ $disabled }) =>
     $disabled &&
     `
-    cursor: default;
     opacity: 0.5;
   `}
 `;
 
-export const PostHeader = styled.div`
+export const PostHeader = styled.header`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  /* Fixed height so the media lines up across a row whatever the title length. */
-  min-height: 60px;
 `;
 
 /** Stands in for the avatar on a post. */
 export const Mark = styled.div`
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
   display: flex;
   align-items: center;
   justify-content: center;
   background: ${({ theme }) => theme.colors.secondary};
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   line-height: 1;
 `;
 
-export const HeaderText = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+/** The username slot: semibold, and a link, exactly as on a post. */
+export const HeaderTitle = styled.a`
   flex: 1;
-`;
-
-export const Title = styled.h3`
-  margin: 0;
-  font-size: ${({ theme }) => theme.typography.card?.titleSize ?? "0.9375rem"};
-  line-height: 1.3;
+  min-width: 0;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
-  letter-spacing: ${({ theme }) => theme.typography.card?.titleTracking ?? "-0.01em"};
-  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
-  /* Wrap rather than truncate — project names are longer than usernames — but never
-     past two lines, which the header height accounts for. */
-  overflow-wrap: anywhere;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  text-decoration: none;
+  white-space: nowrap;
   overflow: hidden;
-`;
+  text-overflow: ellipsis;
 
-export const Subtitle = styled.span`
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
-  line-height: 1.3;
-  color: ${({ theme }) => theme.colors.muted};
-`;
-
-export const OpenIcon = styled.span`
-  flex-shrink: 0;
-  display: inline-flex;
-  color: ${({ theme }) => theme.colors.muted};
-  line-height: 0;
-  transition: color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
-
-  ${CardWrapper}:hover & {
-    color: ${({ theme }) => theme.colors.text};
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
-export const ImageContainer = styled.div`
+export const Age = styled.span`
+  flex-shrink: 0;
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  color: ${({ theme }) => theme.colors.muted};
+`;
+
+/** Portrait media is the single most recognisable thing about a post. */
+export const Media = styled.a`
+  display: block;
   width: 100%;
-  /* Placeholder ratio — swap when real app screenshots land. */
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.secondary};
   border-top: 1px solid ${({ theme }) => theme.colors.divider};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
   position: relative;
 
   &::after {
@@ -126,7 +98,7 @@ export const ImageContainer = styled.div`
     transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
   }
 
-  ${CardWrapper}:hover &::after {
+  &:hover::after {
     opacity: 0.04;
   }
 `;
@@ -134,9 +106,50 @@ export const ImageContainer = styled.div`
 export const CardImage = styled.img`
   width: 100%;
   height: 100%;
+  /* Square media, cropped to fill — the classic post. Screenshots should be 1:1
+     (1080x1080) to land without cropping. */
   object-fit: cover;
   display: block;
   filter: ${({ theme }) => theme.img.brightness};
+`;
+
+/** Where the like/comment/share row sits on a post — with real actions in its place. */
+export const Actions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md} 0;
+`;
+
+const actionStyles = `
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  line-height: 0;
+  cursor: pointer;
+`;
+
+export const ActionLink = styled.a`
+  ${actionStyles}
+  color: ${({ theme }) => theme.colors.text};
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  &:hover {
+    opacity: 0.55;
+  }
+`;
+
+export const ActionButton = styled.button`
+  ${actionStyles}
+  color: ${({ theme }) => theme.colors.text};
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+
+  &:hover {
+    opacity: 0.55;
+  }
 `;
 
 export const Caption = styled.div`
@@ -165,11 +178,4 @@ export const HashTags = styled.div`
   line-height: 1.4;
   color: ${({ theme }) => theme.colors.accent};
   word-break: break-word;
-`;
-
-export const Timestamp = styled.time`
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
-  color: ${({ theme }) => theme.colors.muted};
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
 `;

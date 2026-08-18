@@ -61,6 +61,7 @@ const Home: React.FC = () => {
               href={project.path}
               disabled={project.disabled}
               date={project.creationDate}
+              repo={project.repo}
             />
           ))}
         </CardContainer>

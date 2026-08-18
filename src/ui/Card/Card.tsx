@@ -1,27 +1,33 @@
-import React from "react";
-import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import React, { useState } from "react";
+import {
+  ArrowSquareOutIcon,
+  GithubLogoIcon,
+  LinkSimpleIcon,
+  CheckIcon
+} from "@phosphor-icons/react";
 import {
   CardWrapper,
   PostHeader,
   Mark,
-  HeaderText,
-  Title,
-  Subtitle,
-  OpenIcon,
-  ImageContainer,
+  HeaderTitle,
+  Age,
+  Media,
   CardImage,
+  Actions,
+  ActionButton,
+  ActionLink,
   Caption,
   Description,
-  HashTags,
-  Timestamp
+  HashTags
 } from "./Card.styled";
+import { formatPostAge } from "./card.utils";
 
 export type CardType = "project";
 
 export interface CardProps {
   /** Card title */
   title: string;
-  /** Card type; shown as the header subtitle when there are no tags */
+  /** Card type; unused in the header now that the age sits there */
   type?: CardType;
   /** Image URL; shown as the post media */
   imageSrc: string;
@@ -31,59 +37,97 @@ export interface CardProps {
   tags?: string[];
   /** Destination for the card. Omit to render a non-interactive card. */
   href?: string;
-  /** Renders the card as unavailable and drops the link */
+  /** Renders the card as unavailable and drops the links */
   disabled?: boolean;
-  /** Shown as the post timestamp */
+  /** Shown as the post age */
   date?: Date;
+  /** `owner/name` on GitHub, linked from the action row */
+  repo?: string;
 }
-
-/**
- * Rendered in UTC on purpose. Manifest dates are plain `YYYY-MM-DD`, which Date parses as
- * UTC midnight; formatting those in a behind-UTC local zone shows the previous day.
- */
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC"
-  });
 
 const Card: React.FC<CardProps> = ({
   title,
-  type = "project",
   imageSrc,
   description,
   tags = [],
   href,
   disabled = false,
-  date
+  date,
+  repo
 }) => {
+  const [copied, setCopied] = useState(false);
   const isLink = Boolean(href) && !disabled;
 
+  /**
+   * clipboard.writeText rejects on a permission denial, an unfocused document, or an
+   * insecure context. Left unhandled that is an uncaught rejection and a button that
+   * silently does nothing, so failures fall back to the legacy path.
+   */
+  const copyLink = async () => {
+    if (!href) return;
+    const url = new URL(href, window.location.origin).toString();
+
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      const field = document.createElement("textarea");
+      field.value = url;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      const copiedViaFallback = document.execCommand("copy");
+      document.body.removeChild(field);
+      if (!copiedViaFallback) return;
+    }
+
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
   return (
-    <CardWrapper
-      as={isLink ? "a" : "div"}
-      href={isLink ? href : undefined}
-      $disabled={disabled}
-      aria-disabled={disabled || undefined}
-    >
+    <CardWrapper $disabled={disabled}>
       <PostHeader>
         <Mark aria-hidden="true">{title.charAt(0)}</Mark>
-        <HeaderText>
-          <Title>{title}</Title>
-          <Subtitle>{disabled ? "coming soon" : type}</Subtitle>
-        </HeaderText>
-        {isLink && (
-          <OpenIcon>
-            <ArrowUpRightIcon size={16} />
-          </OpenIcon>
-        )}
+        <HeaderTitle as={isLink ? "a" : "span"} href={isLink ? href : undefined}>
+          {title}
+        </HeaderTitle>
+        <Age>{disabled ? "coming soon" : date ? formatPostAge(date) : null}</Age>
       </PostHeader>
 
-      <ImageContainer>
-        <CardImage src={imageSrc} alt={title} />
-      </ImageContainer>
+      <Media as={isLink ? "a" : "div"} href={isLink ? href : undefined} tabIndex={-1}>
+        <CardImage src={imageSrc} alt={`${title} preview`} />
+      </Media>
+
+      <Actions>
+        {isLink && (
+          <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
+            <ArrowSquareOutIcon size={22} />
+          </ActionLink>
+        )}
+        {repo && (
+          <ActionLink
+            href={`https://github.com/${repo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View source for ${title}`}
+            title="Source"
+          >
+            <GithubLogoIcon size={22} />
+          </ActionLink>
+        )}
+        {isLink && (
+          <ActionButton
+            type="button"
+            onClick={copyLink}
+            aria-label={`Copy link to ${title}`}
+            title={copied ? "Copied" : "Copy link"}
+          >
+            {copied ? <CheckIcon size={22} /> : <LinkSimpleIcon size={22} />}
+          </ActionButton>
+        )}
+      </Actions>
 
       <Caption>
         <Description>
@@ -92,7 +136,6 @@ const Card: React.FC<CardProps> = ({
         {tags.length > 0 && (
           <HashTags>{tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}</HashTags>
         )}
-        {date && <Timestamp>{formatDate(date)}</Timestamp>}
       </Caption>
     </CardWrapper>
   );

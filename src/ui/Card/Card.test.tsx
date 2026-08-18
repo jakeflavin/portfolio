@@ -9,9 +9,11 @@ describe("Card", () => {
     description: "A test description"
   };
 
-  it("renders the title as a heading, plus the image and caption", () => {
+  it("renders the title, media and caption", () => {
     render(<Card {...defaultProps} />);
-    expect(screen.getByRole("heading", { name: "Test Project" })).toBeInTheDocument();
+    // The title appears twice by design: in the header and again opening the caption,
+    // which is exactly how a post reads.
+    expect(screen.getAllByText("Test Project")).toHaveLength(2);
     expect(screen.getByRole("img")).toHaveAttribute("src", "/test.png");
     // The caption leads with the title in bold, the way an Instagram caption does.
     expect(screen.getByText(/A test description/)).toBeInTheDocument();
@@ -28,24 +30,33 @@ describe("Card", () => {
     expect(screen.queryByText(/^#/)).not.toBeInTheDocument();
   });
 
-  it("renders a link when href is provided", () => {
+  it("links the title and media to the app, and offers an open action", () => {
     render(<Card {...defaultProps} href="/countdown/" />);
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/countdown/");
+
+    const titleLink = screen.getByRole("link", { name: "Test Project" });
+    expect(titleLink).toHaveAttribute("href", "/countdown/");
+    expect(screen.getByRole("link", { name: "Open Test Project" })).toHaveAttribute(
+      "href",
+      "/countdown/"
+    );
   });
 
-  it("does not render a link when href is omitted", () => {
+  it("links to the repository when one is given", () => {
+    render(<Card {...defaultProps} href="/countdown/" repo="jakeflavin/countdown" />);
+    expect(screen.getByRole("link", { name: /view source/i })).toHaveAttribute(
+      "href",
+      "https://github.com/jakeflavin/countdown"
+    );
+  });
+
+  it("renders no links at all when href is omitted", () => {
     render(<Card {...defaultProps} />);
-    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    expect(screen.queryAllByRole("link")).toHaveLength(0);
   });
 
-  it("drops the link and marks the card disabled when disabled", () => {
+  it("drops the links and marks the card disabled when disabled", () => {
     render(<Card {...defaultProps} href="/countdown/" disabled />);
-    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    expect(screen.queryAllByRole("link")).toHaveLength(0);
     expect(screen.getByText("coming soon")).toBeInTheDocument();
-  });
-
-  it("formats the timestamp in UTC so a plain date is not shown a day early", () => {
-    render(<Card {...defaultProps} date={new Date("2026-02-17")} />);
-    expect(screen.getByText("February 17, 2026")).toBeInTheDocument();
   });
 });

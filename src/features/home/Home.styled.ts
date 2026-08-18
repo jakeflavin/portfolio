@@ -28,7 +28,8 @@ export const CardContainer = styled.div`
   display: grid;
   /* Column count follows the available width. Fixed breakpoints squeezed posts to ~200px
      on mid-size screens, which wrapped every title. */
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-content: center;
   gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
 `;
 

@@ -12,19 +12,24 @@ describe("Home", () => {
     vi.useRealTimers();
   });
 
-  const grid = () => screen.getAllByRole("link");
+  // Each post has several links (title, media, actions), so count posts by article.
+  const posts = () => screen.queryAllByRole("article");
 
   it("renders a card per project, each linking to its sub-path", () => {
     render(<Home />);
-    const links = grid();
-    expect(links).toHaveLength(PROJECTS.filter((p) => !p.disabled).length);
+    expect(posts()).toHaveLength(PROJECTS.length);
 
-    for (const project of PROJECTS.filter((p) => !p.disabled)) {
-      const link = links.find((element) => element.getAttribute("href") === project.path);
-      expect(link, `no card links to ${project.path}`).toBeDefined();
-      expect(
-        within(link!).getByRole("heading", { name: project.title })
-      ).toBeInTheDocument();
+    for (const project of PROJECTS) {
+      const post = posts().find(
+        (element) => within(element).queryAllByText(project.title).length > 0
+      );
+      expect(post, `no post for ${project.title}`).toBeDefined();
+
+      if (!project.disabled) {
+        expect(
+          within(post!).getByRole("link", { name: project.title })
+        ).toHaveAttribute("href", project.path);
+      }
     }
   });
 
@@ -34,8 +39,8 @@ describe("Home", () => {
 
     fireEvent.change(input, { target: { value: PROJECTS[0].title } });
 
-    expect(grid()).toHaveLength(1);
-    expect(grid()[0]).toHaveAttribute("href", PROJECTS[0].path);
+    expect(posts()).toHaveLength(1);
+    expect(within(posts()[0]).getAllByText(PROJECTS[0].title).length).toBeGreaterThan(0);
   });
 
   it("shows an empty state when nothing matches", () => {
@@ -45,7 +50,7 @@ describe("Home", () => {
     fireEvent.change(input, { target: { value: "zzzz-no-such-project" } });
 
     expect(screen.getByText("No projects found")).toBeInTheDocument();
-    expect(screen.queryAllByRole("link")).toHaveLength(0);
+    expect(posts()).toHaveLength(0);
   });
 
   it("recovers when the search is cleared", () => {
@@ -56,6 +61,6 @@ describe("Home", () => {
     fireEvent.change(input, { target: { value: "" } });
 
     expect(screen.queryByText("No projects found")).not.toBeInTheDocument();
-    expect(grid().length).toBeGreaterThan(0);
+    expect(posts().length).toBeGreaterThan(0);
   });
 });
