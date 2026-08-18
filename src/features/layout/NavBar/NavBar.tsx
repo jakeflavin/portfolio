@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "styled-components";
 import Bar from "@/ui/Bar";
 import IconButton from "@/ui/IconButton";
-import { HouseIcon, LinkedinLogoIcon, GithubLogoIcon, ThreadsLogoIcon, MoonIcon } from "@phosphor-icons/react";
+import { LinkedinLogoIcon, GithubLogoIcon, ThreadsLogoIcon, MoonIcon } from "@phosphor-icons/react";
 import { IconGroup } from "./NavBar.styled";
 
 export interface NavBarProps {
@@ -18,12 +18,6 @@ const NavBar: React.FC<NavBarProps> = ({
 
   return (
     <Bar align="space-between">
-      <IconButton
-        icon={<HouseIcon size={20} />}
-        color={theme.colors.text}
-        onClick={() => window.location.assign("/")}
-        ariaLabel="Go to home"
-      />
       <IconGroup>
         <IconButton
           icon={<ThreadsLogoIcon size={20} />}

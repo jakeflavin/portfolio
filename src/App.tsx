@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { blueprintTheme, blueprintDarkTheme } from "./styles/themes";
+import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
 import FooterBar from "@/features/layout/FooterBar";
 import NavBar from "@/features/layout/NavBar";
@@ -25,7 +25,7 @@ const getInitialDarkMode = () => {
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(getInitialDarkMode);
-  const theme = isDarkMode ? blueprintDarkTheme : blueprintTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");

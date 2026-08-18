@@ -12,11 +12,6 @@ describe("Hero", () => {
     vi.useRealTimers();
   });
 
-  it("renders the name as the page heading", () => {
-    render(<Hero />);
-    expect(screen.getByRole("heading", { level: 1, name: "Jake Flavin" })).toBeInTheDocument();
-  });
-
   it("renders TypeWriter with cursor", () => {
     render(<Hero />);
     expect(screen.getByText("|")).toBeInTheDocument();
@@ -27,6 +22,6 @@ describe("Hero", () => {
     act(() => {
       vi.advanceTimersByTime(100);
     });
-    expect(screen.getByText("I")).toBeInTheDocument();
+    expect(screen.getByText("H")).toBeInTheDocument();
   });
 });

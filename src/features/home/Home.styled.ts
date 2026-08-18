@@ -45,10 +45,8 @@ export const EmptyState = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
   padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.secondaryGlass ?? theme.colors.secondary};
-  backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
-  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.md ?? "16px"});
-  border: 1px dashed ${({ theme }) => theme.colors.border};
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
 `;
 
@@ -56,7 +54,7 @@ export const EmptyTitle = styled.p`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   font-size: ${({ theme }) => theme.typography.size?.lg ?? "1rem"};
-  text-transform: ${({ theme }) => theme.typography.heading.transform};
+  font-weight: 600;
   letter-spacing: ${({ theme }) => theme.typography.heading.tracking};
   color: ${({ theme }) => theme.colors.text};
 `;

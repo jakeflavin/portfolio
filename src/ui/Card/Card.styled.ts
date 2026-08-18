@@ -13,32 +13,21 @@ export const CardWrapper = styled.a<CardWrapperProps>`
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.md};
   gap: ${({ theme }) => theme.spacing.sm};
-  background: ${({ theme }) => theme.colors.surfaceGlass ?? theme.colors.surface};
-  backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
-  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur?.lg ?? "24px"}) saturate(140%);
+  background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
   cursor: pointer;
-  box-shadow: ${({ theme }) => theme.shadows.md};
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    transform ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    background ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
+    background ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: ${({ theme }) => theme.shadows.mdDown};
-    border-color: color-mix(in srgb, ${({ theme }) => theme.colors.primary} 20%, ${({ theme }) => theme.colors.border});
-  }
-
-  &:hover img {
-    transform: scale(1.03);
+    background: ${({ theme }) => theme.colors.secondary};
   }
 
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.focusBorder};
     box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
@@ -46,15 +35,10 @@ export const CardWrapper = styled.a<CardWrapperProps>`
     $disabled &&
     `
     cursor: default;
-    opacity: 0.55;
+    opacity: 0.45;
 
     &:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    &:hover img {
-      transform: none;
+      background: inherit;
     }
   `}
 `;
@@ -62,9 +46,9 @@ export const CardWrapper = styled.a<CardWrapperProps>`
 export const ImageContainer = styled.div`
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: calc(${({ theme }) => theme.borderRadius} - 6px);
+  border-radius: calc(${({ theme }) => theme.borderRadius} - 8px);
   overflow: hidden;
-  background: color-mix(in srgb, ${({ theme }) => theme.colors.primary} 5%, ${({ theme }) => theme.colors.surface});
+  background: ${({ theme }) => theme.colors.secondary};
   border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -74,23 +58,21 @@ export const CardImage = styled.img`
   object-fit: cover;
   display: block;
   filter: ${({ theme }) => theme.img.brightness};
-  transition: transform 0.6s ${({ theme }) => theme.motion?.easing ?? "ease"},
-    filter ${({ theme }) => theme.motion?.duration?.normal ?? "0.3s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 `;
 
 export const CardBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.xs};
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.xs} 2px 0;
 `;
 
 export const CardTypeLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "11px"};
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.6875rem"};
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: ${({ theme }) => theme.colors.accent};
-  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: ${({ theme }) => theme.colors.muted};
+  font-weight: 600;
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
 `;
 
@@ -103,10 +85,10 @@ export const TitleRow = styled.div`
 
 export const Title = styled.h3`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.card?.titleSize ?? "1.25rem"};
-  line-height: 1.2;
-  font-weight: ${({ theme }) => theme.typography.heading?.weight ?? 700};
-  letter-spacing: ${({ theme }) => theme.typography.card?.titleTracking ?? "-0.025em"};
+  font-size: ${({ theme }) => theme.typography.card?.titleSize ?? "1rem"};
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: ${({ theme }) => theme.typography.card?.titleTracking ?? "-0.01em"};
   text-transform: ${({ theme }) => theme.typography.card?.titleTransform ?? "none"};
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   color: ${({ theme }) => theme.colors.text};
@@ -130,11 +112,10 @@ export const TagsRow = styled.div`
 export const Tag = styled.span`
   display: inline-flex;
   align-items: center;
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "11px"};
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.75rem"};
   font-weight: 500;
-  letter-spacing: 0.01em;
-  color: ${({ theme }) => theme.colors.text};
-  background: ${({ theme }) => theme.colors.secondaryGlass};
+  color: ${({ theme }) => theme.colors.muted};
+  background: transparent;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 999px;
   padding: 3px 10px;

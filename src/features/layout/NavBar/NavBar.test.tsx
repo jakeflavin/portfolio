@@ -7,9 +7,9 @@ function renderNavBar(props = {}) {
 }
 
 describe("NavBar", () => {
-  it("renders home button with aria label", () => {
+  it("does not render a home button, since the directory is the only page", () => {
     renderNavBar();
-    expect(screen.getByRole("button", { name: "Go to home" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Go to home" })).not.toBeInTheDocument();
   });
 
   it("renders LinkedIn and GitHub buttons", () => {
