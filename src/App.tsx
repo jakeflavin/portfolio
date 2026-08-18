@@ -64,9 +64,11 @@ const Container = styled.div`
    * A single measure with gutters, rather than a percentage that changed at every
    * breakpoint. The old 95/90/80/70% ladder meant the content width moved constantly and
    * never settled anywhere deliberate.
+   *
+   * 780px is border-box, so the content inside the 24px gutters is 732px.
    */
   width: 100%;
-  max-width: 1040px;
+  max-width: 780px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
   padding: 0 ${({ theme }) => theme.spacing.md};
 
