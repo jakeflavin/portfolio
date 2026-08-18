@@ -245,9 +245,7 @@ export const darkTheme = {
     focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
   },
   img: {
-    /* Takes the edge off the white-background placeholder art. Real screenshots will
-       carry their own dark themes, at which point this can go back to 1. */
-    brightness: "brightness(0.92)"
+    brightness: "brightness(1)"
   },
   bodyBackground: gridBackground("rgba(255, 255, 255, 0.05)", "#0f0f0f")
 };

@@ -17,6 +17,9 @@
  *   --date <YYYY-MM-DD>     Creation date         (default: today)
  *   --dry-run               Do the local checks and the audit, then stop
  *   --yes                   Skip the confirmation prompt
+ *   --shot-wait <ms>        Settle time before the cover screenshot  (default: 2500)
+ *   --shot-theme <scheme>   Capture in `light` or `dark`             (default: light)
+ *   --skip-cover            Do not capture a cover
  *
  * Every step is idempotent: re-running after fixing an audit finding picks up where it left off.
  */
@@ -441,11 +444,43 @@ if (!tag) {
 console.log();
 done(`Release ${tag} is ready`);
 
+// ------------------------------------------------------- 7. capture the cover
+
+const cover = flags.cover ?? `/images/${slug}-cover.jpg`;
+
+if (flags["skip-cover"]) {
+  step("7. Skipping the cover capture");
+} else {
+  step("7. Capturing the cover from the app");
+  const capture = tryRun(
+    "node",
+    [
+      path.join(ROOT, "scripts", "capture-cover.mjs"),
+      appDir,
+      "--slug",
+      slug,
+      "--out",
+      path.join("public", cover.replace(/^\//, "")),
+      "--wait",
+      String(flags["shot-wait"] ?? 2500),
+      "--theme",
+      flags["shot-theme"] ?? "light"
+    ],
+    { cwd: ROOT }
+  );
+  if (!capture.ok) {
+    fail(
+      `Cover capture failed:\n${capture.out}\n` +
+        `  Re-run with --skip-cover and supply --cover <path> to carry on without one.`
+    );
+  }
+  done(`Captured ${cover}`);
+}
+
 // --------------------------------------------------- 8/9/10. manifest + deploy
 
-step("7. Adding it to the directory");
+step("8. Adding it to the directory");
 
-const cover = flags.cover ?? `/images/${slug}-project-cover.svg`;
 if (!fs.existsSync(path.join(ROOT, "public", cover.replace(/^\//, "")))) {
   note(`Warning: ${cover} does not exist in public/ — the card image will 404.`);
 }
@@ -470,7 +505,7 @@ const portfolioPush = gitPush([], { cwd: ROOT });
 if (!portfolioPush.ok) fail(`Pushing the portfolio failed:\n${portfolioPush.out}`);
 done("Committed and pushed the portfolio");
 
-step("8. Deploying");
+step("9. Deploying");
 
 run("gh", ["workflow", "run", "deploy.yml"], { cwd: ROOT });
 done("Triggered the portfolio deploy");

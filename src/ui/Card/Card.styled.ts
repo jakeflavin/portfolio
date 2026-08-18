@@ -102,8 +102,7 @@ export const Media = styled.a`
 export const CardImage = styled.img`
   width: 100%;
   height: 100%;
-  /* Square media, cropped to fill — the classic post. Screenshots should be 1:1
-     (1080x1080) to land without cropping. */
+  /* Covers are captured at 1:1 by scripts/capture-cover.mjs, so this fills exactly. */
   object-fit: cover;
   display: block;
   filter: ${({ theme }) => theme.img.brightness};

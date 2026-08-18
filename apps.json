@@ -8,7 +8,7 @@
         "timer",
         "utility"
       ],
-      "cover": "/images/countdown-timer-project-cover.svg",
+      "cover": "/images/countdown-cover.jpg",
       "creationDate": "2026-02-17",
       "disabled": false,
       "repo": "jakeflavin/countdown"
@@ -21,7 +21,7 @@
         "picker",
         "random"
       ],
-      "cover": "/images/hat-project-cover.svg",
+      "cover": "/images/hat-cover.jpg",
       "creationDate": "2026-08-18",
       "disabled": false,
       "repo": "jakeflavin/roll"
