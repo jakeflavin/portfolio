@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Cursor = styled.span`
-  margin-left: 2px;
+  margin-left: 4px;
   font-weight: ${({ theme }) => theme.typography.weight?.normal ?? 400};
   color: ${({ theme }) => theme.colors.muted};
   animation: blink 2s infinite;

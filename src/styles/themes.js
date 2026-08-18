@@ -60,8 +60,8 @@ export const typography = {
     transform: "none"
   },
   typewriter: {
-    size: "clamp(19px, 2.4vw, 26px)",
-    tracking: "-0.02em",
+    size: "clamp(30px, 5vw, 46px)",
+    tracking: "-0.035em",
     transform: "none"
   },
   card: {
