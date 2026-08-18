@@ -10,7 +10,6 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
-  justify-content: center;
   background: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
@@ -26,19 +25,18 @@ export const Panel = styled.header`
 `;
 
 /**
- * A centred block. Inside it there are exactly two left edges: the avatar and the stories
- * sit on the block's edge, and the name, counts and bio share the column beside the avatar.
+ * Spans the page measure, sharing its left and right edges with the search field and the
+ * card grid.
  *
- * Held to a measure rather than spanning the page: full width, its content stopped well
- * short of the right edge while the card grid below ran flush to it. Centred, the leftover
- * splits evenly either side.
+ * The section only works at this width because its parts are sized to fill it — six 84px
+ * circles with 38px gaps span 732px exactly. Undersized, no alignment choice looked right:
+ * packed left the row ended ragged, spread it went sparse.
  */
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
-  max-width: 560px;
 
   ${({ theme }) => theme.media.md} {
     display: grid;
@@ -54,7 +52,12 @@ export const Content = styled.div`
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
-    justify-items: start;
+    /*
+     * Items stretch to their column rather than shrink-wrapping, so the identity row and
+     * the bio both resolve against the block's right edge. Shrink-wrapped, the name row
+     * could not push the counts out to it and the bio ended mid-column.
+     */
+    justify-items: stretch;
   }
 `;
 
@@ -84,8 +87,8 @@ export const AvatarRing = styled.div`
   background: ${({ theme }) => theme.gradient?.brand ?? "none"};
 
   ${({ theme }) => theme.media.md} {
-    width: 96px;
-    height: 96px;
+    width: 120px;
+    height: 120px;
   }
 `;
 
@@ -115,10 +118,14 @@ export const IdentityColumn = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
 
-  /* Name and counts share a row once there is width for it. */
+  /*
+   * Name left, counts right once there is width for it, so the top row resolves against
+   * the same right edge as everything below rather than trailing off.
+   */
   ${({ theme }) => theme.media.md} {
     flex-direction: row;
     align-items: baseline;
+    justify-content: space-between;
     gap: ${({ theme }) => theme.spacing.lg};
     flex-wrap: wrap;
   }
@@ -210,9 +217,15 @@ export const Highlights = styled.div`
     display: none;
   }
 
+  /*
+   * Distributed rather than given a fixed gap. Six 84px circles span 732px with 38px
+   * between them, so at the full measure the spacing is tight and even; below it the gaps
+   * close instead of overflowing. A fixed 38px broke between 750px and 780px.
+   */
   ${({ theme }) => theme.media.md} {
+    justify-content: space-between;
     gap: ${({ theme }) => theme.spacing.lg};
-    padding-top: ${({ theme }) => theme.spacing.sm};
+    padding-top: ${({ theme }) => theme.spacing.md};
     overflow-x: visible;
   }
 `;
@@ -233,7 +246,8 @@ export const HighlightDivider = styled.span`
   background: ${({ theme }) => theme.colors.border};
 
   ${({ theme }) => theme.media.md} {
-    margin-top: 15px;
+    height: 36px;
+    margin-top: 24px;
   }
 `;
 
@@ -263,8 +277,8 @@ export const Highlight = styled.button`
   color: ${({ theme }) => theme.colors.text};
 
   ${({ theme }) => theme.media.md} {
-    width: 58px;
-    min-width: 58px;
+    width: 84px;
+    min-width: 84px;
   }
 
   &:focus-visible {
@@ -294,9 +308,9 @@ export const HighlightRing = styled.span`
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   ${({ theme }) => theme.media.md} {
-    width: 58px;
-    height: 58px;
-    min-width: 58px;
+    width: 84px;
+    height: 84px;
+    min-width: 84px;
   }
 
   ${Highlight}:hover & {

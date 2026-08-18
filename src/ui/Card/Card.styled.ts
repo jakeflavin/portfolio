@@ -191,7 +191,9 @@ export const DescriptionWrap = styled.div`
 /**
  * While clamped this sits at the end of the second line rather than below the text, which
  * is how a truncated caption reads. It is overlaid on the clamp, so it carries the card
- * surface plus a short fade to hide the words running underneath it.
+ * surface plus a fade wide enough to clear the word running underneath it — a narrow one
+ * left a part-word butted against the ellipsis, which read as a clipping bug rather than
+ * as a truncated caption.
  */
 export const MoreButton = styled.button<{ $inline?: boolean }>`
   padding: 0;
@@ -212,11 +214,11 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
     position: absolute;
     right: 0;
     bottom: 0;
-    padding-left: 28px;
+    padding-left: 44px;
     background: linear-gradient(
       to right,
       transparent 0,
-      ${theme.colors.surface} 22px,
+      ${theme.colors.surface} 40px,
       ${theme.colors.surface} 100%
     );
   `
