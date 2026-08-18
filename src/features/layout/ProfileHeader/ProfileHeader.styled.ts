@@ -10,29 +10,30 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
-  justify-content: center;
   background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
   box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
-  padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.lg};
-
-  ${({ theme }) => theme.media.md} {
-    padding: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.xl};
-  }
+  /*
+   * No vertical padding of its own: combined with the page gap it made the space below the
+   * profile 65px against 24px everywhere else, so the rhythm broke at the top of the page.
+   *
+   * No border either. It was transparent under the flat pass but still occupied 1px, which
+   * pushed the profile's left edge one pixel off the search field and the cards. Restore
+   * a 1px divider border here if the surfaces come back.
+   */
+  padding: 0;
 `;
 
 /**
- * A centred block, as the profile header is. Inside it there are exactly two left edges:
- * the avatar and the highlights sit on the block's edge, and the name, counts and bio all
- * share the column beside the avatar.
+ * Spans the content width rather than sitting centred in it. Centred, the profile started
+ * 120px right of the search field and the cards, so the page carried two competing left
+ * edges. Now everything shares one.
  */
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
-  max-width: 560px;
 
   ${({ theme }) => theme.media.md} {
     display: grid;
@@ -49,7 +50,6 @@ export const Content = styled.div`
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
     justify-items: start;
-    width: auto;
   }
 `;
 

@@ -13,7 +13,7 @@ export const SearchContainer = styled.div`
   /* Filled rather than outlined: with the surfaces and hairlines gone this is the only
      thing marking the control out from the page. */
   background: ${({ theme }) => theme.colors.secondary};
-  border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
+  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
   transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
 
   /* The children are bare, so focus is shown once, here, for the whole control. */
