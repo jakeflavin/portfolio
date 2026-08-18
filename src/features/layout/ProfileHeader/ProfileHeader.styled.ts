@@ -10,8 +10,7 @@ import styled from "styled-components";
 export const Panel = styled.header`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  justify-content: center;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
@@ -19,11 +18,26 @@ export const Panel = styled.header`
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
 
   ${({ theme }) => theme.media.md} {
-    padding: ${({ theme }) => theme.spacing.lg};
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
+  }
+`;
+
+/**
+ * The content block, centred in the panel as a unit. Rows inside it stay left-aligned —
+ * centring each row individually made the whole thing read as a link-in-bio page.
+ */
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+  width: 100%;
+  max-width: 620px;
+
+  ${({ theme }) => theme.media.md} {
     display: grid;
     grid-template-columns: auto 1fr;
-    /* The avatar spans every row, so the rows size to their own content instead of
-       being stretched to the avatar's height. */
+    /* The avatar spans every row, so rows size to their own content rather than being
+       stretched to the avatar's height. */
     grid-template-areas:
       "avatar identity"
       "avatar bio"
@@ -31,10 +45,11 @@ export const Panel = styled.header`
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
+    width: auto;
   }
 `;
 
-/** Avatar on the left, identity column on the right. */
+/** Avatar beside the name and counts on narrow screens; part of the grid from md. */
 export const Identity = styled.div`
   display: flex;
   align-items: center;
@@ -91,7 +106,7 @@ export const IdentityColumn = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
 
-  /* One row from md — stacked they left most of the width empty. */
+  /* Name and counts share a row once there is width for it. */
   ${({ theme }) => theme.media.md} {
     flex-direction: row;
     align-items: baseline;
@@ -148,7 +163,7 @@ export const Bio = styled.div`
   grid-area: bio;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 /**
@@ -159,7 +174,6 @@ export const BioTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0 8px;
-  margin-top: 2px;
 `;
 
 export const BioTag = styled.button`
@@ -191,19 +205,15 @@ export const Highlights = styled.div`
   grid-area: highlights;
   display: flex;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding-top: ${({ theme }) => theme.spacing.xs};
 
   ${({ theme }) => theme.media.md} {
     gap: ${({ theme }) => theme.spacing.md};
-    /* Aligned under the bio rather than spanning the panel, so the row does not strand
-       the whole right-hand side empty. */
-    justify-content: flex-start;
-    padding-top: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
 export const Highlight = styled.button`
-  /* Shares the row on narrow screens; fixed width once there is space. */
+  /* Shares the row on narrow screens so nothing scrolls off; fixed width once there is
+     space for it. */
   flex: 1 1 0;
   min-width: 0;
   display: flex;

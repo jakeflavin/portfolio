@@ -7,6 +7,7 @@ import CrownMark from "./CrownMark";
 import { PROJECTS } from "@/features/projects/projects";
 import {
   Panel,
+  Content,
   Identity,
   AvatarRing,
   Avatar,
@@ -40,8 +41,8 @@ const SOCIALS: { name: BrandName; href: string; label: string }[] = [
 ];
 
 /**
- * The vanity stat. Not derived from anything — it is the "followers" slot, and the joke
- * is that the ideas outnumber the shipped tools by three orders of magnitude.
+ * The vanity stat. Not derived from anything — it is the "followers" slot, and the joke is
+ * that the ideas outnumber the shipped tools by three orders of magnitude.
  */
 const IDEAS = 2319;
 
@@ -66,69 +67,71 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   return (
     <Panel>
-      <Identity>
-        <AvatarRing>
-          <Avatar>
-            <CrownMark />
-          </Avatar>
-        </AvatarRing>
+      <Content>
+        <Identity>
+          <AvatarRing>
+            <Avatar>
+              <CrownMark />
+            </Avatar>
+          </AvatarRing>
 
-        <IdentityColumn>
-          <Handle>Jake&apos;s Tools</Handle>
-          <Stats>
-            {stats.map(({ label, value }) => (
-              <Stat key={label}>
-                <dd>{value}</dd>
-                <dt>{label}</dt>
-              </Stat>
-            ))}
-          </Stats>
-        </IdentityColumn>
-      </Identity>
+          <IdentityColumn>
+            <Handle>Jake&apos;s Tools</Handle>
+            <Stats>
+              {stats.map(({ label, value }) => (
+                <Stat key={label}>
+                  <dd>{value}</dd>
+                  <dt>{label}</dt>
+                </Stat>
+              ))}
+            </Stats>
+          </IdentityColumn>
+        </Identity>
 
-      <Bio>
-        <TypeWriter script={BIO_SCRIPT} />
-        {tags.length > 0 && (
-          <BioTags>
-            {tags.map((tag) => (
-              <BioTag
-                key={tag}
-                type="button"
-                onClick={() => onTagClick?.(tag)}
-                aria-label={`Filter by ${tag}`}
-              >
-                #{tag.replace(/\s+/g, "")}
-              </BioTag>
-            ))}
-          </BioTags>
-        )}
-      </Bio>
+        <Bio>
+          <TypeWriter script={BIO_SCRIPT} />
+          {tags.length > 0 && (
+            <BioTags>
+              {tags.map((tag) => (
+                <BioTag
+                  key={tag}
+                  type="button"
+                  onClick={() => onTagClick?.(tag)}
+                  aria-label={`Filter by ${tag}`}
+                >
+                  #{tag.replace(/\s+/g, "")}
+                </BioTag>
+              ))}
+            </BioTags>
+          )}
+        </Bio>
 
-      <Highlights>
-        {SOCIALS.map(({ name, href, label }) => (
-          <Highlight
-            key={name}
-            type="button"
-            onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
-            aria-label={`Open ${label} profile`}
-          >
+        <Highlights>
+          {SOCIALS.map(({ name, href, label }) => (
+            <Highlight
+              key={name}
+              type="button"
+              onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
+              aria-label={`Open ${label} profile`}
+            >
+              <HighlightRing>
+                <HighlightFill>
+                  <BrandIcon name={name} size={ICON_SIZE} />
+                </HighlightFill>
+              </HighlightRing>
+              <HighlightLabel>{label}</HighlightLabel>
+            </Highlight>
+          ))}
+          <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
             <HighlightRing>
               <HighlightFill>
-                <BrandIcon name={name} size={ICON_SIZE} />
+                {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
               </HighlightFill>
             </HighlightRing>
-            <HighlightLabel>{label}</HighlightLabel>
+            <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
           </Highlight>
-        ))}
-        <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
-          <HighlightRing>
-            <HighlightFill>
-              {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
-            </HighlightFill>
-          </HighlightRing>
-          <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
-        </Highlight>
-      </Highlights>
+        </Highlights>
+      </Content>
     </Panel>
   );
 };
