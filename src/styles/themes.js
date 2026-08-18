@@ -103,23 +103,20 @@ export const blur = {
 };
 
 /**
- * Instagram has no single brand colour — its identity is the gradient, running blue
- * through purple and pink into orange and gold.
+ * The identity gradient: teal through blue into violet.
+ *
+ * Deliberately cool the whole way. Instagram's mark is a warm arc — magenta into red,
+ * orange and gold, anchored by one purple — and warmth is what the eye reads as "that's
+ * Instagram", not the fact of being a gradient. Rotating or reshuffling those stops still
+ * looked like the same brand; dropping the warm half is what breaks the resemblance.
+ *
+ * Cool also suits what this actually is. A directory of developer tools reads closer to a
+ * terminal than to a social feed.
  */
 export const gradient = {
-  stops: [
-    "#405de6",
-    "#5851db",
-    "#833ab4",
-    "#c13584",
-    "#e1306c",
-    "#fd1d1d",
-    "#f77737",
-    "#fcaf45"
-  ],
-  /** The logo sweep, used for the wordmark and accents. */
-  brand:
-    "linear-gradient(45deg, #405de6, #833ab4, #c13584, #e1306c, #fd1d1d, #f77737, #fcaf45)",
+  stops: ["#2dd4bf", "#22b8d4", "#3b82f6", "#6366f1", "#8b5cf6"],
+  /** The full sweep, for the wordmark and the avatar ring. */
+  brand: "linear-gradient(45deg, #2dd4bf, #22b8d4, #3b82f6, #6366f1, #8b5cf6)",
   /**
    * The tighter three-stop version, for small surfaces like rings and bars.
    *
@@ -127,8 +124,24 @@ export const gradient = {
    * to light at the opposite one reads as a lit sphere on a circle, which is where the
    * bevelled look came from.
    */
-  compact: "linear-gradient(to right, #833ab4, #e1306c, #fcaf45)"
+  compact: "linear-gradient(to right, #2dd4bf, #3b82f6, #8b5cf6)"
 };
+
+/**
+ * The same sweep, darkened for text.
+ *
+ * Clipping a gradient to small text makes every stop a foreground colour, so each one has
+ * to clear AA on its own. The vivid stops above do not: the previous palette shipped two
+ * that failed outright on the light page (4.16:1 and 1.77:1), which is easy to miss
+ * because the eye reads the row as one colour.
+ *
+ * Every stop here clears 4.5:1 against its own page colour.
+ */
+export const textGradientLight =
+  "linear-gradient(to right, #0f766e, #1d4ed8, #6d28d9)";
+
+export const textGradientDark =
+  "linear-gradient(to right, #2dd4bf, #60a5fa, #a78bfa)";
 
 /** Motion: short and unfussy. */
 export const motion = {
@@ -159,7 +172,7 @@ export const lightTheme = {
   colors: {
     primary: "#262626",
     secondary: "#efefef",
-    accent: "#0095f6",
+    accent: "#2563eb",
     background: "#fafafa",
     surface: "#fafafa",
     surfaceGlass: "#fafafa",
@@ -178,19 +191,19 @@ export const lightTheme = {
     paperBorder: "#dbdbdb",
     success: "#1d7a37",
     warning: "#8a6100",
-    danger: "#ed4956",
+    danger: "#e11d48",
     inverse: "#262626",
     inverseText: "#fafafa",
     inverseHover: "rgba(255, 255, 255, 0.12)",
     inverseFocus: "rgba(255, 255, 255, 0.8)",
-    focusBorder: "#0095f6",
-    focusRing: "rgba(0, 149, 246, 0.28)",
+    focusBorder: "#2563eb",
+    focusRing: "rgba(37, 99, 235, 0.28)",
     /**
-     * Interactive text: hashtags and links. Darker than the action blue on purpose —
-     * #0095f6 is only 3.17:1 on white, which fails AA for text this size.
+     * Interactive text: links. Darker than the action blue on purpose — the action blue
+     * is only 4.95:1 and that is the whole budget, with nothing left for a hover state.
      */
-    link: "#0064c8",
-    heart: "#ed4956"
+    link: "#1d4ed8",
+    heart: "#e11d48"
   },
   radii,
   borderRadius,
@@ -200,7 +213,7 @@ export const lightTheme = {
   typography,
   blur,
   motion,
-  gradient,
+  gradient: { ...gradient, text: textGradientLight },
   /** Dividers and fills carry hierarchy; overlays and the hero panel get elevation. */
   shadows: {
     sm: "none",
@@ -209,7 +222,7 @@ export const lightTheme = {
     hover: "none",
     /* The sort dropdown's only means of separating itself from the page. */
     mdDown: "0 4px 16px rgba(0, 0, 0, 0.16)",
-    focus: "0 0 0 2px rgba(0, 149, 246, 0.28)"
+    focus: "0 0 0 2px rgba(37, 99, 235, 0.28)"
   },
   img: {
     brightness: "brightness(1)"
@@ -223,11 +236,12 @@ export const lightTheme = {
  */
 export const darkTheme = {
   ...lightTheme,
+  gradient: { ...gradient, text: textGradientDark },
   colors: {
     ...lightTheme.colors,
     primary: "#e8e8e8",
     secondary: "#262626",
-    accent: "#0095f6",
+    accent: "#60a5fa",
     background: "#0f0f0f",
     surface: "#0f0f0f",
     surfaceGlass: "#0f0f0f",
@@ -242,15 +256,15 @@ export const darkTheme = {
     paperBorder: "#363636",
     success: "#4bb563",
     warning: "#d9a441",
-    danger: "#ff5a67",
+    danger: "#fb7185",
     inverse: "#e8e8e8",
     inverseText: "#0f0f0f",
     inverseHover: "rgba(0, 0, 0, 0.12)",
     inverseFocus: "rgba(0, 0, 0, 0.8)",
-    focusBorder: "#0095f6",
-    focusRing: "rgba(0, 149, 246, 0.36)",
-    link: "#4db2ff",
-    heart: "#ff5a67"
+    focusBorder: "#60a5fa",
+    focusRing: "rgba(96, 165, 250, 0.36)",
+    link: "#93c5fd",
+    heart: "#fb7185"
   },
   shadows: {
     sm: "none",
@@ -258,7 +272,7 @@ export const darkTheme = {
     raised: "none",
     hover: "none",
     mdDown: "0 4px 20px rgba(0, 0, 0, 0.7)",
-    focus: "0 0 0 2px rgba(0, 149, 246, 0.36)"
+    focus: "0 0 0 2px rgba(96, 165, 250, 0.36)"
   },
   img: {
     brightness: "brightness(1)"

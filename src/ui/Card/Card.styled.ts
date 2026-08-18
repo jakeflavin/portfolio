@@ -247,7 +247,7 @@ export const HashTags = styled.div`
   flex-wrap: wrap;
   gap: 0 6px;
   line-height: 1.4;
-  background: ${({ theme }) => theme.gradient?.compact ?? "none"};
+  background: ${({ theme }) => theme.gradient?.text ?? "none"};
   background-clip: text;
   -webkit-background-clip: text;
 `;

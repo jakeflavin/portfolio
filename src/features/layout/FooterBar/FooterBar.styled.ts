@@ -19,7 +19,7 @@ export const Text = styled.div`
  */
 export const Heart = styled.span`
   display: inline-block;
-  background: ${({ theme }) => theme.gradient?.compact ?? "none"};
+  background: ${({ theme }) => theme.gradient?.text ?? "none"};
   background-clip: text;
   -webkit-background-clip: text;
   color: ${({ theme }) => theme.colors.heart};
