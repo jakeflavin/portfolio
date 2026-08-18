@@ -71,6 +71,23 @@
       "creationDate": "2026-08-18",
       "disabled": false,
       "repo": "jakeflavin/noise"
+    },
+    {
+      "slug": "runify",
+      "title": "Runify",
+      "description": "A running route planner and run analyser in one page. Draw a route on real paths, see what the hills cost, then drop in a GPX and read back what happened.",
+      "tags": [
+        "running",
+        "maps",
+        "gpx"
+      ],
+      "cover": "/images/runify-cover.jpg",
+      "creationDate": "2026-08-18",
+      "disabled": false,
+      "repo": "jakeflavin/runify",
+      "shot": {
+        "wait": 6000
+      }
     }
   ]
 }
