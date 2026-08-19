@@ -272,6 +272,11 @@ you touch it rather than in a sweep. Two things to know while doing it:
 - **Check it visually.** `npm run visual` in the directory photographs an app's declared
   states at two viewports in both themes and diffs them against a baseline. None of this is
   caught by a type check or a unit test.
+- **It photographs screen media only.** A `@media print` block is invisible to it, and
+  moving one is easy to get wrong — madlib's masthead and action bar started printing.
+  Check print by hand, in a browser, with print emulation.
+- **Do not let a visual state select by class.** The migration deletes classes, and a state
+  that names one silently starts photographing a different screen. Roles and text survive.
 
 ## Testing
 
