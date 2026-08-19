@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { filterProjects, sortProjects, getVisibleProjects } from "./home.utils";
-import type { Project } from "@/features/projects/projects";
+import type { Project } from "@/lib/projects";
 
 function project(overrides: Partial<Project> = {}): Project {
   return {

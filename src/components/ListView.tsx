@@ -1,8 +1,8 @@
 import React from "react";
-import type { Project } from "@/features/projects/projects";
-import type { DeployedApp } from "@/features/status/useDeployStatus";
-import { formatPostAge } from "@/ui/Card/card.utils";
-import { NAV_ITEM_ATTRIBUTE } from "../useKeyboardNav";
+import type { Project } from "@/lib/projects";
+import type { DeployedApp } from "@/hooks/useDeployStatus";
+import { formatPostAge } from "@/components/Card/card.utils";
+import { NAV_ITEM_ATTRIBUTE } from "@/hooks/useKeyboardNav";
 import {
   Rows,
   Row,

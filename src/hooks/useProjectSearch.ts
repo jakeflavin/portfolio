@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Project } from "@/features/projects/projects";
+import type { Project } from "@/lib/projects";
 import {
   getVisibleProjects,
   parseDirectoryState,
   toQueryString,
   type SortValue,
   type ViewValue
-} from "./home.utils";
+} from "@/lib/home.utils";
 
 /**
  * Search, sort and layout for the directory, kept in the URL.

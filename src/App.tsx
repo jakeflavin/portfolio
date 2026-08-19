@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
-import FooterBar from "@/features/layout/FooterBar";
-import Home from "@/features/home/Home";
+import FooterBar from "@/components/FooterBar";
+import Home from "@/components/Home";
 
 /** Every app shares one origin now, so storage keys are namespaced. */
 const THEME_KEY = "portfolio.theme";

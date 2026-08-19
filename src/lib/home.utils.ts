@@ -1,4 +1,4 @@
-import type { Project } from "@/features/projects/projects";
+import type { Project } from "@/lib/projects";
 
 export const SORT_OPTIONS = [
   { value: "title-asc", label: "Title A-Z" },

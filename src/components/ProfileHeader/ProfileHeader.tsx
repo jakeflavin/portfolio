@@ -1,10 +1,10 @@
 import React from "react";
 import { Moon, Sun, Newspaper } from "lucide-react";
-import TypeWriter from "@/ui/TypeWriter";
+import TypeWriter from "@/components/TypeWriter";
 import { BIO_SCRIPT } from "./bio";
-import BrandIcon, { type BrandName } from "@/ui/BrandIcon";
+import BrandIcon, { type BrandName } from "@/components/BrandIcon";
 import CrownMark from "./CrownMark";
-import { PROJECTS } from "@/features/projects/projects";
+import { PROJECTS } from "@/lib/projects";
 import {
   Panel,
   Content,

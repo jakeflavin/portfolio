@@ -1,4 +1,4 @@
-import type { TypingStep } from "@/ui/TypeWriter";
+import type { TypingStep } from "@/components/TypeWriter";
 
 /**
  * The bio, written out live — typos, second thoughts and all.

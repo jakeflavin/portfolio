@@ -1,5 +1,5 @@
-import type { CardType } from "@/ui/Card";
-import appsManifest from "../../../apps.json";
+import type { CardType } from "@/components/Card";
+import appsManifest from "../../apps.json";
 
 /**
  * One entry in the directory. Every project is a standalone app deployed into

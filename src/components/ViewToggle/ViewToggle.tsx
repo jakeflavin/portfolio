@@ -1,7 +1,7 @@
 import React from "react";
 import { LayoutGrid, Rows3, StretchHorizontal } from "lucide-react";
 import { Segmented, Segment } from "./ViewToggle.styled";
-import { VIEW_OPTIONS, type ViewValue } from "@/features/home/home.utils";
+import { VIEW_OPTIONS, type ViewValue } from "@/lib/home.utils";
 
 const ICONS: Record<ViewValue, React.ReactNode> = {
   cards: <StretchHorizontal size={16} />,

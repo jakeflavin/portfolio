@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { composeScript } from "@/ui/TypeWriter/typing";
+import { composeScript } from "@/components/TypeWriter/typing";
 import { BIO_SCRIPT, BIO_TEXT } from "./bio";
 
 describe("BIO_SCRIPT", () => {

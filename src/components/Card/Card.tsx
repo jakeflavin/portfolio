@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Send, Check } from "lucide-react";
-import BrandIcon from "@/ui/BrandIcon";
+import BrandIcon from "@/components/BrandIcon";
 import {
   CardWrapper,
   PostHeader,
@@ -23,7 +23,7 @@ import {
   Pinned
 } from "./Card.styled";
 import { formatPostAge } from "./card.utils";
-import { NAV_ITEM_ATTRIBUTE } from "@/features/home/useKeyboardNav";
+import { NAV_ITEM_ATTRIBUTE } from "@/hooks/useKeyboardNav";
 
 export type CardType = "project";
 

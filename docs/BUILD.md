@@ -122,6 +122,8 @@ node scripts/add-app.mjs apps/weather --slug weather --title "Weather" \
   --description "A dense, chart-first weather dashboard." --tags weather,forecast,charts
 ```
 
+Where code goes inside each app is covered separately, in [LAYOUT.md](LAYOUT.md).
+
 Every app is cloned into `apps/`, which is gitignored — the checkouts are their own
 repositories and this one must never swallow them. Nothing about the pipeline depends on
 that location; the scripts take a path, so a clone anywhere works.

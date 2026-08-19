@@ -1,6 +1,6 @@
 import React from "react";
-import type { Project } from "@/features/projects/projects";
-import { NAV_ITEM_ATTRIBUTE } from "../useKeyboardNav";
+import type { Project } from "@/lib/projects";
+import { NAV_ITEM_ATTRIBUTE } from "@/hooks/useKeyboardNav";
 import { Tiles, Tile, TileImage, TileLabel } from "./Views.styled";
 
 export interface GridViewProps {

@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import Card from "@/ui/Card";
-import InputAction from "@/ui/InputAction";
-import ViewToggle from "@/ui/ViewToggle";
-import { PROJECTS } from "@/features/projects/projects";
+import Card from "@/components/Card";
+import InputAction from "@/components/InputAction";
+import ViewToggle from "@/components/ViewToggle";
+import { PROJECTS } from "@/lib/projects";
 import { Search } from "lucide-react";
-import Select from "@/ui/Select";
-import ProfileHeader from "@/features/layout/ProfileHeader";
-import { useDeployStatus, bySlug } from "@/features/status/useDeployStatus";
+import Select from "@/components/Select";
+import ProfileHeader from "@/components/ProfileHeader";
+import { useDeployStatus, bySlug } from "@/hooks/useDeployStatus";
 import {
   CardContainer,
   SearchContainer,
@@ -16,11 +16,11 @@ import {
   EmptyHint,
   Results
 } from "./Home.styled";
-import { SORT_OPTIONS, type SortValue, type ViewValue } from "./home.utils";
-import { useProjectSearch } from "./useProjectSearch";
-import { useKeyboardNav } from "./useKeyboardNav";
-import GridView from "./views/GridView";
-import ListView from "./views/ListView";
+import { SORT_OPTIONS, type SortValue, type ViewValue } from "@/lib/home.utils";
+import { useProjectSearch } from "@/hooks/useProjectSearch";
+import { useKeyboardNav } from "@/hooks/useKeyboardNav";
+import GridView from "./GridView";
+import ListView from "./ListView";
 
 export interface HomeProps {
   isDarkMode?: boolean;
