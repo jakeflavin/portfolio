@@ -15,7 +15,9 @@ export function formatPostAge(date: Date, now: Date = new Date()): string {
   if (days < 7) return `${days}d`
   if (days < 30) return `${Math.floor(days / 7)}w`
 
-  return date.toLocaleDateString('en-US', {
+  // No locale argument: the reader's own, not the author's. The compact ladder above
+  // stays as it is — "3d" is the card design, and it is the same in any language.
+  return date.toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
     ...(date.getUTCFullYear() === now.getUTCFullYear() ? {} : { year: 'numeric' }),

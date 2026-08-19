@@ -88,8 +88,9 @@ function useStats() {
   return [
     { label: PROJECTS.length === 1 ? 'tool' : 'tools', value: PROJECTS.length },
     { label: tags.size === 1 ? 'tag' : 'tags', value: tags.size },
-    // Grouped, as Instagram formats its counts.
-    { label: 'ideas', value: IDEAS.toLocaleString('en-US') },
+    // Grouped, as Instagram formats its counts — with the reader's own separator,
+    // which is a space in fr and a period in de.
+    { label: 'ideas', value: IDEAS.toLocaleString() },
   ]
 }
 
