@@ -1,0 +1,73 @@
+{
+  "_": [
+    "States captured for each app before and after a styling change. A state is a URL, a",
+    "theme, a viewport and optionally a few actions to reach a screen that is not the first.",
+    "Kept as data rather than in the script so that what is covered is reviewable, and so",
+    "adding a screen to the net is a one-line change."
+  ],
+  "defaults": {
+    "viewports": [
+      { "name": "desktop", "width": 1280, "height": 900 },
+      { "name": "mobile", "width": 390, "height": 844 }
+    ],
+    "themes": ["light", "dark"],
+    "wait": 1200
+  },
+  "apps": {
+    "hush": {
+      "themeKey": "hush.settings",
+      "themeShape": "settings",
+      "screens": [
+        { "name": "home" },
+        { "name": "settings", "actions": [{ "click": "[aria-label='Open settings']", "wait": 500 }] }
+      ]
+    },
+    "madlib": {
+      "themeKey": "fable.theme",
+      "themeShape": "value",
+      "screens": [
+        { "name": "shelf" },
+        { "name": "writer", "actions": [{ "click": ".cover", "wait": 700 }] }
+      ]
+    },
+    "countdown": {
+      "themeKey": null,
+      "screens": [
+        { "name": "home" },
+        { "name": "settings", "actions": [{ "click": "[aria-label='Open settings']", "wait": 500 }] }
+      ]
+    },
+    "hat": {
+      "themeKey": null,
+      "screens": [
+        { "name": "home" },
+        { "name": "settings", "actions": [{ "click": "[aria-label='Open settings']", "wait": 500 }] }
+      ]
+    },
+    "linkit": {
+      "themeKey": "linkit:theme",
+      "themeShape": "value",
+      "screens": [{ "name": "feed", "wait": 2500 }]
+    },
+    "runify": {
+      "themeKey": "runify:theme",
+      "themeShape": "value",
+      "screens": [{ "name": "home", "wait": 2000 }]
+    },
+    "weather": {
+      "themeKey": "wx:theme",
+      "themeShape": "value",
+      "query": "?lat=39.74&lon=-104.98&name=Denver",
+      "screens": [{ "name": "dashboard", "wait": 4500 }]
+    },
+    "fibo": {
+      "themeKey": "fibo.theme",
+      "themeShape": "value",
+      "previewDir": "apps/web",
+      "screens": [
+        { "name": "join" },
+        { "name": "connect", "actions": [{ "click": "[aria-label='Settings']", "wait": 300 }, { "clickText": "Connect Claude", "wait": 500 }] }
+      ]
+    }
+  }
+}

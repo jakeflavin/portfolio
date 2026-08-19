@@ -32,3 +32,4 @@ storybook-static
 # in one place locally, and ignored so this repo never swallows them. `apps.json` is the
 # manifest and is tracked; this is just where the checkouts live.
 apps/
+.visual/
