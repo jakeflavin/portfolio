@@ -221,6 +221,32 @@
               "wait": 600
             }
           ]
+        },
+        {
+          "name": "custom-theme",
+          "actions": [
+            {
+              "click": "[aria-label='Open settings']",
+              "wait": 400
+            },
+            {
+              "clickText": "Custom",
+              "wait": 500
+            }
+          ]
+        },
+        {
+          "name": "source-options",
+          "actions": [
+            {
+              "click": "[aria-label='Open settings']",
+              "wait": 400
+            },
+            {
+              "clickText": "See all",
+              "wait": 500
+            }
+          ]
         }
       ],
       "query": "?pick=number&min=1&max=100&v=42"
