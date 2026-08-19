@@ -82,11 +82,42 @@
           "name": "shelf"
         },
         {
+          "name": "shelf-filtered",
+          "actions": [
+            {
+              "clickText": "Dragons",
+              "wait": 500
+            }
+          ]
+        },
+        {
           "name": "writer",
           "actions": [
             {
               "click": ".cover",
-              "wait": 700
+              "wait": 800
+            }
+          ]
+        },
+        {
+          "name": "library",
+          "seed": {
+            "fable.library.v1": [
+              {
+                "id": "seed-1",
+                "taleId": "ember-fell",
+                "title": "The Dragon of Ember Fell",
+                "words": {
+                  "hero": "Ada"
+                },
+                "savedAt": 1750000000000
+              }
+            ]
+          },
+          "actions": [
+            {
+              "click": "button:has-text('Saved')",
+              "wait": 600
             }
           ]
         }

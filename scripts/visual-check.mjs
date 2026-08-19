@@ -109,8 +109,21 @@ try {
         const url = base + (app.query ?? "");
         await page.goto(url, { waitUntil: "domcontentloaded" });
 
+        /*
+         * Seeded before the theme so both land in one reload. Some screens only exist once
+         * the app has something stored — a saved story, a past session — and those are
+         * exactly the screens a migration is most likely to break unnoticed.
+         */
+        const seeds = { ...(app.seed ?? {}), ...(screen.seed ?? {}) };
+        for (const [key, value] of Object.entries(seeds)) {
+          await page.evaluate(
+            ([k, v]) => localStorage.setItem(k, v),
+            [key, typeof value === "string" ? value : JSON.stringify(value)],
+          );
+        }
         const script = themeScript(app.themeKey, app.themeShape, theme);
-        if (script) { await page.evaluate(script); await page.reload({ waitUntil: "domcontentloaded" }); }
+        if (script) await page.evaluate(script);
+        if (script || Object.keys(seeds).length) await page.reload({ waitUntil: "domcontentloaded" });
 
         await page.waitForTimeout(screen.wait ?? CONFIG.defaults.wait);
         for (const action of screen.actions ?? []) {
