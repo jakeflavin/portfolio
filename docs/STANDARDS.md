@@ -256,7 +256,19 @@ For realtime databases specifically:
 - Prefer a modifier prop over a specificity fight; `!important` is banned.
 
 Apps still carrying a single stylesheet are mid-migration; convert a component's styles when
-you touch it rather than in a sweep.
+you touch it rather than in a sweep. Two things to know while doing it:
+
+- **A media query travels with the rule it overrides.** styled-components injects into
+  `<head>` at runtime, after the stylesheet, so a base rule that has moved now outranks a
+  same-specificity override left behind in `index.css` — the override simply stops applying.
+  This has already happened once, and only showed up at a mobile viewport.
+- **Tokens stay in CSS.** Styled components read `var(--bg)` rather than a JS theme object:
+  the token layer is shared across the set, switching themes stays a repaint rather than a
+  re-render, and variables reach `::backdrop`, `color-scheme` and SVG attributes, which
+  styled-components cannot.
+- **Check it visually.** `npm run visual` in the directory photographs an app's declared
+  states at two viewports in both themes and diffs them against a baseline. None of this is
+  caught by a type check or a unit test.
 
 ## Testing
 
