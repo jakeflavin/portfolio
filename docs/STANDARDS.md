@@ -283,6 +283,16 @@ you touch it rather than in a sweep. Two things to know while doing it:
 - **Baseline the original, not the work in progress.** Recording after some of the migration
   has landed only proves the rest of it changed nothing. `git stash -u`, record, pop, and
   compare — that is what shows the app is where it started.
+- **A two-class selector outranks `:hover`; one transient prop does not.** `.tab.is-active`
+  and `.tab:hover` both score 0-2-0, so the selected state won on source order. Rewritten as
+  `$active`, the same declarations score 0-1-0 and a hovered tab loses its accent. Wrap the
+  branch in `&& { … }` to restore the specificity. The guard caught this on one control only,
+  because Playwright leaves the pointer where it clicked — four others broke silently.
+- **An app fed from the network needs a fixture before it can be photographed.** linkit's
+  guard was pointing at a build with no Firebase config, so it had been photographing an
+  empty board and every row went unchecked. It builds against the Firestore emulator now,
+  seeded at a fixed instant, with the page clock stopped and every outside call refused.
+  Before trusting any baseline, run the guard twice and confirm nothing moved.
 
 ## Testing
 
