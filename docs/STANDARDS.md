@@ -277,6 +277,12 @@ you touch it rather than in a sweep. Two things to know while doing it:
   Check print by hand, in a browser, with print emulation.
 - **Do not let a visual state select by class.** The migration deletes classes, and a state
   that names one silently starts photographing a different screen. Roles and text survive.
+- **Pin anything random before recording a baseline**, or the comparison is noise. hat draws
+  a fresh number on every load; its states carry the app's own share parameters so the value
+  is fixed. Check the baseline is stable by running the guard twice before trusting it.
+- **Baseline the original, not the work in progress.** Recording after some of the migration
+  has landed only proves the rest of it changed nothing. `git stash -u`, record, pop, and
+  compare — that is what shows the app is where it started.
 
 ## Testing
 

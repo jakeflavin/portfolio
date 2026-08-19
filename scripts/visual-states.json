@@ -4,7 +4,8 @@
     "theme, a viewport and optionally a few actions to reach a screen that is not the first.",
     "Kept as data rather than in the script so that what is covered is reviewable, and so",
     "adding a screen to the net is a one-line change.",
-    "Selectors here must not name a CSS class. A styling migration deletes classes, and a state that selects by one silently starts photographing a different screen \u2014 which is exactly what happened to madlib's writer. Roles and text survive."
+    "Selectors here must not name a CSS class. A styling migration deletes classes, and a state that selects by one silently starts photographing a different screen \u2014 which is exactly what happened to madlib's writer. Roles and text survive.",
+    "An app that shows something random needs that value pinned, or its baseline can never be stable \u2014 hat draws a fresh number on every load, so its states carry the app's own share parameters to fix the result at 42."
   ],
   "defaults": {
     "viewports": [
@@ -125,7 +126,13 @@
       ]
     },
     "countdown": {
-      "themeKey": null,
+      "themeKey": "countdown.settings",
+      "themeShape": "settings",
+      "themeField": "themeId",
+      "themes": [
+        "noir",
+        "sunset"
+      ],
       "screens": [
         {
           "name": "home"
@@ -135,6 +142,23 @@
           "actions": [
             {
               "click": "[aria-label='Open settings']",
+              "wait": 600
+            }
+          ]
+        },
+        {
+          "name": "sessions",
+          "seed": {
+            "countdown.settings": {
+              "mode": "duration",
+              "durationMs": 1500000,
+              "themeId": "noir"
+            }
+          },
+          "wait": 1200,
+          "actions": [
+            {
+              "click": "[aria-label='View past runs']",
               "wait": 500
             }
           ]
@@ -142,7 +166,13 @@
       ]
     },
     "hat": {
-      "themeKey": null,
+      "themeKey": "hat.settings",
+      "themeShape": "settings",
+      "themeField": "themeId",
+      "themes": [
+        "noir",
+        "sunset"
+      ],
       "screens": [
         {
           "name": "home"
@@ -152,11 +182,48 @@
           "actions": [
             {
               "click": "[aria-label='Open settings']",
+              "wait": 600
+            }
+          ]
+        },
+        {
+          "name": "shortcuts",
+          "actions": [
+            {
+              "click": "[aria-label='Open settings']",
+              "wait": 400
+            },
+            {
+              "clickText": "Shortcuts",
               "wait": 500
             }
           ]
+        },
+        {
+          "name": "session",
+          "seed": {
+            "hat.session": {
+              "entries": [
+                {
+                  "value": "42",
+                  "sourceId": "number",
+                  "sourceName": "Number",
+                  "sourceKey": "number:1-100",
+                  "at": 1750000000000
+                }
+              ],
+              "cycleStart": {}
+            }
+          },
+          "actions": [
+            {
+              "click": "[aria-label='View this session']",
+              "wait": 600
+            }
+          ]
         }
-      ]
+      ],
+      "query": "?pick=number&min=1&max=100&v=42"
     },
     "linkit": {
       "themeKey": "linkit:theme",

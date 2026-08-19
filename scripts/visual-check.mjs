@@ -71,10 +71,11 @@ async function waitForServer(url, timeoutMs = 40_000) {
  * Themes are stored differently per app — some keep a whole settings object, some just the
  * value — so the key and its shape are declared alongside the states.
  */
-function themeScript(key, shape, theme) {
+function themeScript(app, theme) {
+  const { themeKey: key, themeShape: shape, themeField: field = "theme" } = app;
   if (!key) return null;
   const value = shape === "settings"
-    ? `JSON.stringify(Object.assign(JSON.parse(localStorage.getItem(${JSON.stringify(key)}) || '{}'), { theme: ${JSON.stringify(theme)} }))`
+    ? `JSON.stringify(Object.assign(JSON.parse(localStorage.getItem(${JSON.stringify(key)}) || '{}'), { ${JSON.stringify(field)}: ${JSON.stringify(theme)} }))`
     : JSON.stringify(JSON.stringify(theme));
   return `localStorage.setItem(${JSON.stringify(key)}, ${value})`;
 }
@@ -96,12 +97,19 @@ try {
   browser = await chromium.launch();
   fs.mkdirSync(shotsDir, { recursive: true });
 
+  /*
+   * An app whose themes are not light and dark says so. countdown picks between gradient
+   * scenes, and photographing it twice under a colour scheme it does not read would have
+   * produced two identical images and covered half as much.
+   */
+  const themes = app.themes ?? CONFIG.defaults.themes;
+
   for (const viewport of CONFIG.defaults.viewports) {
-    for (const theme of CONFIG.defaults.themes) {
+    for (const theme of themes) {
       const context = await browser.newContext({
         viewport: { width: viewport.width, height: viewport.height },
         deviceScaleFactor: 1,
-        colorScheme: theme,
+        colorScheme: app.themes ? "light" : theme,
         reducedMotion: "reduce",
       });
       for (const screen of app.screens) {
@@ -121,7 +129,7 @@ try {
             [key, typeof value === "string" ? value : JSON.stringify(value)],
           );
         }
-        const script = themeScript(app.themeKey, app.themeShape, theme);
+        const script = themeScript(app, theme);
         if (script) await page.evaluate(script);
         if (script || Object.keys(seeds).length) await page.reload({ waitUntil: "domcontentloaded" });
 
