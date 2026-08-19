@@ -3,7 +3,8 @@
     "States captured for each app before and after a styling change. A state is a URL, a",
     "theme, a viewport and optionally a few actions to reach a screen that is not the first.",
     "Kept as data rather than in the script so that what is covered is reviewable, and so",
-    "adding a screen to the net is a one-line change."
+    "adding a screen to the net is a one-line change.",
+    "Selectors here must not name a CSS class. A styling migration deletes classes, and a state that selects by one silently starts photographing a different screen \u2014 which is exactly what happened to madlib's writer. Roles and text survive."
   ],
   "defaults": {
     "viewports": [
@@ -94,7 +95,7 @@
           "name": "writer",
           "actions": [
             {
-              "click": ".cover",
+              "click": "button:has-text('The Dragon of Ember Fell')",
               "wait": 800
             }
           ]
