@@ -35,13 +35,20 @@ describe("Home", () => {
   });
 
   it("filters the grid as you type", () => {
+    // Indexed reads are checked, and this test is meaningless without a project to filter
+    // to — so the fixture is asserted here rather than asserted away at each use.
+    const [project] = PROJECTS;
+    if (!project) throw new Error("PROJECTS is empty; this test needs at least one app");
+
     render(<Home />);
     const input = screen.getByPlaceholderText("Search");
 
-    fireEvent.change(input, { target: { value: PROJECTS[0].title } });
+    fireEvent.change(input, { target: { value: project.title } });
 
+    const [match] = posts();
     expect(posts()).toHaveLength(1);
-    expect(within(posts()[0]).getAllByText(PROJECTS[0].title).length).toBeGreaterThan(0);
+    if (!match) throw new Error("expected the filtered grid to contain one post");
+    expect(within(match).getAllByText(project.title).length).toBeGreaterThan(0);
   });
 
   it("shows an empty state when nothing matches", () => {
