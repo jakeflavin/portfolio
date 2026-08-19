@@ -80,9 +80,23 @@ function themeScript(app, theme) {
   return `localStorage.setItem(${JSON.stringify(key)}, ${value})`;
 }
 
+/** A 1x1 transparent PNG, standing in for every remote image an offline app asks for. */
+const PIXEL = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "base64",
+);
+
 console.log(`\n${flags.baseline ? "Recording baseline" : "Checking"} ${slug}`);
 console.log("  Building");
-execFileSync("npm", ["run", "build"], { cwd: appDir, stdio: "ignore" });
+/*
+ * An app can ask to be built differently for the guard. linkit points at the Firestore
+ * emulator, because a board fed by the live database photographs differently every run.
+ */
+execFileSync("npm", ["run", "build"], {
+  cwd: appDir,
+  stdio: "ignore",
+  env: { ...process.env, ...(app.env ?? {}) },
+});
 
 console.log(`  Serving on :${PORT}`);
 const preview = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort"],
@@ -114,6 +128,27 @@ try {
       });
       for (const screen of app.screens) {
         const page = await context.newPage();
+
+        /*
+         * An app that renders a relative time, or ranks by age, reads the clock on every
+         * render and so photographs differently every run. Pinning it makes those apps
+         * comparable at all; the rest never notice.
+         */
+        if (app.clock) await page.clock.setFixedTime(new Date(app.clock));
+
+        /*
+         * Anything off this machine is a source of drift: a remote thumbnail may be slow,
+         * may have changed, or may not resolve at all. Images become one fixed pixel so
+         * the loaded-image path is still exercised, and every other outside call fails.
+         */
+        if (app.offline) {
+          await page.route((url) => !url.hostname.match(/^(localhost|127\.0\.0\.1)$/), (route) =>
+            route.request().resourceType() === "image"
+              ? route.fulfill({ contentType: "image/png", body: PIXEL })
+              : route.abort(),
+          );
+        }
+
         const url = base + (app.query ?? "");
         await page.goto(url, { waitUntil: "domcontentloaded" });
 

@@ -254,10 +254,55 @@
     "linkit": {
       "themeKey": "linkit:theme",
       "themeShape": "value",
+      "clock": "2026-08-19T12:00:00Z",
+      "offline": true,
+      "env": {
+        "VITE_FIRESTORE_EMULATOR": "1"
+      },
       "screens": [
         {
           "name": "feed",
           "wait": 2500
+        },
+        {
+          "name": "compact",
+          "wait": 2500,
+          "actions": [
+            {
+              "click": "[aria-label='Compact view']",
+              "wait": 600
+            }
+          ]
+        },
+        {
+          "name": "compose",
+          "wait": 2500,
+          "actions": [
+            {
+              "clickText": "Post a cool link",
+              "wait": 600
+            }
+          ]
+        },
+        {
+          "name": "top",
+          "wait": 2500,
+          "actions": [
+            {
+              "clickText": "Top",
+              "wait": 700
+            }
+          ]
+        },
+        {
+          "name": "category",
+          "wait": 2500,
+          "actions": [
+            {
+              "clickText": "l/tools",
+              "wait": 700
+            }
+          ]
         }
       ]
     },
