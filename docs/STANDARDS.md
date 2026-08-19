@@ -266,6 +266,9 @@ you touch it rather than in a sweep. Two things to know while doing it:
   the token layer is shared across the set, switching themes stays a repaint rather than a
   re-render, and variables reach `::backdrop`, `color-scheme` and SVG attributes, which
   styled-components cannot.
+- **A class is a global name.** Deleting its rule affects every file that used it, not the
+  file being edited. Grep for the class before removing it — a shared note, button or
+  wrapper is usually rendered from somewhere the change did not appear to touch.
 - **Check it visually.** `npm run visual` in the directory photographs an app's declared
   states at two viewports in both themes and diffs them against a baseline. None of this is
   caught by a type check or a unit test.
