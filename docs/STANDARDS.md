@@ -239,6 +239,9 @@ For realtime databases specifically:
 - **styled-components**, colocated with the component that uses it, in a `.styled.ts` file.
 - **Tokens only.** Every colour, shadow, radius and font size comes from a CSS custom
   property. A hex literal outside the token block is a defect.
+- **Class names are flat kebab, and a modifier is a second `is-` class.** `hero-temp`, not
+  `hero__temp`; `panel is-wide`, not `panel--wide`. The second class also outranks the base
+  rule on specificity rather than depending on source order.
 - **The token vocabulary is shared**: `--bg`, `--text`, `--dim`, `--line`, `--surface`. Same
   name, same meaning, every app.
 - Design both light and dark. Contrast is checked, not assumed — clipping a gradient to
