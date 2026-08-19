@@ -175,8 +175,19 @@ Do:
 - **Accessibility always**: `aria-label` on icon-only buttons, `role="menu"`/`menuitem`,
   Escape and backdrop close on dialogs, visible focus. Loading, empty and error states are
   announced (`role="status"`, `role="alert"`).
-- **Native `<dialog>`** for modals — it brings focus trapping, an inert background and
-  Escape without reimplementing them.
+- **Native `<dialog>`** for modals — it brings focus trapping, focus restoration, an inert
+  background, `::backdrop` and the top layer without reimplementing any of them. Being in
+  the top layer is also why a dialog never needs a portal or a `z-index` to escape a
+  stacking context.
+
+  Handle Escape as `cancel` with its default prevented, and let the parent's state decide
+  whether the dialog is mounted. A dialog that closes itself leaves its parent believing it
+  is still open, and it can never be reopened.
+
+  **jsdom implements none of this** — not `showModal`, not `close`, not `matchMedia`. A
+  dialog under test renders shut and every assertion about it passes for the wrong reason,
+  so the shared test setup shims them. What the shim cannot fake is the browser's job and
+  belongs in a browser check.
 - **StrictMode** in every app.
 
 Don't:
