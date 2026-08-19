@@ -1,42 +1,52 @@
-import React, { useId } from "react";
-import { createPortal } from "react-dom";
-import { ChevronDown, ArrowUpDown, Check as CheckIcon } from "lucide-react";
-import { Wrapper, Trigger, TriggerLabel, TriggerGlyph, Chevron, Listbox, OptionItem, Check, ErrorMessage } from "./Select.styled";
-import { getDisplayLabel } from "./select.utils";
-import { useSelect } from "./useSelect";
+import React, { useId } from 'react'
+import { createPortal } from 'react-dom'
+import { ChevronDown, ArrowUpDown, Check as CheckIcon } from 'lucide-react'
+import {
+  Wrapper,
+  Trigger,
+  TriggerLabel,
+  TriggerGlyph,
+  Chevron,
+  Listbox,
+  OptionItem,
+  Check,
+  ErrorMessage,
+} from './Select.styled'
+import { getDisplayLabel } from './select.utils'
+import { useSelect } from './useSelect'
 
 export interface SelectOption {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
 export interface SelectProps {
   /** Selected value (controlled) */
-  value?: string;
+  value?: string
   /** Change handler */
-  onChange?: (value: string) => void;
+  onChange?: (value: string) => void
   /** Options to display */
-  options: SelectOption[];
+  options: SelectOption[]
   /** Placeholder when nothing selected */
-  placeholder?: string;
+  placeholder?: string
   /** When true, the select is disabled */
-  disabled?: boolean;
+  disabled?: boolean
   /** When true, the trigger and dropdown take full width of the container */
-  fullWidth?: boolean;
+  fullWidth?: boolean
   /** Optional id for the trigger (for labels) */
-  id?: string;
+  id?: string
   /** Optional class name */
-  className?: string;
+  className?: string
   /** Accessible label */
-  "aria-label"?: string;
+  'aria-label'?: string
   /** Error message shown inline below the trigger; also applies error styling */
-  error?: string;
+  error?: string
   /** Drops the trigger's own fill and radius so a parent container can own the surface */
-  bare?: boolean;
+  bare?: boolean
 }
 
 export function Select({
-  value = "",
+  value = '',
   onChange,
   options,
   placeholder,
@@ -44,13 +54,13 @@ export function Select({
   fullWidth = false,
   id,
   className,
-  "aria-label": ariaLabel,
+  'aria-label': ariaLabel,
   error,
-  bare = false
+  bare = false,
 }: SelectProps) {
-  const generatedId = useId();
-  const triggerId = id ?? generatedId;
-  const displayLabel = getDisplayLabel(options, value, placeholder);
+  const generatedId = useId()
+  const triggerId = id ?? generatedId
+  const displayLabel = getDisplayLabel(options, value, placeholder)
   const {
     handleListboxKeyDown,
     handleTriggerKeyDown,
@@ -62,8 +72,8 @@ export function Select({
     setHighlightedIndex,
     setIsOpen,
     triggerRef,
-    wrapperRef
-  } = useSelect({ disabled, onChange, options, value });
+    wrapperRef,
+  } = useSelect({ disabled, onChange, options, value })
 
   const listboxContent = isOpen && listboxRect && (
     <Listbox
@@ -83,8 +93,8 @@ export function Select({
           $selected={opt.value === value}
           aria-selected={opt.value === value}
           onMouseDown={(e) => {
-            e.preventDefault();
-            selectOption(opt);
+            e.preventDefault()
+            selectOption(opt)
           }}
           onMouseEnter={() => setHighlightedIndex(index)}
         >
@@ -97,7 +107,7 @@ export function Select({
         </OptionItem>
       ))}
     </Listbox>
-  );
+  )
 
   return (
     <Wrapper
@@ -120,9 +130,7 @@ export function Select({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-activedescendant={
-          isOpen && highlightedIndex >= 0
-            ? `select-option-${highlightedIndex}`
-            : undefined
+          isOpen && highlightedIndex >= 0 ? `select-option-${highlightedIndex}` : undefined
         }
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
@@ -136,10 +144,9 @@ export function Select({
         </Chevron>
       </Trigger>
       {error && <ErrorMessage id={`${triggerId}-error`}>{error}</ErrorMessage>}
-      {typeof document !== "undefined" && listboxContent
+      {typeof document !== 'undefined' && listboxContent
         ? createPortal(listboxContent, document.body)
         : null}
     </Wrapper>
-  );
-};
-
+  )
+}

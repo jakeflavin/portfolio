@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
 
 /**
  * Grid: covers only, at the density the covers were captured for.
@@ -15,7 +15,7 @@ export const Tiles = styled.div`
   ${({ theme }) => theme.media.sm} {
     grid-template-columns: repeat(3, 1fr);
   }
-`;
+`
 
 export const Tile = styled.a<{ $disabled?: boolean }>`
   position: relative;
@@ -23,21 +23,21 @@ export const Tile = styled.a<{ $disabled?: boolean }>`
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.secondary};
-  pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: -2px;
   }
-`;
+`
 
 export const TileImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-`;
+`
 
 /**
  * The title, revealed over the cover on hover and whenever the tile has keyboard focus —
@@ -50,25 +50,25 @@ export const TileLabel = styled.span`
   display: flex;
   align-items: flex-end;
   padding: 10px;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   color: #ffffff;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0) 55%);
   opacity: 0;
-  transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? "0.1s"}
-    ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? '0.1s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   ${Tile}:hover &,
   ${Tile}:focus-visible & {
     opacity: 1;
   }
-`;
+`
 
 /** List: one row per tool, for scanning names and builds rather than looking at pictures. */
 export const Rows = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 export const Row = styled.a<{ $disabled?: boolean }>`
   display: grid;
@@ -79,7 +79,7 @@ export const Row = styled.a<{ $disabled?: boolean }>`
   text-decoration: none;
   color: inherit;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  pointer-events: ${({ $disabled }) => ($disabled ? "none" : "auto")};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
   &:last-of-type {
@@ -94,44 +94,44 @@ export const Row = styled.a<{ $disabled?: boolean }>`
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: -2px;
   }
-`;
+`
 
 export const RowThumb = styled.img`
   width: 28px;
   height: 28px;
   object-fit: cover;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
   display: block;
-`;
+`
 
 export const RowMain = styled.div`
   min-width: 0;
-`;
+`
 
 export const RowTitle = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   color: ${({ theme }) => theme.colors.text};
-`;
+`
 
 /** One line only: the list exists to be scanned, so rows must stay the same height. */
 export const RowDescription = styled.div`
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
   color: ${({ theme }) => theme.colors.muted};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 export const RowMeta = styled.div`
   display: flex;
   align-items: baseline;
   gap: ${({ theme }) => theme.spacing.sm};
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.muted};
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-`;
+`
 
 /** Below sm the build column is what gives, since the date is the better scan key. */
 export const RowBuild = styled.span`
@@ -140,4 +140,4 @@ export const RowBuild = styled.span`
   ${({ theme }) => theme.media.sm} {
     display: inline;
   }
-`;
+`

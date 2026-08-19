@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
 
 /**
  * A segmented control that lives inside the search bar's surface.
@@ -15,7 +15,7 @@ export const Segmented = styled.div`
   padding: 0 6px 0 4px;
   /* Its own colour: the divider token is switched off under the flat pass. */
   border-right: 1px solid ${({ theme }) => theme.colors.border};
-`;
+`
 
 export const Segment = styled.button<{ $active?: boolean }>`
   display: inline-flex;
@@ -25,12 +25,12 @@ export const Segment = styled.button<{ $active?: boolean }>`
   height: 30px;
   padding: 0;
   border: none;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+  border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
   cursor: pointer;
-  background: ${({ theme, $active }) => ($active ? theme.colors.surface : "transparent")};
+  background: ${({ theme, $active }) => ($active ? theme.colors.surface : 'transparent')};
   color: ${({ theme, $active }) => ($active ? theme.colors.text : theme.colors.muted)};
-  transition: color ${({ theme }) => theme.motion?.duration?.fast ?? "0.1s"}
-    ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: color ${({ theme }) => theme.motion?.duration?.fast ?? '0.1s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
@@ -44,4 +44,4 @@ export const Segment = styled.button<{ $active?: boolean }>`
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: -2px;
   }
-`;
+`

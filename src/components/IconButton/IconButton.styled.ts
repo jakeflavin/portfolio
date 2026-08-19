@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Button = styled.button<{ $color?: string }>`
   display: inline-flex;
@@ -6,7 +6,7 @@ export const Button = styled.button<{ $color?: string }>`
   justify-content: center;
 
   padding: 7px;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
 
   background: transparent;
   border: none;
@@ -19,14 +19,18 @@ export const Button = styled.button<{ $color?: string }>`
   svg {
     display: block;
   }
-  transition: background-color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    color ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    transform ${({ theme }) => theme.motion?.duration?.fast ?? "0.2s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition:
+    background-color ${({ theme }) => theme.motion?.duration?.fast ?? '0.2s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    color ${({ theme }) => theme.motion?.duration?.fast ?? '0.2s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    transform ${({ theme }) => theme.motion?.duration?.fast ?? '0.2s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
     /* The icon inherits this through currentColor. */
-  color: ${({ theme, $color }) => $color ?? theme.colors.primary};
+    color: ${({ theme, $color }) => $color ?? theme.colors.primary};
   }
 
   &:active {
@@ -37,4 +41,4 @@ export const Button = styled.button<{ $color?: string }>`
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: 2px;
   }
-`;
+`

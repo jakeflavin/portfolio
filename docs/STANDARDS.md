@@ -36,6 +36,10 @@ One version of everything, everywhere. A repo that disagrees is a bug, not a pre
   if (point) use(point.time)
   ```
 
+  **Compare against `undefined` when the element itself can be falsy.** `if (!card)` on a
+  deck that contains `0` reports a real card as a missing one — a bug this set actually
+  shipped. `if (card === undefined)` says what is meant.
+
 - **`interface` for object shapes**, `type` for unions, intersections and function types.
 - **No `any`.** No `!` outside a boundary you have just proven narrow.
 - **A list that is never empty says so**: `[Gradient, ...Gradient[]]` beats asserting its
@@ -47,7 +51,9 @@ One version of everything, everywhere. A repo that disagrees is a bug, not a pre
 - **`export function Name()`**, named exports, no `React.FC` and no default exports for
   components.
 - **Declare a `NameProps` type** rather than inlining the object in the signature.
-- **Handlers are `onSomething`** on props, `handleSomething` for local definitions.
+- **Handlers are `onSomething`** on props. A local that feeds an `onSomething` prop keeps
+  that name; `handleSomething` is for a raw DOM listener, where there is no prop to agree
+  with — `handleEscape`, `handleClickOutside`.
 - A component's private helpers and hooks live beside it, not in the shared folders — see
   [LAYOUT.md](LAYOUT.md).
 

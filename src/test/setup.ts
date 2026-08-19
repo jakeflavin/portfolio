@@ -1,5 +1,5 @@
-import "@testing-library/jest-dom";
-import { beforeEach, vi } from "vitest";
+import '@testing-library/jest-dom'
+import { beforeEach, vi } from 'vitest'
 
 /*
  * Nothing in a unit test may reach the network. `useDeployStatus` fetches
@@ -10,7 +10,7 @@ import { beforeEach, vi } from "vitest";
  */
 beforeEach(() => {
   vi.stubGlobal(
-    "fetch",
+    'fetch',
     vi.fn(() => Promise.resolve(new Response(null, { status: 404 }))),
-  );
-});
+  )
+})

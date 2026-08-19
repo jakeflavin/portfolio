@@ -1,16 +1,16 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 interface WrapperProps {
-  $disabled?: boolean;
-  $hasLabel?: boolean;
-  $hasError?: boolean;
+  $disabled?: boolean
+  $hasLabel?: boolean
+  $hasError?: boolean
   /** Drops the field's own fill and radius so a parent container can own the surface. */
-  $bare?: boolean;
+  $bare?: boolean
 }
 
 export const Outer = styled.div`
   width: 100%;
-`;
+`
 
 export const Label = styled.label`
   position: absolute;
@@ -25,10 +25,10 @@ export const Label = styled.label`
   background: ${({ theme }) => theme.colors.secondary};
   z-index: 1;
   white-space: nowrap;
-`;
+`
 
 export const Wrapper = styled.div<WrapperProps>`
-  position: ${({ $hasLabel }) => ($hasLabel ? "relative" : "static")};
+  position: ${({ $hasLabel }) => ($hasLabel ? 'relative' : 'static')};
   display: flex;
   align-items: center;
   flex: 1;
@@ -38,12 +38,14 @@ export const Wrapper = styled.div<WrapperProps>`
   /* Instagram's search sits around 38px — noticeably tighter than a form input. */
   min-height: 38px;
   padding: 0 ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme, $bare }) =>
-    $bare ? "transparent" : theme.colors.secondary};
+  background-color: ${({ theme, $bare }) => ($bare ? 'transparent' : theme.colors.secondary)};
   border: none;
-  border-radius: ${({ theme, $bare }) => ($bare ? "0" : (theme.radii?.sm ?? "8px"))};
-  transition: background-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  border-radius: ${({ theme, $bare }) => ($bare ? '0' : (theme.radii?.sm ?? '8px'))};
+  transition:
+    background-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    box-shadow ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   ${({ $disabled }) =>
     $disabled &&
@@ -57,14 +59,13 @@ export const Wrapper = styled.div<WrapperProps>`
   /* In bare mode the parent shows focus, so the field does not draw its own ring. */
   &:has(:focus-visible) {
     box-shadow: ${({ theme, $disabled, $bare }) =>
-      $disabled || $bare ? "none" : theme.shadows.focus};
+      $disabled || $bare ? 'none' : theme.shadows.focus};
   }
 
   &:has(:focus-visible) ${Label} {
-    color: ${({ theme, $disabled }) =>
-      $disabled ? theme.colors.muted : theme.colors.focusBorder};
+    color: ${({ theme, $disabled }) => ($disabled ? theme.colors.muted : theme.colors.focusBorder)};
   }
-`;
+`
 
 export const LeftIconSlot = styled.span`
   display: inline-flex;
@@ -73,7 +74,7 @@ export const LeftIconSlot = styled.span`
   flex-shrink: 0;
   line-height: 0;
   color: ${({ theme }) => theme.colors.muted};
-`;
+`
 
 export const Input = styled.input`
   flex: 1;
@@ -83,7 +84,7 @@ export const Input = styled.input`
   margin: 0;
 
   font: inherit;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.text};
   background: transparent;
@@ -99,7 +100,7 @@ export const Input = styled.input`
     color: ${({ theme }) => theme.colors.muted};
     cursor: not-allowed;
   }
-`;
+`
 
 export const ErrorMessage = styled.span`
   display: block;
@@ -108,4 +109,4 @@ export const ErrorMessage = styled.span`
   font-size: 0.8125rem;
   line-height: 1.3;
   color: ${({ theme }) => theme.colors.muted};
-`;
+`

@@ -1,10 +1,10 @@
-import React from "react";
-import { Moon, Sun, Newspaper } from "lucide-react";
-import { TypeWriter } from "@/components/TypeWriter";
-import { BIO_SCRIPT } from "./bio";
-import { BrandIcon, type BrandName } from '@/components/BrandIcon';
-import { CrownMark } from "./CrownMark";
-import { PROJECTS } from "@/lib/projects";
+import React from 'react'
+import { Moon, Sun, Newspaper } from 'lucide-react'
+import { TypeWriter } from '@/components/TypeWriter'
+import { BIO_SCRIPT } from './bio'
+import { BrandIcon, type BrandName } from '@/components/BrandIcon'
+import { CrownMark } from './CrownMark'
+import { PROJECTS } from '@/lib/projects'
 import {
   Panel,
   Content,
@@ -23,21 +23,21 @@ import {
   Highlight,
   HighlightRing,
   HighlightFill,
-  HighlightLabel
-} from "./ProfileHeader.styled";
+  HighlightLabel,
+} from './ProfileHeader.styled'
 
 export interface ProfileHeaderProps {
-  isDarkMode?: boolean;
-  onToggleDarkMode?: () => void;
+  isDarkMode?: boolean
+  onToggleDarkMode?: () => void
 }
 
 /**
  * Part of the bio, not a filter. These describe the person rather than indexing the
  * directory, so they are static text — the card hashtags are the ones that search.
  */
-const BIO_TAGS = ["developer", "react", "java", "runner", "girldad"];
+const BIO_TAGS = ['developer', 'react', 'java', 'runner', 'girldad']
 
-const ICON_SIZE = 22;
+const ICON_SIZE = 22
 
 /**
  * Holds an icon rather than a brand name, since not every destination has a brand mark —
@@ -45,59 +45,56 @@ const ICON_SIZE = 22;
  */
 const LINKS: { key: string; href: string; label: string; icon: React.ReactNode }[] = [
   {
-    key: "threads",
-    href: "https://www.threads.com/@jakeflavin",
-    label: "Threads",
-    icon: <BrandIcon name={"threads" as BrandName} size={ICON_SIZE} />
+    key: 'threads',
+    href: 'https://www.threads.com/@jakeflavin',
+    label: 'Threads',
+    icon: <BrandIcon name={'threads' as BrandName} size={ICON_SIZE} />,
   },
   {
-    key: "linkedin",
-    href: "https://linkedin.com/in/jakeflavin",
-    label: "LinkedIn",
-    icon: <BrandIcon name={"linkedin" as BrandName} size={ICON_SIZE} />
+    key: 'linkedin',
+    href: 'https://linkedin.com/in/jakeflavin',
+    label: 'LinkedIn',
+    icon: <BrandIcon name={'linkedin' as BrandName} size={ICON_SIZE} />,
   },
   {
-    key: "github",
-    href: "https://github.com/jakeflavin",
-    label: "GitHub",
-    icon: <BrandIcon name={"github" as BrandName} size={ICON_SIZE} />
+    key: 'github',
+    href: 'https://github.com/jakeflavin',
+    label: 'GitHub',
+    icon: <BrandIcon name={'github' as BrandName} size={ICON_SIZE} />,
   },
   {
-    key: "instagram",
-    href: "https://www.instagram.com/jakeflavin",
-    label: "Instagram",
-    icon: <BrandIcon name={"instagram" as BrandName} size={ICON_SIZE} />
+    key: 'instagram',
+    href: 'https://www.instagram.com/jakeflavin',
+    label: 'Instagram',
+    icon: <BrandIcon name={'instagram' as BrandName} size={ICON_SIZE} />,
   },
   {
-    key: "blog",
-    href: "https://jakeflavin.com",
-    label: "Blog",
-    icon: <Newspaper size={ICON_SIZE} />
-  }
-];
+    key: 'blog',
+    href: 'https://jakeflavin.com',
+    label: 'Blog',
+    icon: <Newspaper size={ICON_SIZE} />,
+  },
+]
 
 /**
  * The vanity stat. Not derived from anything — it is the "followers" slot, and the joke is
  * that the ideas outnumber the shipped tools by three orders of magnitude.
  */
-const IDEAS = 2319;
+const IDEAS = 2319
 
 /** The counts row. Tools and tags are real manifest data; ideas is the vanity number. */
 function useStats() {
-  const tags = new Set(PROJECTS.flatMap((project) => project.tags ?? []));
+  const tags = new Set(PROJECTS.flatMap((project) => project.tags ?? []))
   return [
-    { label: PROJECTS.length === 1 ? "tool" : "tools", value: PROJECTS.length },
-    { label: tags.size === 1 ? "tag" : "tags", value: tags.size },
+    { label: PROJECTS.length === 1 ? 'tool' : 'tools', value: PROJECTS.length },
+    { label: tags.size === 1 ? 'tag' : 'tags', value: tags.size },
     // Grouped, as Instagram formats its counts.
-    { label: "ideas", value: IDEAS.toLocaleString("en-US") }
-  ];
+    { label: 'ideas', value: IDEAS.toLocaleString('en-US') },
+  ]
 }
 
-export function ProfileHeader({
-  isDarkMode = false,
-  onToggleDarkMode
-}: ProfileHeaderProps) {
-  const stats = useStats();
+export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileHeaderProps) {
+  const stats = useStats()
 
   return (
     <Panel>
@@ -139,7 +136,7 @@ export function ProfileHeader({
                 {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
               </HighlightFill>
             </HighlightRing>
-            <HighlightLabel>{isDarkMode ? "Light" : "Dark"}</HighlightLabel>
+            <HighlightLabel>{isDarkMode ? 'Light' : 'Dark'}</HighlightLabel>
           </Highlight>
 
           <HighlightDivider aria-hidden="true" />
@@ -148,7 +145,7 @@ export function ProfileHeader({
             <Highlight
               key={key}
               type="button"
-              onClick={() => window.open(href, "_blank", "noopener,noreferrer")}
+              onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
               aria-label={`Open ${label}`}
             >
               <HighlightRing>
@@ -160,6 +157,5 @@ export function ProfileHeader({
         </Highlights>
       </Content>
     </Panel>
-  );
-};
-
+  )
+}

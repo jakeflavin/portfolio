@@ -1,27 +1,27 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react'
 
 /** Marks the element in each result that keyboard navigation should land on. */
-export const NAV_ITEM_ATTRIBUTE = "data-nav-item";
+export const NAV_ITEM_ATTRIBUTE = 'data-nav-item'
 
 const isTypingTarget = (target: EventTarget | null): boolean => {
-  if (!(target instanceof HTMLElement)) return false;
+  if (!(target instanceof HTMLElement)) return false
   return (
     target.isContentEditable ||
-    target.tagName === "INPUT" ||
-    target.tagName === "TEXTAREA" ||
-    target.tagName === "SELECT"
-  );
-};
+    target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT'
+  )
+}
 
 export interface KeyboardNavOptions {
   /** Focused by `/`, and cleared and blurred by Escape. */
-  searchRef: React.RefObject<HTMLInputElement | null>;
+  searchRef: React.RefObject<HTMLInputElement | null>
   /** The element results are rendered inside. */
-  resultsRef: React.RefObject<HTMLElement | null>;
+  resultsRef: React.RefObject<HTMLElement | null>
   /** Called when Escape clears an active search. */
-  onClearSearch: () => void;
+  onClearSearch: () => void
   /** Whether a search is currently narrowing the list. */
-  hasSearch: boolean;
+  hasSearch: boolean
 }
 
 /**
@@ -39,85 +39,85 @@ export function useKeyboardNav({
   searchRef,
   resultsRef,
   onClearSearch,
-  hasSearch
+  hasSearch,
 }: KeyboardNavOptions) {
   // Kept in a ref so the listener is bound once rather than rebound on every keystroke.
-  const stateRef = useRef({ onClearSearch, hasSearch });
+  const stateRef = useRef({ onClearSearch, hasSearch })
 
   useEffect(() => {
-    stateRef.current = { onClearSearch, hasSearch };
-  }, [onClearSearch, hasSearch]);
+    stateRef.current = { onClearSearch, hasSearch }
+  }, [onClearSearch, hasSearch])
 
   const items = useCallback(
     () =>
       Array.from(
-        resultsRef.current?.querySelectorAll<HTMLElement>(`[${NAV_ITEM_ATTRIBUTE}]`) ?? []
+        resultsRef.current?.querySelectorAll<HTMLElement>(`[${NAV_ITEM_ATTRIBUTE}]`) ?? [],
       ),
-    [resultsRef]
-  );
+    [resultsRef],
+  )
 
   const move = useCallback(
     (delta: number) => {
-      const all = items();
-      if (all.length === 0) return;
+      const all = items()
+      if (all.length === 0) return
 
-      const current = all.findIndex((item) => item === document.activeElement);
+      const current = all.findIndex((item) => item === document.activeElement)
       // Nothing focused yet: j enters at the top, k enters at the bottom.
       const nextIndex =
         current === -1
           ? delta > 0
             ? 0
             : all.length - 1
-          : Math.min(Math.max(current + delta, 0), all.length - 1);
+          : Math.min(Math.max(current + delta, 0), all.length - 1)
 
-      const next = all[nextIndex];
-      next?.focus();
+      const next = all[nextIndex]
+      next?.focus()
       // Optional: jsdom does not implement it, and it is a nicety rather than the point.
-      next?.scrollIntoView?.({ block: "nearest" });
+      next?.scrollIntoView?.({ block: 'nearest' })
     },
-    [items]
-  );
+    [items],
+  )
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      const { onClearSearch: clear, hasSearch: searching } = stateRef.current;
+      const { onClearSearch: clear, hasSearch: searching } = stateRef.current
 
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         if (isTypingTarget(event.target) && searching) {
-          clear();
-          return;
+          clear()
+          return
         }
         if (isTypingTarget(event.target)) {
-          (event.target as HTMLElement).blur();
+          ;(event.target as HTMLElement).blur()
         }
-        return;
+        return
       }
 
       // Everything below is a bare shortcut, so it must never fire mid-word, and never
       // steal a browser or OS chord.
-      if (isTypingTarget(event.target)) return;
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (isTypingTarget(event.target)) return
+      if (event.metaKey || event.ctrlKey || event.altKey) return
 
-      if (event.key === "/") {
-        event.preventDefault();
-        searchRef.current?.focus();
-        searchRef.current?.select();
-        return;
+      if (event.key === '/') {
+        event.preventDefault()
+        searchRef.current?.focus()
+        searchRef.current?.select()
+        return
       }
 
-      if (event.key === "j") {
-        event.preventDefault();
-        move(1);
-        return;
+      if (event.key === 'j') {
+        event.preventDefault()
+        move(1)
+        return
       }
 
-      if (event.key === "k") {
-        event.preventDefault();
-        move(-1);
+      if (event.key === 'k') {
+        event.preventDefault()
+        move(-1)
       }
-    };
+    }
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [move, searchRef]);
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [move, searchRef])
 }

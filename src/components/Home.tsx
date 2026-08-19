@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
-import { Card } from "@/components/Card";
-import { InputAction } from "@/components/InputAction";
-import { ViewToggle } from "@/components/ViewToggle";
-import { PROJECTS } from "@/lib/projects";
-import { Search } from "lucide-react";
-import { Select } from "@/components/Select";
-import { ProfileHeader } from "@/components/ProfileHeader";
-import { useDeployStatus, bySlug } from "@/hooks/useDeployStatus";
+import React, { useRef } from 'react'
+import { Card } from '@/components/Card'
+import { InputAction } from '@/components/InputAction'
+import { ViewToggle } from '@/components/ViewToggle'
+import { PROJECTS } from '@/lib/projects'
+import { Search } from 'lucide-react'
+import { Select } from '@/components/Select'
+import { ProfileHeader } from '@/components/ProfileHeader'
+import { useDeployStatus, bySlug } from '@/hooks/useDeployStatus'
 import {
   CardContainer,
   SearchContainer,
@@ -14,41 +14,34 @@ import {
   EmptyState,
   EmptyTitle,
   EmptyHint,
-  Results
-} from "./Home.styled";
-import { SORT_OPTIONS, type SortValue, type ViewValue } from "@/lib/home.utils";
-import { useProjectSearch } from "@/hooks/useProjectSearch";
-import { useKeyboardNav } from "@/hooks/useKeyboardNav";
-import { GridView } from "./GridView";
-import { ListView } from "./ListView";
+  Results,
+} from './Home.styled'
+import { SORT_OPTIONS, type SortValue, type ViewValue } from '@/lib/home.utils'
+import { useProjectSearch } from '@/hooks/useProjectSearch'
+import { useKeyboardNav } from '@/hooks/useKeyboardNav'
+import { GridView } from './GridView'
+import { ListView } from './ListView'
 
 export interface HomeProps {
-  isDarkMode?: boolean;
-  onToggleDarkMode?: () => void;
+  isDarkMode?: boolean
+  onToggleDarkMode?: () => void
 }
 
 export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
-  const {
-    searchQuery,
-    setSearchQuery,
-    sortBy,
-    setSortBy,
-    view,
-    setView,
-    visibleProjects
-  } = useProjectSearch(PROJECTS);
+  const { searchQuery, setSearchQuery, sortBy, setSortBy, view, setView, visibleProjects } =
+    useProjectSearch(PROJECTS)
 
-  const deployed = bySlug(useDeployStatus());
+  const deployed = bySlug(useDeployStatus())
 
-  const searchRef = useRef<HTMLInputElement>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   useKeyboardNav({
     searchRef,
     resultsRef,
-    onClearSearch: () => setSearchQuery(""),
-    hasSearch: searchQuery.trim().length > 0
-  });
+    onClearSearch: () => setSearchQuery(''),
+    hasSearch: searchQuery.trim().length > 0,
+  })
 
   return (
     <>
@@ -80,17 +73,15 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
         <EmptyState role="status" aria-live="polite">
           <EmptyTitle>No projects found</EmptyTitle>
           <EmptyHint>
-            Nothing matches &ldquo;{searchQuery.trim()}&rdquo;. Try a different word, or clear
-            the search.
+            Nothing matches &ldquo;{searchQuery.trim()}&rdquo;. Try a different word, or clear the
+            search.
           </EmptyHint>
         </EmptyState>
       ) : (
         <Results ref={resultsRef}>
-          {view === "grid" && <GridView projects={visibleProjects} />}
-          {view === "list" && (
-            <ListView projects={visibleProjects} deployed={deployed} />
-          )}
-          {view === "cards" && (
+          {view === 'grid' && <GridView projects={visibleProjects} />}
+          {view === 'list' && <ListView projects={visibleProjects} deployed={deployed} />}
+          {view === 'cards' && (
             <CardContainer>
               {visibleProjects.map((project) => (
                 <Card
@@ -114,6 +105,5 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
         </Results>
       )}
     </>
-  );
-};
-
+  )
+}

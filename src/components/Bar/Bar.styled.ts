@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 interface BarProps {
-  align?: "center" | "space-between";
+  align?: 'center' | 'space-between'
 }
 
 /**
@@ -18,4 +18,4 @@ export const BarContainer = styled.div<BarProps>`
   justify-content: ${({ align }) => align};
   gap: ${({ theme }) => theme.spacing.md};
   background: transparent;
-`;
+`

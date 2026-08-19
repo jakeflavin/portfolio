@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
 
 /**
  * Search and sort share one surface, matching the hero's border, radius and elevation.
@@ -13,15 +13,15 @@ export const SearchContainer = styled.div`
   /* Filled rather than outlined: with the surfaces and hairlines gone this is the only
      thing marking the control out from the page. */
   background: ${({ theme }) => theme.colors.secondary};
-  border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
+  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   /* The children are bare, so focus is shown once, here, for the whole control. */
   &:has(:focus-visible) {
     box-shadow: ${({ theme }) => theme.shadows.focus};
   }
-
-`;
+`
 
 /** An internal rule between the two halves, rather than a gap. */
 export const SelectWrap = styled.div`
@@ -36,7 +36,7 @@ export const SelectWrap = styled.div`
   ${({ theme }) => theme.media.sm} {
     flex: 0 1 12rem;
   }
-`;
+`
 
 /**
  * A directory is a finder, so everything stays scannable at once. A single 470px feed
@@ -59,7 +59,7 @@ export const CardContainer = styled.div`
   ${({ theme }) => theme.media.md} {
     grid-template-columns: repeat(3, 1fr);
   }
-`;
+`
 
 export const EmptyState = styled.div`
   display: flex;
@@ -69,22 +69,22 @@ export const EmptyState = styled.div`
   padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
   text-align: center;
   background: transparent;
-`;
+`
 
 export const EmptyTitle = styled.p`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
-  font-size: ${({ theme }) => theme.typography.size?.lg ?? "1rem"};
+  font-size: ${({ theme }) => theme.typography.size?.lg ?? '1rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: ${({ theme }) => theme.typography.heading.tracking};
   color: ${({ theme }) => theme.colors.text};
-`;
+`
 
 export const EmptyHint = styled.p`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   color: ${({ theme }) => theme.colors.muted};
-`;
+`
 
 /**
  * Wraps whichever layout is showing, so keyboard navigation has one element to search for
@@ -92,4 +92,4 @@ export const EmptyHint = styled.p`
  */
 export const Results = styled.div`
   width: 100%;
-`;
+`

@@ -1,19 +1,19 @@
-import React, { ReactElement } from "react";
-import { render, RenderOptions } from "@testing-library/react";
-import { ThemeProvider } from "styled-components";
+import React, { ReactElement } from 'react'
+import { render, RenderOptions } from '@testing-library/react'
+import { ThemeProvider } from 'styled-components'
 // The theme the site actually ships, so tests exercise the real token values.
-import { lightTheme } from "../styles/themes";
+import { lightTheme } from '../styles/themes'
 
 function AllTheProviders({ children }: { children: React.ReactNode }) {
-  return <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>;
+  return <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
 }
 
-function customRender(ui: ReactElement, options?: Omit<RenderOptions, "wrapper">) {
+function customRender(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
   return render(ui, {
     wrapper: AllTheProviders,
-    ...options
-  });
+    ...options,
+  })
 }
 
-export * from "@testing-library/react";
-export { customRender as render };
+export * from '@testing-library/react'
+export { customRender as render }

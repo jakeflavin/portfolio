@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 interface CardWrapperProps {
-  $disabled?: boolean;
+  $disabled?: boolean
 }
 
 /**
@@ -18,14 +18,18 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   min-width: 0;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.divider};
-  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
-  transition: border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    box-shadow ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    transform ${({ theme }) => theme.motion?.duration?.slow ?? "0.25s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  box-shadow: ${({ theme }) => theme.shadows.raised ?? 'none'};
+  transition:
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    box-shadow ${({ theme }) => theme.motion?.duration?.slow ?? '0.25s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    transform ${({ theme }) => theme.motion?.duration?.slow ?? '0.25s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   /* Nothing is outlined, so the lift and the media scrim carry the hover on their own. */
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.hover ?? "none"};
+    box-shadow: ${({ theme }) => theme.shadows.hover ?? 'none'};
     transform: translateY(-3px);
   }
 
@@ -42,22 +46,22 @@ export const CardWrapper = styled.article<CardWrapperProps>`
 
     &:hover {
       transform: none;
-      box-shadow: ${"${({ theme }) => theme.shadows.raised}"};
+      box-shadow: ${'${({ theme }) => theme.shadows.raised}'};
     }
   `}
-`;
+`
 
 export const PostHeader = styled.header`
   display: flex;
   align-items: baseline;
   gap: 5px;
   padding: 0 0 ${({ theme }) => theme.spacing.sm};
-`;
+`
 
 /** The title slot: semibold, and a link, where a post carries its username. */
 export const HeaderTitle = styled.a`
   min-width: 0;
-  font-size: ${({ theme }) => theme.typography.size?.lg ?? "0.9375rem"};
+  font-size: ${({ theme }) => theme.typography.size?.lg ?? '0.9375rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
@@ -69,7 +73,7 @@ export const HeaderTitle = styled.a`
   &:hover {
     text-decoration: underline;
   }
-`;
+`
 
 /** Portrait media is the single most recognisable thing about a post. */
 export const Media = styled.a`
@@ -96,18 +100,19 @@ export const Media = styled.a`
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background: #000000;
     opacity: 0;
-    transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+    transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'};
   }
 
   &:hover::after {
     opacity: 0.04;
   }
-`;
+`
 
 export const CardImage = styled.img`
   width: 100%;
@@ -116,7 +121,7 @@ export const CardImage = styled.img`
   object-fit: cover;
   display: block;
   filter: ${({ theme }) => theme.img.brightness};
-`;
+`
 
 /** Where the like/comment/share row sits on a post — with real actions in its place. */
 export const Actions = styled.div`
@@ -124,7 +129,7 @@ export const Actions = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.sm};
-`;
+`
 
 const actionStyles = `
   display: inline-flex;
@@ -135,40 +140,41 @@ const actionStyles = `
   border: none;
   line-height: 0;
   cursor: pointer;
-`;
+`
 
 export const ActionLink = styled.a<{ $end?: boolean }>`
   ${actionStyles}
   color: ${({ theme }) => theme.colors.text};
   /* Pushed hard right, where a post keeps its bookmark. */
-  ${({ $end }) => $end && "margin-left: auto;"}
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  ${({ $end }) => $end && 'margin-left: auto;'}
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'} ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   &:hover {
     opacity: 0.55;
   }
-`;
+`
 
 export const ActionButton = styled.button`
   ${actionStyles}
   color: ${({ theme }) => theme.colors.text};
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   &:hover {
     opacity: 0.55;
   }
-`;
+`
 
 export const Caption = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
   padding: 0;
-`;
+`
 
 export const Description = styled.p<{ $clamped?: boolean }>`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   line-height: 1.45;
   color: ${({ theme }) => theme.colors.muted};
   text-wrap: pretty;
@@ -181,12 +187,12 @@ export const Description = styled.p<{ $clamped?: boolean }>`
     -webkit-box-orient: vertical;
     overflow: hidden;
   `}
-`;
+`
 
 /** Holds the clamped text so the control can sit on its last line. */
 export const DescriptionWrap = styled.div`
   position: relative;
-`;
+`
 
 /**
  * While clamped this sits at the end of the second line rather than below the text, which
@@ -199,7 +205,7 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
   padding: 0;
   border: none;
   font: inherit;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   line-height: 1.45;
   /* Full-strength and medium weight, so it stands out as a control against the muted
      description rather than reading as more of the same text. */
@@ -236,7 +242,7 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
     outline-offset: 2px;
     border-radius: 2px;
   }
-`;
+`
 
 /**
  * The gradient is painted on the row and clipped to its text, so the tags share one sweep
@@ -247,10 +253,10 @@ export const HashTags = styled.div`
   flex-wrap: wrap;
   gap: 0 6px;
   line-height: 1.4;
-  background: ${({ theme }) => theme.gradient?.text ?? "none"};
+  background: ${({ theme }) => theme.gradient?.text ?? 'none'};
   background-clip: text;
   -webkit-background-clip: text;
-`;
+`
 
 /**
  * Plain hashtag text, not blue. They filter the directory, so they stay interactive, but
@@ -261,7 +267,7 @@ export const HashTag = styled.button`
   background: none;
   border: none;
   font: inherit;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? "0.8125rem"};
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
   cursor: pointer;
   word-break: break-word;
   /*
@@ -271,7 +277,8 @@ export const HashTag = styled.button`
    */
   color: ${({ theme }) => theme.colors.muted};
   -webkit-text-fill-color: transparent;
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   &:hover {
     opacity: 0.7;
@@ -282,7 +289,7 @@ export const HashTag = styled.button`
     outline-offset: 2px;
     border-radius: 2px;
   }
-`;
+`
 
 /**
  * Post age and build. Deliberately the quietest thing in the caption.
@@ -299,14 +306,14 @@ export const Meta = styled.div`
   font-size: 0.6875rem;
   color: ${({ theme }) => theme.colors.muted};
   opacity: 0.8;
-`;
+`
 
-export const Timestamp = styled.time``;
+export const Timestamp = styled.time``
 
 /** The separator between age and build, hidden from assistive tech as pure decoration. */
 export const MetaDot = styled.span`
   opacity: 0.6;
-`;
+`
 
 /**
  * The release tag this slug actually shipped. Tabular figures so the build numbers line
@@ -314,11 +321,9 @@ export const MetaDot = styled.span`
  */
 export const Build = styled.span`
   font-variant-numeric: tabular-nums;
-`;
+`
 
 /** Marks a slug held at a fixed release instead of tracking the latest. */
 export const Pinned = styled.span`
   color: ${({ theme }) => theme.colors.link};
-`;
-
-
+`

@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Project } from "@/lib/projects";
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { Project } from '@/lib/projects'
 import {
   getVisibleProjects,
   parseDirectoryState,
   toQueryString,
   type SortValue,
-  type ViewValue
-} from "@/lib/home.utils";
+  type ViewValue,
+} from '@/lib/home.utils'
 
 /**
  * Search, sort and layout for the directory, kept in the URL.
@@ -17,10 +17,10 @@ import {
  */
 export function useProjectSearch(projects: Project[]) {
   const [state, setState] = useState(() =>
-    parseDirectoryState(typeof window === "undefined" ? "" : window.location.search)
-  );
+    parseDirectoryState(typeof window === 'undefined' ? '' : window.location.search),
+  )
 
-  const { searchQuery, sortBy, view } = state;
+  const { searchQuery, sortBy, view } = state
 
   /*
    * replaceState rather than pushState: typing a query would otherwise stack one history
@@ -28,41 +28,41 @@ export function useProjectSearch(projects: Project[]) {
    * character typed.
    */
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return
 
-    const next = `${window.location.pathname}${toQueryString(state)}`;
+    const next = `${window.location.pathname}${toQueryString(state)}`
     if (next !== `${window.location.pathname}${window.location.search}`) {
-      window.history.replaceState(null, "", next);
+      window.history.replaceState(null, '', next)
     }
-  }, [state]);
+  }, [state])
 
   // Back and forward move between whatever states did get pushed, and any link someone
   // pastes in with its own query string.
   useEffect(() => {
-    if (typeof window === "undefined") return undefined;
+    if (typeof window === 'undefined') return undefined
 
-    const onPopState = () => setState(parseDirectoryState(window.location.search));
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
+    const onPopState = () => setState(parseDirectoryState(window.location.search))
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   const setSearchQuery = useCallback(
     (value: string) => setState((previous) => ({ ...previous, searchQuery: value })),
-    []
-  );
+    [],
+  )
   const setSortBy = useCallback(
     (value: SortValue) => setState((previous) => ({ ...previous, sortBy: value })),
-    []
-  );
+    [],
+  )
   const setView = useCallback(
     (value: ViewValue) => setState((previous) => ({ ...previous, view: value })),
-    []
-  );
+    [],
+  )
 
   const visibleProjects = useMemo(
     () => getVisibleProjects(projects, searchQuery, sortBy),
-    [projects, searchQuery, sortBy]
-  );
+    [projects, searchQuery, sortBy],
+  )
 
   return {
     searchQuery,
@@ -71,6 +71,6 @@ export function useProjectSearch(projects: Project[]) {
     setSortBy,
     view,
     setView,
-    visibleProjects
-  };
+    visibleProjects,
+  }
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 /**
  * The whole profile block, on the hero's surface.
@@ -11,8 +11,8 @@ export const Panel = styled.header`
   width: 100%;
   display: flex;
   background: ${({ theme }) => theme.colors.surface};
-  border-radius: ${({ theme }) => theme.radii?.lg ?? "16px"};
-  box-shadow: ${({ theme }) => theme.shadows.raised ?? "none"};
+  border-radius: ${({ theme }) => theme.radii?.lg ?? '16px'};
+  box-shadow: ${({ theme }) => theme.shadows.raised ?? 'none'};
   /*
    * No vertical padding of its own: combined with the page gap it made the space below the
    * profile 65px against 24px everywhere else, so the rhythm broke at the top of the page.
@@ -22,7 +22,7 @@ export const Panel = styled.header`
    * a 1px divider border here if the surfaces come back.
    */
   padding: 0;
-`;
+`
 
 /**
  * Spans the page measure, sharing its left and right edges with the search field and the
@@ -46,9 +46,9 @@ export const Content = styled.div`
      * the highlights break out into a full-width row of their own beneath everything.
      */
     grid-template-areas:
-      "avatar identity"
-      "avatar bio"
-      "highlights highlights";
+      'avatar identity'
+      'avatar bio'
+      'highlights highlights';
     column-gap: ${({ theme }) => theme.spacing.lg};
     row-gap: ${({ theme }) => theme.spacing.sm};
     align-items: start;
@@ -59,7 +59,7 @@ export const Content = styled.div`
      */
     justify-items: stretch;
   }
-`;
+`
 
 /** Avatar beside the name and counts on narrow screens; part of the grid from md. */
 export const Identity = styled.div`
@@ -70,7 +70,7 @@ export const Identity = styled.div`
   ${({ theme }) => theme.media.md} {
     display: contents;
   }
-`;
+`
 
 /**
  * The gradient ring Instagram puts around an avatar with an unwatched story. The ring is
@@ -83,14 +83,14 @@ export const AvatarRing = styled.div`
   width: 72px;
   height: 72px;
   padding: 3px;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
-  background: ${({ theme }) => theme.gradient?.brand ?? "none"};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
+  background: ${({ theme }) => theme.gradient?.brand ?? 'none'};
 
   ${({ theme }) => theme.media.md} {
     width: 120px;
     height: 120px;
   }
-`;
+`
 
 export const Avatar = styled.div`
   width: 100%;
@@ -98,7 +98,7 @@ export const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   background: ${({ theme }) => theme.colors.secondary};
   border: 2px solid ${({ theme }) => theme.colors.surface};
   overflow: hidden;
@@ -109,7 +109,7 @@ export const Avatar = styled.div`
     height: 44%;
     display: block;
   }
-`;
+`
 
 export const IdentityColumn = styled.div`
   grid-area: identity;
@@ -129,12 +129,12 @@ export const IdentityColumn = styled.div`
     gap: ${({ theme }) => theme.spacing.lg};
     flex-wrap: wrap;
   }
-`;
+`
 
 export const Handle = styled.h1`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.size?.xl ?? "1.25rem"};
+  font-size: ${({ theme }) => theme.typography.size?.xl ?? '1.25rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.normal ?? 400};
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
@@ -142,7 +142,7 @@ export const Handle = styled.h1`
   ${({ theme }) => theme.media.md} {
     font-size: 1.5rem;
   }
-`;
+`
 
 /** Instagram's counts row: value in semibold, label in the body weight beside it. */
 export const Stats = styled.dl`
@@ -154,13 +154,13 @@ export const Stats = styled.dl`
   ${({ theme }) => theme.media.md} {
     gap: ${({ theme }) => theme.spacing.lg};
   }
-`;
+`
 
 export const Stat = styled.div`
   display: flex;
   align-items: baseline;
   gap: 5px;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
 
   dt {
     order: 2;
@@ -173,26 +173,26 @@ export const Stat = styled.div`
     font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
     color: ${({ theme }) => theme.colors.text};
   }
-`;
+`
 
 export const Bio = styled.div`
   grid-area: bio;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
-`;
+`
 
 /** Bio hashtags. Static text: they describe the person, they do not filter anything. */
 export const BioTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0 8px;
-`;
+`
 
 export const BioTag = styled.span`
-  font-size: ${({ theme }) => theme.typography.size?.md ?? "0.875rem"};
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   color: ${({ theme }) => theme.colors.muted};
-`;
+`
 
 /**
  * All the highlights fit inline at every width — they share the row rather than scrolling,
@@ -228,7 +228,7 @@ export const Highlights = styled.div`
     padding-top: ${({ theme }) => theme.spacing.md};
     overflow-x: visible;
   }
-`;
+`
 
 /**
  * Sets the appearance toggle apart from the outbound links.
@@ -249,7 +249,7 @@ export const HighlightDivider = styled.span`
     height: 36px;
     margin-top: 24px;
   }
-`;
+`
 
 /**
  * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
@@ -284,9 +284,9 @@ export const Highlight = styled.button`
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: 4px;
-    border-radius: ${({ theme }) => theme.radii?.sm ?? "8px"};
+    border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
   }
-`;
+`
 
 /**
  * The outer ring, as on a highlight: a hairline circle with a gap between it and the
@@ -302,10 +302,13 @@ export const HighlightRing = styled.span`
    * and its inner border is the 2px gap. A 1px border read as a hairline beside it.
    */
   padding: 2px;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   border: 3px solid ${({ theme }) => theme.colors.border};
-  transition: transform ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"},
-    border-color ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition:
+    transform ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'},
+    border-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+      ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   ${({ theme }) => theme.media.md} {
     width: 84px;
@@ -323,7 +326,7 @@ export const HighlightRing = styled.span`
       transform: none;
     }
   }
-`;
+`
 
 /**
  * The thumbnail itself. The three-stop gradient reads better than the full sweep at this
@@ -335,10 +338,11 @@ export const HighlightFill = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.radii?.pill ?? "999px"};
+  border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   background: ${({ theme }) => theme.gradient?.compact ?? theme.colors.secondary};
   color: #ffffff;
-  transition: filter ${({ theme }) => theme.motion?.duration?.normal ?? "0.15s"} ${({ theme }) => theme.motion?.easing ?? "ease"};
+  transition: filter ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
+    ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   ${Highlight}:hover & {
     filter: brightness(1.08);
@@ -347,13 +351,13 @@ export const HighlightFill = styled.span`
   svg {
     display: block;
   }
-`;
+`
 
 export const HighlightLabel = styled.span`
-  font-size: ${({ theme }) => theme.typography.size?.xs ?? "0.75rem"};
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.text};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-`;
+`
