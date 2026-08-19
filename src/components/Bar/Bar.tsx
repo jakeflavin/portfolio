@@ -6,7 +6,7 @@ interface BarProps {
   align?: "center" | "space-between";
 }
 
-const Bar: React.FC<BarProps> = ({ children, align = "center" }) => {
+export function Bar({ children, align = "center" }: BarProps) {
   return <BarContainer align={align}>{children}</BarContainer>;
 };
 

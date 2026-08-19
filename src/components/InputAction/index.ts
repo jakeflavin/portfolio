@@ -1,2 +1,2 @@
-export { default } from "./InputAction";
+export { InputAction } from './InputAction'
 export type { InputActionProps } from "./InputAction";

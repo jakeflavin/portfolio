@@ -14,7 +14,7 @@ interface IconButtonProps {
   ariaLabel?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({
+export function IconButton({
   icon,
   activeIcon,
   active = false,
@@ -22,7 +22,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   size = 24,
   onClick,
   ariaLabel
-}) => {
+}: IconButtonProps) {
   const sourceIcon = active && activeIcon ? activeIcon : icon;
   // Size only. Setting `fill` floods stroke-based icons solid; the button carries the
   // colour and the icon inherits it through currentColor.

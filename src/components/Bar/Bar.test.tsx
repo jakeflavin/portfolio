@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@/test/test-utils";
-import Bar from "./Bar";
+import { Bar } from "./Bar";
 
 describe("Bar", () => {
   it("renders children", () => {

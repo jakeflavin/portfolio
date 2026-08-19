@@ -32,7 +32,8 @@ export interface Props extends BrandIconProps {
   name: BrandName;
 }
 
-const BrandIcon: React.FC<Props> = ({ name, size = 18, className }) => (
+export function BrandIcon({ name, size = 18, className }: Props) {
+  return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -46,6 +47,5 @@ const BrandIcon: React.FC<Props> = ({ name, size = 18, className }) => (
   >
     <path d={PATHS[name]} />
   </svg>
-);
-
-export default BrandIcon;
+  )
+}

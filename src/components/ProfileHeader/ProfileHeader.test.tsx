@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@/test/test-utils";
-import ProfileHeader from "./ProfileHeader";
+import { ProfileHeader } from "./ProfileHeader";
 import { PROJECTS } from "@/lib/projects";
 
 describe("ProfileHeader", () => {

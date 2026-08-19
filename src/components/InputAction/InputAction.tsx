@@ -1,7 +1,7 @@
 import React, { useId } from "react";
 import { useTheme } from "styled-components";
 import { Outer, Label, Wrapper, Input, LeftIconSlot, ErrorMessage } from "./InputAction.styled";
-import IconButton from "../IconButton";
+import { IconButton } from "../IconButton";
 import { CircleX } from "lucide-react";
 
 export interface InputActionProps {
@@ -33,7 +33,7 @@ export interface InputActionProps {
  * Forwards a ref to the input itself rather than the wrapper, so a caller can focus the
  * field — the directory's `/` shortcut needs exactly that.
  */
-const InputAction = React.forwardRef<HTMLInputElement, InputActionProps>(({
+export const InputAction = React.forwardRef<HTMLInputElement, InputActionProps>(({
   icon,
   label,
   value = "",
@@ -112,4 +112,3 @@ const InputAction = React.forwardRef<HTMLInputElement, InputActionProps>(({
 
 InputAction.displayName = "InputAction";
 
-export default InputAction;

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { act } from "react";
 import { render, screen } from "@/test/test-utils";
-import TypeWriter from "./TypeWriter";
+import { TypeWriter } from "./TypeWriter";
 
 /** jitter off throughout, so a tick is exactly one keystroke. */
 const base = { typingSpeed: 10, deletingSpeed: 10, restartDelay: 0, jitter: false };

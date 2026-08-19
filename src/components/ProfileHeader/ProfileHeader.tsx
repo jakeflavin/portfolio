@@ -1,9 +1,9 @@
 import React from "react";
 import { Moon, Sun, Newspaper } from "lucide-react";
-import TypeWriter from "@/components/TypeWriter";
+import { TypeWriter } from "@/components/TypeWriter";
 import { BIO_SCRIPT } from "./bio";
-import BrandIcon, { type BrandName } from "@/components/BrandIcon";
-import CrownMark from "./CrownMark";
+import { BrandIcon, type BrandName } from '@/components/BrandIcon';
+import { CrownMark } from "./CrownMark";
 import { PROJECTS } from "@/lib/projects";
 import {
   Panel,
@@ -93,10 +93,10 @@ function useStats() {
   ];
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+export function ProfileHeader({
   isDarkMode = false,
   onToggleDarkMode
-}) => {
+}: ProfileHeaderProps) {
   const stats = useStats();
 
   return (
@@ -163,4 +163,3 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   );
 };
 
-export default ProfileHeader;

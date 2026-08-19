@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@/test/test-utils";
-import IconButton from "./IconButton";
+import { IconButton } from "./IconButton";
 
 const MockIcon = () => <svg data-testid="mock-icon" />;
 

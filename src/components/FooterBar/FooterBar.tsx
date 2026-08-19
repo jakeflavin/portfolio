@@ -1,7 +1,7 @@
 import React from "react";
 import { FooterContainer, Text, Heart } from "./FooterBar.styled";
 
-const FooterBar: React.FC = () => {
+export function FooterBar() {
   return (
     <FooterContainer>
       <Text>
@@ -11,4 +11,3 @@ const FooterBar: React.FC = () => {
   );
 };
 
-export default FooterBar;

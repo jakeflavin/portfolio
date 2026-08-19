@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@/test/test-utils";
-import Card from "./Card";
+import { Card } from "./Card";
 
 describe("Card", () => {
   const defaultProps = {

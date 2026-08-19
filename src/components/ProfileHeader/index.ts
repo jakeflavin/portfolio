@@ -1,2 +1,2 @@
-export { default } from "./ProfileHeader";
+export { ProfileHeader } from './ProfileHeader'
 export type { ProfileHeaderProps } from "./ProfileHeader";

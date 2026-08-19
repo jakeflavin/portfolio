@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./styles/themes";
 import { GlobalStyles } from "./styles/globalStyles";
-import FooterBar from "@/components/FooterBar";
-import Home from "@/components/Home";
+import { FooterBar } from "@/components/FooterBar";
+import { Home } from "@/components/Home";
 
 /** Every app shares one origin now, so storage keys are namespaced. */
 const THEME_KEY = "portfolio.theme";
@@ -22,7 +22,7 @@ const getInitialDarkMode = () => {
   return getPrefersDark();
 };
 
-const App: React.FC = () => {
+export function App() {
   const [isDarkMode, setIsDarkMode] = useState(getInitialDarkMode);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -85,4 +85,3 @@ const Content = styled.div`
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export default App;

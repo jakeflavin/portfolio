@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@/test/test-utils";
-import Select from "./Select";
+import { Select } from "./Select";
 
 const options = [
   { value: "a", label: "Option A" },

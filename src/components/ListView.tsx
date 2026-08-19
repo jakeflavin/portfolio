@@ -20,7 +20,8 @@ export interface ListViewProps {
 }
 
 /** One row per tool, for scanning names, dates and builds. */
-const ListView: React.FC<ListViewProps> = ({ projects, deployed }) => (
+export function ListView({ projects, deployed }: ListViewProps) {
+  return (
   <Rows>
     {projects.map((project) => {
       const build = deployed.get(project.slug)?.tag;
@@ -45,6 +46,5 @@ const ListView: React.FC<ListViewProps> = ({ projects, deployed }) => (
       );
     })}
   </Rows>
-);
-
-export default ListView;
+  )
+}

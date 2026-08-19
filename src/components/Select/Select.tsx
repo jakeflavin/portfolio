@@ -35,7 +35,7 @@ export interface SelectProps {
   bare?: boolean;
 }
 
-const Select: React.FC<SelectProps> = ({
+export function Select({
   value = "",
   onChange,
   options,
@@ -47,7 +47,7 @@ const Select: React.FC<SelectProps> = ({
   "aria-label": ariaLabel,
   error,
   bare = false
-}) => {
+}: SelectProps) {
   const generatedId = useId();
   const triggerId = id ?? generatedId;
   const displayLabel = getDisplayLabel(options, value, placeholder);
@@ -143,4 +143,3 @@ const Select: React.FC<SelectProps> = ({
   );
 };
 
-export default Select;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Send, Check } from "lucide-react";
-import BrandIcon from "@/components/BrandIcon";
+import { BrandIcon } from "@/components/BrandIcon";
 import {
   CardWrapper,
   PostHeader,
@@ -56,7 +56,7 @@ export interface CardProps {
   pinned?: boolean;
 }
 
-const Card: React.FC<CardProps> = ({
+export function Card({
   title,
   imageSrc,
   description,
@@ -68,7 +68,7 @@ const Card: React.FC<CardProps> = ({
   onTagClick,
   build,
   pinned = false
-}) => {
+}: CardProps) {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [overflows, setOverflows] = useState(false);
@@ -218,4 +218,3 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-export default Card;

@@ -1,1 +1,1 @@
-export { default } from "./FooterBar";
+export { FooterBar } from './FooterBar'

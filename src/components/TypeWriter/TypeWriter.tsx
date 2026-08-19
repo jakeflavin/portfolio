@@ -14,13 +14,13 @@ export interface TypeWriterProps {
   jitter?: boolean;
 }
 
-const TypeWriter: React.FC<TypeWriterProps> = ({
+export function TypeWriter({
   script,
   typingSpeed = 55,
   deletingSpeed = 28,
   restartDelay = 6000,
   jitter = true
-}) => {
+}: TypeWriterProps) {
   const text = useTypeWriter({ script, typingSpeed, deletingSpeed, restartDelay, jitter });
 
   return (
@@ -31,4 +31,3 @@ const TypeWriter: React.FC<TypeWriterProps> = ({
   );
 };
 
-export default TypeWriter;

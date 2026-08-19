@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import Card from "@/components/Card";
-import InputAction from "@/components/InputAction";
-import ViewToggle from "@/components/ViewToggle";
+import { Card } from "@/components/Card";
+import { InputAction } from "@/components/InputAction";
+import { ViewToggle } from "@/components/ViewToggle";
 import { PROJECTS } from "@/lib/projects";
 import { Search } from "lucide-react";
-import Select from "@/components/Select";
-import ProfileHeader from "@/components/ProfileHeader";
+import { Select } from "@/components/Select";
+import { ProfileHeader } from "@/components/ProfileHeader";
 import { useDeployStatus, bySlug } from "@/hooks/useDeployStatus";
 import {
   CardContainer,
@@ -19,15 +19,15 @@ import {
 import { SORT_OPTIONS, type SortValue, type ViewValue } from "@/lib/home.utils";
 import { useProjectSearch } from "@/hooks/useProjectSearch";
 import { useKeyboardNav } from "@/hooks/useKeyboardNav";
-import GridView from "./GridView";
-import ListView from "./ListView";
+import { GridView } from "./GridView";
+import { ListView } from "./ListView";
 
 export interface HomeProps {
   isDarkMode?: boolean;
   onToggleDarkMode?: () => void;
 }
 
-const Home: React.FC<HomeProps> = ({ isDarkMode, onToggleDarkMode }) => {
+export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
   const {
     searchQuery,
     setSearchQuery,
@@ -75,8 +75,9 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, onToggleDarkMode }) => {
         </SelectWrap>
       </SearchContainer>
 
+      {/* Announced, so a filter that finds nothing is not silence to a screen reader. */}
       {visibleProjects.length === 0 ? (
-        <EmptyState>
+        <EmptyState role="status" aria-live="polite">
           <EmptyTitle>No projects found</EmptyTitle>
           <EmptyHint>
             Nothing matches &ldquo;{searchQuery.trim()}&rdquo;. Try a different word, or clear
@@ -116,4 +117,3 @@ const Home: React.FC<HomeProps> = ({ isDarkMode, onToggleDarkMode }) => {
   );
 };
 
-export default Home;

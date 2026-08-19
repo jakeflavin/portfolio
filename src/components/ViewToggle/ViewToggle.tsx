@@ -18,7 +18,8 @@ export interface ViewToggleProps {
  * Icon-only, because the row has to stay on one line on a phone and the labels were the
  * first thing to give. The accessible name carries the label instead.
  */
-const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => (
+export function ViewToggle({ value, onChange }: ViewToggleProps) {
+  return (
   <Segmented role="group" aria-label="Layout">
     {VIEW_OPTIONS.map((option) => (
       <Segment
@@ -34,6 +35,5 @@ const ViewToggle: React.FC<ViewToggleProps> = ({ value, onChange }) => (
       </Segment>
     ))}
   </Segmented>
-);
-
-export default ViewToggle;
+  )
+}

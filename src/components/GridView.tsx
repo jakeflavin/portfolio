@@ -8,7 +8,8 @@ export interface GridViewProps {
 }
 
 /** Covers only. The screenshots are the most identifying thing each app has. */
-const GridView: React.FC<GridViewProps> = ({ projects }) => (
+export function GridView({ projects }: GridViewProps) {
+  return (
   <Tiles>
     {projects.map((project) => (
       <Tile
@@ -24,6 +25,5 @@ const GridView: React.FC<GridViewProps> = ({ projects }) => (
       </Tile>
     ))}
   </Tiles>
-);
-
-export default GridView;
+  )
+}

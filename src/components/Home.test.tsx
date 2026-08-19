@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, fireEvent, within } from "@/test/test-utils";
-import Home from "./Home";
+import { Home } from "./Home";
 import { PROJECTS } from "@/lib/projects";
 
 describe("Home", () => {
