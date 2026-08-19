@@ -198,7 +198,21 @@ Every rule here was a real bug once.
 - **Stateful views remount when their entity changes** (`<RoomInner key={sessionId} />`).
 - **Storage keys are namespaced** to the app: `hush.settings`, `hat.lists`. All nine apps
   share one origin, so an unprefixed key collides with a sibling.
-- **Locale-aware formatting uses `Intl`**, not hand-rolled `toFixed` and `padStart`.
+- **Anything a person reads goes through `Intl`**, never `toFixed` or a hardcoded locale.
+  `toLocaleString('en-US')` is the same bug as `toFixed` — it picks a decimal mark for the
+  reader instead of asking. Pass no locale at all and it follows them.
+
+  Three things are not that, and should carry a comment saying so, or the next pass will
+  "fix" them: **machine formats** — a CSS `calc()`, an SVG path, a GPX file, a query
+  parameter, a cache key — where a comma is a syntax error rather than a preference;
+  **clock digits**, since `m:ss` is a stopwatch idiom, not a formatted number; and
+  **coordinates**, which people copy into other tools.
+
+  Build formatters once at module scope. Constructing an `Intl.NumberFormat` costs far
+  more than using one, and these run per row and per chart tick.
+
+  Test against `Intl`, not against a literal. `expect(x).toBe('5.00')` only passes on a
+  machine whose locale is English — which is the bug being fixed.
 
 For realtime databases specifically:
 
