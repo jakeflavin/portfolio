@@ -207,8 +207,15 @@ Every rule here was a real bug once.
 - **Guard partial records** wherever they render or are counted — a record without the field
   you are about to read is not a member of anything.
 - **Stateful views remount when their entity changes** (`<RoomInner key={sessionId} />`).
-- **Storage keys are namespaced** to the app: `hush.settings`, `hat.lists`. All nine apps
-  share one origin, so an unprefixed key collides with a sibling.
+- **Storage keys are namespaced** to the app: `hush.settings`, `hat.lists`, `wx:units`. All
+  nine apps share one origin, so an unprefixed key collides with a sibling. That prefix is
+  the part that matters, and every app has it.
+
+  The separator does not match across the set — four apps use a dot and three a colon — and
+  it is deliberately left that way. Renaming a storage key is a data migration, not a
+  rename: it drops saved settings, custom backgrounds, session history and kept stories for
+  anyone already using the app. Carrying a migration shim in four repos forever is a real
+  cost; a separator nobody sees is not. Match the app you are in.
 - **Anything a person reads goes through `Intl`**, never `toFixed` or a hardcoded locale.
   `toLocaleString('en-US')` is the same bug as `toFixed` — it picks a decimal mark for the
   reader instead of asking. Pass no locale at all and it follows them.

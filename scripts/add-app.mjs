@@ -34,6 +34,7 @@ import { execFileSync } from "node:child_process";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const MANIFEST_PATH = path.join(ROOT, "apps.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "release.yml");
+const ICON_PNG_PATH = path.join(ROOT, "templates", "icon-png.mjs");
 
 // ---------------------------------------------------------------- arg parsing
 
@@ -463,6 +464,19 @@ if (!flags["dry-run"]) {
   fs.copyFileSync(TEMPLATE_PATH, path.join(workflowDir, "release.yml"));
 }
 done("Installed .github/workflows/release.yml");
+
+/*
+ * The PNG encoder behind `npm run icons`, if this app draws its own. Installed rather than
+ * imported across repos: an app has to build on its own, knowing nothing about the
+ * directory that publishes it — the same trade-off release.yml makes.
+ */
+const iconScript = path.join(appDir, "scripts", "make-icons.mjs");
+if (fs.existsSync(iconScript)) {
+  if (!flags["dry-run"]) {
+    fs.copyFileSync(ICON_PNG_PATH, path.join(appDir, "scripts", "icon-png.mjs"));
+  }
+  done("Installed scripts/icon-png.mjs");
+}
 
 if (flags["dry-run"]) {
   console.log(`\nDry run complete. Nothing was written, committed or published.\n`);
