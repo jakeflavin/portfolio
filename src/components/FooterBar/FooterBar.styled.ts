@@ -31,8 +31,15 @@ const scroll = keyframes`
 export const Marquee = styled.div`
   width: 100%;
   overflow: hidden;
+  /*
+   * The search row's radius and its height, so the band at the bottom of the page is the
+   * same object as the control at the top of it.
+   */
+  border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
+  height: ${({ theme }) => theme.sizes?.control ?? '38px'};
+  display: flex;
+  align-items: center;
   background: ${({ theme }) => theme.gradient?.brand ?? theme.colors.accent};
-  padding: ${({ theme }) => theme.spacing.sm} 0;
 `
 
 export const MarqueeTrack = styled.div`

@@ -17,6 +17,17 @@
  */
 
 /** Corner radii. Media and controls are softer than containers, as in both apps. */
+/**
+ * The height of a control in the search row - the field, the sort trigger, and the
+ * marquee that mirrors them at the foot of the page.
+ *
+ * Named because three places have to agree on it. It was written out three times, which
+ * is three chances for two of them to drift and nobody to notice.
+ */
+export const sizes = {
+  control: '38px',
+}
+
 export const radii = {
   sm: '8px',
   md: '12px',
@@ -246,6 +257,7 @@ export const lightTheme = {
   radii,
   borderRadius,
   spacing,
+  sizes,
   breakpoints,
   media: createMediaQueries(breakpoints),
   query: { wide: wideQuery },

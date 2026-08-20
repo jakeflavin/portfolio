@@ -43,7 +43,7 @@ export const Wrapper = styled.div<WrapperProps>`
   gap: ${({ theme }) => theme.spacing.sm};
 
   /* Instagram's search sits around 38px — noticeably tighter than a form input. */
-  min-height: 38px;
+  min-height: ${({ theme }) => theme.sizes?.control ?? '38px'};
   padding: 0 ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme, $bare }) => ($bare ? 'transparent' : theme.colors.secondary)};
   border: none;

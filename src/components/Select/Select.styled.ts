@@ -62,7 +62,7 @@ export const Trigger = styled.button<{ $bare?: boolean }>`
   width: 100%;
 
   /* Matches the search field beside it. */
-  min-height: 38px;
+  min-height: ${({ theme }) => theme.sizes?.control ?? '38px'};
   padding: 0 ${({ theme }) => theme.spacing.md};
   font: inherit;
   font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
