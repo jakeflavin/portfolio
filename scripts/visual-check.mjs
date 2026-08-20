@@ -238,6 +238,16 @@ try {
         for (const action of screen.actions ?? []) {
           if (action.click) await page.locator(action.click).first().click().catch(() => {});
           if (action.clickText) await page.getByText(action.clickText, { exact: true }).first().click().catch(() => {});
+          /*
+           * An app whose interesting screens only exist once something has been opened
+           * needs that something. runify's whole analysis side is behind a file input,
+           * so the guard hands it a synthetic run rather than leaving it unphotographed.
+           */
+          if (action.upload) {
+            await page.locator(action.upload).first()
+              .setInputFiles(path.join(ROOT, action.upload_file))
+              .catch(() => {});
+          }
           if (action.wait) await page.waitForTimeout(action.wait);
         }
         /*

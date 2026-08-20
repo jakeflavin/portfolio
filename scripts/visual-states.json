@@ -309,10 +309,36 @@
     "runify": {
       "themeKey": "runify:theme",
       "themeShape": "value",
+      "clock": "2026-08-19T15:00:00Z",
       "screens": [
         {
           "name": "home",
-          "wait": 2000
+          "wait": 2500
+        },
+        {
+          "name": "analyse",
+          "wait": 2500,
+          "actions": [
+            {
+              "clickText": "Analyse",
+              "wait": 800
+            },
+            {
+              "upload": "input[type='file']",
+              "upload_file": "scripts/fixtures/guard-run.gpx",
+              "wait": 3500
+            }
+          ]
+        },
+        {
+          "name": "km",
+          "wait": 2500,
+          "actions": [
+            {
+              "clickText": "km",
+              "wait": 800
+            }
+          ]
         }
       ]
     },
