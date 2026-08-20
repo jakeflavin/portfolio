@@ -115,6 +115,17 @@ export const Avatar = styled.div`
     display: block;
   }
 `
+/**
+ * Fills the circle rather than fitting inside it. The photos are cropped square before
+ * they ship, so the cover here only has to absorb the rounding.
+ */
+export const AvatarPhoto = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`
+
 
 export const IdentityColumn = styled.div`
   grid-area: identity;

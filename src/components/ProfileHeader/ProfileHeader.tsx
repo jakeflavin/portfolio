@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Moon, Sun, Newspaper } from 'lucide-react'
 import { TypeWriter } from '@/components/TypeWriter'
 import { BIO_SCRIPT } from './bio'
 import { BrandIcon, type BrandName } from '@/components/BrandIcon'
 import { CrownMark } from './CrownMark'
+import { pickAvatar } from './avatars'
 import { PROJECTS } from '@/lib/projects'
 import {
   Panel,
@@ -11,6 +12,7 @@ import {
   Identity,
   AvatarRing,
   Avatar,
+  AvatarPhoto,
   IdentityColumn,
   Handle,
   Stats,
@@ -98,13 +100,17 @@ function useStats() {
 export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileHeaderProps) {
   const stats = useStats()
 
+  // Once per mount, not per render: re-picking on every render would swap the face
+  // whenever anything else on the page changed.
+  const [avatar] = useState(pickAvatar)
+
   return (
     <Panel>
       <Content>
         <Identity>
           <AvatarRing>
             <Avatar>
-              <CrownMark />
+              {avatar ? <AvatarPhoto src={avatar.src} alt={avatar.alt} /> : <CrownMark />}
             </Avatar>
           </AvatarRing>
 

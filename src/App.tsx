@@ -77,7 +77,7 @@ const Container = styled.div`
    * from the tile's own width rather than the viewport's. See the Tile container query.
    */
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
   padding: 0 ${({ theme }) => theme.spacing.md};
 
