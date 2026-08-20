@@ -19,7 +19,13 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   width: 100%;
   min-width: 0;
   background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.divider};
+  /*
+   * No border. It was transparent under the flat pass but still took its 1px, which held
+   * the card's contents one pixel inside the measure that the search field, the grid, the
+   * list and the marquee all sit flush against. Invisible while the media bled past the
+   * gutter; not once it stopped. Put a 1px solid divider border back here if the
+   * outlines come back.
+   */
   box-shadow: ${({ theme }) => theme.shadows.raised ?? 'none'};
   transition:
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
@@ -84,19 +90,14 @@ export const Media = styled.a`
   overflow: hidden;
 
   /*
-   * Full-bleed on phones: the grid is a single column there, so the media breaks out of
-   * the container's gutter to meet the screen edges. Reset at sm, where the grid splits
-   * into columns and a bleed would run cards into each other.
+   * Held inside the gutter, like everything else.
+   *
+   * It used to break out to the screen edges on a phone, from when the feed was the only
+   * view and the page had little else with an edge. It now shares the column with a grid,
+   * a list, a search field and a marquee, all of which stop at the gutter - so the one
+   * element reaching past them read as a mistake rather than as emphasis.
    */
-  width: calc(100% + ${({ theme }) => theme.spacing.md} * 2);
-  margin-left: -${({ theme }) => theme.spacing.md};
-  margin-right: -${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.query.wide} {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
+  width: 100%;
   background: ${({ theme }) => theme.colors.secondary};
   border-top: 1px solid ${({ theme }) => theme.colors.divider};
   position: relative;
