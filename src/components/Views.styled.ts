@@ -195,9 +195,16 @@ export const TileMeta = styled.div`
 `
 
 /** List: one row per tool, for scanning names and builds rather than looking at pictures. */
+/**
+ * Rows are separated by space, not by rules.
+ *
+ * Eight hairlines down a short list is eight lines of furniture for a page that has no
+ * other; the gap does the same job and adds nothing to look at.
+ */
 export const Rows = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
 `
 
 /**
@@ -215,16 +222,14 @@ export const Row = styled.article<{ $disabled?: boolean }>`
    */
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr);
-  align-items: start;
+  /* Stretch, so the cover can take the row's full height whatever the text does to it. */
+  align-items: stretch;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.sm};
+  margin: -${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.radii?.md ?? '10px'};
   color: inherit;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
-
-  &:last-of-type {
-    border-bottom: none;
-  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.secondary};
@@ -271,14 +276,20 @@ export const RowContent = styled.div`
  * another, which is the only thing a thumbnail is for. This is large enough to recognise
  * a tool by sight without the row becoming a card.
  *
- * Square with square corners, because that is what a cover is everywhere else here - the
- * feed's and the grid's are both unrounded, and this one was the odd one out.
+ * Square corners, because that is what a cover is everywhere else here - the feed's and
+ * the grid's are both unrounded, and this one was the odd one out.
+ *
+ * It holds 88px of width and takes whatever height the row turns out to be, so the left
+ * edge of the list stays straight while the rows breathe. The extra height is paid for by
+ * cropping in: `cover` keeps the middle of the shot at the cost of its sides, which for a
+ * screenshot is the right half of the bargain.
  */
 export const RowThumb = styled.img`
   position: relative;
   z-index: 1;
   width: 88px;
-  height: 88px;
+  height: 100%;
+  min-height: 88px;
   object-fit: cover;
   display: block;
   background: ${({ theme }) => theme.colors.secondary};
@@ -291,17 +302,14 @@ export const RowMain = styled(RowContent)`
 `
 
 /**
- * Title on the left, age on the right, sharing a baseline.
- *
- * The age used to be a column of the row, which gave it nothing to line up with and left
- * it hanging in space beside a two-line description. Here it has the title's baseline and
- * the row's right edge, which is two more alignments than it had.
+ * Title on the left, the actions on the right.
  */
 export const RowTitleLine = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
+  min-height: 22px;
 `
 
 export const RowTitle = styled.div`
@@ -353,34 +361,38 @@ export const RowBuild = styled.span`
  * and left the description with about twenty characters.
  */
 /**
- * Tags on the left, actions on the right, on one line.
+ * The tags and the age, on one wrapping line of text.
  *
- * Not wrapped: the actions are three 16px glyphs and the tags are 12px text, and when the
- * tags took a second line the icons ended up alongside the middle of the tag block with
- * nothing to align to. The tags give way instead - they are the least load-bearing thing
- * in the row, and the same tags are one line up in the search field.
+ * They sit together rather than at opposite ends because the age was the thing that kept
+ * ending up adrift: given its own end of the row it had nothing to line up with, and
+ * given the last tag line it moved every time the tags rewrapped. Set inline after them,
+ * separated by a dot, it just reads as the end of the sentence.
  */
 export const RowFooter = styled.div`
   display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin-top: 2px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px ${({ theme }) => theme.spacing.sm};
+  margin-top: 4px;
   min-width: 0;
 `
 
+/** The dot between the tags and the age. */
+export const RowDot = styled.span`
+  color: ${({ theme }) => theme.colors.muted};
+  opacity: 0.6;
+`
+
 /**
- * One line of tags, cut at the row's edge rather than wrapped.
+ * Every tag, wrapped onto as many lines as it takes.
  *
- * Every tag holds its own width - without that they were squeezed until the words broke
- * inside themselves, and a phone showed "#weath er". What does not fit is clipped under a
- * short fade, so the cut reads as more-to-the-right instead of as damage.
+ * Nothing here is truncated. Each tag keeps its own width so it can never break inside
+ * its own word, and the row wraps instead - which it can now do freely, because the
+ * actions moved up to the title and there is nothing left on this line to collide with.
  */
 export const RowTags = styled(TagRow)`
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
-  flex-wrap: nowrap;
-  overflow: hidden;
-  min-width: 0;
-  mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent 100%);
+  gap: 0 0.75em;
 
   > * {
     flex: 0 0 auto;
@@ -392,16 +404,15 @@ export const RowTags = styled(TagRow)`
 export const RowTag = styled(Tag)``
 
 /**
- * The action icons, at the end of the footer line and never squeezed.
+ * The action icons, on the title's line at the right of the row.
  *
- * Their own gap, tighter than the page's, so three glyphs read as one control rather than
- * as three separate things that happen to be near each other.
+ * Up here they have one stable single line to align to. Down among the tags they sat
+ * against text that rewraps, so they moved whenever the tags did.
  */
 export const RowActions = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  margin-left: auto;
 
   > * {
     gap: ${({ theme }) => theme.spacing.sm};

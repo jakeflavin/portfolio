@@ -15,6 +15,7 @@ import {
   RowDescription,
   RowFooter,
   RowTags,
+  RowDot,
   RowTag,
   RowMeta,
   RowActions,
@@ -51,10 +52,13 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
             <RowMain>
               <RowTitleLine>
                 <RowTitle>{project.title}</RowTitle>
-                <RowMeta>
-                  {build && <RowBuild>{build}</RowBuild>}
-                  <span>{formatPostAge(project.creationDate)}</span>
-                </RowMeta>
+                <RowActions>
+                  <ProjectActions
+                    title={project.title}
+                    href={isLink ? project.path : undefined}
+                    repo={project.repo}
+                  />
+                </RowActions>
               </RowTitleLine>
 
               <RowDescription>{project.description}</RowDescription>
@@ -72,13 +76,12 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
                   ))}
                 </RowTags>
 
-                <RowActions>
-                  <ProjectActions
-                    title={project.title}
-                    href={isLink ? project.path : undefined}
-                    repo={project.repo}
-                  />
-                </RowActions>
+                {(project.tags?.length ?? 0) > 0 && <RowDot aria-hidden="true">&middot;</RowDot>}
+
+                <RowMeta>
+                  {build && <RowBuild>{build}</RowBuild>}
+                  <span>{formatPostAge(project.creationDate)}</span>
+                </RowMeta>
               </RowFooter>
             </RowMain>
           </Row>
