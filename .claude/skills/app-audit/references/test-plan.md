@@ -68,6 +68,18 @@ scroll sideways, the content just escapes its box. Measure children against thei
 content rather than after it. Scroll to the very bottom and compare the last item's
 `bottom` against the bar's `top`. The middle of a long form always looks fine.
 
+Reaching the end of the page is only half of it: check **focus** too. Clicking a field
+the bar is sitting on top of scrolls nothing, because the browser counts a field under
+an overlay as visible — so people type into something they cannot see. Scroll until a
+field straddles the bar's top edge, click it, and check whether anything moved.
+
+Beware that your own tooling hides this one. Playwright scrolls an element into view
+before clicking it, so `locator.click()` fixes the bug on the way to reproducing it —
+a check written that way passes with the fix reverted. Scroll by hand with
+`page.evaluate` and click with `page.mouse.click(x, y)` instead. Whenever a check is
+meant to catch something specific, revert the fix once and confirm it actually fails;
+a check that has never failed has never been tested either.
+
 **Controls in both label states.** A button whose text changes — Clear/Undo,
 Play/Pause, Follow/Following — changes width with it. If the row was sized to the
 short label, the long one reflows or overflows it the moment it's pressed. Press it

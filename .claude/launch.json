@@ -13,6 +13,34 @@
         "--strictPort"
       ],
       "port": 5177
+    },
+    {
+      "name": "countdown",
+      "cwd": "apps/countdown",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5176",
+        "--strictPort"
+      ],
+      "port": 5176
+    },
+    {
+      "name": "hat",
+      "cwd": "apps/roll",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5178",
+        "--strictPort"
+      ],
+      "port": 5178
     }
   ]
 }
