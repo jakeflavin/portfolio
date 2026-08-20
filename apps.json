@@ -1,92 +1,15 @@
 {
   "apps": [
     {
-      "slug": "countdown",
-      "title": "Countdown Timer",
-      "description": "A countdown timer built for focus. Pick a duration or a target time and the clock takes over the screen, with a looping cinematic scene behind it \u2014 a lake at dawn, rain, embers. Scenes reframe themselves for portrait, and reduced-motion settings get a still instead. Sessions are kept locally, and any setup shares as a link.",
-      "tags": [
-        "timer",
-        "utility"
-      ],
-      "cover": "/images/countdown-cover.jpg",
-      "creationDate": "2026-02-17",
-      "disabled": false,
-      "repo": "jakeflavin/countdown"
-    },
-    {
-      "slug": "hat",
-      "title": "Hat",
-      "description": "A random picker for when something just needs choosing. Drop in names, numbers or emoji, then pull one out of the hat. Recent pulls stay on screen so you can see what has already come up, and the whole setup shares as a link so everyone draws from the same hat.",
-      "tags": [
-        "picker",
-        "random"
-      ],
-      "cover": "/images/hat-cover.jpg",
-      "creationDate": "2026-08-18",
-      "disabled": false,
-      "repo": "jakeflavin/roll"
-    },
-    {
-      "slug": "weather",
-      "title": "Weather",
-      "description": "A dense, chart-first weather dashboard. Hourly and daily forecasts, wind, pressure, UV and air quality for anywhere you search \u2014 no accounts, no ads, no location prompt unless you ask for it.",
-      "tags": [
-        "weather",
-        "forecast",
-        "charts"
-      ],
-      "cover": "/images/weather-cover.jpg",
-      "creationDate": "2026-08-18",
-      "disabled": false,
-      "repo": "jakeflavin/weather",
-      "shot": {
-        "hide": "header,footer,.locbar",
-        "wait": 4500
-      }
-    },
-    {
-      "slug": "madlib",
-      "title": "Mad Lib",
-      "description": "A story generator you fill in yourself. Pick a tale, supply the words, watch it fall apart.",
-      "tags": [
-        "words",
-        "game",
-        "writing"
-      ],
-      "cover": "/images/madlib-cover.jpg",
-      "creationDate": "2026-08-18",
-      "disabled": false,
-      "repo": "jakeflavin/madlib",
-      "shot": {
-        "hide": "header,footer,.banner",
-        "wait": 2500
-      }
-    },
-    {
-      "slug": "hush",
-      "title": "Hush",
-      "description": "A classroom noise meter. A colourful dial shows the room how loud it is, and speaks up when it stays too loud.",
-      "tags": [
-        "classroom",
-        "audio",
-        "meter"
-      ],
-      "cover": "/images/hush-cover.jpg",
-      "creationDate": "2026-08-18",
-      "disabled": false,
-      "repo": "jakeflavin/noise"
-    },
-    {
       "slug": "runify",
       "title": "Runify",
-      "description": "A running route planner and run analyser in one page. Draw a route on real paths, see what the hills cost, then drop in a GPX and read back what happened.",
+      "description": "Plan a run, then see how it went. Draw a route on real paths and get the distance and the climb. Drop in a GPX and read back the splits.",
       "tags": [
-        "running",
-        "maps",
-        "gpx"
+        "runner",
+        "fitness"
       ],
       "cover": "/images/runify-cover.jpg",
-      "creationDate": "2026-08-18",
+      "creationDate": "2026-07-28",
       "disabled": false,
       "repo": "jakeflavin/runify",
       "shot": {
@@ -138,28 +61,49 @@
     {
       "slug": "linkit",
       "title": "Linkit",
-      "description": "An anonymous, community-run board of links worth keeping. Post what you find, vote on what others post, and let the downvotes do the pruning.",
+      "description": "A shared board of links. Post what you find, vote on what everyone else posts. No names and no accounts. Downvotes do the pruning.",
       "tags": [
-        "links",
-        "voting",
-        "community"
+        "developer",
+        "links"
       ],
       "cover": "/images/linkit-cover.jpg",
-      "creationDate": "2026-08-18",
+      "creationDate": "2026-06-15",
       "disabled": false,
-      "repo": "jakeflavin/linkit"
+      "repo": "jakeflavin/linkit",
+      "shot": {
+        "env": {
+          "VITE_FIRESTORE_EMULATOR": "1"
+        },
+        "hide": "header,footer",
+        "viewport": {
+          "width": 1180,
+          "height": 1000
+        },
+        "clip": {
+          "x": 98,
+          "y": 92,
+          "size": 648
+        },
+        "wait": 4000,
+        "actions": [
+          {
+            "selector": "[aria-label='Compact view']",
+            "wait": 900
+          }
+        ]
+      }
     },
     {
       "slug": "fibo",
       "title": "Fibo",
-      "description": "Planning poker for teams that estimate together. Open a room, share the link, and everyone flips at once.",
+      "description": "Planning poker for a team. Open a room, share the link, everyone flips at once.",
       "tags": [
-        "estimation",
-        "teams",
-        "realtime"
+        "team",
+        "planning",
+        "developer"
       ],
       "cover": "/images/fibo-cover.jpg",
-      "creationDate": "2026-08-18",
+      "creationDate": "2026-05-04",
       "disabled": false,
       "repo": "jakeflavin/fibo",
       "shot": {
@@ -180,6 +124,188 @@
             "wait": 4000
           }
         ]
+      }
+    },
+    {
+      "slug": "weather",
+      "title": "Weather",
+      "description": "Weather in charts instead of icons. Hourly and daily forecasts, wind, pressure, UV and air quality, for anywhere you search. It does not ask where you are unless you tell it.",
+      "tags": [
+        "runner",
+        "weather"
+      ],
+      "cover": "/images/weather-cover.jpg",
+      "creationDate": "2026-03-30",
+      "disabled": false,
+      "repo": "jakeflavin/weather",
+      "shot": {
+        "hide": "header,footer,.locbar",
+        "wait": 5000,
+        "viewport": {
+          "width": 1240,
+          "height": 1400
+        },
+        "clip": {
+          "x": 4,
+          "y": 424,
+          "size": 680
+        }
+      }
+    },
+    {
+      "slug": "hush",
+      "title": "Hush",
+      "description": "A noise meter for a classroom. A dial shows the room how loud it is, and it speaks up when the room stays loud.",
+      "tags": [
+        "teacher",
+        "classroom"
+      ],
+      "cover": "/images/hush-cover.jpg",
+      "creationDate": "2026-02-23",
+      "disabled": false,
+      "repo": "jakeflavin/noise",
+      "shot": {
+        "hide": "header,footer,.banner",
+        "wait": 2500,
+        "viewport": {
+          "width": 1180,
+          "height": 900
+        }
+      }
+    },
+    {
+      "slug": "countdown",
+      "title": "Countdown Timer",
+      "description": "A countdown that takes over the screen. Set a length or a time to finish at, and a scene loops behind it while it runs. Share a timer as a link.",
+      "tags": [
+        "student",
+        "focus",
+        "teacher"
+      ],
+      "cover": "/images/countdown-cover.jpg",
+      "creationDate": "2026-01-19",
+      "disabled": false,
+      "repo": "jakeflavin/countdown",
+      "shot": {
+        "hide": "header,footer",
+        "wait": 4000,
+        "viewport": {
+          "width": 1280,
+          "height": 860
+        },
+        "clip": {
+          "x": 210,
+          "y": 0,
+          "size": 860
+        }
+      }
+    },
+    {
+      "slug": "hat",
+      "title": "Hat",
+      "description": "Pull a name out of a hat. Put in names, numbers or emoji and draw one at random. Past pulls stay on screen. Share the hat as a link and everyone draws from the same one.",
+      "tags": [
+        "teacher",
+        "utility",
+        "parent"
+      ],
+      "cover": "/images/hat-cover.jpg",
+      "creationDate": "2025-12-15",
+      "disabled": false,
+      "repo": "jakeflavin/roll",
+      "shot": {
+        "hide": "header,footer",
+        "wait": 2500,
+        "viewport": {
+          "width": 1180,
+          "height": 900
+        },
+        "seed": {
+          "hat.lists": [
+            {
+              "id": "custom:classroom",
+              "name": "Class",
+              "items": [
+                "Ada",
+                "Bea",
+                "Caleb",
+                "Dev",
+                "Elena",
+                "Finn",
+                "Grace",
+                "Hugo",
+                "Iris",
+                "Jonah",
+                "Kira",
+                "Leo",
+                "Mara",
+                "Noor",
+                "Omar",
+                "Priya"
+              ]
+            }
+          ],
+          "hat.settings": {
+            "sourceIds": [
+              "custom:classroom"
+            ],
+            "themeId": "noir"
+          },
+          "hat.session": {
+            "entries": [
+              {
+                "value": "Priya",
+                "sourceId": "custom:classroom",
+                "sourceName": "Class",
+                "sourceKey": "custom:classroom",
+                "at": 1755000000000
+              },
+              {
+                "value": "Leo",
+                "sourceId": "custom:classroom",
+                "sourceName": "Class",
+                "sourceKey": "custom:classroom",
+                "at": 1754999960000
+              },
+              {
+                "value": "Grace",
+                "sourceId": "custom:classroom",
+                "sourceName": "Class",
+                "sourceKey": "custom:classroom",
+                "at": 1754999920000
+              },
+              {
+                "value": "Noor",
+                "sourceId": "custom:classroom",
+                "sourceName": "Class",
+                "sourceKey": "custom:classroom",
+                "at": 1754999880000
+              }
+            ],
+            "cycleStart": {}
+          }
+        }
+      }
+    },
+    {
+      "slug": "madlib",
+      "title": "Mad Lib",
+      "description": "Fill in the blanks and read back what you get. Pick a story, supply the words, watch it fall apart.",
+      "tags": [
+        "kid",
+        "game"
+      ],
+      "cover": "/images/madlib-cover.jpg",
+      "creationDate": "2025-11-24",
+      "disabled": false,
+      "repo": "jakeflavin/madlib",
+      "shot": {
+        "hide": "header,footer,.banner",
+        "wait": 2500,
+        "viewport": {
+          "width": 1180,
+          "height": 900
+        }
       }
     }
   ]

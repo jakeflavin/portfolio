@@ -102,6 +102,36 @@ const ACTIONS = Array.isArray(shot.actions) ? shot.actions : [];
  */
 const previewDir = path.resolve(appDir, flags["preview-dir"] ?? shot.previewDir ?? ".");
 
+/**
+ * The shape the app is rendered at. A real width, not the cover's square.
+ */
+const VIEWPORT = shot.viewport ?? { width: SIZE, height: SIZE };
+
+/**
+ * The square to cut out of that render, in its own coordinates. `size` is the shorthand
+ * for a square; `width`/`height` if it ever needs not to be.
+ */
+const CLIP = shot.clip ?? null;
+
+/**
+ * Build-time environment for the app.
+ *
+ * The same mechanism the visual guard uses: linkit and fibo point at local emulators for a
+ * capture, because a cover fed by the live database is a different picture every time and
+ * cannot be reproduced.
+ */
+const ENV = shot.env ?? {};
+
+/**
+ * localStorage to write before the app loads, as `{ key: value }`.
+ *
+ * The same mechanism the visual guard uses. Several of these apps open empty because
+ * whatever makes them worth a cover is something the user put in: hat opens on a number
+ * until it has a list of names in it. Driving the UI to build that state is slower, more
+ * fragile, and reproduces less exactly than writing the state the UI would have written.
+ */
+const SEED = shot.seed ?? {};
+
 const outPath = path.resolve(ROOT, flags.out ?? `public/images/${slug}-cover.jpg`);
 
 function run(command, args, options = {}) {
@@ -134,7 +164,7 @@ if (!fs.existsSync(path.join(appDir, "node_modules"))) {
 }
 
 console.log("  Building");
-run("npm", ["run", "build"]);
+run("npm", ["run", "build"], { env: { ...process.env, ...ENV } });
 
 console.log(`  Serving on :${PORT}`);
 const preview = spawn(
@@ -149,12 +179,28 @@ try {
   await waitForServer(url);
 
   browser = await chromium.launch();
+  /*
+   * The page is rendered at whatever shape shows the app best, and the cover is cut out of
+   * that. A square viewport is a shape no app was designed for: a responsive layout meets
+   * it at a breakpoint it never expects, so the screenshot shows an arrangement nobody will
+   * ever see. Rendering at a real width and clipping a square out of it gives the app as it
+   * actually looks.
+   */
   const page = await browser.newPage({
-    viewport: { width: SIZE, height: SIZE },
+    viewport: VIEWPORT,
     colorScheme: THEME,
-    // The apps are responsive; a square viewport is an unusual shape, so pin the scale.
-    deviceScaleFactor: 1
+    // Twice over, so a clipped crop still has pixels to spare.
+    deviceScaleFactor: 2
   });
+
+  if (Object.keys(SEED).length > 0) {
+    // Before the app's first script, so it reads the seeded state on its first render.
+    await page.addInitScript((entries) => {
+      for (const [key, value] of entries) {
+        window.localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
+      }
+    }, Object.entries(SEED));
+  }
 
   await page.goto(url, { waitUntil: "load" });
 
@@ -189,14 +235,32 @@ try {
   await page.waitForTimeout(WAIT);
 
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
+
+  /*
+   * `clip` names the square to cut, in the rendered page's own coordinates. Without one the
+   * whole viewport is taken, which is only square if the viewport was.
+   */
+  const clip = CLIP
+    ? {
+        x: CLIP.x ?? 0,
+        y: CLIP.y ?? 0,
+        width: CLIP.size ?? CLIP.width,
+        height: CLIP.size ?? CLIP.height
+      }
+    : undefined;
+
   await page.screenshot({
     path: outPath,
     type: outPath.endsWith(".png") ? "png" : "jpeg",
-    ...(outPath.endsWith(".png") ? {} : { quality: 88 })
+    ...(outPath.endsWith(".png") ? {} : { quality: 88 }),
+    ...(clip ? { clip } : {})
   });
 
+  const shape = clip
+    ? `${clip.width}x${clip.height} cut from ${VIEWPORT.width}x${VIEWPORT.height}`
+    : `${VIEWPORT.width}x${VIEWPORT.height}`;
   const kb = Math.round(fs.statSync(outPath).size / 1024);
-  console.log(`  Wrote ${path.relative(ROOT, outPath)} (${SIZE}x${SIZE}, ${kb} KB)\n`);
+  console.log(`  Wrote ${path.relative(ROOT, outPath)} (${shape}, ${kb} KB)\n`);
 } finally {
   await browser?.close();
   // Detached, so kill the group rather than just the npx shim.

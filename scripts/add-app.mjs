@@ -24,6 +24,10 @@
  *   --skip-cover            Do not capture a cover
  *
  * Every step is idempotent: re-running after fixing an audit finding picks up where it left off.
+  *
+ * The entry this writes has to meet the rules in docs/PROJECTS.md: how the description
+ * is written, which two or three tags it carries, what its cover has to show, and what its
+ * date means. Those are the parts no script can check.
  */
 
 import fs from "node:fs";

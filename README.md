@@ -10,6 +10,7 @@ Live at <https://portfolio-4b9fe.web.app>.
 - [STANDARDS.md](docs/STANDARDS.md) — how code is written across every repo in this set
 - [LAYOUT.md](docs/LAYOUT.md) — where code goes inside `src/`
 - [BUILD.md](docs/BUILD.md) — how the apps are built, released and deployed
+- [PROJECTS.md](docs/PROJECTS.md) — what a directory entry has to say, tag, show and be dated
 
 Each project lives in its own repository and is served from a sub-path of this one site —
 `/countdown/`, `/hat/`, and so on.

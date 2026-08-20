@@ -149,7 +149,16 @@ export const TileTitle = styled.span`
   color: #ffffff;
   text-decoration: none;
   max-width: 100%;
-  overflow: hidden;
+  /*
+   * Clipped with a margin rather than hidden.
+   *
+   * The box above is trimmed to the baseline, so a descender is drawn outside it by
+   * design, and hidden cuts exactly that off: Runify lost the tail of its y in every
+   * view. Clip still gives the ellipsis a box to work against, and the margin lets the
+   * ink that belongs below the baseline paint.
+   */
+  overflow: clip;
+  overflow-clip-margin: 0.3em;
   text-overflow: ellipsis;
   white-space: nowrap;
 `
@@ -376,7 +385,16 @@ export const RowTitle = styled.div`
    */
   text-box: trim-both cap alphabetic;
   min-width: 0;
-  overflow: hidden;
+  /*
+   * Clipped with a margin rather than hidden.
+   *
+   * The box above is trimmed to the baseline, so a descender is drawn outside it by
+   * design, and hidden cuts exactly that off: Runify lost the tail of its y in every
+   * view. Clip still gives the ellipsis a box to work against, and the margin lets the
+   * ink that belongs below the baseline paint.
+   */
+  overflow: clip;
+  overflow-clip-margin: 0.3em;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};

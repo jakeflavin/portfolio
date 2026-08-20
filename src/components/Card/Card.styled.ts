@@ -85,7 +85,16 @@ export const HeaderTitle = styled.a`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   white-space: nowrap;
-  overflow: hidden;
+  /*
+   * Clipped with a margin rather than hidden.
+   *
+   * The box above is trimmed to the baseline, so a descender is drawn outside it by
+   * design, and hidden cuts exactly that off: Runify lost the tail of its y in every
+   * view. Clip still gives the ellipsis a box to work against, and the margin lets the
+   * ink that belongs below the baseline paint.
+   */
+  overflow: clip;
+  overflow-clip-margin: 0.3em;
   text-overflow: ellipsis;
 
   &:hover {
