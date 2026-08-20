@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { ProjectActions } from '@/components/ProjectActions'
 import {
   CardWrapper,
@@ -8,8 +8,6 @@ import {
   CardImage,
   Caption,
   Description,
-  DescriptionWrap,
-  MoreButton,
   HashTags,
   HashTag,
   Meta,
@@ -63,31 +61,8 @@ export function Card({
   build,
   pinned = false,
 }: CardProps) {
-  const [expanded, setExpanded] = useState(false)
-  const [overflows, setOverflows] = useState(false)
-  const descriptionRef = useRef<HTMLParagraphElement>(null)
-
   const isLink = Boolean(href) && !disabled
   const age = disabled ? 'Coming soon' : date ? formatPostAge(date) : null
-
-  /**
-   * Only offer "more" when the text actually overflows its two lines — otherwise a short
-   * description gets a control that does nothing. Measured while clamped, and re-measured
-   * on resize, since the card's width decides where the text wraps.
-   */
-  useEffect(() => {
-    if (expanded) return
-    const element = descriptionRef.current
-    if (!element) return
-
-    const measure = () => setOverflows(element.scrollHeight > element.clientHeight + 1)
-    measure()
-
-    if (typeof ResizeObserver === 'undefined') return
-    const observer = new ResizeObserver(measure)
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [description, expanded])
 
   return (
     <CardWrapper $disabled={disabled}>
@@ -95,33 +70,28 @@ export function Card({
         <HeaderTitle
           as={isLink ? 'a' : 'span'}
           href={isLink ? href : undefined}
+          target={isLink ? '_blank' : undefined}
+          rel={isLink ? 'noopener noreferrer' : undefined}
           {...(isLink ? { [NAV_ITEM_ATTRIBUTE]: '' } : {})}
         >
           {title}
         </HeaderTitle>
       </PostHeader>
 
-      <Media as={isLink ? 'a' : 'div'} href={isLink ? href : undefined} tabIndex={-1}>
+      <Media
+        as={isLink ? 'a' : 'div'}
+        href={isLink ? href : undefined}
+        target={isLink ? '_blank' : undefined}
+        rel={isLink ? 'noopener noreferrer' : undefined}
+        tabIndex={-1}
+      >
         <CardImage src={imageSrc} alt={`${title} preview`} />
       </Media>
 
       <ProjectActions title={title} href={isLink ? href : undefined} repo={repo} />
 
       <Caption>
-        <DescriptionWrap>
-          <Description ref={descriptionRef} $clamped={!expanded}>
-            {description}
-          </Description>
-          {(overflows || expanded) && (
-            <MoreButton
-              type="button"
-              $inline={!expanded}
-              onClick={() => setExpanded((previous) => !previous)}
-            >
-              {expanded ? 'less' : '\u2026 more'}
-            </MoreButton>
-          )}
-        </DescriptionWrap>
+        <Description>{description}</Description>
         {tags.length > 0 && (
           <HashTags>
             {tags.map((tag) => (

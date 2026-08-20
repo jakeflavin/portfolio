@@ -39,9 +39,14 @@ describe('ProfileHeader', () => {
 
   it('renders a highlight for each link plus the appearance toggle', () => {
     render(<ProfileHeader />)
-    for (const label of ['Threads', 'LinkedIn', 'GitHub', 'Blog']) {
-      expect(screen.getByRole('button', { name: `Open ${label}` })).toBeInTheDocument()
+    // Links, not buttons: they leave the page, so they open in a new tab, survive a
+    // middle click, and are followed by a crawler.
+    for (const label of ['Threads', 'LinkedIn', 'GitHub', 'Instagram', 'Blog']) {
+      const link = screen.getByRole('link', { name: `Open ${label}` })
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
     }
+    // The toggle stays a button: it acts on this page rather than leaving it.
     expect(screen.getByRole('button', { name: 'Toggle dark mode' })).toBeInTheDocument()
   })
 

@@ -1,4 +1,5 @@
 import { TagRow, Tag } from '@/components/Tag/Tag.styled'
+import { ClampedText } from '@/components/ClampedText'
 import styled from 'styled-components'
 
 interface CardWrapperProps {
@@ -131,76 +132,19 @@ export const Caption = styled.div`
   padding: 0;
 `
 
-export const Description = styled.p<{ $clamped?: boolean }>`
-  margin: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
-  line-height: 1.45;
-  color: ${({ theme }) => theme.colors.muted};
-  text-wrap: pretty;
-
-  ${({ $clamped }) =>
-    $clamped &&
-    `
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  `}
-`
-
-/** Holds the clamped text so the control can sit on its last line. */
-export const DescriptionWrap = styled.div`
-  position: relative;
-`
-
 /**
- * While clamped this sits at the end of the second line rather than below the text, which
- * is how a truncated caption reads. It is overlaid on the clamp, so it carries the card
- * surface plus a fade wide enough to clear the word running underneath it. The fade is
- * 60px: at 40 a two or three letter stub of the next word survived under the transparent
- * end of it, which read as a clipping bug rather than as a truncated caption.
+ * The caption's description, cut to two lines with a control for the rest.
+ *
+ * The clamp, the measurement and the control are the shared component's; what belongs to
+ * the card is how the text is set and the colour the inline control fades to, which has
+ * to be the card's own surface for the fade to be invisible.
  */
-export const MoreButton = styled.button<{ $inline?: boolean }>`
-  padding: 0;
-  border: none;
-  font: inherit;
+export const Description = styled(ClampedText).attrs(({ theme }) => ({
+  lines: 2,
+  fade: theme.colors.surface,
+}))`
   font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
-  line-height: 1.45;
-  /* Full-strength and medium weight, so it stands out as a control against the muted
-     description rather than reading as more of the same text. */
-  font-weight: ${({ theme }) => theme.typography.weight?.medium ?? 500};
-  color: ${({ theme }) => theme.colors.text};
-  cursor: pointer;
-  background: none;
-
-  ${({ theme, $inline }) =>
-    $inline
-      ? `
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding-left: 44px;
-    background: linear-gradient(
-      to right,
-      transparent 0,
-      ${theme.colors.surface} 40px,
-      ${theme.colors.surface} 100%
-    );
-  `
-      : `
-    display: block;
-    margin-top: 2px;
-  `}
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
+  color: ${({ theme }) => theme.colors.muted};
 `
 
 /**

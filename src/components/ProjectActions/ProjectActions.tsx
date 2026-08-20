@@ -51,7 +51,13 @@ export function ProjectActions({ title, href, repo }: ProjectActionsProps) {
   return (
     <Actions>
       {href && (
-        <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
+        <ActionLink
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${title}`}
+          title="Open"
+        >
           <ArrowUpRight size={ACTION_ICON_SIZE} />
         </ActionLink>
       )}

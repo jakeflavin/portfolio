@@ -266,7 +266,17 @@ export const Highlights = styled.div`
 /**
  * One highlight: a ringed circle with a label under it.
  */
+/**
+ * Renders as an anchor for the five destinations and as a button for the appearance
+ * toggle, which is the one that does something on this page rather than leaving it.
+ *
+ * They had all been buttons calling window.open, which a browser is entitled to treat as
+ * a popup and block - and which cannot be middle-clicked, opened in a background tab, or
+ * followed by a crawler. A link is a link.
+ */
 export const Highlight = styled.button`
+  text-decoration: none;
+
   /*
    * Sized to its ring, not wider. A wider button centred the circle inside it, so the ring
    * sat in from the block's left edge while the button sat on it — the first thing a grid

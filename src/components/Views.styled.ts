@@ -1,5 +1,6 @@
 import { styled } from 'styled-components'
 import { TagRow, Tag } from '@/components/Tag/Tag.styled'
+import { ClampedText } from '@/components/ClampedText'
 
 /**
  * Grid: covers only, at the density the covers were captured for.
@@ -79,13 +80,23 @@ export const TilePanel = styled.div`
   opacity: 0;
   transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? '0.1s'}
     ${({ theme }) => theme.motion?.easing ?? 'ease'};
-  /* Lets a click through to the cover beneath, except on the controls themselves. */
+
+  /*
+   * Never takes the pointer itself, at any point, so a click anywhere on a tile lands on
+   * the link underneath and opens the app. Only the controls inside opt back in. Turning
+   * this on at hover was what made the panel swallow the click that the panel appearing
+   * had just invited.
+   */
   pointer-events: none;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
 
   ${Tile}:hover &,
   ${Tile}:focus-within & {
     opacity: 1;
-    pointer-events: auto;
   }
 `
 
@@ -259,6 +270,9 @@ export const RowContent = styled.div`
  * At 28px, and then at 56px, the covers were too small to tell one screenshot from
  * another, which is the only thing a thumbnail is for. This is large enough to recognise
  * a tool by sight without the row becoming a card.
+ *
+ * Square with square corners, because that is what a cover is everywhere else here - the
+ * feed's and the grid's are both unrounded, and this one was the odd one out.
  */
 export const RowThumb = styled.img`
   position: relative;
@@ -266,7 +280,6 @@ export const RowThumb = styled.img`
   width: 88px;
   height: 88px;
   object-fit: cover;
-  border-radius: ${({ theme }) => theme.radii?.md ?? '10px'};
   display: block;
   background: ${({ theme }) => theme.colors.secondary};
 `
@@ -274,38 +287,49 @@ export const RowThumb = styled.img`
 export const RowMain = styled(RowContent)`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+`
+
+/**
+ * Title on the left, age on the right, sharing a baseline.
+ *
+ * The age used to be a column of the row, which gave it nothing to line up with and left
+ * it hanging in space beside a two-line description. Here it has the title's baseline and
+ * the row's right edge, which is two more alignments than it had.
+ */
+export const RowTitleLine = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.sm};
 `
 
 export const RowTitle = styled.div`
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   color: ${({ theme }) => theme.colors.text};
 `
 
 /**
- * Two lines, wrapped, rather than one clipped mid-word.
+ * Two lines, with a control for the rest.
  *
- * The single line was there to keep every row the same height, but a description cut at
- * twenty characters says nothing, and the tags below already vary the height anyway.
- * Clamping at two keeps the rows close enough in height to scan.
+ * No fade colour is passed, so the control takes its own line rather than sitting under
+ * one: the row lights up under the pointer, and a fade can only be invisible against a
+ * background that holds still.
  */
-export const RowDescription = styled.p`
-  margin: 0;
+export const RowDescription = styled(ClampedText).attrs({ lines: 2 })`
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
-  line-height: 1.4;
   color: ${({ theme }) => theme.colors.muted};
-  text-wrap: pretty;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
-/** Age and build, inline on the footer line rather than adrift in a column of their own. */
+/** Age and build, on the title's line. */
 export const RowMeta = styled.span`
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: ${({ theme }) => theme.spacing.xs};
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.muted};
@@ -328,41 +352,63 @@ export const RowBuild = styled.span`
  * the date on the right. On a phone the three icons plus the date took a third of the row
  * and left the description with about twenty characters.
  */
+/**
+ * Tags on the left, actions on the right, on one line.
+ *
+ * Not wrapped: the actions are three 16px glyphs and the tags are 12px text, and when the
+ * tags took a second line the icons ended up alongside the middle of the tag block with
+ * nothing to align to. The tags give way instead - they are the least load-bearing thing
+ * in the row, and the same tags are one line up in the search field.
+ */
 export const RowFooter = styled.div`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.xs};
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: 2px;
+  min-width: 0;
 `
 
 /**
- * The date and the actions, kept together at the end of the footer.
+ * One line of tags, cut at the row's edge rather than wrapped.
  *
- * They travel as one so that when the tags need a second line this group drops to a line
- * of its own rather than the date stranding itself halfway down the tag block.
+ * Every tag holds its own width - without that they were squeezed until the words broke
+ * inside themselves, and a phone showed "#weath er". What does not fit is clipped under a
+ * short fade, so the cut reads as more-to-the-right instead of as damage.
  */
-export const RowFooterEnd = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  margin-left: auto;
-`
-
 export const RowTags = styled(TagRow)`
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
+  flex-wrap: nowrap;
+  overflow: hidden;
+  min-width: 0;
+  mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent 100%);
+
+  > * {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    word-break: normal;
+  }
 `
 
 export const RowTag = styled(Tag)``
 
-/** The action icons, pushed to the end of the footer line. */
+/**
+ * The action icons, at the end of the footer line and never squeezed.
+ *
+ * Their own gap, tighter than the page's, so three glyphs read as one control rather than
+ * as three separate things that happen to be near each other.
+ */
 export const RowActions = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  margin-left: auto;
+
+  > * {
+    gap: ${({ theme }) => theme.spacing.sm};
+  }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
   }
 `

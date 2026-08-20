@@ -44,6 +44,8 @@ export function GridView({ projects, deployed, onTagClick }: GridViewProps) {
           <Tile key={project.id} $disabled={project.disabled}>
             <TileLink
               href={isLink ? project.path : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={project.title}
               {...(isLink ? { [NAV_ITEM_ATTRIBUTE]: '' } : {})}
             >

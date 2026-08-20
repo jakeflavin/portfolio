@@ -157,8 +157,10 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
           {LINKS.map(({ key, href, label, icon }) => (
             <Highlight
               key={key}
-              type="button"
-              onClick={() => window.open(href, '_blank', 'noopener,noreferrer')}
+              as="a"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={`Open ${label}`}
             >
               <HighlightRing>

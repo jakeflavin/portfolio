@@ -10,12 +10,12 @@ import {
   RowLink,
   RowThumb,
   RowMain,
+  RowTitleLine,
   RowTitle,
   RowDescription,
   RowFooter,
   RowTags,
   RowTag,
-  RowFooterEnd,
   RowMeta,
   RowActions,
   RowBuild,
@@ -39,6 +39,8 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
             {isLink && (
               <RowLink
                 href={project.path}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={project.title}
                 {...{ [NAV_ITEM_ATTRIBUTE]: '' }}
               />
@@ -47,7 +49,14 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
             <RowThumb src={project.imageSrc} alt="" loading="lazy" />
 
             <RowMain>
-              <RowTitle>{project.title}</RowTitle>
+              <RowTitleLine>
+                <RowTitle>{project.title}</RowTitle>
+                <RowMeta>
+                  {build && <RowBuild>{build}</RowBuild>}
+                  <span>{formatPostAge(project.creationDate)}</span>
+                </RowMeta>
+              </RowTitleLine>
+
               <RowDescription>{project.description}</RowDescription>
               <RowFooter>
                 <RowTags>
@@ -63,20 +72,13 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
                   ))}
                 </RowTags>
 
-                <RowFooterEnd>
-                  <RowMeta>
-                    {build && <RowBuild>{build}</RowBuild>}
-                    <span>{formatPostAge(project.creationDate)}</span>
-                  </RowMeta>
-
-                  <RowActions>
-                    <ProjectActions
-                      title={project.title}
-                      href={isLink ? project.path : undefined}
-                      repo={project.repo}
-                    />
-                  </RowActions>
-                </RowFooterEnd>
+                <RowActions>
+                  <ProjectActions
+                    title={project.title}
+                    href={isLink ? project.path : undefined}
+                    repo={project.repo}
+                  />
+                </RowActions>
               </RowFooter>
             </RowMain>
           </Row>
