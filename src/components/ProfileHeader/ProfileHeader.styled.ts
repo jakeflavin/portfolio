@@ -34,9 +34,6 @@ export const Panel = styled.header`
  * for no gain - and it cut the bio to a 308px column, which is what decided how many
  * lines the typing had to hold open for its longest take-back.
  *
- * The section only works when its parts are sized to fill that measure: six 64px circles
- * spread across 452px. Undersized, no alignment choice looked right - packed left the row
- * ended ragged, spread it went sparse.
  */
 export const Content = styled.div`
   display: flex;
@@ -203,8 +200,13 @@ export const Highlights = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
 
   /*
-   * Scrolls rather than shrinking. The items had been sharing the row, which pushed the
-   * circles below a usable tap target once there were six of them.
+   * Scrolls rather than shrinking, at every width. The items had been sharing the row,
+   * which pushed the circles below a usable tap target once there were six of them.
+   *
+   * Desktop used to take its own settings here - wider circles, a wider gap, and its own
+   * scrolling turned off - and the three did not agree: six 64px circles with 24px
+   * between them need 504px, and the block is 472px wide, so the row simply ran past its
+   * own right edge with no way to reach the end of it. One rail, one size.
    */
   overflow-x: auto;
   scrollbar-width: none;
@@ -212,18 +214,6 @@ export const Highlights = styled.div`
 
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  /*
-   * Distributed rather than given a fixed gap. Six 64px circles span 384px of the 452px
-   * measure, leaving about 13px between them, so the spacing is even at the full width and
-   * closes rather than overflowing below it.
-   */
-  ${({ theme }) => theme.media.md} {
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.spacing.lg};
-    padding-top: ${({ theme }) => theme.spacing.md};
-    overflow-x: visible;
   }
 `
 
@@ -259,15 +249,6 @@ export const Highlight = styled.button`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
 
-  /*
-   * 64px, not the 84px this was when the measure was 732px wide. Six of those overflowed
-   * the 452px the app is now, and the rail turns off its own scrolling at this width.
-   */
-  ${({ theme }) => theme.media.md} {
-    width: 64px;
-    min-width: 64px;
-  }
-
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: 4px;
@@ -297,12 +278,6 @@ export const HighlightRing = styled.span`
       ${({ theme }) => theme.motion?.easing ?? 'ease'},
     border-color ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
       ${({ theme }) => theme.motion?.easing ?? 'ease'};
-
-  ${({ theme }) => theme.media.md} {
-    width: 64px;
-    height: 64px;
-    min-width: 64px;
-  }
 
   ${Highlight}:hover & {
     transform: translateY(-2px);
