@@ -23,6 +23,7 @@ import {
   HighlightRing,
   HighlightFill,
   ToggleFill,
+  ToggleRing,
   HighlightLabel,
 } from './ProfileHeader.styled'
 
@@ -137,11 +138,11 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
         <Highlights>
           {/* First and pinned, so it stays visible when the rail scrolls. */}
           <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
-            <HighlightRing>
-              <ToggleFill $offersLight={isDarkMode}>
+            <ToggleRing $offersLight={isDarkMode}>
+              <ToggleFill>
                 {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
               </ToggleFill>
-            </HighlightRing>
+            </ToggleRing>
             <HighlightLabel>{isDarkMode ? 'Light' : 'Dark'}</HighlightLabel>
           </Highlight>
 

@@ -347,16 +347,35 @@ export const HighlightFill = styled.span`
 `
 
 /**
- * The appearance toggle, which wears half the brand sweep rather than all of it.
+ * The appearance toggle, which wears the chip inside out.
  *
- * Which half previews the mode it would switch you to: cool while it offers dark, warm
- * while it offers light. The ink stays white, as it is on every other chip in the row.
+ * Every link in the row is a gradient disc inside a neutral ring. This is the reverse: the
+ * gradient is the ring and the centre is the page's own surface. Colour alone could not
+ * separate it — a different palette read as imported, and our own palette read as one more
+ * link — so the thing that changes is the structure, which nothing else in the row does.
+ *
+ * It is not a new idea either: this is exactly the avatar's treatment, sitting directly
+ * above it, which is what keeps it looking deliberate rather than broken.
+ *
+ * Which half of the sweep the ring carries previews the mode it would switch you to, cool
+ * for dark and warm for light. The glyph takes the page's text colour rather than white,
+ * since it now sits on the page's own ground.
  */
-export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
+export const ToggleFill = styled(HighlightFill)`
   && {
+    background: ${({ theme }) => theme.colors.surface};
+    color: ${({ theme }) => theme.colors.text};
+  }
+`
+
+export const ToggleRing = styled(HighlightRing)<{ $offersLight?: boolean }>`
+  && {
+    border-color: transparent;
+    /* The ring is the colour now, so it takes the width the border used to have. */
+    padding: 5px;
     background: ${({ theme, $offersLight }) =>
       ($offersLight ? theme.gradient?.toggle?.dawn : theme.gradient?.toggle?.night) ??
-      theme.colors.secondary};
+      theme.colors.border};
   }
 `
 
