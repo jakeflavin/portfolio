@@ -388,6 +388,28 @@ export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
   }
 `
 
+/**
+ * EXPERIMENT - GitHub and LinkedIn only.
+ *
+ * Inverts the treatment of the rest of the row: the fill is the service's own brand colour
+ * and the mark on it is painted with our gradient, rather than a gradient fill under a
+ * white mark. Remove this component, `BRAND_FILL` in the component file, and the
+ * `<StoryGradient />` defs to put the row back.
+ *
+ * An SVG cannot be painted by a CSS background, so the gradient has to exist as an SVG
+ * paint server and be referenced by `fill`. CSS beats the presentation attribute the icon
+ * carries, so the rule below is all that is needed to redirect it.
+ */
+export const BrandFill = styled(HighlightFill)<{ $brand: string }>`
+  && {
+    background: ${({ $brand }) => $brand};
+  }
+
+  svg {
+    fill: url(#story-gradient);
+  }
+`
+
 export const HighlightLabel = styled.span`
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.text};
