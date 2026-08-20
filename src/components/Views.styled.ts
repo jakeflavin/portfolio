@@ -231,8 +231,17 @@ export const Row = styled.article<{ $disabled?: boolean }>`
   color: inherit;
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
+  /*
+   * What is behind the row's text, published for anything inside that has to paint over
+   * it - the description's "more" sits on the last line under a fade, and the fade is only
+   * invisible if it is the same colour as whatever is behind it. A variable rather than a
+   * fixed colour because that answer changes under the pointer.
+   */
+  --row-surface: ${({ theme }) => theme.colors.background};
+  background: var(--row-surface);
+
   &:hover {
-    background: ${({ theme }) => theme.colors.secondary};
+    --row-surface: ${({ theme }) => theme.colors.secondary};
   }
 
   &:focus-within {
@@ -323,13 +332,16 @@ export const RowTitle = styled.div`
 `
 
 /**
- * Two lines, with a control for the rest.
+ * Two lines, with the control for the rest sitting on the end of the second - the same
+ * shape the feed's cards use.
  *
- * No fade colour is passed, so the control takes its own line rather than sitting under
- * one: the row lights up under the pointer, and a fade can only be invisible against a
- * background that holds still.
+ * The fade behind it follows the row rather than naming a colour, so it stays invisible
+ * when the row lights up under the pointer.
  */
-export const RowDescription = styled(ClampedText).attrs({ lines: 2 })`
+export const RowDescription = styled(ClampedText).attrs({
+  lines: 2,
+  fade: 'var(--row-surface)',
+})`
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
   color: ${({ theme }) => theme.colors.muted};
 `
