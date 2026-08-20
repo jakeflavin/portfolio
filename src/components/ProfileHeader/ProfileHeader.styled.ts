@@ -391,22 +391,37 @@ export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
 /**
  * EXPERIMENT - GitHub and LinkedIn only.
  *
- * Inverts the treatment of the rest of the row: the fill is the service's own brand colour
- * and the mark on it is painted with our gradient, rather than a gradient fill under a
- * white mark. Remove this component, `BRAND_FILL` in the component file, and the
- * `<StoryGradient />` defs to put the row back.
- *
- * An SVG cannot be painted by a CSS background, so the gradient has to exist as an SVG
- * paint server and be referenced by `fill`. CSS beats the presentation attribute the icon
- * carries, so the rule below is all that is needed to redirect it.
+ * The fill is the service's own colour with a white mark on it, and the gradient moves out
+ * to the ring. The rest of the row is the other way round: our gradient on the fill, white
+ * mark, a plain ring. Remove this, `BrandRing`, and `BRAND_FILL` in the component file to
+ * put the row back.
  */
 export const BrandFill = styled(HighlightFill)<{ $brand: string }>`
   && {
     background: ${({ $brand }) => $brand};
+    color: #ffffff;
   }
+`
 
-  svg {
-    fill: url(#story-gradient);
+/**
+ * EXPERIMENT. The gradient as the ring's band, with the gap still inside it.
+ *
+ * Two backgrounds with different boxes: the gradient is clipped to the border box, and a
+ * flat panel colour is laid over the padding box on top of it. The border is transparent,
+ * so the gradient shows only where the border is - a 2px band - and the padding reads as
+ * the gap. Simply putting the gradient on the element instead fills the band and the gap
+ * together, which is the avatar's mistake, made once before on the appearance toggle.
+ */
+export const BrandRing = styled(HighlightRing)`
+  && {
+    border-color: transparent;
+    background:
+      linear-gradient(
+          ${({ theme }) => theme.colors.surface},
+          ${({ theme }) => theme.colors.surface}
+        )
+        padding-box,
+      ${({ theme }) => theme.gradient?.brand ?? 'none'} border-box;
   }
 `
 

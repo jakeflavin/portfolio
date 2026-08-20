@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useTheme } from 'styled-components'
 import { Moon, Sun, Newspaper } from 'lucide-react'
 import { TypeWriter } from '@/components/TypeWriter'
 import { BIO_SCRIPT } from './bio'
@@ -27,6 +26,7 @@ import {
   HighlightRing,
   HighlightFill,
   BrandFill,
+  BrandRing,
   ToggleFill,
   HighlightLabel,
 } from './ProfileHeader.styled'
@@ -52,31 +52,6 @@ const SUPPORT_URL = 'https://ko-fi.com/jakeflavin'
 const BRAND_FILL: Record<string, string> = {
   github: '#181717',
   linkedin: '#0A66C2',
-}
-
-/**
- * The paint server the experiment's marks are filled with. An SVG gradient rather than a
- * CSS one, because `fill` is the only way to colour a path and it cannot take a CSS
- * background. Rendered once; the stops come from the theme, so it turns over with it.
- */
-function StoryGradient() {
-  const theme = useTheme()
-  const stops: string[] = theme.gradient?.stops ?? []
-  return (
-    <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: 'absolute' }}>
-      <defs>
-        <linearGradient id="story-gradient" x1="0" y1="1" x2="1" y2="0">
-          {stops.map((stop, index) => (
-            <stop
-              key={stop}
-              offset={`${(index / Math.max(1, stops.length - 1)) * 100}%`}
-              stopColor={stop}
-            />
-          ))}
-        </linearGradient>
-      </defs>
-    </svg>
-  )
 }
 
 const ICON_SIZE = 22
@@ -187,8 +162,6 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
           </BioLink>
         </Bio>
 
-        <StoryGradient />
-
         <Highlights>
           {/* First and pinned, so it stays visible when the rail scrolls. */}
           <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
@@ -209,13 +182,15 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
               rel="noopener noreferrer"
               aria-label={`Open ${label}`}
             >
-              <HighlightRing>
-                {BRAND_FILL[key] ? (
+              {BRAND_FILL[key] ? (
+                <BrandRing>
                   <BrandFill $brand={BRAND_FILL[key]}>{icon}</BrandFill>
-                ) : (
+                </BrandRing>
+              ) : (
+                <HighlightRing>
                   <HighlightFill>{icon}</HighlightFill>
-                )}
-              </HighlightRing>
+                </HighlightRing>
+              )}
               <HighlightLabel>{label}</HighlightLabel>
             </Highlight>
           ))}
