@@ -114,7 +114,7 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
           </AvatarRing>
 
           <IdentityColumn>
-            <Handle>Jake&apos;s Tools</Handle>
+            <Handle>Jake&apos;s Portfolio</Handle>
             <Stats>
               {stats.map(({ label, value }) => (
                 <Stat key={label}>

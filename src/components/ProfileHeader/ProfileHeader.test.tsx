@@ -14,7 +14,7 @@ describe('ProfileHeader', () => {
 
   it('renders the handle as the page heading', () => {
     render(<ProfileHeader />)
-    expect(screen.getByRole('heading', { level: 1, name: "Jake's Tools" })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: "Jake's Portfolio" })).toBeInTheDocument()
   })
 
   it('counts tools and tags from the manifest, and shows the ideas tally', () => {
