@@ -129,24 +129,22 @@ export const gradient = {
    */
   compact: "linear-gradient(to right, #2244D8, #72407A, #C33C1C)",
   /**
-   * The appearance toggle's own pair, so it is not one of the six.
+   * The appearance toggle's gradient: one half of the sweep above, not a colour of its own.
    *
-   * It previews the mode it would switch you to rather than the one you are in, and the
-   * whole chip inverts with it: night is dark and carries a white moon, dawn is bright and
-   * carries a dark sun. That inversion is the point — a toggle that only swaps its glyph
-   * asks you to read the glyph, and this one can be told apart at a glance.
+   * It has to tell itself apart from the five links beside it without looking imported —
+   * an unrelated pair read as bolted on. Halving the brand sweep does both: the cool half
+   * is entirely cool and the warm half entirely warm, so neither can be mistaken for the
+   * full blue-to-ember run the links wear, and every colour in them is already ours.
    *
-   * Drawn from the same palette as the brand sweep: night from the accent, dawn from the
-   * first and third steps of the intensity ramp. White is unusable on the dawn end (2.18:1
-   * on the gold), which is what decided the inversion rather than a preference.
+   * Which half is showing previews the mode it would switch you to, so the chip turns warm
+   * as it offers daylight. Both halves carry white, at 7.28:1 and 5.27:1 across their own
+   * sweeps, which is why the toggle keeps the same ink as everything else in the row.
    */
   toggle: {
-    /** Offers dark mode. White moon holds at 7.28:1 across the sweep. */
-    night: "linear-gradient(to right, #2244D8, #0E1E5C)",
-    /** Offers light mode. The dark sun holds at 4.50:1 across the sweep. */
-    dawn: "linear-gradient(to right, #E9A13C, #D95E1F)",
-    /** The sun's ink. Near-black rather than pure, to match the page's own. */
-    dawnInk: "#1C1C22"
+    /** Offers dark mode: the sweep from its start to the plum at its middle. */
+    night: "linear-gradient(to right, #2244D8, #72407A)",
+    /** Offers light mode: the plum on to the ember it finishes at. */
+    dawn: "linear-gradient(to right, #72407A, #C33C1C)"
   }
 };
 

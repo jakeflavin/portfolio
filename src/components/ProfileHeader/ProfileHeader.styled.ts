@@ -347,18 +347,16 @@ export const HighlightFill = styled.span`
 `
 
 /**
- * The appearance toggle, which wears its own gradient rather than the brand's.
+ * The appearance toggle, which wears half the brand sweep rather than all of it.
  *
- * It shows the mode it would switch you to, so the chip is dark while it offers dark and
- * bright while it offers light, and the glyph flips with it.
+ * Which half previews the mode it would switch you to: cool while it offers dark, warm
+ * while it offers light. The ink stays white, as it is on every other chip in the row.
  */
 export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
   && {
     background: ${({ theme, $offersLight }) =>
       ($offersLight ? theme.gradient?.toggle?.dawn : theme.gradient?.toggle?.night) ??
       theme.colors.secondary};
-    color: ${({ theme, $offersLight }) =>
-      $offersLight ? (theme.gradient?.toggle?.dawnInk ?? '#1C1C22') : '#ffffff'};
   }
 `
 
