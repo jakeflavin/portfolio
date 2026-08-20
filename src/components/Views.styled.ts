@@ -7,14 +7,11 @@ import { styled } from 'styled-components'
  * drops everything else and lets them do the identifying. Titles stay in the accessible
  * name and the tooltip rather than on the tile.
  */
+/** Three across, at every width. Two on a phone read as a list of large squares. */
 export const Tiles = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 3px;
-
-  ${({ theme }) => theme.media.sm} {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `
 
 /**
@@ -111,7 +108,6 @@ export const TileTitle = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 `
 
 /**
@@ -126,19 +122,35 @@ export const TileDescription = styled.p`
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.82);
   text-wrap: pretty;
-  display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  /*
+   * Three tiles across a phone are about 112px wide, which is not a measure any sentence
+   * survives. Below sm the panel keeps the title, the actions and the date; the
+   * description and the tags are what the feed and the list are there for.
+   */
+  display: none;
+
+  ${({ theme }) => theme.media.sm} {
+    display: -webkit-box;
+  }
 `
 
 export const TileTags = styled.div`
-  display: flex;
   flex-wrap: wrap;
   gap: 0 8px;
   max-width: 100%;
   overflow: hidden;
   max-height: 2.8em;
+
+  /* Hidden with the description, and for the same reason. */
+  display: none;
+
+  ${({ theme }) => theme.media.sm} {
+    display: flex;
+  }
 `
 
 export const TileTag = styled.button`
@@ -171,16 +183,21 @@ export const Rows = styled.div`
   flex-direction: column;
 `
 
-export const Row = styled.a<{ $disabled?: boolean }>`
+/**
+ * An article, not an anchor, for the same reason the grid tile is one: the row now carries
+ * the action buttons and the tag filters, and an anchor may not contain either. The link
+ * is `RowLink`, stretched over the whole row underneath the content, so the row is still
+ * one click target and one tab stop.
+ */
+export const Row = styled.article<{ $disabled?: boolean }>`
+  position: relative;
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: 10px 4px;
-  text-decoration: none;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   color: inherit;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
   &:last-of-type {
@@ -191,22 +208,54 @@ export const Row = styled.a<{ $disabled?: boolean }>`
     background: ${({ theme }) => theme.colors.secondary};
   }
 
-  &:focus-visible {
+  &:focus-within {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
     outline-offset: -2px;
   }
 `
 
+/** The row's click target. It sits under the content so the buttons above it still win. */
+export const RowLink = styled.a`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+
+  &:focus-visible {
+    outline: none;
+  }
+`
+
+/**
+ * Everything visible sits above the stretched link. Text stays transparent to the pointer
+ * so the row still reads as one target; the controls inside opt back in.
+ */
+export const RowContent = styled.div`
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  pointer-events: none;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
+`
+
 export const RowThumb = styled.img`
-  width: 28px;
-  height: 28px;
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
   object-fit: cover;
   border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
   display: block;
 `
 
-export const RowMain = styled.div`
-  min-width: 0;
+export const RowMain = styled(RowContent)`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 `
 
 export const RowTitle = styled.div`
@@ -224,9 +273,10 @@ export const RowDescription = styled.div`
   text-overflow: ellipsis;
 `
 
-export const RowMeta = styled.div`
+export const RowMeta = styled(RowContent)`
+  align-self: start;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.muted};
@@ -241,4 +291,46 @@ export const RowBuild = styled.span`
   ${({ theme }) => theme.media.sm} {
     display: inline;
   }
+`
+
+/**
+ * Tags and actions share the line below the description, rather than the actions joining
+ * the date on the right. On a phone the three icons plus the date took a third of the row
+ * and left the description with about twenty characters.
+ */
+export const RowFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
+`
+
+/** The row's own tag strip. */
+export const RowTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.xs};
+  min-width: 0;
+`
+
+export const RowTag = styled.button`
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
+  color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+/** The action icons, at the end of the footer line. */
+export const RowActions = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 `

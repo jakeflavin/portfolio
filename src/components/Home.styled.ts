@@ -53,18 +53,17 @@ export const SelectWrap = styled.div`
  * appeared past a ~930px container, so a browser at 830px still showed two — the breakpoint
  * was an accident of the arithmetic rather than a decision.
  */
+/**
+ * One column, at every width.
+ *
+ * It is the feed, and a feed is a column: two and three across turned it into a directory
+ * of thumbnails, which is what the grid beside it is already for. The measure the cards
+ * sit in comes from the app's own width rather than from a column count here.
+ */
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.media.sm} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  ${({ theme }) => theme.media.md} {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `
 
 export const EmptyState = styled.div`

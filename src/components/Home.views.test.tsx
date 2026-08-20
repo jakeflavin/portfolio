@@ -24,7 +24,7 @@ describe('Home layouts', () => {
   it('starts in grid view', () => {
     render(<Home />)
     expect(screen.queryAllByRole('article')).toHaveLength(PROJECTS.length)
-    expect(screen.queryByAltText(`${PROJECTS[0].title} preview`)).toBeNull()
+    expect(screen.queryByAltText(`${PROJECTS[0]!.title} preview`)).toBeNull()
   })
 
   it('shows every project as a tile, carrying what the card carries', () => {
@@ -37,7 +37,7 @@ describe('Home layouts', () => {
       )
     }
     // The panel is the card's content, so moving between the views loses nothing.
-    expect(screen.getByText(PROJECTS[0].description)).toBeInTheDocument()
+    expect(screen.getByText(PROJECTS[0]!.description)).toBeInTheDocument()
   })
 
   it('shows one row per project in list view', () => {
@@ -45,8 +45,16 @@ describe('Home layouts', () => {
     switchTo('List')
 
     for (const project of PROJECTS.filter((p) => !p.disabled)) {
-      const row = screen.getByRole('link', { name: project.title })
-      expect(within(row).getByText(project.description)).toBeInTheDocument()
+      // The link is stretched over the row rather than wrapping it, so that the row can
+      // hold the action buttons and the tag filters. The row itself is the article.
+      const link = screen.getByRole('link', { name: project.title })
+      const row = link.closest('article')
+      expect(row).not.toBeNull()
+      expect(within(row!).getByText(project.description)).toBeInTheDocument()
+      for (const tag of project.tags ?? []) {
+        expect(within(row!).getByRole('button', { name: `Filter by ${tag}` })).toBeInTheDocument()
+      }
+      expect(within(row!).getByRole('button', { name: /copy link/i })).toBeInTheDocument()
     }
   })
 

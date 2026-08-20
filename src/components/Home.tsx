@@ -83,7 +83,7 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
           {view === 'grid' && (
             <GridView projects={visibleProjects} deployed={deployed} onTagClick={setSearchQuery} />
           )}
-          {view === 'list' && <ListView projects={visibleProjects} deployed={deployed} />}
+          {view === 'list' && <ListView projects={visibleProjects} deployed={deployed} onTagClick={setSearchQuery} />}
           {view === 'cards' && (
             <CardContainer>
               {visibleProjects.map((project) => (
