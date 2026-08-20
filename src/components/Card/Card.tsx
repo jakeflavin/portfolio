@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, Send, Check } from 'lucide-react'
-import { BrandIcon } from '@/components/BrandIcon'
+import { ProjectActions } from '@/components/ProjectActions'
 import {
   CardWrapper,
   PostHeader,
   HeaderTitle,
   Media,
   CardImage,
-  Actions,
-  ActionButton,
-  ActionLink,
   Caption,
   Description,
   DescriptionWrap,
@@ -27,7 +23,6 @@ import { NAV_ITEM_ATTRIBUTE } from '@/hooks/useKeyboardNav'
 
 export type CardType = 'project'
 
-const ICON_SIZE = 18
 
 export interface CardProps {
   /** Card title */
@@ -69,7 +64,6 @@ export function Card({
   build,
   pinned = false,
 }: CardProps) {
-  const [copied, setCopied] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const [overflows, setOverflows] = useState(false)
   const descriptionRef = useRef<HTMLParagraphElement>(null)
@@ -96,34 +90,6 @@ export function Card({
     return () => observer.disconnect()
   }, [description, expanded])
 
-  /**
-   * clipboard.writeText rejects on a permission denial, an unfocused document, or an
-   * insecure context. Left unhandled that is an uncaught rejection and a button that
-   * silently does nothing, so failures fall back to the legacy path.
-   */
-  const copyLink = async () => {
-    if (!href) return
-    const url = new URL(href, window.location.origin).toString()
-
-    try {
-      await navigator.clipboard.writeText(url)
-    } catch {
-      const field = document.createElement('textarea')
-      field.value = url
-      field.setAttribute('readonly', '')
-      field.style.position = 'fixed'
-      field.style.opacity = '0'
-      document.body.appendChild(field)
-      field.select()
-      const copiedViaFallback = document.execCommand('copy')
-      document.body.removeChild(field)
-      if (!copiedViaFallback) return
-    }
-
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
-
   return (
     <CardWrapper $disabled={disabled}>
       <PostHeader>
@@ -140,35 +106,7 @@ export function Card({
         <CardImage src={imageSrc} alt={`${title} preview`} />
       </Media>
 
-      <Actions>
-        {isLink && (
-          <ActionLink href={href} aria-label={`Open ${title}`} title="Open">
-            <ArrowUpRight size={ICON_SIZE} />
-          </ActionLink>
-        )}
-        {isLink && (
-          <ActionButton
-            type="button"
-            onClick={copyLink}
-            aria-label={`Copy link to ${title}`}
-            title={copied ? 'Copied' : 'Copy link'}
-          >
-            {copied ? <Check size={ICON_SIZE} /> : <Send size={ICON_SIZE} />}
-          </ActionButton>
-        )}
-        {repo && (
-          <ActionLink
-            $end
-            href={`https://github.com/${repo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`View source for ${title}`}
-            title="Source"
-          >
-            <BrandIcon name="github" size={ICON_SIZE} />
-          </ActionLink>
-        )}
-      </Actions>
+      <ProjectActions title={title} href={isLink ? href : undefined} repo={repo} />
 
       <Caption>
         <DescriptionWrap>

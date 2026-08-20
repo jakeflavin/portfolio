@@ -17,14 +17,25 @@ export const Tiles = styled.div`
   }
 `
 
-export const Tile = styled.a<{ $disabled?: boolean }>`
+/**
+ * A tile is a container rather than a link now, because the panel it reveals carries its
+ * own links and buttons and an anchor may not hold those. The cover keeps the whole-tile
+ * click target; everything interactive in the panel is a sibling of it, not a child.
+ */
+export const Tile = styled.article<{ $disabled?: boolean }>`
   position: relative;
-  display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.secondary};
   pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+`
+
+/** The cover's own link: the tile-sized target, sitting under the panel. */
+export const TileLink = styled.a`
+  position: absolute;
+  inset: 0;
+  display: block;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
@@ -40,28 +51,118 @@ export const TileImage = styled.img`
 `
 
 /**
- * The title, revealed over the cover on hover and whenever the tile has keyboard focus —
- * without the focus case the view is unusable with j and k, since nothing would say which
- * tile you are on.
+ * Everything the card shows, over the cover, on hover.
+ *
+ * Also on focus-within, and that case is not decoration: without it the view cannot be
+ * used with j and k, because nothing would say which tile you are on.
+ *
+ * The panel is a flex centre so the block sits in the middle of the tile whatever it
+ * contains, while the block's own contents stay left-aligned. Centring the text as well
+ * was tried and is worse to read: a ragged left edge on a description costs more than the
+ * symmetry is worth.
  */
-export const TileLabel = styled.span`
+export const TilePanel = styled.div`
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: flex-end;
-  padding: 10px;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
-  font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
   color: #ffffff;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0) 55%);
+  background: rgba(0, 0, 0, 0.72);
   opacity: 0;
   transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? '0.1s'}
     ${({ theme }) => theme.motion?.easing ?? 'ease'};
+  /* Lets a click through to the cover beneath, except on the controls themselves. */
+  pointer-events: none;
 
   ${Tile}:hover &,
-  ${Tile}:focus-visible & {
+  ${Tile}:focus-within & {
     opacity: 1;
+    pointer-events: auto;
   }
+`
+
+/** The block itself: centred in the tile, and read normally inside. */
+export const TilePanelBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+`
+
+/**
+ * The card's title treatment, on a cover rather than on the page.
+ *
+ * Plain text, not a link. The cover behind it already links to the same place, and two
+ * links carrying one name is a duplicate stop on a keyboard and a duplicate announcement
+ * in a screen reader.
+ */
+export const TileTitle = styled.span`
+  font-size: ${({ theme }) => theme.typography.size?.lg ?? '0.9375rem'};
+  font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-decoration: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+`
+
+/**
+ * The card's description, clamped harder.
+ *
+ * A tile is 242px across at its widest and 178px on a phone, against a card's full column,
+ * so the two lines the card allows would take most of the panel on their own.
+ */
+export const TileDescription = styled.p`
+  margin: 0;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
+  text-wrap: pretty;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+export const TileTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 2.8em;
+`
+
+export const TileTag = styled.button`
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  word-break: break-word;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+/** Age and build, at the card's own size. */
+export const TileMeta = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.75);
 `
 
 /** List: one row per tool, for scanning names and builds rather than looking at pictures. */

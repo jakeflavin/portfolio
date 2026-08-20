@@ -27,7 +27,7 @@ export const VIEW_OPTIONS = [
 export type ViewValue = (typeof VIEW_OPTIONS)[number]['value']
 
 export const DEFAULT_SORT: SortValue = 'date-desc'
-export const DEFAULT_VIEW: ViewValue = 'cards'
+export const DEFAULT_VIEW: ViewValue = 'grid'
 
 const SORT_VALUES = SORT_OPTIONS.map((option) => option.value) as readonly string[]
 const VIEW_VALUES = VIEW_OPTIONS.map((option) => option.value) as readonly string[]

@@ -123,47 +123,6 @@ export const CardImage = styled.img`
   filter: ${({ theme }) => theme.img.brightness};
 `
 
-/** Where the like/comment/share row sits on a post — with real actions in its place. */
-export const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.sm};
-`
-
-const actionStyles = `
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: none;
-  border: none;
-  line-height: 0;
-  cursor: pointer;
-`
-
-export const ActionLink = styled.a<{ $end?: boolean }>`
-  ${actionStyles}
-  color: ${({ theme }) => theme.colors.text};
-  /* Pushed hard right, where a post keeps its bookmark. */
-  ${({ $end }) => $end && 'margin-left: auto;'}
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'} ${({ theme }) => theme.motion?.easing ?? 'ease'};
-
-  &:hover {
-    opacity: 0.55;
-  }
-`
-
-export const ActionButton = styled.button`
-  ${actionStyles}
-  color: ${({ theme }) => theme.colors.text};
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
-    ${({ theme }) => theme.motion?.easing ?? 'ease'};
-
-  &:hover {
-    opacity: 0.55;
-  }
-`
 
 export const Caption = styled.div`
   display: flex;

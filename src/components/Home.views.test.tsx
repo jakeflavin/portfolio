@@ -16,22 +16,28 @@ describe('Home layouts', () => {
   const switchTo = (label: string) =>
     fireEvent.click(screen.getByRole('button', { name: `${label} view` }))
 
-  it('starts in cards view', () => {
+  /**
+   * Both views render an article per project, so the count alone cannot tell them apart.
+   * A card labels its cover for a screen reader; a tile's cover is decorative, because the
+   * tile's own link already carries the name. That is the difference worth asserting.
+   */
+  it('starts in grid view', () => {
     render(<Home />)
     expect(screen.queryAllByRole('article')).toHaveLength(PROJECTS.length)
+    expect(screen.queryByAltText(`${PROJECTS[0].title} preview`)).toBeNull()
   })
 
-  it('shows every project as a tile in grid view, and drops the captions', () => {
+  it('shows every project as a tile, carrying what the card carries', () => {
     render(<Home />)
-    switchTo('Grid')
 
-    expect(screen.queryAllByRole('article')).toHaveLength(0)
     for (const project of PROJECTS.filter((p) => !p.disabled)) {
       expect(screen.getByRole('link', { name: project.title })).toHaveAttribute(
         'href',
         project.path,
       )
     }
+    // The panel is the card's content, so moving between the views loses nothing.
+    expect(screen.getByText(PROJECTS[0].description)).toBeInTheDocument()
   })
 
   it('shows one row per project in list view', () => {
@@ -47,10 +53,10 @@ describe('Home layouts', () => {
   it('records the layout in the URL, and leaves the default out of it', () => {
     render(<Home />)
 
-    switchTo('Grid')
-    expect(window.location.search).toBe('?view=grid')
-
     switchTo('Cards')
+    expect(window.location.search).toBe('?view=cards')
+
+    switchTo('Grid')
     expect(window.location.search).toBe('')
   })
 
