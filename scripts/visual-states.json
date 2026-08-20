@@ -76,7 +76,7 @@
         }
       ]
     },
-    "madlib": {
+    "fable": {
       "themeKey": "fable.theme",
       "themeShape": "value",
       "screens": [

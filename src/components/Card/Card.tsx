@@ -2,6 +2,8 @@ import React from 'react'
 import { ProjectActions } from '@/components/ProjectActions'
 import {
   CardWrapper,
+  CardLink,
+  CardActions,
   PostHeader,
   HeaderTitle,
   Media,
@@ -66,6 +68,17 @@ export function Card({
 
   return (
     <CardWrapper $disabled={disabled}>
+      {isLink && (
+        <CardLink
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={title}
+          tabIndex={-1}
+          aria-hidden="true"
+        />
+      )}
+
       <PostHeader>
         <HeaderTitle
           as={isLink ? 'a' : 'span'}
@@ -88,7 +101,9 @@ export function Card({
         <CardImage src={imageSrc} alt={`${title} preview`} />
       </Media>
 
-      <ProjectActions title={title} href={isLink ? href : undefined} repo={repo} />
+      <CardActions>
+        <ProjectActions title={title} href={isLink ? href : undefined} repo={repo} />
+      </CardActions>
 
       <Caption>
         <Description>{description}</Description>

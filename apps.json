@@ -323,14 +323,14 @@
       }
     },
     {
-      "slug": "madlib",
+      "slug": "fable",
       "title": "Fable",
-      "description": "Fantasy mad libs. Pick a tale, fill in the blanks, and read back what you get. It falls apart from there.",
+      "description": "Fantasy word games. Pick a tale, fill in the blanks, and read back what you get. It falls apart from there.",
       "tags": [
         "kid",
         "game"
       ],
-      "cover": "/images/madlib-cover.jpg",
+      "cover": "/images/fable-cover.jpg",
       "creationDate": "2025-11-24",
       "disabled": false,
       "repo": "jakeflavin/madlib",

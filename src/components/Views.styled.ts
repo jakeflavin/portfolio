@@ -339,6 +339,12 @@ export const RowContent = styled.div`
 export const RowThumb = styled.img`
   position: relative;
   z-index: 1;
+  /*
+   * Transparent to the pointer. It sits above the stretched link so the row's hover fill
+   * does not wash over it, and without this it swallowed every click that landed on it -
+   * which is the most obvious place in the row to click.
+   */
+  pointer-events: none;
   width: 104px;
   height: 100%;
   min-height: 96px;

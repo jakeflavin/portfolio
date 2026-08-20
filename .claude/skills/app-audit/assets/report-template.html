@@ -1,0 +1,306 @@
+<title>__APP__ Proof Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Four roles: display, body, utility/data, and a hand for margin notes.
+     Swap these for faces that suit the app under audit; keep the four roles. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap">
+
+<style>
+/* ------------------------------------------------------------------
+   REPLACE THIS BLOCK with the audited app's own palette.
+
+   Take --paper/--ink from its ground and text colour, and drive the four
+   severity colours from its accents so the report reads as a proof sheet
+   for THIS app. The values below are neutral placeholders, not a default
+   to ship. Everything downstream is styled through these tokens, so this
+   is the only block you need to touch — including for dark, below.
+   ------------------------------------------------------------------ */
+:root{
+  --paper:#FAF7F0;     /* page ground — the app's paper colour */
+  --paper-2:#F1ECE0;   /* sunk panels, the tally box, inline code */
+  --ink:#16130F;       /* body text, rules, borders */
+  --ink-soft:#5F5850;  /* captions, labels, meta */
+  --rule:#D9D1C0;      /* hairlines between findings */
+  --navy:#262A47;      /* focus ring — pick something that isn't --ink */
+  --sev-high:#E24B33;
+  --sev-med:#F0813F;
+  --sev-low:#F7C948;
+  --sev-good:#86C99A;
+  --shot-bg:#EFE9DA;   /* sits behind a screenshot while it loads */
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14120F;
+    --paper-2:#1D1A15;
+    --ink:#F3EEE2;
+    --ink-soft:#A79E8E;
+    --rule:#332E26;
+    --navy:#C9CCE8;
+    --sev-high:#F0684F;
+    --sev-med:#F5975C;
+    --sev-low:#F7D169;
+    --sev-good:#93D0A6;
+    --shot-bg:#1D1A15;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14120F;
+  --paper-2:#1D1A15;
+  --ink:#F3EEE2;
+  --ink-soft:#A79E8E;
+  --rule:#332E26;
+  --navy:#C9CCE8;
+  --sev-high:#F0684F;
+  --sev-med:#F5975C;
+  --sev-low:#F7D169;
+  --sev-good:#93D0A6;
+  --shot-bg:#1D1A15;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;
+  font-size:18px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 120px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Helvetica Neue",sans-serif;font-weight:800;text-wrap:balance;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.hand{font-family:"Caveat",cursive}
+
+/* ---------- masthead ---------- */
+header.top{padding:64px 0 28px;border-bottom:3px solid var(--ink)}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 18px}
+h1{font-size:clamp(52px,10vw,104px);line-height:.92;letter-spacing:-.02em}
+.sub{font-size:22px;line-height:1.4;max-width:34ch;margin:18px 0 0;color:var(--ink-soft)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px 28px;margin:34px 0 0;padding:0;list-style:none}
+.facts div{padding:12px 0;border-top:1px solid var(--rule)}
+.facts dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.facts dd{margin:4px 0 0;font-size:16px;font-variant-numeric:tabular-nums}
+
+/* ---------- sections ---------- */
+section{margin-top:76px}
+.sec-head{display:flex;align-items:baseline;gap:16px;padding-bottom:10px;border-bottom:3px solid var(--ink);margin-bottom:34px}
+h2{font-size:clamp(28px,4vw,40px);line-height:1}
+.sec-head .count{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-soft);margin-left:auto;white-space:nowrap}
+.lede{font-size:20px;max-width:62ch;margin:0 0 40px}
+p{max-width:64ch}
+
+/* ---------- verdict ---------- */
+.verdict{margin-top:52px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start}
+.verdict p{font-size:20px;margin:0 0 18px}
+.tally{border:3px solid var(--ink);background:var(--paper-2);padding:20px 22px}
+.tally h3{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.tally-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--rule);font-size:15px}
+.tally-row:first-of-type{border-top:0}
+.tally-row b{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600;margin-left:auto;font-variant-numeric:tabular-nums}
+.dot{width:13px;height:13px;flex:none;border:2px solid var(--ink)}
+
+/* ---------- finding ---------- */
+.finding{display:grid;grid-template-columns:132px minmax(0,1fr);gap:32px;padding:38px 0;border-top:1px solid var(--rule)}
+.finding:first-of-type{border-top:0;padding-top:6px}
+.key{position:sticky;top:20px;align-self:start}
+.fid{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.sev{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:4px 9px 4px 7px;border:2px solid var(--ink);font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.vp{margin-top:12px;display:flex;gap:5px;flex-wrap:wrap}
+.vp span{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.08em;padding:3px 7px;border:1px solid var(--rule);color:var(--ink-soft)}
+.vp span.on{border-color:var(--ink);color:var(--ink)}
+.where{margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.5;color:var(--ink-soft)}
+h3.ftitle{font-size:26px;line-height:1.15;margin-bottom:14px}
+.finding p{margin:0 0 14px}
+.finding p:last-of-type{margin-bottom:0}
+.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:.94em;padding:1px 4px;background:var(--paper-2);border-bottom:1px solid var(--rule)}
+.note{margin-top:16px;padding-left:16px;border-left:3px solid var(--ink);font-family:"Caveat",cursive;font-size:23px;line-height:1.35;color:var(--ink-soft);max-width:56ch}
+
+/* ---------- shots ---------- */
+figure{margin:22px 0 0}
+figure img{display:block;width:100%;height:auto;border:2px solid var(--ink);background:var(--shot-bg)}
+figcaption{margin-top:9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.55;color:var(--ink-soft)}
+.pair{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pair figure{margin:0}
+.narrow img{max-width:340px;margin:0 auto}
+
+/* ---------- works ---------- */
+.works{display:grid;gap:38px}
+.work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:32px;align-items:start;padding-top:30px;border-top:1px solid var(--rule)}
+.work:first-child{border-top:0;padding-top:0}
+.work h3{font-size:22px;line-height:1.2;margin-bottom:10px}
+.work p{margin:0;font-size:17px}
+.work figure{margin:0}
+.wtag{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:8px}
+
+/* ---------- method ---------- */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px}
+.method h3{font-size:15px;font-family:"IBM Plex Mono",monospace;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.method ul{margin:0;padding-left:18px;font-size:16px}
+.method li{margin-bottom:7px}
+footer{margin-top:80px;padding-top:22px;border-top:3px solid var(--ink);font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 26px}
+
+@media (max-width:760px){
+  body{font-size:17px}
+  .wrap{padding:0 18px 80px}
+  .verdict{grid-template-columns:1fr;gap:32px}
+  .finding{grid-template-columns:1fr;gap:14px}
+  .key{position:static;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .fid{font-size:22px}
+  .sev,.vp,.where{margin-top:0}
+  .where{flex-basis:100%}
+  .work{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+</style>
+
+<!--
+  ============================================================================
+  STRUCTURE — see references/report.md for what goes in each part.
+
+    header.top    masthead: app, URL, date, viewports, build
+    .verdict      the assessment + severity tally
+    section       What works        (.works > .work)
+    section       Fix before showing it   (high)
+    section       Worth doing next        (medium)
+    section       Polish                  (low)
+    section       How this was tested
+    footer
+
+  Screenshots are referenced as __IMG_<filename-without-extension>__ and
+  inlined by scripts/build_report.py. Every finding gets at least one.
+  ============================================================================
+-->
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Usability &amp; design audit · App _ of _</p>
+  <h1>__APP__</h1>
+  <p class="sub">One sentence on what the app is, in the app's own terms.</p>
+  <dl class="facts">
+    <div><dt>Tested</dt><dd>host/slug/</dd></div>
+    <div><dt>Date</dt><dd>__DATE__</dd></div>
+    <div><dt>Viewports</dt><dd>1440×900 · 820×1180 · 390×844</dd></div>
+    <div><dt>Build</dt><dd>Production, as shipped</dd></div>
+  </dl>
+</header>
+
+<div class="verdict">
+  <div>
+    <p>What the app is trying to be, and whether it succeeds.</p>
+    <p>The pattern behind the worst findings — not a list, the list is below.</p>
+    <p>How much of this actually matters.</p>
+  </div>
+  <div class="tally">
+    <h3>__N__ findings</h3>
+    <div class="tally-row"><span class="dot" style="background:var(--sev-high)"></span>High<b>0</b></div>
+    <div class="tally-row"><span class="dot" style="background:var(--sev-med)"></span>Medium<b>0</b></div>
+    <div class="tally-row"><span class="dot" style="background:var(--sev-low)"></span>Low<b>0</b></div>
+    <div class="tally-row"><span class="dot" style="background:var(--sev-good)"></span>Works well<b>0</b></div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head"><h2>What works</h2><span class="count">0 noted</span></div>
+  <p class="lede">Worth recording, because the fixes below should not cost any of it.</p>
+  <div class="works">
+
+    <div class="work">
+      <div>
+        <span class="wtag">Category</span>
+        <h3>What was done well, stated as a claim</h3>
+        <p>Why it was hard, and what it buys the user.</p>
+      </div>
+      <figure><img src="__IMG_desktop-01-landing__" alt="Describe what is shown"><figcaption>Screen · viewport</figcaption></figure>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>Fix before showing it</h2><span class="count">0 high</span></div>
+  <p class="lede">Each of these breaks a flow, loses work, fails an accessibility floor, or is the first thing a stranger sees.</p>
+
+  <!-- FINDING: copy this block. Mark affected viewports with class="on". -->
+  <div class="finding">
+    <div class="key">
+      <div class="fid">F1</div>
+      <div class="sev"><span class="dot" style="background:var(--sev-high)"></span>High</div>
+      <div class="vp"><span class="on">D</span><span class="on">T</span><span class="on">M</span></div>
+      <div class="where">Screen<br>Screen</div>
+    </div>
+    <div>
+      <h3 class="ftitle">The title is the finding, not a category</h3>
+      <p>What happens, concretely, with the numbers: <span class="num">3.97:1</span>.</p>
+      <p>Why it matters, or the structural cause if you found one.</p>
+      <div class="note">A short fix, in the auditor's voice. Only when you're confident.</div>
+      <!-- one image, or a .pair for before/after -->
+      <div class="pair">
+        <figure><img src="__IMG_desktop-01-landing__" alt="…"><figcaption>Light — what to look at</figcaption></figure>
+        <figure><img src="__IMG_desktop-16-dark__" alt="…"><figcaption>Dark — the same thing, broken</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section>
+  <div class="sec-head"><h2>Worth doing next</h2><span class="count">0 medium</span></div>
+  <p class="lede">Nothing here stops the app working. All of it costs someone time, confidence or a second try.</p>
+
+  <div class="finding">
+    <div class="key">
+      <div class="fid">F2</div>
+      <div class="sev"><span class="dot" style="background:var(--sev-med)"></span>Medium</div>
+      <div class="vp"><span>D</span><span>T</span><span class="on">M</span></div>
+      <div class="where">Screen</div>
+    </div>
+    <div>
+      <h3 class="ftitle">Finding</h3>
+      <p>Body.</p>
+      <!-- .narrow keeps a phone screenshot from stretching across the column -->
+      <figure class="narrow"><img src="__IMG_mobile-01-landing__" alt="…"><figcaption>Screen · 390×844</figcaption></figure>
+    </div>
+  </div>
+
+</section>
+
+<section>
+  <div class="sec-head"><h2>Polish</h2><span class="count">0 low</span></div>
+  <p class="lede">Small things. Listed because on a piece of work this considered they are what is left.</p>
+</section>
+
+<section>
+  <div class="sec-head"><h2>How this was tested</h2></div>
+  <div class="method">
+    <div>
+      <h3>Covered</h3>
+      <ul><li>Screen by screen, state by state</li></ul>
+    </div>
+    <div>
+      <h3>Method</h3>
+      <ul>
+        <li>Production build, no local server</li>
+        <li>Every flow driven end to end at all three viewports</li>
+        <li>Contrast computed from the shipped CSS custom properties</li>
+        <li>Target sizes measured from live bounding boxes, not estimated</li>
+        <li>Console and page errors captured throughout</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Not covered</h3>
+      <ul><li>Be honest here — the limits belong in the report</li></ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>__APP__ · usability &amp; design audit</span>
+  <span>__DATE__</span>
+  <span>__N__ findings · __M__ commendations</span>
+  <span>Report only — no code changed</span>
+</footer>
+
+</div>

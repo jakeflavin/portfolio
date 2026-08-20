@@ -14,6 +14,7 @@ interface CardWrapperProps {
  * nest buttons and links inside it.
  */
 export const CardWrapper = styled.article<CardWrapperProps>`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -68,8 +69,37 @@ export const CardWrapper = styled.article<CardWrapperProps>`
  * reading as 16 because an icon has no leading. That is what made the caption's spacing
  * look uneven while every value in the file looked deliberate.
  */
+/**
+ * The card's click target, stretched over the whole of it.
+ *
+ * The title and the cover were the only links on a card, which left the caption dead:
+ * clicking the description, the tag row's empty half, or the date did nothing. A card
+ * reads as one object, so all of it opens the app.
+ *
+ * It sits under everything at z-index 0, and the caption's own controls - the tag
+ * filters, the action icons, the "more" toggle - sit above it and keep working.
+ */
+export const CardLink = styled.a`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  &:focus-visible {
+    outline: none;
+  }
+`
+
 export const PostHeader = styled.header`
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
   display: flex;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
+
   align-items: baseline;
   gap: 5px;
   padding: 0 0 12px;
@@ -145,11 +175,26 @@ export const CardImage = styled.img`
   filter: ${({ theme }) => theme.img.brightness};
 `
 
+/** Above the stretched link, so the icons keep their own clicks. */
+export const CardActions = styled.div`
+  position: relative;
+  z-index: 1;
+`
+
 export const Caption = styled.div`
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 0;
+  /* Text falls through to the card's link; the controls inside opt back in. */
+  pointer-events: none;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
 `
 
 /**
