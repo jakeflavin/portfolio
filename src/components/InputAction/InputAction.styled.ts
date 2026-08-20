@@ -10,6 +10,13 @@ interface WrapperProps {
 
 export const Outer = styled.div`
   width: 100%;
+  /*
+   * A flex item will not shrink below its content unless it is told it may. Inside the
+   * search bar the field grew with what was typed and pushed the sort control off the
+   * right of a phone screen.
+   */
+  min-width: 0;
+  flex: 1 1 0;
 `
 
 export const Label = styled.label`
