@@ -1,7 +1,7 @@
 import React from 'react'
 import { Wrapper, Ghost, Live, Cursor } from './TypeWriter.styled'
 import { useTypeWriter } from './useTypeWriter'
-import { composeScript, type TypingStep } from './typing'
+import { longestScriptText, type TypingStep } from './typing'
 
 export interface TypeWriterProps {
   /** The keystrokes to play, mistakes and all. */
@@ -23,12 +23,13 @@ export function TypeWriter({
 }: TypeWriterProps) {
   const text = useTypeWriter({ script, typingSpeed, deletingSpeed, restartDelay, jitter })
 
-  // The script's own settled text, so the reservation cannot drift from the copy.
-  const settled = React.useMemo(() => composeScript(script), [script])
+  // The widest the script ever gets, so the reservation covers the second thoughts too and
+  // not just what it settles on.
+  const widest = React.useMemo(() => longestScriptText(script), [script])
 
   return (
     <Wrapper>
-      <Ghost aria-hidden="true" data-text={`${settled}|`} />
+      <Ghost aria-hidden="true" data-text={`${widest}|`} />
       <Live>
         {text}
         <Cursor>|</Cursor>

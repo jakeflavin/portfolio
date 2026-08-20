@@ -121,7 +121,12 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
         </Identity>
 
         <Bio>
-          <TypeWriter script={BIO_SCRIPT} />
+          <TypeWriter
+            script={BIO_SCRIPT}
+            typingSpeed={80}
+            deletingSpeed={50}
+            restartDelay={60000}
+          />
           <BioTags>
             {BIO_TAGS.map((tag) => (
               <BioTag key={tag}>#{tag}</BioTag>
