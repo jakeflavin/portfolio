@@ -42,15 +42,18 @@ const BIO_TAGS = ['developer', 'react', 'java', 'runner', 'girldad']
 const ICON_SIZE = 22
 
 /**
+ * The outbound links, in the order they earn attention: the work first, then the person,
+ * then the places that are mostly photographs.
+ *
  * Holds an icon rather than a brand name, since not every destination has a brand mark —
- * the blog is a plain lucide glyph alongside the three logos.
+ * the blog is a plain lucide glyph alongside the four logos.
  */
 const LINKS: { key: string; href: string; label: string; icon: React.ReactNode }[] = [
   {
-    key: 'threads',
-    href: 'https://www.threads.com/@jakeflavin',
-    label: 'Threads',
-    icon: <BrandIcon name={'threads' as BrandName} size={ICON_SIZE} />,
+    key: 'github',
+    href: 'https://github.com/jakeflavin',
+    label: 'GitHub',
+    icon: <BrandIcon name={'github' as BrandName} size={ICON_SIZE} />,
   },
   {
     key: 'linkedin',
@@ -59,22 +62,22 @@ const LINKS: { key: string; href: string; label: string; icon: React.ReactNode }
     icon: <BrandIcon name={'linkedin' as BrandName} size={ICON_SIZE} />,
   },
   {
-    key: 'github',
-    href: 'https://github.com/jakeflavin',
-    label: 'GitHub',
-    icon: <BrandIcon name={'github' as BrandName} size={ICON_SIZE} />,
+    key: 'blog',
+    href: 'https://jakeflavin.com',
+    label: 'Blog',
+    icon: <Newspaper size={ICON_SIZE} />,
+  },
+  {
+    key: 'threads',
+    href: 'https://www.threads.com/@jakeflavin',
+    label: 'Threads',
+    icon: <BrandIcon name={'threads' as BrandName} size={ICON_SIZE} />,
   },
   {
     key: 'instagram',
     href: 'https://www.instagram.com/jakeflavin',
     label: 'Instagram',
     icon: <BrandIcon name={'instagram' as BrandName} size={ICON_SIZE} />,
-  },
-  {
-    key: 'blog',
-    href: 'https://jakeflavin.com',
-    label: 'Blog',
-    icon: <Newspaper size={ICON_SIZE} />,
   },
 ]
 
