@@ -191,6 +191,31 @@ export const BioTag = styled.span`
 `
 
 /**
+ * The one link in the bio, and the only blue thing in the header.
+ *
+ * Blue rather than the gradient the card hashtags wear: those filter this page, and this
+ * leaves it. The colour is the same one the rest of the site uses for a link, which is
+ * what makes it read as one among the static text around it.
+ */
+export const BioLink = styled.a`
+  align-self: flex-start;
+  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
+  color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+`
+
+/**
  * All the highlights fit inline at every width — they share the row rather than scrolling,
  * so nothing is hidden off the edge on a phone.
  */
@@ -198,6 +223,14 @@ export const Highlights = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.md};
+  /*
+   * Spread to the measure's own edges, so the row lines up with the search field under it
+   * and the grid under that. Six 62px circles come to 452px of the 480px column and left
+   * a 28px hole on the right; distributing that between them widens each gap by about 6px
+   * instead. Where they do not fit there is no free space to distribute and this has no
+   * effect, so the rail still just scrolls.
+   */
+  justify-content: space-between;
 
   /*
    * Scrolls rather than shrinking, at every width. The items had been sharing the row,

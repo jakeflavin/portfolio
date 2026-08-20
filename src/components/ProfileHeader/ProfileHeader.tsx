@@ -20,6 +20,7 @@ import {
   Bio,
   BioTags,
   BioTag,
+  BioLink,
   Highlights,
   Highlight,
   HighlightRing,
@@ -38,6 +39,9 @@ export interface ProfileHeaderProps {
  * directory, so they are static text — the card hashtags are the ones that search.
  */
 const BIO_TAGS = ['developer', 'react', 'java', 'runner', 'girldad']
+
+/** Shown without its scheme, the way a profile prints a link. */
+const SUPPORT_URL = 'https://ko-fi.com/jakeflavin'
 
 const ICON_SIZE = 22
 
@@ -141,6 +145,10 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
               <BioTag key={tag}>#{tag}</BioTag>
             ))}
           </BioTags>
+
+          <BioLink href={SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+            {SUPPORT_URL.replace(/^https:\/\//, '')}
+          </BioLink>
         </Bio>
 
         <Highlights>
