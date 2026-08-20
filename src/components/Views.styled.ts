@@ -221,7 +221,7 @@ export const Row = styled.article<{ $disabled?: boolean }>`
    * the tags, where the eye is already reading.
    */
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-columns: 104px minmax(0, 1fr);
   /* Stretch, so the cover can take the row's full height whatever the text does to it. */
   align-items: stretch;
   gap: ${({ theme }) => theme.spacing.md};
@@ -288,26 +288,36 @@ export const RowContent = styled.div`
  * Square corners, because that is what a cover is everywhere else here - the feed's and
  * the grid's are both unrounded, and this one was the odd one out.
  *
- * It holds 88px of width and takes whatever height the row turns out to be, so the left
- * edge of the list stays straight while the rows breathe. The extra height is paid for by
- * cropping in: `cover` keeps the middle of the shot at the cost of its sides, which for a
- * screenshot is the right half of the bargain.
+ * It holds its width and takes whatever height the row turns out to be, so the left edge
+ * of the list stays straight while the rows breathe. The height is paid for by cropping
+ * in: cover keeps the middle of the shot at the cost of its sides, which for a screenshot
+ * is the right half of the bargain - and the wider it is, the less of the sides it loses.
  */
 export const RowThumb = styled.img`
   position: relative;
   z-index: 1;
-  width: 88px;
+  width: 104px;
   height: 100%;
-  min-height: 88px;
+  min-height: 96px;
   object-fit: cover;
   display: block;
   background: ${({ theme }) => theme.colors.secondary};
 `
 
+/**
+ * Three rows against the cover's three edges: the title line on its top, the footer on its
+ * bottom, and the description filling whatever is left between them.
+ *
+ * A grid with a flexible middle rather than a stack, because a stack only lines up with
+ * the cover when the text happens to be exactly as tall as it is. Any shorter and the
+ * footer floated somewhere above the cover's bottom edge, which is most of what made these
+ * rows look untidy.
+ */
 export const RowMain = styled(RowContent)`
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+  gap: 4px;
 `
 
 /**
@@ -342,6 +352,9 @@ export const RowDescription = styled(ClampedText).attrs({
   lines: 2,
   fade: 'var(--row-surface)',
 })`
+  /* Sits at the top of the space it is given rather than centred in it. */
+  align-self: start;
+
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
   color: ${({ theme }) => theme.colors.muted};
 `
@@ -384,7 +397,7 @@ export const RowFooter = styled.div`
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: ${({ theme }) => theme.spacing.sm};
-  margin-top: 4px;
+  align-self: end;
 `
 
 /**
