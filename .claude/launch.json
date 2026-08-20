@@ -43,6 +43,21 @@
       "port": 5178
     },
     {
+      "name": "runify",
+      "cwd": "apps/runify",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5179",
+        "--strictPort"
+      ],
+      "port": 5179,
+      "url": "http://localhost:5179"
+    },
+    {
       "name": "fibo",
       "cwd": "apps/fibo/apps/web",
       "runtimeExecutable": "npm",
