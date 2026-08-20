@@ -39,10 +39,20 @@ export function App() {
     return () => media.removeEventListener('change', handler)
   }, [])
 
+  /**
+   * Switches mode, and treats agreeing with the system as having no opinion.
+   *
+   * Storing a choice every time meant one click was permanent: the stored value always
+   * won, the OS preference was never consulted again, and there was no way back to
+   * following it. Turning the toggle to whatever the system already says clears the
+   * override instead, so the page goes back to tracking it - including later, when the
+   * system flips at sunset.
+   */
   const toggleDarkMode = () =>
     setIsDarkMode((previous) => {
       const next = !previous
-      window.localStorage.setItem(THEME_KEY, next ? 'dark' : 'light')
+      if (next === getPrefersDark()) window.localStorage.removeItem(THEME_KEY)
+      else window.localStorage.setItem(THEME_KEY, next ? 'dark' : 'light')
       return next
     })
 
