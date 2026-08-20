@@ -12,7 +12,8 @@ export const Actions = styled.div<{ $onImage?: boolean }>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing.sm};
+  /* Even, and 12px like the rest of the caption. It was 16 above and 8 below. */
+  padding: 12px 0;
 `
 
 const actionStyles = `

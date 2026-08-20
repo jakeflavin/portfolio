@@ -59,15 +59,25 @@ export const CardWrapper = styled.article<CardWrapperProps>`
   `}
 `
 
+/**
+ * The caption's rhythm is 12px between one block of ink and the next, and every text block
+ * in it is trimmed to its cap and baseline so that number is the one you actually see.
+ *
+ * Untrimmed, each block carries about 5px of leading above and below, so the gaps written
+ * here and the gaps on screen were different numbers - 8px of padding reading as 14, 16px
+ * reading as 16 because an icon has no leading. That is what made the caption's spacing
+ * look uneven while every value in the file looked deliberate.
+ */
 export const PostHeader = styled.header`
   display: flex;
   align-items: baseline;
   gap: 5px;
-  padding: 0 0 ${({ theme }) => theme.spacing.sm};
+  padding: 0 0 12px;
 `
 
 /** The title slot: semibold, and a link, where a post carries its username. */
 export const HeaderTitle = styled.a`
+  text-box: trim-both cap alphabetic;
   min-width: 0;
   font-size: ${({ theme }) => theme.typography.size?.lg ?? '0.9375rem'};
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
@@ -129,7 +139,7 @@ export const CardImage = styled.img`
 export const Caption = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
+  gap: 12px;
   padding: 0;
 `
 
@@ -146,13 +156,20 @@ export const Description = styled(ClampedText).attrs(({ theme }) => ({
 }))`
   font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
   color: ${({ theme }) => theme.colors.muted};
+
+  /* The paragraph, not the wrapper: the wrapper holds no text of its own to trim. */
+  > p {
+    text-box: trim-both cap alphabetic;
+  }
 `
 
 /**
  * The gradient is painted on the row and clipped to its text, so the tags share one sweep
  * rather than each getting its own slice of it.
  */
-export const HashTags = styled(TagRow)``
+export const HashTags = styled(TagRow)`
+  text-box: trim-both cap alphabetic;
+`
 
 export const HashTag = styled(Tag)`
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
@@ -169,7 +186,7 @@ export const Meta = styled.div`
   display: flex;
   align-items: baseline;
   gap: 6px;
-  margin-top: 2px;
+  text-box: trim-both cap alphabetic;
   font-size: 0.6875rem;
   color: ${({ theme }) => theme.colors.muted};
   opacity: 0.8;

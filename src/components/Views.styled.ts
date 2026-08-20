@@ -101,11 +101,29 @@ export const TilePanel = styled.div`
 `
 
 /** The block itself: centred in the tile, and read normally inside. */
+/**
+ * The panel's rhythm, on the ink rather than on the boxes.
+ *
+ * Its blocks are trimmed to cap and baseline below, so this gap is the space you actually
+ * see between them. Untrimmed, one 3cqw gap came out as 9.1px between the title and the
+ * icons and 13.6px between the description and the tags, because a row of icons carries no
+ * leading and a line of text carries about 4px of it at each end.
+ */
 export const TilePanelBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 3cqw;
+  gap: 6cqw;
+
+  /*
+   * A phone's tile is 110px and the panel has about 95px inside its padding, which the
+   * five blocks do not fit into at that spacing. They did not fit before this rhythm
+   * either - untrimmed they came to roughly 112px - so the panel had been quietly
+   * overflowing its own tile.
+   */
+  @container (max-width: 130px) {
+    gap: 4cqw;
+  }
   width: 100%;
   min-width: 0;
   text-align: left;
@@ -124,6 +142,7 @@ export const TilePanelBody = styled.div`
  * for a page has no size that works in both: 14px filled a phone tile with four words.
  */
 export const TileTitle = styled.span`
+  text-box: trim-both cap alphabetic;
   font-size: clamp(11px, 9cqw, 15px);
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: -0.01em;
@@ -142,6 +161,7 @@ export const TileTitle = styled.span`
  * so the two lines the card allows would take most of the panel on their own.
  */
 export const TileDescription = styled.p`
+  text-box: trim-both cap alphabetic;
   margin: 0;
   font-size: clamp(9.5px, 7.5cqw, 13px);
   line-height: 1.35;
@@ -151,14 +171,27 @@ export const TileDescription = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  /* Two lines on a phone's tile, which is the line the panel has to give up to fit. */
+  @container (max-width: 130px) {
+    -webkit-line-clamp: 2;
+  }
 `
 
 /** Sized against the tile, which is only about 149px across. */
 export const TileTags = styled(TagRow)`
+  text-box: trim-both cap alphabetic;
   font-size: clamp(9px, 7cqw, 12px);
   gap: 0 0.6em;
-  /* Two lines of tags at most, so the description keeps its three. */
-  max-height: 2.8em;
+  /*
+   * One line. A second line of tags is 17px of a panel that has about 136px inside it, and
+   * it was the difference between a tile fitting and not: three tags wrapped and pushed
+   * the date out of the bottom of the tile.
+   *
+   * The row wraps and the overflow is hidden, so a tag that does not fit is dropped whole
+   * rather than cut through the middle of its word.
+   */
+  max-height: 1.4em;
   overflow: hidden;
 `
 
@@ -187,6 +220,7 @@ export const TileActions = styled.div`
 
 /** Age and build, at the card's own size. */
 export const TileMeta = styled.div`
+  text-box: trim-both cap alphabetic;
   display: flex;
   align-items: baseline;
   gap: 0.5em;
