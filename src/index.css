@@ -10,8 +10,15 @@
 :root {
   color-scheme: light;
 
-  --bg: #fafafa;
-  --text: #262626;
+  /*
+   * Not near-white, and not near-black in the other theme. Both grounds are pulled a step
+   * off the extreme and given a faint blue bias - the cool end of the site's own gradient
+   * - so the neutral reads as chosen rather than as the absence of a choice. The ink comes
+   * in to match: body text was 14.5:1 against the page here and 15.6:1 in the dark, which
+   * is more contrast than reading wants.
+   */
+  --bg: #f6f7f9;
+  --text: #2b2f36;
 }
 
 /*
@@ -23,16 +30,16 @@
   :root:not([data-theme='light']) {
     color-scheme: dark;
 
-    --bg: #0f0f0f;
-    --text: #e8e8e8;
+    --bg: #17181b;
+    --text: #dcdee3;
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #0f0f0f;
-  --text: #e8e8e8;
+  --bg: #17181b;
+  --text: #dcdee3;
 }
 
 *,
@@ -44,14 +51,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: var(--bg);
   background-attachment: fixed;
   color: var(--text);

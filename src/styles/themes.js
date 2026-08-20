@@ -142,10 +142,34 @@ export const blur = {
  * given up — but Instagram's mark is pink-dominant with no blue in it at all, and this is
  * blue for most of its length. The ring's *shape* was always the closer borrowing.
  */
-export const gradient = {
-  stops: ['#2244D8', '#4A42A9', '#72407A', '#9B3E4B', '#C33C1C'],
-  /** The full sweep, for the wordmark and the avatar ring. */
-  brand: 'linear-gradient(45deg, #2244D8, #4A42A9, #72407A, #9B3E4B, #C33C1C)',
+/**
+ * The brand's five stops, as drawn: ultramarine into ember.
+ *
+ * These are what the sweep looks like on a dark ground, where a saturated mid-tone reads
+ * as colour. On a light page the same five read as a heavy band, because the page is
+ * lighter than every one of them - so the light theme uses a set lifted toward white until
+ * white type sits on each at about 5.2:1.
+ *
+ * That number is the constraint rather than a preference: the story circles carry white
+ * glyphs and the footer's marquee carries white text, so how far these can be lifted is
+ * decided by the ink on top of them.
+ */
+export const brandStops = ['#2244D8', '#4A42A9', '#72407A', '#9B3E4B', '#C33C1C']
+
+/** The same five, lifted for a light page. Each holds white at about 5.2:1. */
+export const brandStopsLight = ['#4562DE', '#6962B8', '#885E8F', '#A6535F', '#C43E1E']
+
+/**
+ * The shapes the gradient is used in, built from whichever stops a theme carries.
+ *
+ * One function rather than two copies of five strings: the shapes are identical in both
+ * themes and only the stops differ, and a second literal copy is somewhere for one of them
+ * to drift away from the other.
+ */
+const gradientsFrom = (stops) => ({
+  stops,
+  /** The full sweep, for the wordmark, the avatar ring and the footer's marquee. */
+  brand: `linear-gradient(45deg, ${stops.join(', ')})`,
   /**
    * The tighter three-stop version, for small surfaces like rings and bars.
    *
@@ -153,7 +177,7 @@ export const gradient = {
    * to light at the opposite one reads as a lit sphere on a circle, which is where the
    * bevelled look came from.
    */
-  compact: 'linear-gradient(to right, #2244D8, #72407A, #C33C1C)',
+  compact: `linear-gradient(to right, ${stops[0]}, ${stops[2]}, ${stops[4]})`,
   /**
    * The appearance toggle's gradient: one half of the sweep above, not a colour of its own.
    *
@@ -163,16 +187,18 @@ export const gradient = {
    * full blue-to-ember run the links wear, and every colour in them is already ours.
    *
    * Which half is showing previews the mode it would switch you to, so the chip turns warm
-   * as it offers daylight. Both halves carry white, at 7.28:1 and 5.27:1 across their own
-   * sweeps, which is why the toggle keeps the same ink as everything else in the row.
+   * as it offers daylight.
    */
   toggle: {
     /** Offers dark mode: the sweep from its start to the plum at its middle. */
-    night: 'linear-gradient(to right, #2244D8, #72407A)',
+    night: `linear-gradient(to right, ${stops[0]}, ${stops[2]})`,
     /** Offers light mode: the plum on to the ember it finishes at. */
-    dawn: 'linear-gradient(to right, #72407A, #C33C1C)',
+    dawn: `linear-gradient(to right, ${stops[2]}, ${stops[4]})`,
   },
-}
+})
+
+export const gradient = gradientsFrom(brandStops)
+export const gradientLight = gradientsFrom(brandStopsLight)
 
 /**
  * The same sweep, for text.
@@ -190,7 +216,7 @@ export const gradient = {
  */
 export const textGradientLight = 'linear-gradient(to right, #2244D8, #72407A, #C33C1C)'
 
-export const textGradientDark = 'linear-gradient(to right, #4676FF, #A06BA8, #EF6546)'
+export const textGradientDark = 'linear-gradient(to right, #7C9BFF, #BE8CC6, #FF9878)'
 
 /** Motion: short and unfussy. */
 export const motion = {
@@ -214,35 +240,43 @@ const gridBackground = (line, base) =>
   base
 
 /**
- * Light palette, following Instagram: pure white page, #efefef control fills,
- * #737373 secondary text, #dbdbdb hairlines.
+ * Light palette.
+ *
+ * It followed Instagram's - a white page, #efefef fills, #737373 secondary text - and the
+ * secondary text is the reason it changed. #737373 was drawn for a pure white page, where
+ * it gives 4.6:1; on this one it gave 4.54, which passes and leaves nothing over. It is
+ * most of the running text on the page: every description, every date, the bio, the stat
+ * labels. It is #5f6570 now, at 5.5 against the page.
+ *
+ * The neutrals carry a faint blue bias, from the cool end of the site's own gradient.
  */
 export const lightTheme = {
   colors: {
-    primary: '#262626',
-    secondary: '#efefef',
+    primary: '#2b2f36',
+    secondary: '#e9ebef',
     accent: '#2563eb',
     background: 'var(--bg)',
-    surface: '#fafafa',
-    surfaceGlass: '#fafafa',
-    secondaryGlass: '#efefef',
+    /* Flush with the ground, as before: nothing in this language is a raised panel. */
+    surface: '#f6f7f9',
+    surfaceGlass: '#f6f7f9',
+    secondaryGlass: '#e9ebef',
     text: 'var(--text)',
-    muted: '#737373',
-    border: '#dbdbdb',
+    muted: '#5f6570',
+    border: '#dfe2e8',
     /**
      * Transparent while the flat experiment is in place. Every outline in the app is
      * drawn with this, so one value switches them all off. Revert to "#efefef".
      */
     divider: 'transparent',
-    paper: '#fafafa',
-    paperText: '#000000',
-    paperMuted: '#737373',
-    paperBorder: '#dbdbdb',
+    paper: '#f6f7f9',
+    paperText: '#2b2f36',
+    paperMuted: '#5f6570',
+    paperBorder: '#dfe2e8',
     success: '#1d7a37',
     warning: '#8a6100',
     danger: '#e11d48',
-    inverse: '#262626',
-    inverseText: '#fafafa',
+    inverse: '#2b2f36',
+    inverseText: '#f6f7f9',
     inverseHover: 'rgba(255, 255, 255, 0.12)',
     inverseFocus: 'rgba(255, 255, 255, 0.8)',
     focusBorder: '#2563eb',
@@ -264,7 +298,7 @@ export const lightTheme = {
   typography,
   blur,
   motion,
-  gradient: { ...gradient, text: textGradientLight },
+  gradient: { ...gradientLight, text: textGradientLight },
   /** Dividers and fills carry hierarchy; overlays and the hero panel get elevation. */
   shadows: {
     sm: 'none',
@@ -282,34 +316,39 @@ export const lightTheme = {
 }
 
 /**
- * Dark palette, following Threads: #101010 rather than pure black, with #181818
- * surfaces and #262626 fills.
+ * Dark palette.
+ *
+ * Lifted off near-black: the ground was #0f0f0f under #e8e8e8 ink, which is 15.6:1 and
+ * reads as a hole in the screen rather than as a page. #17181b under #dcdee3 is 13.2, and
+ * the secondary text comes down with it - 8:1 was brighter than a secondary should be, so
+ * it no longer competes with the text it sits under.
  */
 export const darkTheme = {
   ...lightTheme,
   gradient: { ...gradient, text: textGradientDark },
   colors: {
     ...lightTheme.colors,
-    primary: '#e8e8e8',
-    secondary: '#262626',
+    primary: '#dcdee3',
+    secondary: '#2a2d33',
     accent: '#60a5fa',
     background: 'var(--bg)',
-    surface: '#0f0f0f',
-    surfaceGlass: '#0f0f0f',
-    secondaryGlass: '#262626',
+    /* Flush with the ground, as in the light theme. */
+    surface: '#17181b',
+    surfaceGlass: '#17181b',
+    secondaryGlass: '#2a2d33',
     text: 'var(--text)',
-    muted: '#a8a8a8',
-    border: '#363636',
+    muted: '#9aa0aa',
+    border: '#33363d',
     divider: 'transparent',
-    paper: '#1a1a1a',
-    paperText: '#e8e8e8',
-    paperMuted: '#a8a8a8',
-    paperBorder: '#363636',
+    paper: '#17181b',
+    paperText: '#dcdee3',
+    paperMuted: '#9aa0aa',
+    paperBorder: '#33363d',
     success: '#4bb563',
     warning: '#d9a441',
     danger: '#fb7185',
-    inverse: '#e8e8e8',
-    inverseText: '#0f0f0f',
+    inverse: '#dcdee3',
+    inverseText: '#17181b',
     inverseHover: 'rgba(0, 0, 0, 0.12)',
     inverseFocus: 'rgba(0, 0, 0, 0.8)',
     focusBorder: '#60a5fa',
