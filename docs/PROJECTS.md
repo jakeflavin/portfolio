@@ -87,6 +87,24 @@ reproduces exactly.
 node scripts/capture-cover.mjs apps/<app> --slug <slug>
 ```
 
+### When the shot has to be taken by hand
+
+Some covers cannot be described in a config: the frame needs a route somebody drew, a room
+somebody filled, a moment. Take the screenshot yourself, put it at
+`assets/covers/<slug>.png`, and cut the square out of it:
+
+```bash
+node scripts/crop-cover.mjs <slug> --x 0 --y 100 --size 830 --save
+```
+
+`--save` writes the crop back to the entry, so the same square comes back later. The
+source is committed too, which means a cover can be reframed without going back to the app
+for another screenshot.
+
+Crop so nothing is sliced. A panel cut through the middle of its words reads as a broken
+screenshot, not as a crop - if the side panel does not fit whole, leave it out and let the
+cover be the part that carries the app.
+
 ## The date
 
 `creationDate` is what the card shows and what the default sort uses. Set it to when the
