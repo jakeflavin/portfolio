@@ -67,16 +67,17 @@ const Container = styled.div`
    * breakpoint. The old 95/90/80/70% ladder meant the content width moved constantly and
    * never settled anywhere deliberate.
    *
-   * 640px is border-box, so the content inside the 24px gutters is 592px. That number is
+   * 500px is border-box, so the content inside the 24px gutters is 452px. That number is
    * now the feed's own width, since the feed is a single column: a card's cover is square,
    * so the measure is also how tall every image in it stands. At the old 780 the covers
    * were 732px tall and two of them filled a laptop screen.
    *
-   * It is a compromise with the grid, which wants the opposite. Three tiles across 592px
-   * are 195px each; narrower would suit the feed and starve them.
+   * It is a compromise with the grid, which wants the opposite. Three tiles across 452px
+   * are 149px each, which is small enough that the hover panel has to decide what to show
+   * from the tile's own width rather than the viewport's. See the Tile container query.
    */
   width: 100%;
-  max-width: 640px;
+  max-width: 500px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
   padding: 0 ${({ theme }) => theme.spacing.md};
 

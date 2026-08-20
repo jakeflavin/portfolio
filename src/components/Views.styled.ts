@@ -20,6 +20,13 @@ export const Tiles = styled.div`
  * click target; everything interactive in the panel is a sibling of it, not a child.
  */
 export const Tile = styled.article<{ $disabled?: boolean }>`
+  /*
+   * A container, so the hover panel can decide what it has room for from the tile's own
+   * width. The viewport is the wrong thing to ask: the grid is three across at every
+   * width and the app's measure is fixed, so a tile is around 149px on a laptop and 112px
+   * on a phone. Both are too narrow for a paragraph, and only one of them is a phone.
+   */
+  container-type: inline-size;
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
@@ -127,13 +134,13 @@ export const TileDescription = styled.p`
   overflow: hidden;
 
   /*
-   * Three tiles across a phone are about 112px wide, which is not a measure any sentence
-   * survives. Below sm the panel keeps the title, the actions and the date; the
-   * description and the tags are what the feed and the list are there for.
+   * A tile has to be about 200px across before a sentence is worth setting in it. Under
+   * that the panel keeps the title, the actions and the date; the description and the
+   * tags are what the feed and the list are there for.
    */
   display: none;
 
-  ${({ theme }) => theme.media.sm} {
+  @container (min-width: 200px) {
     display: -webkit-box;
   }
 `
@@ -148,7 +155,7 @@ export const TileTags = styled.div`
   /* Hidden with the description, and for the same reason. */
   display: none;
 
-  ${({ theme }) => theme.media.sm} {
+  @container (min-width: 200px) {
     display: flex;
   }
 `

@@ -28,9 +28,9 @@ export const Panel = styled.header`
  * Spans the page measure, sharing its left and right edges with the search field and the
  * card grid.
  *
- * The section only works at this width because its parts are sized to fill it — six 84px
- * circles with 38px gaps span 732px exactly. Undersized, no alignment choice looked right:
- * packed left the row ended ragged, spread it went sparse.
+ * The section only works when its parts are sized to fill that measure: six 64px circles
+ * spread across 452px. Undersized, no alignment choice looked right - packed left the row
+ * ended ragged, spread it went sparse.
  */
 export const Content = styled.div`
   display: flex;
@@ -86,9 +86,14 @@ export const AvatarRing = styled.div`
   border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   background: ${({ theme }) => theme.gradient?.brand ?? 'none'};
 
+  /*
+   * 96px, not the 120px it was at the old measure. 120 took a third of the 452px the app
+   * is now, and the bio beside it was reduced to a 308px column - which is what set how
+   * many lines the typing has to reserve for its longest take-back.
+   */
   ${({ theme }) => theme.media.md} {
-    width: 120px;
-    height: 120px;
+    width: 96px;
+    height: 96px;
   }
 `
 
@@ -218,9 +223,9 @@ export const Highlights = styled.div`
   }
 
   /*
-   * Distributed rather than given a fixed gap. Six 84px circles span 732px with 38px
-   * between them, so at the full measure the spacing is tight and even; below it the gaps
-   * close instead of overflowing. A fixed 38px broke between 750px and 780px.
+   * Distributed rather than given a fixed gap. Six 64px circles span 384px of the 452px
+   * measure, leaving about 13px between them, so the spacing is even at the full width and
+   * closes rather than overflowing below it.
    */
   ${({ theme }) => theme.media.md} {
     justify-content: space-between;
@@ -231,17 +236,7 @@ export const Highlights = styled.div`
 `
 
 /**
- * Sets the appearance toggle apart from the outbound links.
- *
- * Sized and positioned against the circle rather than stretched: stretching ran it past
- * the labels as well, and its side margins widened the gap around it so the rhythm of the
- * row broke at that point.
- */
-/**
- * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
- * inside it, so the ring sat 8px in from the block's left edge while the button sat on it —
- * the first thing a grid overlay picks up. Labels centre under the ring and truncate, which
- * is what the app does too.
+ * One highlight: a ringed circle with a label under it.
  */
 export const Highlight = styled.button`
   /*
@@ -262,9 +257,13 @@ export const Highlight = styled.button`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
 
+  /*
+   * 64px, not the 84px this was when the measure was 732px wide. Six of those overflowed
+   * the 452px the app is now, and the rail turns off its own scrolling at this width.
+   */
   ${({ theme }) => theme.media.md} {
-    width: 84px;
-    min-width: 84px;
+    width: 64px;
+    min-width: 64px;
   }
 
   &:focus-visible {
@@ -297,9 +296,9 @@ export const HighlightRing = styled.span`
       ${({ theme }) => theme.motion?.easing ?? 'ease'};
 
   ${({ theme }) => theme.media.md} {
-    width: 84px;
-    height: 84px;
-    min-width: 84px;
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
   }
 
   ${Highlight}:hover & {
