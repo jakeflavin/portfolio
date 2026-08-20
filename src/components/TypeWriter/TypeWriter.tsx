@@ -29,7 +29,7 @@ export function TypeWriter({
 
   return (
     <Wrapper>
-      <Ghost aria-hidden="true" data-text={`${widest}|`} />
+      <Ghost aria-hidden="true" data-text={widest} />
       <Live>
         {text}
         <Cursor>|</Cursor>
