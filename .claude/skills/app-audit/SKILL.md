@@ -68,6 +68,7 @@ Three viewports, every one of them a full journey rather than a screenshot:
 | desktop | 1440×900 | |
 | tablet | 820×1180 | |
 | mobile | 390×844 | use Playwright's `devices['iPhone 13']` so `hover: none` and touch resolve correctly — several affordances change under it |
+| narrow | 320×700 | the floor. Container overflow shows up here and nowhere else |
 
 Two scripts do the work:
 
@@ -88,6 +89,13 @@ you didn't audit.
 hard to wave away. Contrast from the shipped tokens, target sizes from live bounding
 boxes, a fixed bar as a percentage of the viewport it eats. When you assert
 something is too small or too low-contrast, the number should be in the sentence.
+
+**A measurement passing is not the same as the screen being right.** Automated checks
+confirm the values you thought to ask about; they say nothing about the ones you
+didn't. Between steps, actually look at the screenshot — and take one at the *end* of
+a long page and at your narrowest supported width, not just at the top of a 390px
+phone. The four worst bugs in the first Fable audit's follow-up all survived a clean
+30-check run and were obvious to a person holding a device.
 
 **Distinguish what you saw from what the method did.** Emulated print media, for
 instance, doesn't apply page margins — so an edge-to-edge print screenshot may be an

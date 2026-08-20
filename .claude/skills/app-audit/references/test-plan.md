@@ -45,6 +45,34 @@ visual order? Can you reach and operate every control?
 
 **Reduced motion.** If the app animates, check it honours the preference.
 
+## What passes a measurement and still looks wrong
+
+These four all shipped past a clean automated run and were found in a minute by
+somebody holding a phone. They are cheap to check and easy to miss.
+
+**Scroll position after navigating.** A single-page app that swaps views without
+touching scroll leaves the new screen at the old one's offset. Scroll down a list,
+open the fifth item, and see where you land — the bug only appears if you had to
+scroll to reach the thing you tapped, which is exactly what nobody does when
+testing. Assert `window.scrollY === 0` after the transition.
+
+**The narrowest width you actually support, not the popular one.** 390 is not the
+floor; 320 still exists, and container overflow appears there first. A grid item's
+automatic minimum size is `min-content`, so a row whose widest unbreakable part
+exceeds the column pushes straight through its container's border while every
+`scrollWidth` check on the document still reports zero overflow — the page doesn't
+scroll sideways, the content just escapes its box. Measure children against their
+*container's* box, not the viewport.
+
+**Whatever a fixed bar is covering.** A fixed header or action bar sits over the
+content rather than after it. Scroll to the very bottom and compare the last item's
+`bottom` against the bar's `top`. The middle of a long form always looks fine.
+
+**Controls in both label states.** A button whose text changes — Clear/Undo,
+Play/Pause, Follow/Following — changes width with it. If the row was sized to the
+short label, the long one reflows or overflows it the moment it's pressed. Press it
+and re-measure rather than trusting the initial render.
+
 ## Controls worth pressing specifically
 
 - **Destructive ones.** Clear, delete, reset, remove. Is there a confirmation, an
@@ -70,6 +98,9 @@ visual order? Can you reach and operate every control?
 | Fixed bars / headers | Report as % of viewport height on mobile | Measured height ÷ `innerHeight` |
 | Horizontal overflow | 0 | `scrollWidth - clientWidth` at every viewport |
 | Console + page errors | 0 | Collect across the whole journey, not one page load |
+| Content vs its container | inside the border | Compare children's rects to the container's, not the viewport's |
+| Content vs a fixed bar | no overlap at full scroll | Last item's `bottom` vs the bar's `top` |
+| Scroll after navigation | 0 | `window.scrollY` once the new view has painted |
 | Input font size | ≥16px, or iOS zooms on focus | Computed style |
 
 ## Entry path, when in scope
