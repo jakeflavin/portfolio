@@ -29,7 +29,12 @@ export const SelectWrap = styled.div`
   display: flex;
   min-height: 0;
   min-width: 0;
-  flex: 0 0 auto;
+  /*
+   * Shrinks rather than pushing the row past the viewport. The rule above says the sort
+   * label is what gives way on a narrow screen, but a flex of 0 0 auto never let it: at 390px the
+   * control kept its full width and the whole page scrolled sideways by 11px.
+   */
+  flex: 0 1 auto;
   /* Its own colour, since the divider token is switched off. */
   border-left: 1px solid ${({ theme }) => theme.colors.border};
 
