@@ -351,14 +351,15 @@ export const RowTitle = styled.div`
 `
 
 /**
- * Two lines, with the control for the rest sitting on the end of the second - the same
- * shape the feed's cards use.
+ * Three lines, with the control for the rest sitting on the end of the last - the same
+ * shape the feed's cards use. Three is what the cover's height affords: at two there was
+ * a band of empty row between the description and the footer.
  *
  * The fade behind it follows the row rather than naming a colour, so it stays invisible
  * when the row lights up under the pointer.
  */
 export const RowDescription = styled(ClampedText).attrs({
-  lines: 2,
+  lines: 3,
   fade: 'var(--row-surface)',
 })`
   /* Sits at the top of the space it is given rather than centred in it. */
