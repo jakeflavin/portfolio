@@ -19,10 +19,10 @@ import {
   BioTags,
   BioTag,
   Highlights,
-  HighlightDivider,
   Highlight,
   HighlightRing,
   HighlightFill,
+  ToggleFill,
   HighlightLabel,
 } from './ProfileHeader.styled'
 
@@ -138,14 +138,12 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
           {/* First and pinned, so it stays visible when the rail scrolls. */}
           <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
             <HighlightRing>
-              <HighlightFill>
+              <ToggleFill $offersLight={isDarkMode}>
                 {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
-              </HighlightFill>
+              </ToggleFill>
             </HighlightRing>
             <HighlightLabel>{isDarkMode ? 'Light' : 'Dark'}</HighlightLabel>
           </Highlight>
-
-          <HighlightDivider aria-hidden="true" />
 
           {LINKS.map(({ key, href, label, icon }) => (
             <Highlight

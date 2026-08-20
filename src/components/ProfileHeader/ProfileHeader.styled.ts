@@ -237,20 +237,6 @@ export const Highlights = styled.div`
  * the labels as well, and its side margins widened the gap around it so the rhythm of the
  * row broke at that point.
  */
-export const HighlightDivider = styled.span`
-  flex: 0 0 auto;
-  align-self: flex-start;
-  width: 1px;
-  height: 28px;
-  margin: 17px 0 0;
-  background: ${({ theme }) => theme.colors.border};
-
-  ${({ theme }) => theme.media.md} {
-    height: 36px;
-    margin-top: 24px;
-  }
-`
-
 /**
  * Sized to its ring, not wider. A 74px button around a 58px circle centred the circle
  * inside it, so the ring sat 8px in from the block's left edge while the button sat on it —
@@ -348,8 +334,31 @@ export const HighlightFill = styled.span`
     filter: brightness(1.08);
   }
 
+  /*
+   * Sized from the ring rather than in pixels, the way the avatar's mark is, so one number
+   * covers both breakpoints. At a fixed 22px the glyph was 30% of the desktop circle and
+   * 42% of the phone's — the same icon reading as two different sizes.
+   */
   svg {
     display: block;
+    width: 46%;
+    height: 46%;
+  }
+`
+
+/**
+ * The appearance toggle, which wears its own gradient rather than the brand's.
+ *
+ * It shows the mode it would switch you to, so the chip is dark while it offers dark and
+ * bright while it offers light, and the glyph flips with it.
+ */
+export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
+  && {
+    background: ${({ theme, $offersLight }) =>
+      ($offersLight ? theme.gradient?.toggle?.dawn : theme.gradient?.toggle?.night) ??
+      theme.colors.secondary};
+    color: ${({ theme, $offersLight }) =>
+      $offersLight ? (theme.gradient?.toggle?.dawnInk ?? '#1C1C22') : '#ffffff'};
   }
 `
 

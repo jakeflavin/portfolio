@@ -127,7 +127,27 @@ export const gradient = {
    * to light at the opposite one reads as a lit sphere on a circle, which is where the
    * bevelled look came from.
    */
-  compact: "linear-gradient(to right, #2244D8, #72407A, #C33C1C)"
+  compact: "linear-gradient(to right, #2244D8, #72407A, #C33C1C)",
+  /**
+   * The appearance toggle's own pair, so it is not one of the six.
+   *
+   * It previews the mode it would switch you to rather than the one you are in, and the
+   * whole chip inverts with it: night is dark and carries a white moon, dawn is bright and
+   * carries a dark sun. That inversion is the point — a toggle that only swaps its glyph
+   * asks you to read the glyph, and this one can be told apart at a glance.
+   *
+   * Drawn from the same palette as the brand sweep: night from the accent, dawn from the
+   * first and third steps of the intensity ramp. White is unusable on the dawn end (2.18:1
+   * on the gold), which is what decided the inversion rather than a preference.
+   */
+  toggle: {
+    /** Offers dark mode. White moon holds at 7.28:1 across the sweep. */
+    night: "linear-gradient(to right, #2244D8, #0E1E5C)",
+    /** Offers light mode. The dark sun holds at 4.50:1 across the sweep. */
+    dawn: "linear-gradient(to right, #E9A13C, #D95E1F)",
+    /** The sun's ink. Near-black rather than pure, to match the page's own. */
+    dawnInk: "#1C1C22"
+  }
 };
 
 /**
