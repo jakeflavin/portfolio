@@ -242,6 +242,17 @@ export const Highlights = styled.div`
    * own right edge with no way to reach the end of it. One rail, one size.
    */
   overflow-x: auto;
+  /*
+   * Headroom for the things that reach outside a circle: the 2px lift on hover, and the
+   * focus ring, which is 2px of outline 4px off the button.
+   *
+   * They were being cut off. Setting overflow-x to anything but visible makes overflow-y
+   * compute to auto as well, so this is a scroll box on both axes whether or not it ever
+   * scrolls vertically - and the circles sat flush against its top edge. The negative
+   * margins take the padding back out of the layout, so nothing else moves.
+   */
+  padding: 6px 0;
+  margin: -6px 0;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 
