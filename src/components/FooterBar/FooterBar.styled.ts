@@ -31,7 +31,6 @@ const scroll = keyframes`
 export const Marquee = styled.div`
   width: 100%;
   overflow: hidden;
-  border-radius: ${({ theme }) => theme.radii?.md ?? '10px'};
   background: ${({ theme }) => theme.gradient?.brand ?? theme.colors.accent};
   padding: ${({ theme }) => theme.spacing.sm} 0;
 `
