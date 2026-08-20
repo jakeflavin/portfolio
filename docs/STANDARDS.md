@@ -330,6 +330,27 @@ you touch it rather than in a sweep. Two things to know while doing it:
   empty board and every row went unchecked. It builds against the Firestore emulator now,
   seeded at a fixed instant, with the page clock stopped and every outside call refused.
   Before trusting any baseline, run the guard twice and confirm nothing moved.
+- **A rule that never applied is not yours to revive.** Five separate declarations across
+  runify, fibo and the portfolio were shadowed by a later rule of equal specificity —
+  `.home-card`'s padding beaten by `.rail-card` 962 lines down, `.connect-modal`'s width
+  beaten by `.modal`, a segmented control's narrow-viewport padding beaten by its own base
+  rule. Moving one into a component applies it *for the first time*, which is a change, not
+  a migration. Check the source order before carrying a declaration over, and drop the dead
+  ones with a comment saying why.
+- **`styled(Parent)` does not guarantee it outranks the parent.** styled-components injects
+  in first-render order, so if the parent renders somewhere else first its rule can land
+  later and win the tie. A component that overrides anything it extends should wrap its body
+  in `&& { … }`.
+- **A component's name can shadow something real.** A styled `Map` hid the global `Map` from
+  `new Map()`; styled `Toast`, `StoryRow`, `DeckPicker`, `RoomHeader` and `LeaderControls`
+  each collided with the component that renders them. Rename the styled one.
+- **A class on a third-party element cannot move into a component.** lucide's icons carry
+  `.lucide`; the app never renders that element, so the rule stays in the global sheet behind
+  a `/* global-css-allow: … */` comment. The exemption is deliberately noisy so it shows up
+  in a diff rather than passing quietly.
+- **The guard photographs two widths; a tablet is neither.** Check 834px by hand, along with
+  anything only reachable after an interaction — the portfolio's sort control only overflowed
+  a phone *after* something was typed into the search beside it.
 
 ## Testing
 
