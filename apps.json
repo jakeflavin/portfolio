@@ -160,6 +160,11 @@
           "y": 424,
           "size": 680
         }
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "size": 1060
       }
     },
     {
@@ -181,6 +186,11 @@
           "width": 1180,
           "height": 900
         }
+      },
+      "crop": {
+        "x": 116,
+        "y": 0,
+        "size": 1054
       }
     },
     {
@@ -208,6 +218,11 @@
           "y": 0,
           "size": 860
         }
+      },
+      "crop": {
+        "x": 120,
+        "y": 0,
+        "size": 1244
       }
     },
     {
@@ -295,12 +310,17 @@
             "cycleStart": {}
           }
         }
+      },
+      "crop": {
+        "x": 68,
+        "y": 0,
+        "size": 1326
       }
     },
     {
       "slug": "madlib",
-      "title": "Mad Lib",
-      "description": "Fill in the blanks and read back what you get. Pick a story, supply the words, watch it fall apart.",
+      "title": "Fable",
+      "description": "Fantasy mad libs. Pick a tale, fill in the blanks, and read back what you get. It falls apart from there.",
       "tags": [
         "kid",
         "game"
@@ -316,6 +336,11 @@
           "width": 1180,
           "height": 900
         }
+      },
+      "crop": {
+        "x": 22,
+        "y": 130,
+        "size": 1034
       }
     }
   ]
