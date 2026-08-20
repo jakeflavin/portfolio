@@ -362,7 +362,7 @@ export const RowMeta = styled.span`
 export const RowBuild = styled.span`
   display: none;
 
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     display: inline;
   }
 `

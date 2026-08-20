@@ -14,7 +14,7 @@ export const Wrapper = styled.div<{
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
   max-width: 100%;
 
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     width: ${({ $fullWidth }) => ($fullWidth ? '100%' : '7.5rem')};
   }
   border-radius: ${({ theme, $bare }) => ($bare ? '0' : (theme.radii?.sm ?? '8px'))};
@@ -29,7 +29,7 @@ export const TriggerGlyph = styled.span`
   line-height: 0;
   color: ${({ theme }) => theme.colors.muted};
 
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     display: none;
   }
 `
@@ -46,7 +46,7 @@ export const TriggerLabel = styled.span`
    */
   display: none;
 
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     display: block;
   }
 `

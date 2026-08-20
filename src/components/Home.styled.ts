@@ -44,7 +44,7 @@ export const SelectWrap = styled.div`
    * 12rem was sized for a page measure half again as wide as this one, and took 40% of the
    * row to say "Newest".
    */
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     flex: 0 1 7.5rem;
   }
 `

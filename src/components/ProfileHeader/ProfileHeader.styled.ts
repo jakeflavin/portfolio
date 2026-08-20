@@ -73,7 +73,7 @@ export const AvatarRing = styled.div`
    * is now, and the bio beside it was reduced to a 308px column - which is what set how
    * many lines the typing has to reserve for its longest take-back.
    */
-  ${({ theme }) => theme.media.md} {
+  ${({ theme }) => theme.query.wide} {
     width: 96px;
     height: 96px;
     padding: 3px;
@@ -99,7 +99,7 @@ export const Avatar = styled.div`
   }
 
   /* Widens with the ring, so the gap stays the same share of the circle. */
-  ${({ theme }) => theme.media.md} {
+  ${({ theme }) => theme.query.wide} {
     border-width: 2px;
   }
 `
@@ -130,7 +130,7 @@ export const Handle = styled.h1`
   letter-spacing: -0.01em;
   color: ${({ theme }) => theme.colors.text};
 
-  ${({ theme }) => theme.media.md} {
+  ${({ theme }) => theme.query.wide} {
     font-size: 1.5rem;
   }
 `
@@ -142,7 +142,7 @@ export const Stats = styled.dl`
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.md};
 
-  ${({ theme }) => theme.media.md} {
+  ${({ theme }) => theme.query.wide} {
     gap: ${({ theme }) => theme.spacing.lg};
   }
 `

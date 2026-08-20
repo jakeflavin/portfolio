@@ -67,23 +67,25 @@ const Container = styled.div`
    * breakpoint. The old 95/90/80/70% ladder meant the content width moved constantly and
    * never settled anywhere deliberate.
    *
-   * 500px is border-box, so the content inside the 24px gutters is 452px. That number is
-   * now the feed's own width, since the feed is a single column: a card's cover is square,
-   * so the measure is also how tall every image in it stands. At the old 780 the covers
-   * were 732px tall and two of them filled a laptop screen.
+   * 520px is border-box, so the content inside the 20px gutters is 480px. That number is
+   * the feed's own width, since the feed is a single column: a card's cover is square, so
+   * the measure is also how tall every image in it stands. At the old 780 the covers were
+   * 732px tall and two of them filled a laptop screen.
    *
-   * It is a compromise with the grid, which wants the opposite. Three tiles across 452px
-   * are 149px each, which is small enough that the hover panel has to decide what to show
+   * It is a compromise with the grid, which wants the opposite. Three tiles across 480px
+   * are 158px each, which is small enough that the hover panel has to decide what to show
    * from the tile's own width rather than the viewport's. See the Tile container query.
+   *
+   * One gutter, not one that widens at a breakpoint: this element is the container every
+   * layout query in the app resolves against, so its content width has to be a number
+   * that only changes when the window is actually narrower than the measure.
    */
+  container-type: inline-size;
+  container-name: app;
   width: 100%;
   max-width: 520px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
-  padding: 0 ${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.media.md} {
-    padding: 0 ${({ theme }) => theme.spacing.lg};
-  }
+  padding: 0 20px;
 `
 
 const Content = styled.div`

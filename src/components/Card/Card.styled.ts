@@ -92,7 +92,7 @@ export const Media = styled.a`
   margin-left: -${({ theme }) => theme.spacing.md};
   margin-right: -${({ theme }) => theme.spacing.md};
 
-  ${({ theme }) => theme.media.sm} {
+  ${({ theme }) => theme.query.wide} {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
