@@ -319,13 +319,62 @@
     "weather": {
       "themeKey": "wx:theme",
       "themeShape": "value",
+      "clock": "2026-08-19T15:00:00Z",
+      "fixtures": true,
+      "offline": true,
       "query": "?lat=39.74&lon=-104.98&name=Denver",
       "screens": [
         {
           "name": "dashboard",
-          "wait": 4500
+          "wait": 9000
+        },
+        {
+          "name": "range-72h",
+          "wait": 9000,
+          "actions": [
+            {
+              "clickText": "72h",
+              "wait": 2500
+            }
+          ]
+        },
+        {
+          "name": "celsius",
+          "wait": 9000,
+          "actions": [
+            {
+              "clickText": "\u00b0C",
+              "wait": 2500
+            }
+          ]
+        },
+        {
+          "name": "search",
+          "wait": 9000,
+          "actions": [
+            {
+              "click": "input[type='search'], input[placeholder]",
+              "wait": 800
+            }
+          ]
         }
-      ]
+      ],
+      "viewports": [
+        {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "mobile",
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "mask": [
+        "section:has(h2:text-is(\"Air quality\"))"
+      ],
+      "allow": 200
     },
     "fibo": {
       "themeKey": "fibo.theme",
