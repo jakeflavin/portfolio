@@ -11,8 +11,6 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { createRequire } from 'node:module'
-
 const url = process.argv[2]
 const out = process.argv[3] ?? './probe-out'
 if (!url) {
@@ -22,7 +20,6 @@ if (!url) {
 fs.mkdirSync(out, { recursive: true })
 
 // Playwright lives in the portfolio repo, not next to this script.
-const require = createRequire(import.meta.url)
 let playwrightPath = process.env.PLAYWRIGHT_PATH
 if (!playwrightPath) {
   let dir = process.cwd()

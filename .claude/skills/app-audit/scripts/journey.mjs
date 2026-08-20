@@ -60,8 +60,8 @@ const step = async (name, fn) => {
   }
 }
 
-/** Measure a live element rather than eyeballing it. */
-const measure = async (selector) =>
+/** Measure a live element rather than eyeballing it. Used by the steps you write below. */
+const _measure = async (selector) =>
   page.locator(selector).first().evaluate((el) => {
     const r = el.getBoundingClientRect()
     return { w: +r.width.toFixed(1), h: +r.height.toFixed(1), pctVh: +((r.height / innerHeight) * 100).toFixed(1) }
@@ -94,7 +94,7 @@ await step('landing', async () => {
 //   await page.getByRole('button', { name: /…/ }).click()
 //   await page.waitForTimeout(500)
 //   await shot('02-task')
-//   notes.actionBar = await measure('footer, [class*="ActionBar"]')
+//   notes.actionBar = await _measure('footer, [class*="ActionBar"]')
 // })
 
 await step('back-button', async () => {
