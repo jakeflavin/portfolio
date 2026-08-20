@@ -28,7 +28,6 @@ import {
   HighlightFill,
   BrandFill,
   BrandRing,
-  ToggleFill,
   HighlightLabel,
 } from './ProfileHeader.styled'
 
@@ -68,6 +67,20 @@ const brandFills = (theme: DefaultTheme): Record<string, string> => ({
    */
   blog: theme.gradient?.stops?.[2] ?? theme.colors.accent,
 })
+
+/**
+ * The appearance toggle's fill, which previews the mode it would switch you to: the ember
+ * at the warm end of our sweep when it is offering daylight, the violet near the cool end
+ * when it is offering dark.
+ *
+ * Two stops in from the ends the blog sits between, so no two circles in the row are the
+ * same colour. White holds on both - 5.2 on either in the light theme, 5.3 and 7.9 in the
+ * dark.
+ */
+const toggleFill = (theme: DefaultTheme, offersLight: boolean) => {
+  const stops = theme.gradient?.stops ?? []
+  return (offersLight ? stops[4] : stops[1]) ?? theme.colors.accent
+}
 
 const ICON_SIZE = 22
 
@@ -136,7 +149,8 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
   // whenever anything else on the page changed.
   const [avatar] = useState(pickAvatar)
 
-  const fills = brandFills(useTheme())
+  const theme = useTheme()
+  const fills = brandFills(theme)
 
   return (
     <Panel>
@@ -182,11 +196,11 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
         <Highlights>
           {/* First and pinned, so it stays visible when the rail scrolls. */}
           <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
-            <HighlightRing>
-              <ToggleFill $offersLight={isDarkMode}>
+            <BrandRing>
+              <BrandFill $brand={toggleFill(theme, isDarkMode)}>
                 {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
-              </ToggleFill>
-            </HighlightRing>
+              </BrandFill>
+            </BrandRing>
             <HighlightLabel>{isDarkMode ? 'Light' : 'Dark'}</HighlightLabel>
           </Highlight>
 

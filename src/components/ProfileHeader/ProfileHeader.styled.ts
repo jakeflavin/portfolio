@@ -373,22 +373,6 @@ export const HighlightFill = styled.span`
  */
 
 /**
- * The appearance toggle, which is one of the row and not a different kind of thing.
- *
- * It had been given its own construction - a gradient where the others have a ring, and a
- * plain surface where the others have a gradient - which set it apart by looking like a
- * mistake. Same ring, same ink, same everything: only the fill's gradient differs, and
- * that gradient is half of the one beside it rather than a colour from somewhere else.
- */
-export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
-  && {
-    background: ${({ theme, $offersLight }) =>
-      ($offersLight ? theme.gradient?.toggle?.dawn : theme.gradient?.toggle?.night) ??
-      theme.gradient?.compact};
-  }
-`
-
-/**
  * EXPERIMENT - GitHub and LinkedIn only.
  *
  * The fill is the service's own colour with a white mark on it, and the gradient moves out
