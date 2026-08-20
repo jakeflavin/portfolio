@@ -28,6 +28,12 @@ export const Panel = styled.header`
  * Spans the page measure, sharing its left and right edges with the search field and the
  * card grid.
  *
+ * One stack at every width: the avatar beside the name and counts, the bio underneath it
+ * across the full measure, then the highlights. Desktop used to run a two-column grid
+ * with the bio in the avatar's right-hand column, which is a different layout to learn
+ * for no gain - and it cut the bio to a 308px column, which is what decided how many
+ * lines the typing had to hold open for its longest take-back.
+ *
  * The section only works when its parts are sized to fill that measure: six 64px circles
  * spread across 452px. Undersized, no alignment choice looked right - packed left the row
  * ended ragged, spread it went sparse.
@@ -37,39 +43,13 @@ export const Content = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
-
-  ${({ theme }) => theme.media.md} {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    /*
-     * The avatar spans the identity and bio rows so those size to their own content, then
-     * the highlights break out into a full-width row of their own beneath everything.
-     */
-    grid-template-areas:
-      'avatar identity'
-      'avatar bio'
-      'highlights highlights';
-    column-gap: ${({ theme }) => theme.spacing.lg};
-    row-gap: ${({ theme }) => theme.spacing.sm};
-    align-items: start;
-    /*
-     * Items stretch to their column rather than shrink-wrapping, so the identity row and
-     * the bio both resolve against the block's right edge. Shrink-wrapped, the name row
-     * could not push the counts out to it and the bio ended mid-column.
-     */
-    justify-items: stretch;
-  }
 `
 
-/** Avatar beside the name and counts on narrow screens; part of the grid from md. */
+/** The avatar beside the name and counts. */
 export const Identity = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-
-  ${({ theme }) => theme.media.md} {
-    display: contents;
-  }
 `
 
 /**
@@ -77,7 +57,6 @@ export const Identity = styled.div`
  * the outer element; the inner circle sits inside it with a surface-coloured gap.
  */
 export const AvatarRing = styled.div`
-  grid-area: avatar;
   align-self: center;
   flex-shrink: 0;
   width: 72px;
@@ -138,24 +117,12 @@ export const AvatarPhoto = styled.img`
   display: block;
 `
 
+/** Name above counts, at every width. */
 export const IdentityColumn = styled.div`
-  grid-area: identity;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
-
-  /*
-   * Name left, counts right once there is width for it, so the top row resolves against
-   * the same right edge as everything below rather than trailing off.
-   */
-  ${({ theme }) => theme.media.md} {
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.spacing.lg};
-    flex-wrap: wrap;
-  }
 `
 
 export const Handle = styled.h1`
@@ -203,7 +170,6 @@ export const Stat = styled.div`
 `
 
 export const Bio = styled.div`
-  grid-area: bio;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -232,9 +198,7 @@ export const BioTag = styled.span`
  * so nothing is hidden off the edge on a phone.
  */
 export const Highlights = styled.div`
-  grid-area: highlights;
   display: flex;
-  justify-self: stretch;
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.md};
 
