@@ -328,10 +328,19 @@ export const RowTitleLine = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
-  min-height: 22px;
 `
 
 export const RowTitle = styled.div`
+  /*
+   * Trimmed to the ink, so the box the grid aligns is the cap-to-baseline of the words
+   * rather than the font's em box with its leading either side. Without it the title sat
+   * about 7px below the cover's top edge while its box sat exactly on it, which is the
+   * gap between a line being aligned and a line looking aligned.
+   *
+   * Where this is not supported nothing breaks; the leading simply stays, which is where
+   * this started.
+   */
+  text-box: trim-both cap alphabetic;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -396,6 +405,8 @@ export const RowFooter = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
+  /* Trimmed for the same reason, so the last baseline lands on the cover's bottom edge. */
+  text-box: trim-both cap alphabetic;
   gap: ${({ theme }) => theme.spacing.sm};
   align-self: end;
 `
@@ -431,7 +442,13 @@ export const RowActions = styled.div`
   align-items: center;
   flex-shrink: 0;
 
+  /*
+   * The action row carries the card's own padding - 16px above the icons and 8px below -
+   * which belongs to a card caption and not to a list row. Left on, it made the title line
+   * 41px tall around 17px of content and pushed the title 12px below the cover's top edge.
+   */
   > * {
+    padding: 0;
     gap: ${({ theme }) => theme.spacing.sm};
   }
 
