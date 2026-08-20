@@ -46,12 +46,11 @@ const BIO_TAGS = ['developer', 'react', 'java', 'runner', 'girldad']
 const SUPPORT_URL = 'https://ko-fi.com/jakeflavin'
 
 /**
- * EXPERIMENT. Every circle in the row except the appearance toggle: the destination's own
- * colour on the fill, a white mark on it, and our gradient out on the ring.
+ * EXPERIMENT. The five destinations: each one's own colour on the fill, a white mark on
+ * it, and our gradient out on the ring.
  *
- * Which leaves the toggle as the only gradient fill in the row - so the one control that
- * acts on this page rather than leaving it is now the one that looks different, without
- * anything having been added to make it so.
+ * The appearance toggle takes the fill but keeps the plain ring, which is what tells the
+ * row apart: a gradient ring means this circle leaves the page.
  *
  * Emptying this puts the row back to one treatment.
  */
@@ -196,11 +195,12 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
         <Highlights>
           {/* First and pinned, so it stays visible when the rail scrolls. */}
           <Highlight type="button" onClick={onToggleDarkMode} aria-label="Toggle dark mode">
-            <BrandRing>
+            {/* The plain ring, not the gradient one the destinations wear. */}
+            <HighlightRing>
               <BrandFill $brand={toggleFill(theme, isDarkMode)}>
                 {isDarkMode ? <Sun size={ICON_SIZE} /> : <Moon size={ICON_SIZE} />}
               </BrandFill>
-            </BrandRing>
+            </HighlightRing>
             <HighlightLabel>{isDarkMode ? 'Light' : 'Dark'}</HighlightLabel>
           </Highlight>
 
