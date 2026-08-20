@@ -173,11 +173,11 @@ export const lightTheme = {
     primary: "#262626",
     secondary: "#efefef",
     accent: "#2563eb",
-    background: "#fafafa",
+    background: "var(--bg)",
     surface: "#fafafa",
     surfaceGlass: "#fafafa",
     secondaryGlass: "#efefef",
-    text: "#262626",
+    text: "var(--text)",
     muted: "#737373",
     border: "#dbdbdb",
     /**
@@ -227,7 +227,7 @@ export const lightTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: "#fafafa"
+  bodyBackground: "var(--bg)"
 };
 
 /**
@@ -242,11 +242,11 @@ export const darkTheme = {
     primary: "#e8e8e8",
     secondary: "#262626",
     accent: "#60a5fa",
-    background: "#0f0f0f",
+    background: "var(--bg)",
     surface: "#0f0f0f",
     surfaceGlass: "#0f0f0f",
     secondaryGlass: "#262626",
-    text: "#e8e8e8",
+    text: "var(--text)",
     muted: "#a8a8a8",
     border: "#363636",
     divider: "transparent",
@@ -277,5 +277,5 @@ export const darkTheme = {
   img: {
     brightness: "brightness(1)"
   },
-  bodyBackground: "#0f0f0f"
+  bodyBackground: "var(--bg)"
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { lightTheme, darkTheme } from './styles/themes'
-import { GlobalStyles } from './styles/globalStyles'
 import { FooterBar } from '@/components/FooterBar'
 import { Home } from '@/components/Home'
 
@@ -25,6 +24,11 @@ export function App() {
   const [isDarkMode, setIsDarkMode] = useState(getInitialDarkMode)
   const theme = isDarkMode ? darkTheme : lightTheme
 
+  // The stylesheet keys its ground off this, the same attribute every app uses.
+  useEffect(() => {
+    document.documentElement.dataset.theme = isDarkMode ? 'dark' : 'light'
+  }, [isDarkMode])
+
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     const handler = (e: MediaQueryListEvent) => {
@@ -44,7 +48,6 @@ export function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
       <Container>
         <Content>
           <Home isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />

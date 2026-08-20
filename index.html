@@ -25,7 +25,20 @@
     <meta name="twitter:image:alt" content="Jake's Portfolio" />
     <link rel="canonical" href="https://portfolio-4b9fe.web.app/" />
     <!-- social-meta:end -->
-  </head>
+      <!--
+      Resolves the theme before the first paint. The stylesheet switches its ground on
+      <html data-theme>, but React only sets it on mount — so without this the page
+      paints light first, which is a white flash on a dark screen.
+    -->
+    <script>
+      try {
+        var stored = localStorage.getItem('portfolio.theme');
+        var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme =
+          stored === 'light' || stored === 'dark' ? stored : dark ? 'dark' : 'light';
+      } catch (e) {}
+    </script>
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

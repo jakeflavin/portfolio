@@ -1,0 +1,84 @@
+/*
+ * The ground, and the reset. Nothing else belongs in this file.
+ *
+ * Everything here has to be in a stylesheet rather than in a styled-component because it
+ * has to apply on the first paint, before any JavaScript runs. `createGlobalStyle` injects
+ * on mount, which is one frame too late: the page paints white first, and on a dark screen
+ * that is a flash. Anything that can wait for mount belongs in a component's own module.
+ */
+
+:root {
+  color-scheme: light;
+
+  --bg: #fafafa;
+  --text: #262626;
+}
+
+/*
+ * The OS preference, honoured before the app has read the stored one. An explicit choice
+ * is written to <html data-theme> by the script in index.html, which runs first and so
+ * wins both here and below.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg: #0f0f0f;
+    --text: #e8e8e8;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0f0f0f;
+  --text: #e8e8e8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background: var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * The transition is what makes the toggle read as a dim rather than a cut. It lives here
+ * because body's other properties do; nothing about it needs the JS theme.
+ */
+body {
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Links take the body's ink, which is what theme.colors.primary resolved to in both. */
+a {
+  color: inherit;
+  text-decoration: none;
+}

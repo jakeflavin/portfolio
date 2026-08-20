@@ -255,6 +255,43 @@ For realtime databases specifically:
   text makes every stop a foreground colour, and each one has to clear AA on its own.
 - Prefer a modifier prop over a specificity fight; `!important` is banned.
 
+### The global stylesheet
+
+Every app keeps exactly one `src/index.css`, and it may hold only two things:
+
+- **The ground** — the `:root` token blocks, and `body`'s background, colour and font.
+- **The reset** — `box-sizing`, bare-element normalisation, `:focus-visible`, `::selection`,
+  and the reduced-motion block.
+
+Nothing else. **A global sheet may not name a class**, because a class is a component's
+business and a component styles itself. `npm run lint` enforces exactly that, in every repo,
+via `scripts/check-global-css.mjs` — the rule is checked rather than remembered, because a
+global sheet erodes one convenient rule at a time.
+
+The reason the file exists at all is timing: these rules have to apply on the **first paint,
+before any JavaScript runs**. `createGlobalStyle` injects on mount, which is a frame too
+late — the page paints white first, and on a dark screen that is a visible flash. Anything
+that can wait for mount belongs in a component's `.styled` module. That is the whole test
+for whether something belongs here: *does it have to be right before the bundle executes?*
+
+### Theme before first paint
+
+The ground being in CSS is necessary but not sufficient. Every app switches its tokens on
+`<html data-theme>`, and React can only set that on mount — so the page still paints the
+light palette first. Each `index.html` therefore carries a small parser-blocking script that
+resolves the theme from storage, falling back to `prefers-color-scheme`, and sets the
+attribute before the stylesheet is applied.
+
+Two apps do not work this way. hat and countdown have named palettes rather than a
+light/dark pair, and write their tokens onto `<html>` from JavaScript, so no attribute can
+stand in for them. They instead declare the **default** theme's `--bg` and `--text` in
+`:root`, which makes the first frame the default palette rather than white. A visitor whose
+stored theme differs still sees it change on mount; fixing that properly means moving those
+palettes into CSS, which has not been done.
+
+Check this by loading a build with its scripts blocked and reading `body`'s computed
+background — that is exactly the frame a visitor sees before hydration.
+
 Apps still carrying a single stylesheet are mid-migration; convert a component's styles when
 you touch it rather than in a sweep. Two things to know while doing it:
 
