@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTheme, type DefaultTheme } from 'styled-components'
 import { Moon, Sun, Newspaper } from 'lucide-react'
 import { TypeWriter } from '@/components/TypeWriter'
 import { BIO_SCRIPT } from './bio'
@@ -46,13 +47,27 @@ const BIO_TAGS = ['developer', 'react', 'java', 'runner', 'girldad']
 const SUPPORT_URL = 'https://ko-fi.com/jakeflavin'
 
 /**
- * EXPERIMENT. The two services whose circle wears their own colour instead of ours, with
- * our gradient on the mark. Emptying this object puts the whole row back to one treatment.
+ * EXPERIMENT. Every circle in the row except the appearance toggle: the destination's own
+ * colour on the fill, a white mark on it, and our gradient out on the ring.
+ *
+ * Which leaves the toggle as the only gradient fill in the row - so the one control that
+ * acts on this page rather than leaving it is now the one that looks different, without
+ * anything having been added to make it so.
+ *
+ * Emptying this puts the row back to one treatment.
  */
-const BRAND_FILL: Record<string, string> = {
+const brandFills = (theme: DefaultTheme): Record<string, string> => ({
   github: '#181717',
   linkedin: '#0A66C2',
-}
+  threads: '#000000',
+  /* Their single-colour mark. White sits on it at 4:1, which a glyph wants 3 for. */
+  instagram: '#E4405F',
+  /*
+   * Not a brand colour, because the blog is not someone else's platform. It takes the
+   * middle of our own sweep, which means it is ours in whichever theme is showing.
+   */
+  blog: theme.gradient?.stops?.[2] ?? theme.colors.accent,
+})
 
 const ICON_SIZE = 22
 
@@ -121,6 +136,8 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
   // whenever anything else on the page changed.
   const [avatar] = useState(pickAvatar)
 
+  const fills = brandFills(useTheme())
+
   return (
     <Panel>
       <Content>
@@ -182,9 +199,9 @@ export function ProfileHeader({ isDarkMode = false, onToggleDarkMode }: ProfileH
               rel="noopener noreferrer"
               aria-label={`Open ${label}`}
             >
-              {BRAND_FILL[key] ? (
+              {fills[key] ? (
                 <BrandRing>
-                  <BrandFill $brand={BRAND_FILL[key]}>{icon}</BrandFill>
+                  <BrandFill $brand={fills[key]}>{icon}</BrandFill>
                 </BrandRing>
               ) : (
                 <HighlightRing>
