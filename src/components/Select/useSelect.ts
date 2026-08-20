@@ -6,6 +6,7 @@ import {
   getSelectedOptionIndex,
   LISTBOX_GAP,
   LISTBOX_MAX_HEIGHT,
+  placeListbox,
 } from './select.utils'
 
 interface ListboxPosition {
@@ -54,18 +55,12 @@ export function useSelect({ disabled, onChange, options, value }: UseSelectOptio
     const spaceAbove = rect.top - LISTBOX_GAP
     const openAbove = spaceBelow < Math.min(LISTBOX_MAX_HEIGHT, spaceAbove)
 
+    const { left, width } = placeListbox(rect, window.innerWidth)
+
     setListboxRect(
       openAbove
-        ? {
-            bottom: window.innerHeight - rect.top + LISTBOX_GAP,
-            left: rect.left,
-            width: rect.width,
-          }
-        : {
-            top: rect.bottom + LISTBOX_GAP,
-            left: rect.left,
-            width: rect.width,
-          },
+        ? { bottom: window.innerHeight - rect.top + LISTBOX_GAP, left, width }
+        : { top: rect.bottom + LISTBOX_GAP, left, width },
     )
   }, [isOpen])
 

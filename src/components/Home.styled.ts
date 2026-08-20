@@ -35,8 +35,9 @@ export const SelectWrap = styled.div`
    * control kept its full width and the whole page scrolled sideways by 11px.
    */
   flex: 0 1 auto;
-  /* Its own colour, since the divider token is switched off. */
-  border-left: 1px solid ${({ theme }) => theme.colors.border};
+  /* Its own colour, since the divider token is switched off. The rule faces the field,
+     so it moved with the control when sort went to the left of the row. */
+  border-right: 1px solid ${({ theme }) => theme.colors.border};
 
   ${({ theme }) => theme.media.sm} {
     flex: 0 1 12rem;

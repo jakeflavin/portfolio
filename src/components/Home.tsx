@@ -47,15 +47,7 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
     <>
       <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
       <SearchContainer>
-        <ViewToggle value={view} onChange={(next: ViewValue) => setView(next)} />
-        <InputAction
-          ref={searchRef}
-          icon={<Search size={16} />}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search"
-          bare
-        />
+        {/* Sort first, then the field, then the view: the row reads left to right. */}
         <SelectWrap>
           <Select
             options={[...SORT_OPTIONS]}
@@ -66,6 +58,15 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
             bare
           />
         </SelectWrap>
+        <InputAction
+          ref={searchRef}
+          icon={<Search size={16} />}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search"
+          bare
+        />
+        <ViewToggle value={view} onChange={(next: ViewValue) => setView(next)} />
       </SearchContainer>
 
       {/* Announced, so a filter that finds nothing is not silence to a screen reader. */}

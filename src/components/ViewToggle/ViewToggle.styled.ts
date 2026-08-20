@@ -14,7 +14,7 @@ export const Segmented = styled.div`
   flex: 0 0 auto;
   padding: 0 6px 0 4px;
   /* Its own colour: the divider token is switched off under the flat pass. */
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  border-left: 1px solid ${({ theme }) => theme.colors.border};
 `
 
 export const Segment = styled.button<{ $active?: boolean }>`
