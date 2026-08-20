@@ -39,8 +39,13 @@ export const SelectWrap = styled.div`
      so it moved with the control when sort went to the left of the row. */
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
+  /*
+   * 7.5rem, not the 12rem it was. The widest label the control ever shows is "Title A-Z";
+   * 12rem was sized for a page measure half again as wide as this one, and took 40% of the
+   * row to say "Newest".
+   */
   ${({ theme }) => theme.media.sm} {
-    flex: 0 1 12rem;
+    flex: 0 1 7.5rem;
   }
 `
 

@@ -12,6 +12,7 @@ import {
   TilePanel,
   TilePanelBody,
   TileTitle,
+  TileActions,
   TileDescription,
   TileTags,
   TileTag,
@@ -53,13 +54,15 @@ export function GridView({ projects, deployed, onTagClick }: GridViewProps) {
               <TilePanelBody>
                 <TileTitle>{project.title}</TileTitle>
 
-                <OnImage>
-                  <ProjectActions
-                    title={project.title}
-                    href={isLink ? project.path : undefined}
-                    repo={project.repo}
-                  />
-                </OnImage>
+                <TileActions>
+                  <OnImage>
+                    <ProjectActions
+                      title={project.title}
+                      href={isLink ? project.path : undefined}
+                      repo={project.repo}
+                    />
+                  </OnImage>
+                </TileActions>
 
                 <TileDescription>{project.description}</TileDescription>
 

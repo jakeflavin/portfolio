@@ -82,7 +82,13 @@ export const AvatarRing = styled.div`
   flex-shrink: 0;
   width: 72px;
   height: 72px;
-  padding: 3px;
+  /*
+   * The ring is about 3% of the circle and the gap inside it about 2%, which is the
+   * proportion the highlight rings below are built to as well. Held at fixed pixels
+   * instead, the same 3px band is half again as heavy on a 64px circle as on a 96px one,
+   * and the two stop reading as the same object.
+   */
+  padding: 2px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   background: ${({ theme }) => theme.gradient?.brand ?? 'none'};
 
@@ -94,6 +100,7 @@ export const AvatarRing = styled.div`
   ${({ theme }) => theme.media.md} {
     width: 96px;
     height: 96px;
+    padding: 3px;
   }
 `
 
@@ -105,7 +112,7 @@ export const Avatar = styled.div`
   justify-content: center;
   border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
   background: ${({ theme }) => theme.colors.secondary};
-  border: 2px solid ${({ theme }) => theme.colors.surface};
+  border: 1.5px solid ${({ theme }) => theme.colors.surface};
   overflow: hidden;
   color: ${({ theme }) => theme.colors.text};
 
@@ -113,6 +120,11 @@ export const Avatar = styled.div`
     width: 44%;
     height: 44%;
     display: block;
+  }
+
+  /* Widens with the ring, so the gap stays the same share of the circle. */
+  ${({ theme }) => theme.media.md} {
+    border-width: 2px;
   }
 `
 /**
@@ -125,7 +137,6 @@ export const AvatarPhoto = styled.img`
   object-fit: cover;
   display: block;
 `
-
 
 export const IdentityColumn = styled.div`
   grid-area: identity;
@@ -198,7 +209,13 @@ export const Bio = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `
 
-/** Bio hashtags. Static text: they describe the person, they do not filter anything. */
+/**
+ * Bio hashtags. Static and muted, deliberately unlike the card hashtags below them.
+ *
+ * Those filter the directory and wear the gradient that says so. These describe the
+ * person and do nothing when clicked, so giving them the same ink would promise something
+ * they cannot do.
+ */
 export const BioTags = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -294,12 +311,13 @@ export const HighlightRing = styled.span`
   min-width: 62px;
   flex-shrink: 0;
   /*
-   * 3px of ring and 2px of gap, matching the avatar: its gradient band is the 3px padding
-   * and its inner border is the 2px gap. A 1px border read as a hairline beside it.
+   * A 2px band and a 1.5px gap: the avatar's 3-and-2 on a 96px circle, taken to this one.
+   * Matching those numbers in pixels instead is what made this ring look heavier than the
+   * avatar's, since the same band is a bigger share of a smaller circle.
    */
-  padding: 2px;
+  padding: 1.5px;
   border-radius: ${({ theme }) => theme.radii?.pill ?? '999px'};
-  border: 3px solid ${({ theme }) => theme.colors.border};
+  border: 2px solid ${({ theme }) => theme.colors.border};
   transition:
     transform ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
       ${({ theme }) => theme.motion?.easing ?? 'ease'},
@@ -371,21 +389,20 @@ export const HighlightFill = styled.span`
  * for dark and warm for light. The glyph takes the page's text colour rather than white,
  * since it now sits on the page's own ground.
  */
-export const ToggleFill = styled(HighlightFill)`
-  && {
-    background: ${({ theme }) => theme.colors.surface};
-    color: ${({ theme }) => theme.colors.text};
-  }
-`
 
-export const ToggleRing = styled(HighlightRing)<{ $offersLight?: boolean }>`
+/**
+ * The appearance toggle, which is one of the row and not a different kind of thing.
+ *
+ * It had been given its own construction - a gradient where the others have a ring, and a
+ * plain surface where the others have a gradient - which set it apart by looking like a
+ * mistake. Same ring, same ink, same everything: only the fill's gradient differs, and
+ * that gradient is half of the one beside it rather than a colour from somewhere else.
+ */
+export const ToggleFill = styled(HighlightFill)<{ $offersLight?: boolean }>`
   && {
-    border-color: transparent;
-    /* The ring is the colour now, so it takes the width the border used to have. */
-    padding: 5px;
     background: ${({ theme, $offersLight }) =>
       ($offersLight ? theme.gradient?.toggle?.dawn : theme.gradient?.toggle?.night) ??
-      theme.colors.border};
+      theme.gradient?.compact};
   }
 `
 

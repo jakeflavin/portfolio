@@ -15,7 +15,7 @@ export const Wrapper = styled.div<{
   max-width: 100%;
 
   ${({ theme }) => theme.media.sm} {
-    width: ${({ $fullWidth }) => ($fullWidth ? '100%' : '12rem')};
+    width: ${({ $fullWidth }) => ($fullWidth ? '100%' : '7.5rem')};
   }
   border-radius: ${({ theme, $bare }) => ($bare ? '0' : (theme.radii?.sm ?? '8px'))};
 `

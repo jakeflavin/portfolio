@@ -23,7 +23,6 @@ import { NAV_ITEM_ATTRIBUTE } from '@/hooks/useKeyboardNav'
 
 export type CardType = 'project'
 
-
 export interface CardProps {
   /** Card title */
   title: string

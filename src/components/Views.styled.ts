@@ -1,4 +1,5 @@
 import { styled } from 'styled-components'
+import { TagRow, Tag } from '@/components/Tag/Tag.styled'
 
 /**
  * Grid: covers only, at the density the covers were captured for.
@@ -71,9 +72,10 @@ export const TilePanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  /* Against the tile, so the frame stays in proportion as the tile changes size. */
+  padding: 7cqw;
   color: #ffffff;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.74);
   opacity: 0;
   transition: opacity ${({ theme }) => theme.motion?.duration?.fast ?? '0.1s'}
     ${({ theme }) => theme.motion?.easing ?? 'ease'};
@@ -92,7 +94,7 @@ export const TilePanelBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 3cqw;
   width: 100%;
   min-width: 0;
   text-align: left;
@@ -105,8 +107,13 @@ export const TilePanelBody = styled.div`
  * links carrying one name is a duplicate stop on a keyboard and a duplicate announcement
  * in a screen reader.
  */
+/*
+ * Everything in the panel is sized in cqw - a share of the tile's own width - rather than
+ * in points. The tile is 149px on a laptop and 112px on a phone, and a type scale built
+ * for a page has no size that works in both: 14px filled a phone tile with four words.
+ */
 export const TileTitle = styled.span`
-  font-size: ${({ theme }) => theme.typography.size?.lg ?? '0.9375rem'};
+  font-size: clamp(11px, 9cqw, 15px);
   font-weight: ${({ theme }) => theme.typography.weight?.semibold ?? 600};
   letter-spacing: -0.01em;
   color: #ffffff;
@@ -125,53 +132,45 @@ export const TileTitle = styled.span`
  */
 export const TileDescription = styled.p`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.size?.md ?? '0.875rem'};
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(9.5px, 7.5cqw, 13px);
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.85);
   text-wrap: pretty;
+  display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
-  /*
-   * A tile has to be about 200px across before a sentence is worth setting in it. Under
-   * that the panel keeps the title, the actions and the date; the description and the
-   * tags are what the feed and the list are there for.
-   */
-  display: none;
-
-  @container (min-width: 200px) {
-    display: -webkit-box;
-  }
 `
 
-export const TileTags = styled.div`
-  flex-wrap: wrap;
-  gap: 0 8px;
-  max-width: 100%;
-  overflow: hidden;
+/** Sized against the tile, which is only about 149px across. */
+export const TileTags = styled(TagRow)`
+  font-size: clamp(9px, 7cqw, 12px);
+  gap: 0 0.6em;
+  /* Two lines of tags at most, so the description keeps its three. */
   max-height: 2.8em;
+  overflow: hidden;
+`
 
-  /* Hidden with the description, and for the same reason. */
-  display: none;
-
-  @container (min-width: 200px) {
-    display: flex;
+/** White rather than the gradient, since the panel sits over a photograph. */
+export const TileTag = styled(Tag)`
+  && {
+    color: rgba(255, 255, 255, 0.92);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
   }
 `
 
-export const TileTag = styled.button`
-  padding: 0;
-  background: none;
-  border: none;
-  font: inherit;
-  font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
-  color: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  word-break: break-word;
+/**
+ * The action icons, scaled to the tile like everything else in the panel. At their page
+ * size the three of them took half the width of a phone tile.
+ */
+export const TileActions = styled.div`
+  svg {
+    width: clamp(12px, 11cqw, 18px);
+    height: clamp(12px, 11cqw, 18px);
+  }
 
-  &:hover {
-    text-decoration: underline;
+  > * {
+    gap: 3.5cqw;
   }
 `
 
@@ -179,8 +178,8 @@ export const TileTag = styled.button`
 export const TileMeta = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 6px;
-  font-size: 0.6875rem;
+  gap: 0.5em;
+  font-size: clamp(8.5px, 6.5cqw, 11px);
   color: rgba(255, 255, 255, 0.75);
 `
 
@@ -198,9 +197,14 @@ export const Rows = styled.div`
  */
 export const Row = styled.article<{ $disabled?: boolean }>`
   position: relative;
+  /*
+   * Two columns, not three. The third held the date, which had nothing to align to and so
+   * sat off on its own at the top right of every row. It belongs on the footer line with
+   * the tags, where the eye is already reading.
+   */
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) auto;
-  align-items: center;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: start;
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   color: inherit;
@@ -249,14 +253,22 @@ export const RowContent = styled.div`
   }
 `
 
+/**
+ * 88px square, and it is the reason the row is as tall as it is.
+ *
+ * At 28px, and then at 56px, the covers were too small to tell one screenshot from
+ * another, which is the only thing a thumbnail is for. This is large enough to recognise
+ * a tool by sight without the row becoming a card.
+ */
 export const RowThumb = styled.img`
   position: relative;
   z-index: 1;
-  width: 56px;
-  height: 56px;
+  width: 88px;
+  height: 88px;
   object-fit: cover;
-  border-radius: ${({ theme }) => theme.radii?.sm ?? '8px'};
+  border-radius: ${({ theme }) => theme.radii?.md ?? '10px'};
   display: block;
+  background: ${({ theme }) => theme.colors.secondary};
 `
 
 export const RowMain = styled(RowContent)`
@@ -271,24 +283,35 @@ export const RowTitle = styled.div`
   color: ${({ theme }) => theme.colors.text};
 `
 
-/** One line only: the list exists to be scanned, so rows must stay the same height. */
-export const RowDescription = styled.div`
+/**
+ * Two lines, wrapped, rather than one clipped mid-word.
+ *
+ * The single line was there to keep every row the same height, but a description cut at
+ * twenty characters says nothing, and the tags below already vary the height anyway.
+ * Clamping at two keeps the rows close enough in height to scan.
+ */
+export const RowDescription = styled.p`
+  margin: 0;
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
+  line-height: 1.4;
   color: ${({ theme }) => theme.colors.muted};
-  white-space: nowrap;
+  text-wrap: pretty;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 `
 
-export const RowMeta = styled(RowContent)`
-  align-self: start;
-  display: flex;
+/** Age and build, inline on the footer line rather than adrift in a column of their own. */
+export const RowMeta = styled.span`
+  display: inline-flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.xs};
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
   color: ${({ theme }) => theme.colors.muted};
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  flex-shrink: 0;
 `
 
 /** Below sm the build column is what gives, since the date is the better scan key. */
@@ -307,37 +330,39 @@ export const RowBuild = styled.span`
  */
 export const RowFooter = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
   margin-top: ${({ theme }) => theme.spacing.xs};
 `
 
-/** The row's own tag strip. */
-export const RowTags = styled.div`
+/**
+ * The date and the actions, kept together at the end of the footer.
+ *
+ * They travel as one so that when the tags need a second line this group drops to a line
+ * of its own rather than the date stranding itself halfway down the tag block.
+ */
+export const RowFooterEnd = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.xs};
-  min-width: 0;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-left: auto;
 `
 
-export const RowTag = styled.button`
-  border: none;
-  background: none;
-  padding: 0;
-  font: inherit;
+export const RowTags = styled(TagRow)`
   font-size: ${({ theme }) => theme.typography.size?.xs ?? '0.75rem'};
-  color: ${({ theme }) => theme.colors.link ?? theme.colors.accent};
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
-/** The action icons, at the end of the footer line. */
+export const RowTag = styled(Tag)``
+
+/** The action icons, pushed to the end of the footer line. */
 export const RowActions = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 `

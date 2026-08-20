@@ -1,3 +1,4 @@
+import { TagRow, Tag } from '@/components/Tag/Tag.styled'
 import styled from 'styled-components'
 
 interface CardWrapperProps {
@@ -123,7 +124,6 @@ export const CardImage = styled.img`
   filter: ${({ theme }) => theme.img.brightness};
 `
 
-
 export const Caption = styled.div`
   display: flex;
   flex-direction: column;
@@ -156,9 +156,9 @@ export const DescriptionWrap = styled.div`
 /**
  * While clamped this sits at the end of the second line rather than below the text, which
  * is how a truncated caption reads. It is overlaid on the clamp, so it carries the card
- * surface plus a fade wide enough to clear the word running underneath it — a narrow one
- * left a part-word butted against the ellipsis, which read as a clipping bug rather than
- * as a truncated caption.
+ * surface plus a fade wide enough to clear the word running underneath it. The fade is
+ * 60px: at 40 a two or three letter stub of the next word survived under the transparent
+ * end of it, which read as a clipping bug rather than as a truncated caption.
  */
 export const MoreButton = styled.button<{ $inline?: boolean }>`
   padding: 0;
@@ -207,47 +207,10 @@ export const MoreButton = styled.button<{ $inline?: boolean }>`
  * The gradient is painted on the row and clipped to its text, so the tags share one sweep
  * rather than each getting its own slice of it.
  */
-export const HashTags = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 6px;
-  line-height: 1.4;
-  background: ${({ theme }) => theme.gradient?.text ?? 'none'};
-  background-clip: text;
-  -webkit-background-clip: text;
-`
+export const HashTags = styled(TagRow)``
 
-/**
- * Plain hashtag text, not blue. They filter the directory, so they stay interactive, but
- * the link colour made them read as navigation to somewhere else.
- */
-export const HashTag = styled.button`
-  padding: 0;
-  background: none;
-  border: none;
-  font: inherit;
+export const HashTag = styled(Tag)`
   font-size: ${({ theme }) => theme.typography.size?.sm ?? '0.8125rem'};
-  cursor: pointer;
-  word-break: break-word;
-  /*
-   * The declared colour is the fallback and the transparent fill is the gradient path: any
-   * browser lacking -webkit-text-fill-color also lacks the background-clip this depends on,
-   * so it simply keeps the muted text.
-   */
-  color: ${({ theme }) => theme.colors.muted};
-  -webkit-text-fill-color: transparent;
-  transition: opacity ${({ theme }) => theme.motion?.duration?.normal ?? '0.15s'}
-    ${({ theme }) => theme.motion?.easing ?? 'ease'};
-
-  &:hover {
-    opacity: 0.7;
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.focusBorder};
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
 `
 
 /**

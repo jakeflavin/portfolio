@@ -19,8 +19,10 @@ export type SortValue = (typeof SORT_OPTIONS)[number]['value']
  * for scanning names and builds.
  */
 export const VIEW_OPTIONS = [
-  { value: 'cards', label: 'Cards' },
+  // The default first, so the control opens with the current view under the leftmost
+  // button rather than in the middle of the three.
   { value: 'grid', label: 'Grid' },
+  { value: 'cards', label: 'Cards' },
   { value: 'list', label: 'List' },
 ] as const
 
