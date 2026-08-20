@@ -82,9 +82,17 @@ async function waitForServer(url, timeoutMs = 40_000) {
 function themeScript(app, theme) {
   const { themeKey: key, themeShape: shape, themeField: field = "theme" } = app;
   if (!key) return null;
-  const value = shape === "settings"
-    ? `JSON.stringify(Object.assign(JSON.parse(localStorage.getItem(${JSON.stringify(key)}) || '{}'), { ${JSON.stringify(field)}: ${JSON.stringify(theme)} }))`
-    : JSON.stringify(JSON.stringify(theme));
+  /*
+   * Three shapes, because the apps store a theme three ways: inside a settings object, as
+   * a JSON-encoded string, or as the bare word. fibo reads the bare word — written quoted,
+   * its comparison silently fails and every "light" screenshot comes out dark.
+   */
+  const value =
+    shape === "settings"
+      ? `JSON.stringify(Object.assign(JSON.parse(localStorage.getItem(${JSON.stringify(key)}) || '{}'), { ${JSON.stringify(field)}: ${JSON.stringify(theme)} }))`
+      : shape === "raw"
+        ? JSON.stringify(theme)
+        : JSON.stringify(JSON.stringify(theme));
   return `localStorage.setItem(${JSON.stringify(key)}, ${value})`;
 }
 
@@ -215,7 +223,7 @@ try {
           );
         }
 
-        const url = base + (app.query ?? "");
+        const url = base + (screen.path ?? "") + (app.query ?? "");
         await page.goto(url, { waitUntil: "domcontentloaded" });
 
         /*

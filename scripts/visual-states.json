@@ -403,9 +403,18 @@
       "allow": 200
     },
     "fibo": {
-      "themeKey": "fibo.theme",
-      "themeShape": "value",
+      "themeKey": "fibo:theme",
+      "themeShape": "raw",
       "previewDir": "apps/web",
+      "clock": "2026-08-19T15:00:00Z",
+      "env": {
+        "VITE_FIREBASE_PROJECT_ID": "demo-fibo",
+        "VITE_FIREBASE_DATABASE_URL": "http://127.0.0.1:9000/?ns=demo-fibo"
+      },
+      "seed": {
+        "fibo:user:guard": "u1",
+        "fibo:name": "Ada"
+      },
       "screens": [
         {
           "name": "join"
@@ -422,6 +431,11 @@
               "wait": 500
             }
           ]
+        },
+        {
+          "name": "room",
+          "path": "s/guard",
+          "wait": 3500
         }
       ]
     }

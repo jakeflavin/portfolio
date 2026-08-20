@@ -1,0 +1,70 @@
+{
+  "guard": {
+    "id": "guard",
+    "createdAt": 1755000000000,
+    "revealed": true,
+    "autoFlip": false,
+    "currentStoryId": "s2",
+    "touchedAt": 1755000600000,
+    "users": {
+      "u1": {
+        "name": "Ada",
+        "role": "leader",
+        "identity": 0,
+        "online": true,
+        "joinedAt": 1755000000000
+      },
+      "u2": {
+        "name": "Grace",
+        "role": "player",
+        "identity": 3,
+        "online": true,
+        "joinedAt": 1755000010000
+      },
+      "u3": {
+        "name": "Alan",
+        "role": "player",
+        "identity": 6,
+        "online": true,
+        "joinedAt": 1755000020000
+      },
+      "u4": {
+        "name": "Edsger",
+        "role": "observer",
+        "identity": 9,
+        "online": false,
+        "joinedAt": 1755000030000
+      }
+    },
+    "stories": {
+      "s1": {
+        "id": "s1",
+        "title": "Sign-in with a magic link",
+        "status": "done",
+        "order": 0,
+        "result": 5,
+        "createdAt": 1755000040000,
+        "pointedAt": 1755000300000
+      },
+      "s2": {
+        "id": "s2",
+        "title": "Export a session to JSON",
+        "status": "active",
+        "order": 1,
+        "votes": {
+          "u1": 3,
+          "u2": 5,
+          "u3": 3
+        },
+        "createdAt": 1755000050000
+      },
+      "s3": {
+        "id": "s3",
+        "title": "Rate-limit the join endpoint",
+        "status": "queued",
+        "order": 2,
+        "createdAt": 1755000060000
+      }
+    }
+  }
+}
