@@ -373,26 +373,18 @@ export const RowBuild = styled.span`
  * and left the description with about twenty characters.
  */
 /**
- * The tags and the age, on one wrapping line of text.
+ * Tags on the left, the age on the right.
  *
- * They sit together rather than at opposite ends because the age was the thing that kept
- * ending up adrift: given its own end of the row it had nothing to line up with, and
- * given the last tag line it moved every time the tags rewrapped. Set inline after them,
- * separated by a dot, it just reads as the end of the sentence.
+ * A grid rather than a flex row, so the age holds the row's right edge and the first tag
+ * line's baseline no matter how many lines the tags take. Pushed right inside a wrapping
+ * flex row instead, it rode the last tag line and moved every time the tags rewrapped.
  */
 export const RowFooter = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: 2px ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.sm};
   margin-top: 4px;
-  min-width: 0;
-`
-
-/** The dot between the tags and the age. */
-export const RowDot = styled.span`
-  color: ${({ theme }) => theme.colors.muted};
-  opacity: 0.6;
 `
 
 /**

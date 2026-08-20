@@ -15,7 +15,6 @@ import {
   RowDescription,
   RowFooter,
   RowTags,
-  RowDot,
   RowTag,
   RowMeta,
   RowActions,
@@ -75,8 +74,6 @@ export function ListView({ projects, deployed, onTagClick }: ListViewProps) {
                     </RowTag>
                   ))}
                 </RowTags>
-
-                {(project.tags?.length ?? 0) > 0 && <RowDot aria-hidden="true">&middot;</RowDot>}
 
                 <RowMeta>
                   {build && <RowBuild>{build}</RowBuild>}
