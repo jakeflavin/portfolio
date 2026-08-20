@@ -103,20 +103,23 @@ export const blur = {
 };
 
 /**
- * The identity gradient: teal through blue into violet.
+ * The identity gradient: ultramarine into ember, borrowed from Rova.
  *
- * Deliberately cool the whole way. Instagram's mark is a warm arc — magenta into red,
- * orange and gold, anchored by one purple — and warmth is what the eye reads as "that's
- * Instagram", not the fact of being a gradient. Rotating or reshuffling those stops still
- * looked like the same brand; dropping the warm half is what breaks the resemblance.
+ * Rova states it in two stops — its accent at one end, the fourth step of its intensity
+ * ramp at the other — and lets the sweep find its own way between them. The three stops
+ * here are the points that sweep actually passes through, so this renders identically to
+ * Rova's while keeping five named values. On the way it crosses a plum that belongs to
+ * neither end, which is what stops it reading as two colours stuck together.
  *
- * Cool also suits what this actually is. A directory of developer tools reads closer to a
- * terminal than to a social feed.
+ * This replaces a teal-through-violet sweep that was cool the whole way, chosen to avoid
+ * reading as Instagram's warm arc. Half of this one is warm, so that argument is partly
+ * given up — but Instagram's mark is pink-dominant with no blue in it at all, and this is
+ * blue for most of its length. The ring's *shape* was always the closer borrowing.
  */
 export const gradient = {
-  stops: ["#2dd4bf", "#22b8d4", "#3b82f6", "#6366f1", "#8b5cf6"],
+  stops: ["#2244D8", "#4A42A9", "#72407A", "#9B3E4B", "#C33C1C"],
   /** The full sweep, for the wordmark and the avatar ring. */
-  brand: "linear-gradient(45deg, #2dd4bf, #22b8d4, #3b82f6, #6366f1, #8b5cf6)",
+  brand: "linear-gradient(45deg, #2244D8, #4A42A9, #72407A, #9B3E4B, #C33C1C)",
   /**
    * The tighter three-stop version, for small surfaces like rings and bars.
    *
@@ -124,24 +127,28 @@ export const gradient = {
    * to light at the opposite one reads as a lit sphere on a circle, which is where the
    * bevelled look came from.
    */
-  compact: "linear-gradient(to right, #2dd4bf, #3b82f6, #8b5cf6)"
+  compact: "linear-gradient(to right, #2244D8, #72407A, #C33C1C)"
 };
 
 /**
- * The same sweep, darkened for text.
+ * The same sweep, for text.
  *
- * Clipping a gradient to small text makes every stop a foreground colour, so each one has
- * to clear AA on its own. The vivid stops above do not: the previous palette shipped two
- * that failed outright on the light page (4.16:1 and 1.77:1), which is easy to miss
- * because the eye reads the row as one colour.
+ * Clipping a gradient to text makes every colour along it a foreground colour — not just
+ * the stops, which are the easy part. Both of these are measured across the whole sweep at
+ * 240 points, and the worst point is what is quoted.
  *
- * Every stop here clears 4.5:1 against its own page colour.
+ * Light needs no adjustment at all: Rova's colours are a *ground* carrying white, so they
+ * are already dark enough to be ink on a near-white page. Worst point 5.05:1.
+ *
+ * Dark does. Every stop is lifted 27.7% of the way to white, which is the least that keeps
+ * the whole sweep clear — the dip is between the first two stops, not at either of them.
+ * Worst point 4.55:1, with the hues held to within 0.6 degrees of the ground version.
  */
 export const textGradientLight =
-  "linear-gradient(to right, #0f766e, #1d4ed8, #6d28d9)";
+  "linear-gradient(to right, #2244D8, #72407A, #C33C1C)";
 
 export const textGradientDark =
-  "linear-gradient(to right, #2dd4bf, #60a5fa, #a78bfa)";
+  "linear-gradient(to right, #4676FF, #A06BA8, #EF6546)";
 
 /** Motion: short and unfussy. */
 export const motion = {
