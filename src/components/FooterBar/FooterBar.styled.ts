@@ -34,14 +34,6 @@ export const Marquee = styled.div`
   border-radius: ${({ theme }) => theme.radii?.md ?? '10px'};
   background: ${({ theme }) => theme.gradient?.brand ?? theme.colors.accent};
   padding: ${({ theme }) => theme.spacing.sm} 0;
-  /* The band's own edges dissolve rather than cutting a tag in half at either end. */
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 24px,
-    #000 calc(100% - 24px),
-    transparent 100%
-  );
 `
 
 export const MarqueeTrack = styled.div`
