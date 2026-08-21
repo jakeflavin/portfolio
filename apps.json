@@ -382,6 +382,33 @@
           }
         }
       }
+    },
+    {
+      "slug": "tack",
+      "title": "Tack",
+      "description": "A screen for the front of a class. Pin up a lesson plan, a timer, a name picker and twenty more. Nothing is saved. The link is the whole board, so you can write one by hand.",
+      "tags": [
+        "teacher",
+        "classroom"
+      ],
+      "cover": "/images/tack-cover.jpg",
+      "creationDate": "2026-08-21",
+      "disabled": false,
+      "repo": "jakeflavin/tack",
+      "shot": {
+        "hide": "header,footer",
+        "wait": 2000,
+        "viewport": {
+          "width": 940,
+          "height": 1080
+        },
+        "clip": {
+          "x": 0,
+          "y": 0,
+          "size": 940
+        },
+        "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5&timer=5m;label=Do+now&light=green&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo&qr=https://portfolio-4b9fe.web.app/tack/&work=whisper&list=Read+the+question,Underline+key+words,Plan+first;numbered=on&dice=2d6&date=&breathe=4-4-4-4"
+      }
     }
   ]
 }

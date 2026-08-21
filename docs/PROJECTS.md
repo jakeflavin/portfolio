@@ -71,6 +71,7 @@ anyone remembering the flags:
   "wait": 5000,                                   // video, fonts, entry animation
   "env": { "VITE_FIRESTORE_EMULATOR": "1" },      // point at a local emulator, never live data
   "seed": { "hat.lists": [ /* … */ ] },           // localStorage the app would have written
+  "query": "?timer=5m&names=Ada,Bea",             // for an app that keeps its state in the link
   "actions": [ { "selector": "…", "wait": 900 } ],// clicks and typing, in order
   "scale": 3                                      // device pixel ratio (default 2)
 }
@@ -82,7 +83,8 @@ screenshot shows an arrangement nobody will ever see.
 
 Prefer `seed` over `actions` where the state is something the user typed. Writing the
 localStorage the app would have written is faster, does not break when a button moves, and
-reproduces exactly.
+reproduces exactly. `query` is the same idea for tack, which stores nothing at all: a board
+exists only as its URL, so the query string *is* the state.
 
 `scale` matters only when the clip is small. Two is plenty for a cover cut out of a whole
 screen; glyph's is one 400px panel, and at 2 the file would come out smaller than every

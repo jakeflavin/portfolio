@@ -53,7 +53,10 @@ function parseArgs(argv) {
       continue;
     }
     const key = arg.slice(2);
-    if (key === "dry-run" || key === "yes" || key === "accept-audit") {
+    // Every flag that takes no value has to be listed, or it swallows the next argument as
+    // its own: `--skip-cover --yes` silently became `skip-cover: "--yes"`, and the run
+    // stopped at a prompt nobody was there to answer.
+    if (["dry-run", "yes", "accept-audit", "skip-cover"].includes(key)) {
       flags[key] = true;
     } else {
       flags[key] = argv[++i];

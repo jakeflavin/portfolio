@@ -28,6 +28,8 @@
  *
  * An app that opens empty can record `shot.actions` in apps.json — ordered click/type
  * steps replayed before the shot, so the framing reproduces without anyone remembering it.
+ * `shot.seed` writes localStorage instead, and `shot.query` a query string, for an app
+ * that keeps its state in the link.
  */
 
 import fs from "node:fs";
@@ -142,6 +144,15 @@ const ENV = shot.env ?? {};
  */
 const SEED = shot.seed ?? {};
 
+/**
+ * A query string appended to the app's URL, for an app whose state lives in the link.
+ *
+ * This is `seed` for tack, which keeps nothing in storage at all: a board only exists as
+ * its URL, so the query *is* the state the user would have built. Written here for the
+ * same reason as seed — it reproduces exactly, and it does not break when a button moves.
+ */
+const QUERY = typeof shot.query === "string" ? shot.query : "";
+
 const outPath = path.resolve(ROOT, flags.out ?? `public/images/${slug}-cover.jpg`);
 
 function run(command, args, options = {}) {
@@ -185,8 +196,8 @@ const preview = spawn(
 
 let browser;
 try {
-  const url = `http://localhost:${PORT}/${slug}/`;
-  await waitForServer(url);
+  const url = `http://localhost:${PORT}/${slug}/${QUERY}`;
+  await waitForServer(`http://localhost:${PORT}/${slug}/`);
 
   browser = await chromium.launch();
   /*
