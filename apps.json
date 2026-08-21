@@ -407,7 +407,7 @@
           "y": 0,
           "size": 940
         },
-        "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5&timer=5m;label=Do+now&light=green&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo&qr=https://portfolio-4b9fe.web.app/tack/&work=whisper&list=Read+the+question,Underline+key+words,Plan+first;numbered=on&dice=2d6&date=&breathe=4-4-4-4"
+        "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l;at=0,0,4,2&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5;at=4,0,8,3&light=green;at=0,2,4,3&timer=5m;label=Do+now;at=4,3,4,4&qr=https://portfolio-4b9fe.web.app/tack/;at=8,3,4,4&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo;at=0,5,4,2&list=Read+the+question,Underline+key+words,Plan+first;numbered=on;at=0,7,4,3&dice=2d6;at=4,7,4,3&work=whisper;at=8,7,4,3&date=;at=0,10,6,3&timetable=Maths*9:00,English*10:05,Break*11:05,Science*11:25;at=6,10,6,3"
       }
     }
   ]
