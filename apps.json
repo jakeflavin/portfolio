@@ -351,7 +351,7 @@
     {
       "slug": "glyph",
       "title": "Glyph",
-      "description": "Make a QR code for a link, some text, a wifi network or a contact card. The code holds the data itself. No account, and nothing that expires.",
+      "description": "Make a QR code for a link, a wifi network or a contact card. Colour it, put a logo in the middle, download SVG or PNG. The code holds the data itself, so nothing expires.",
       "tags": [
         "teacher",
         "utility"
@@ -362,12 +362,18 @@
       "repo": "jakeflavin/glyph",
       "shot": {
         "hide": "header,footer",
-        "wait": 2000,
+        "wait": 2200,
         "viewport": {
-          "width": 824,
-          "height": 1200
+          "width": 1400,
+          "height": 1450
+        },
+        "clip": {
+          "x": 24,
+          "y": 0,
+          "size": 1352
         },
         "seed": {
+          "glyph.kind": "\"wifi\"",
           "glyph.draft": {
             "wifi": {
               "ssid": "Bramble Cafe",
@@ -376,12 +382,16 @@
               "hidden": false
             }
           },
-          "glyph.kind": "\"wifi\""
-        },
-        "clip": {
-          "x": 24,
-          "y": 0,
-          "size": 776
+          "glyph.style": {
+            "shape": "rounded",
+            "eyeShape": "rounded",
+            "margin": 4,
+            "dark": "#0f3b28",
+            "light": "#ffffff",
+            "eye": null,
+            "logo": null,
+            "caption": "Free wifi. Scan to join."
+          }
         }
       }
     }
