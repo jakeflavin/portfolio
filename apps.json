@@ -351,7 +351,7 @@
     {
       "slug": "glyph",
       "title": "Glyph",
-      "description": "Make a QR code for a link, a wifi network or a contact card. Colour it, put a logo in the middle, download SVG or PNG. The code holds the data itself, so nothing expires.",
+      "description": "Make a QR code for a link, wifi, a contact card and eight more. Colour it, shape it, drop a logo in. It reads the code back to prove it still scans. Nothing expires.",
       "tags": [
         "teacher",
         "utility"
@@ -364,16 +364,17 @@
         "hide": "header,footer",
         "wait": 2200,
         "viewport": {
-          "width": 1400,
-          "height": 1450
+          "width": 1273,
+          "height": 1350
         },
         "clip": {
           "x": 24,
           "y": 0,
-          "size": 1352
+          "size": 1225
         },
         "seed": {
           "glyph.kind": "\"wifi\"",
+          "glyph.ecc": "\"H\"",
           "glyph.draft": {
             "wifi": {
               "ssid": "Bramble Cafe",
@@ -383,14 +384,30 @@
             }
           },
           "glyph.style": {
-            "shape": "rounded",
-            "eyeShape": "rounded",
+            "module": "smooth",
+            "eyeFrame": "leaf",
+            "eyeBall": "diamond",
             "margin": 4,
-            "dark": "#0f3b28",
-            "light": "#ffffff",
-            "eye": null,
+            "paint": {
+              "type": "linear",
+              "from": "#2b1b6b",
+              "to": "#8a1c4f",
+              "angle": 135
+            },
+            "background": {
+              "type": "solid",
+              "color": "#ffffff"
+            },
+            "transparent": false,
+            "round": 0,
+            "eyeFramePaint": null,
+            "eyeBallPaint": null,
             "logo": null,
-            "caption": "Free wifi. Scan to join."
+            "frame": {
+              "style": "card",
+              "caption": "Free wifi. Scan to join.",
+              "position": "below"
+            }
           }
         }
       }
