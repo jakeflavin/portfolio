@@ -22,6 +22,7 @@
  *   --size <px>        Square edge length           (default: 1080)
  *   --port <port>      Preview server port          (default: 4319)
  *   --theme <scheme>   `light` or `dark`            (default: light)
+ *   --scale <n>        Device pixel ratio           (default: 2)
  *   --keep-chrome      Skip hiding anything
  *   --preview-dir <p>  Where to serve from, for workspace repos (default: the app root)
  *
@@ -114,6 +115,15 @@ const VIEWPORT = shot.viewport ?? { width: SIZE, height: SIZE };
 const CLIP = shot.clip ?? null;
 
 /**
+ * The device pixel ratio the page renders at.
+ *
+ * Two is enough when the cover is a whole screen cut down. It is not enough when the cover
+ * is one small part of one — glyph's is the code panel, which the app draws at 400px and
+ * never larger, so at 2 the file would come out smaller than the covers beside it.
+ */
+const SCALE = Number(flags.scale ?? shot.scale ?? 2);
+
+/**
  * Build-time environment for the app.
  *
  * The same mechanism the visual guard uses: linkit and fibo point at local emulators for a
@@ -189,8 +199,8 @@ try {
   const page = await browser.newPage({
     viewport: VIEWPORT,
     colorScheme: THEME,
-    // Twice over, so a clipped crop still has pixels to spare.
-    deviceScaleFactor: 2
+    // Over-rendered, so a clipped crop still has pixels to spare.
+    deviceScaleFactor: SCALE
   });
 
   if (Object.keys(SEED).length > 0) {

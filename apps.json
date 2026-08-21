@@ -361,52 +361,23 @@
       "disabled": false,
       "repo": "jakeflavin/glyph",
       "shot": {
-        "hide": "header,footer",
-        "wait": 2200,
+        "hide": "header,footer,main > div,section[aria-label='The code'] > *:not(figure)",
+        "wait": 2000,
         "viewport": {
-          "width": 1273,
-          "height": 1350
+          "width": 1100,
+          "height": 800
         },
         "clip": {
           "x": 24,
           "y": 0,
-          "size": 1225
+          "size": 400
         },
+        "scale": 3,
         "seed": {
-          "glyph.kind": "\"wifi\"",
-          "glyph.ecc": "\"H\"",
+          "glyph.kind": "\"link\"",
           "glyph.draft": {
-            "wifi": {
-              "ssid": "Bramble Cafe",
-              "password": "flatwhite2026",
-              "security": "WPA",
-              "hidden": false
-            }
-          },
-          "glyph.style": {
-            "module": "smooth",
-            "eyeFrame": "leaf",
-            "eyeBall": "diamond",
-            "margin": 4,
-            "paint": {
-              "type": "linear",
-              "from": "#2b1b6b",
-              "to": "#8a1c4f",
-              "angle": 135
-            },
-            "background": {
-              "type": "solid",
-              "color": "#ffffff"
-            },
-            "transparent": false,
-            "round": 0,
-            "eyeFramePaint": null,
-            "eyeBallPaint": null,
-            "logo": null,
-            "frame": {
-              "style": "card",
-              "caption": "Free wifi. Scan to join.",
-              "position": "below"
+            "link": {
+              "url": "portfolio-4b9fe.web.app/glyph/"
             }
           }
         }

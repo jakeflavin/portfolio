@@ -71,7 +71,8 @@ anyone remembering the flags:
   "wait": 5000,                                   // video, fonts, entry animation
   "env": { "VITE_FIRESTORE_EMULATOR": "1" },      // point at a local emulator, never live data
   "seed": { "hat.lists": [ /* … */ ] },           // localStorage the app would have written
-  "actions": [ { "selector": "…", "wait": 900 } ] // clicks and typing, in order
+  "actions": [ { "selector": "…", "wait": 900 } ],// clicks and typing, in order
+  "scale": 3                                      // device pixel ratio (default 2)
 }
 ```
 
@@ -82,6 +83,22 @@ screenshot shows an arrangement nobody will ever see.
 Prefer `seed` over `actions` where the state is something the user typed. Writing the
 localStorage the app would have written is faster, does not break when a button moves, and
 reproduces exactly.
+
+`scale` matters only when the clip is small. Two is plenty for a cover cut out of a whole
+screen; glyph's is one 400px panel, and at 2 the file would come out smaller than every
+other cover in the folder.
+
+### When the output is the better picture
+
+The rule above is a screenshot of the app, and the reason is that a graphic *about* an app
+says nothing about using it. An app whose output is itself a picture is the exception:
+glyph's cover is the code it just made, with the app's own chrome hidden, because a QR
+code is legible at 158px and a customiser is not. That code points at the app, so the card
+in the grid is a working one — scan the directory page and it opens.
+
+It is still a screenshot of the running app rather than a drawing of one, which is the
+part of the rule that matters. Do not reach for this because the interface is untidy; that
+is a reason to fix the interface.
 
 ```bash
 node scripts/capture-cover.mjs apps/<app> --slug <slug>
