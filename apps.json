@@ -347,6 +347,43 @@
         "y": 149,
         "size": 900
       }
+    },
+    {
+      "slug": "glyph",
+      "title": "Glyph",
+      "description": "Make a QR code for a link, some text, a wifi network or a contact card. The code holds the data itself. No account, and nothing that expires.",
+      "tags": [
+        "teacher",
+        "utility"
+      ],
+      "cover": "/images/glyph-cover.jpg",
+      "creationDate": "2026-08-21",
+      "disabled": false,
+      "repo": "jakeflavin/glyph",
+      "shot": {
+        "hide": "header,footer",
+        "wait": 2000,
+        "viewport": {
+          "width": 824,
+          "height": 1200
+        },
+        "seed": {
+          "glyph.draft": {
+            "wifi": {
+              "ssid": "Bramble Cafe",
+              "password": "flatwhite2026",
+              "security": "WPA",
+              "hidden": false
+            }
+          },
+          "glyph.kind": "\"wifi\""
+        },
+        "clip": {
+          "x": 24,
+          "y": 0,
+          "size": 776
+        }
+      }
     }
   ]
 }
