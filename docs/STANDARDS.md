@@ -208,10 +208,10 @@ Every rule here was a real bug once.
   you are about to read is not a member of anything.
 - **Stateful views remount when their entity changes** (`<RoomInner key={sessionId} />`).
 - **Storage keys are namespaced** to the app: `hush.settings`, `hat.lists`, `wx:units`. All
-  nine apps share one origin, so an unprefixed key collides with a sibling. That prefix is
+  ten apps share one origin, so an unprefixed key collides with a sibling. That prefix is
   the part that matters, and every app has it.
 
-  The separator does not match across the set — four apps use a dot and three a colon — and
+  The separator does not match across the set — five apps use a dot and three a colon — and
   it is deliberately left that way. Renaming a storage key is a data migration, not a
   rename: it drops saved settings, custom backgrounds, session history and kept stories for
   anyone already using the app. Carrying a migration shim in four repos forever is a real
