@@ -409,6 +409,33 @@
         },
         "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l;at=0,0,4,2&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5;at=4,0,8,3&light=green;at=0,2,4,3&timer=5m;label=Do+now;at=4,3,4,4&qr=https://portfolio-4b9fe.web.app/tack/;at=8,3,4,4&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo;at=0,5,4,2&list=Read+the+question,Underline+key+words,Plan+first;numbered=on;at=0,7,4,3&dice=2d6;at=4,7,4,3&work=whisper;at=8,7,4,3&date=;at=0,10,6,3&timetable=Maths*9:00,English*10:05,Break*11:05,Science*11:25;at=6,10,6,3"
       }
+    },
+    {
+      "slug": "mixtape",
+      "title": "Mixtape",
+      "description": "A wedding save-the-date shaped like a CD. Guests open the case, read the date, and press play on your playlist. Nothing is stored. The link is the invite.",
+      "tags": [
+        "couple",
+        "wedding"
+      ],
+      "cover": "/images/mixtape-cover.jpg",
+      "creationDate": "2026-08-31",
+      "disabled": false,
+      "repo": "jakeflavin/mixtape",
+      "shot": {
+        "hide": "footer",
+        "viewport": {
+          "width": 1240,
+          "height": 900
+        },
+        "query": "?t=jazz&m=N4IgbiBcCMA0IDsCGBbApgZygbRAKQFcE0R4AVACzQHsQBdeAEyQBcTIQAmABk4HYAtNwBsA6J1IgWAS3RQQ0YZADM3SWDQIC7EJTQACAEJoANif0AxakUYAnAJ6SAxtJaOOACQKMM1BLH0AOTQAd30ATWpbAGtJFlskDRMcUGlGeRZoSSokRmkEAHN5AHE0FhlC-RYqWxJ4ACNqRncQCxN7fXyWan0AQRN6pAR7AKiqpGiDXpR4if0AM1tqFH0ABU0EfQBlFlZpPyqerx8-ADoQAF8GEHmkAEcsSGxU9I55rPg7+QBJDCqKaR-aoGfJgVx7PwAfkkSHkgWoLH09jKp30lEBnSBVH0fgM1VY+gwiUw-wMzDY5yu8AADiYkPYTICWPIKOVqRhIAB6TnUamaU4YakI6TzeynJzLTm0+mMjAsTnKPjSACcjAAigAtCzQAAiAA0+AVvtQANJ6ljcAooAAekgQCJ0vUYjFJhL8BSR1n0ISGiO6+mYCCceOo53gSAGBBQ8i2xNd5LqUiocg4ACskAAvDOXIA",
+        "wait": 3000,
+        "clip": {
+          "x": 370,
+          "y": 210,
+          "size": 500
+        }
+      }
     }
   ]
 }
