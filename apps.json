@@ -436,6 +436,24 @@
           "size": 500
         }
       }
+    },
+    {
+      "slug": "goals",
+      "title": "Goals",
+      "description": "An iPhone and Apple Watch app with five goal slots for the year. Not six. Nothing leaves the phone. There is no account and nothing to sign up for.",
+      "tags": [
+        "planning",
+        "focus"
+      ],
+      "cover": "/images/goals-cover.jpg",
+      "creationDate": "2026-05-15",
+      "disabled": false,
+      "repo": "jakeflavin/goals-web",
+      "crop": {
+        "x": 0,
+        "y": 330,
+        "size": 1206
+      }
     }
   ]
 }
