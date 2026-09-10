@@ -454,6 +454,128 @@
         "y": 330,
         "size": 1206
       }
+    },
+    {
+      "slug": "sticker",
+      "title": "Sticker",
+      "description": "A chore chart for a child who cannot read yet. A picture for every job, a page for every kid, a reward at the end. Print it, then mark it with a sticker. Nothing leaves this browser.",
+      "tags": [
+        "parent",
+        "kid"
+      ],
+      "cover": "/images/sticker-cover.jpg",
+      "creationDate": "2026-09-10",
+      "disabled": false,
+      "repo": "jakeflavin/sticker",
+      "shot": {
+        "viewport": {
+          "width": 1800,
+          "height": 1120
+        },
+        "clip": {
+          "x": 550,
+          "y": 0,
+          "size": 1100
+        },
+        "hide": "#root > div > header",
+        "wait": 2500,
+        "seed": {
+          "sticker.charts": {
+            "version": 1,
+            "charts": [
+              {
+                "id": "cover01",
+                "name": "Morning routine",
+                "kind": "routine",
+                "theme": "garden",
+                "kids": [
+                  {
+                    "id": "ada",
+                    "name": "Ada",
+                    "avatar": "\ud83e\udd8a"
+                  }
+                ],
+                "chores": [
+                  {
+                    "id": "c0",
+                    "label": "Wake up",
+                    "icon": "\ud83c\udf1e",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c1",
+                    "label": "Use the potty",
+                    "icon": "\ud83d\udebd",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c2",
+                    "label": "Brush teeth",
+                    "icon": "\ud83e\udea5",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c3",
+                    "label": "Get dressed",
+                    "icon": "\ud83d\udc55",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c4",
+                    "label": "Eat breakfast",
+                    "icon": "\ud83e\udd63",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c5",
+                    "label": "Shoes on",
+                    "icon": "\ud83d\udc5f",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  },
+                  {
+                    "id": "c6",
+                    "label": "Pack the bag",
+                    "icon": "\ud83c\udf92",
+                    "when": "morning",
+                    "kidIds": [
+                      "ada"
+                    ]
+                  }
+                ],
+                "reward": {
+                  "icon": "\ud83d\udedd",
+                  "label": "Playground",
+                  "target": 5
+                },
+                "sticker": "\ud83c\udf1f",
+                "days": 7,
+                "createdAt": 1757462400000,
+                "updatedAt": 1757462400000
+              }
+            ]
+          },
+          "sticker.current": "cover01",
+          "sticker.theme": "light"
+        }
+      }
     }
   ]
 }
