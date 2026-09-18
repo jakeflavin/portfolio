@@ -492,14 +492,14 @@
                   {
                     "id": "ada",
                     "name": "Ada",
-                    "avatar": "\ud83e\udd8a"
+                    "avatar": "🦊"
                   }
                 ],
                 "chores": [
                   {
                     "id": "c0",
                     "label": "Wake up",
-                    "icon": "\ud83c\udf1e",
+                    "icon": "🌞",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -508,7 +508,7 @@
                   {
                     "id": "c1",
                     "label": "Use the potty",
-                    "icon": "\ud83d\udebd",
+                    "icon": "🚽",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -517,7 +517,7 @@
                   {
                     "id": "c2",
                     "label": "Brush teeth",
-                    "icon": "\ud83e\udea5",
+                    "icon": "🪥",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -526,7 +526,7 @@
                   {
                     "id": "c3",
                     "label": "Get dressed",
-                    "icon": "\ud83d\udc55",
+                    "icon": "👕",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -535,7 +535,7 @@
                   {
                     "id": "c4",
                     "label": "Eat breakfast",
-                    "icon": "\ud83e\udd63",
+                    "icon": "🥣",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -544,7 +544,7 @@
                   {
                     "id": "c5",
                     "label": "Shoes on",
-                    "icon": "\ud83d\udc5f",
+                    "icon": "👟",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -553,7 +553,7 @@
                   {
                     "id": "c6",
                     "label": "Pack the bag",
-                    "icon": "\ud83c\udf92",
+                    "icon": "🎒",
                     "when": "morning",
                     "kidIds": [
                       "ada"
@@ -561,11 +561,11 @@
                   }
                 ],
                 "reward": {
-                  "icon": "\ud83d\udedd",
+                  "icon": "🛝",
                   "label": "Playground",
                   "target": 5
                 },
-                "sticker": "\ud83c\udf1f",
+                "sticker": "🌟",
                 "days": 7,
                 "createdAt": 1757462400000,
                 "updatedAt": 1757462400000
@@ -576,6 +576,20 @@
           "sticker.theme": "light"
         }
       }
+    },
+    {
+      "slug": "trace",
+      "title": "Trace",
+      "description": "Type a word and print a worksheet for a child to trace. A name, a spelling list or a sentence, in eleven layouts and three hands. Paste a whole class at once. Nothing leaves this browser.",
+      "tags": [
+        "parent",
+        "teacher",
+        "kid"
+      ],
+      "cover": "/images/trace-cover.jpg",
+      "creationDate": "2026-09-18",
+      "disabled": false,
+      "repo": "jakeflavin/trace"
     }
   ]
 }
