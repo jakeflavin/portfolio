@@ -14,12 +14,14 @@ import { styled } from 'styled-components'
  *
  * Extra room underneath, on top of the page gap: the header is the caption and the
  * search field is where the directory starts, and the seam between them wants to read.
+ * 40px plus the 24px page gap, so 64px in all, which is more than any other gap on the
+ * page. That is the point: one seam, not another row.
  */
 export const HeaderMeasure = styled.div`
   width: 100%;
   max-width: 420px;
   margin-inline: auto;
-  margin-block-end: ${({ theme }) => theme.spacing.md};
+  margin-block-end: ${({ theme }) => theme.spacing.xl};
 `
 
 /**
