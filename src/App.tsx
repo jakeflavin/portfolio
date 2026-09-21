@@ -79,7 +79,7 @@ const Container = styled.div`
    *
    * 760px is border-box, so the content inside the 20px gutters is 720px. That is the
    * measure of the search bar, the project views and the footer marquee. The profile
-   * header keeps a narrower 452px measure (see Home's HeaderMeasure): a bio is prose
+   * header keeps a narrower 420px measure (see Home's HeaderMeasure): a bio is prose
    * and reads best at that width, while a directory is a finder and wants room. Three
    * grid tiles across 720px are 238px each, up from 158px, and a feed cover stands 720px
    * tall, just under the old 780 measure whose 732px covers filled a laptop screen two

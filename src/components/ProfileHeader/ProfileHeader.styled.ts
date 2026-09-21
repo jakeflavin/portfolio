@@ -225,8 +225,8 @@ export const Highlights = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   /*
    * Spread to the measure's own edges, so the row lines up with the search field under it
-   * and the grid under that. Six 62px circles come to 452px of the 480px column and left
-   * a 28px hole on the right; distributing that between them widens each gap by about 6px
+   * and the grid under that. Six 56px circles come to 416px of the 420px column and leave
+   * a 4px hole on the right; distributing that between them widens each gap by a pixel
    * instead. Where they do not fit there is no free space to distribute and this has no
    * effect, so the rail still just scrolls.
    */
@@ -281,8 +281,11 @@ export const Highlight = styled.button`
    * overlay picks up. Labels centre under the ring and truncate, as the app does.
    */
   flex: 0 0 auto;
-  width: 62px;
-  min-width: 62px;
+  /* 56, down from 62, when the header measure came in to 420px: six circles and five
+     16px gaps had to fit, and shrinking the gap crowded the labels more than shrinking
+     the ring did. Still well over a 44px tap target. */
+  width: 56px;
+  min-width: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -305,9 +308,9 @@ export const Highlight = styled.button`
  * thumbnail inside. The gap is the panel surface showing through the padding.
  */
 export const HighlightRing = styled.span`
-  width: 62px;
-  height: 62px;
-  min-width: 62px;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
   flex-shrink: 0;
   /*
    * A 2px band and a 1.5px gap: the avatar's 3-and-2 on a 96px circle, taken to this one.
@@ -426,5 +429,11 @@ export const HighlightLabel = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  /*
+   * Allowed 12px wider than the ring above it, centred by the negative margins. At 56px
+   * the ring is narrower than the word "Instagram", and the rail's 16px gaps have the
+   * room; a label that had to fit its ring exactly came out as "Instagra…".
+   */
+  max-width: calc(100% + 12px);
+  margin-inline: -6px;
 `

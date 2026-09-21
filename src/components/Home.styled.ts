@@ -4,22 +4,22 @@ import { styled } from 'styled-components'
  * The profile header's measure.
  *
  * The shell widened to 720px for the search bar, the views and the marquee, but the
- * header is a bio and a row of links, and prose reads best narrow. It sits at 452px,
+ * header is a bio and a row of links, and prose reads best narrow. It sits at 420px,
  * centred over everything below: narrower than the 480px it was written for, so it
  * reads as a caption to the directory rather than a block the same weight as it.
  *
- * 452 is not arbitrary. The link rail is six 62px circles with 16px between them, which
- * is exactly 452px, so this is the narrowest measure that shows all six without the rail
- * scrolling, and at it the circles sit edge to edge with the search field below with no
- * hole to distribute. Narrower than this and the sixth circle is cut off.
+ * 420 is set by the link rail: six 56px circles with 16px between them are 416px, so this
+ * is the narrowest measure that shows all six without the rail scrolling. Narrower means
+ * smaller circles or a scrolling rail, either of which is a different decision.
  *
- * The room either side stays empty on purpose. A toy lived there for a day, a fish tank,
- * and whatever it was drawn like it pulled the eye off the directory, which is the page.
+ * Extra room underneath, on top of the page gap: the header is the caption and the
+ * search field is where the directory starts, and the seam between them wants to read.
  */
 export const HeaderMeasure = styled.div`
   width: 100%;
-  max-width: 452px;
+  max-width: 420px;
   margin-inline: auto;
+  margin-block-end: ${({ theme }) => theme.spacing.md};
 `
 
 /**
