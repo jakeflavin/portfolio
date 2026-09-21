@@ -91,6 +91,7 @@ anyone remembering the flags:
   "query": "?timer=5m&names=Ada,Bea",             // for an app that keeps its state in the link
   "actions": [ { "selector": "…", "wait": 900 } ],// clicks and typing, in order
   "mic": true,                                    // a fake microphone, for an app that listens
+  "css": "main > * { visibility: hidden }",       // framing `hide` cannot express
   "scale": 3                                      // device pixel ratio (default 2)
 }
 ```
@@ -121,6 +122,15 @@ other cover in the folder.
 
 Some captures need a service behind them. linkit reads a Firestore emulator: start it with
 `npm run emulators` in the app, seed it with `npm run seed`, then capture.
+
+### When the app is not a web page
+
+goals is an iPhone app, and its entry in the directory is its landing page. A screenshot
+of a landing page is a picture of marketing, so its cover is the phone that page draws:
+the landing's own frame component around the real home screen, pulled out of the hero
+with `css` and enlarged to fill the square. That is the one phone mockup in the set, and
+it is there because the product is a phone. A web app in a phone frame was tried for hat
+and rejected; it read as a marketing page for something that is not one.
 
 ### When the output is the better picture
 

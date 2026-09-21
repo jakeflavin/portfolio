@@ -29,6 +29,8 @@
  *   --clip x,y,size    Square to cut, overriding `shot.clip`; `--clip none` takes it all
  *   --mic              Grant a fake microphone (`shot.mic` records it)
  *
+ * `shot.css` is injected after load for framing `hide` cannot express.
+ *
  * An app that opens empty can record `shot.actions` in apps.json — ordered click/type
  * steps replayed before the shot, so the framing reproduces without anyone remembering it.
  * `shot.seed` writes localStorage instead, and `shot.query` a query string, for an app
@@ -133,6 +135,13 @@ const CLIP =
  * which is loud enough to swing hush's dial without a person in the room.
  */
 const MIC = Boolean(flags.mic ?? shot.mic);
+
+/**
+ * CSS injected after the app loads, for a frame `hide` cannot describe. goals' cover is
+ * the phone its landing page draws, pulled out of the hero and enlarged; that is a few
+ * rules of positioning, not a list of things to remove.
+ */
+const CSS = typeof shot.css === "string" ? shot.css : "";
 
 /**
  * The device pixel ratio the page renders at.
@@ -253,6 +262,8 @@ try {
       content: `${HIDE.join(", ")} { display: none !important; }`
     });
   }
+
+  if (CSS) await page.addStyleTag({ content: CSS });
 
   /*
    * Some apps show nothing worth capturing until they are used — runify opens on an empty

@@ -466,10 +466,14 @@
       "creationDate": "2026-05-15",
       "disabled": false,
       "repo": "jakeflavin/goals-web",
-      "crop": {
-        "x": 0,
-        "y": 330,
-        "size": 1206
+      "shot": {
+        "hide": "header,footer",
+        "viewport": {
+          "width": 1080,
+          "height": 1080
+        },
+        "wait": 2500,
+        "css": "main > * { visibility: hidden; } figure:has(img[alt^='The Goals home']) { visibility: visible; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 440px; margin: 0; } figure:has(img[alt^='The Goals home']) > div { max-width: 440px !important; }"
       }
     },
     {
