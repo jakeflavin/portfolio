@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 
 /**
- * The profile header's measure. The shell widened to 640px for the search bar, the views
+ * The profile header's measure. The shell widened to 720px for the search bar, the views
  * and the marquee, but the header is a bio and a row of links, and prose reads best at
  * the 480px it was written for. Centred, so it sits on the same axis as everything below.
  */

@@ -77,13 +77,13 @@ const Container = styled.div`
    * breakpoint. The old 95/90/80/70% ladder meant the content width moved constantly and
    * never settled anywhere deliberate.
    *
-   * 680px is border-box, so the content inside the 20px gutters is 640px. That is the
+   * 760px is border-box, so the content inside the 20px gutters is 720px. That is the
    * measure of the search bar, the project views and the footer marquee. The profile
    * header keeps the previous 480px measure (see Home's HeaderMeasure): a bio is prose
    * and reads best at that width, while a directory is a finder and wants room. Three
-   * grid tiles across 640px are 211px each, up from 158px, and a feed cover stands 640px
-   * tall, which is still short of the old 780 measure whose 732px covers filled a laptop
-   * screen two at a time.
+   * grid tiles across 720px are 238px each, up from 158px, and a feed cover stands 720px
+   * tall, just under the old 780 measure whose 732px covers filled a laptop screen two
+   * at a time.
    *
    * One gutter, not one that widens at a breakpoint: this element is the container every
    * layout query in the app resolves against, so its content width has to be a number
@@ -92,7 +92,7 @@ const Container = styled.div`
   container-type: inline-size;
   container-name: app;
   width: 100%;
-  max-width: 680px;
+  max-width: 760px;
   margin: ${({ theme }) => theme.spacing.lg} auto;
   padding: 0 20px;
 `
