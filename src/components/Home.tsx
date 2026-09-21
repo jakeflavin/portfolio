@@ -6,7 +6,7 @@ import { PROJECTS } from '@/lib/projects'
 import { Search } from 'lucide-react'
 import { Select } from '@/components/Select'
 import { ProfileHeader } from '@/components/ProfileHeader'
-import { Aurora } from '@/components/Aurora'
+import { Tank } from '@/components/Tank'
 import { useDeployStatus, bySlug } from '@/hooks/useDeployStatus'
 import {
   CardContainer,
@@ -48,7 +48,7 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
   return (
     <>
       <HeaderRow>
-        <Aurora />
+        <Tank />
         <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
       </HeaderRow>
       <SearchContainer>

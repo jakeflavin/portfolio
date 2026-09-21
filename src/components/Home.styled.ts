@@ -6,7 +6,7 @@ import { styled } from 'styled-components'
  * The shell widened to 720px for the search bar, the views and the marquee, but the
  * header is a bio and a row of links, and prose reads best at the 480px it was written
  * for. So the header keeps that measure and the room it leaves is spent on something
- * that is not useful at all: the Aurora tile, the brand gradient moving. Below the full
+ * that is not useful at all: the fish tank. Below the full
  * measure there is no room, the tile goes, and the header sits centred as before.
  */
 export const HeaderRow = styled.div`
