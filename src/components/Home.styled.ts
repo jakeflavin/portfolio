@@ -1,36 +1,19 @@
 import { styled } from 'styled-components'
 
 /**
- * The profile header's row.
+ * The profile header's measure.
  *
  * The shell widened to 720px for the search bar, the views and the marquee, but the
  * header is a bio and a row of links, and prose reads best at the 480px it was written
- * for. So the header keeps that measure and the room it leaves, to its right, is spent on
- * something that is not useful at all: the fish tank. Below the full measure there is no
- * room, the tank goes, and the header sits centred as before.
+ * for. So it keeps that measure, centred over everything below.
  *
- * On the right rather than the left, and at half strength: the eye lands on the avatar
- * and the name first, and the tank is what it finds afterwards, not what greets it.
+ * The room either side stays empty on purpose. A toy lived there for a day, a fish tank,
+ * and whatever it was drawn like it pulled the eye off the directory, which is the page.
  */
-export const HeaderRow = styled.div`
+export const HeaderMeasure = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 480px);
-  justify-content: center;
-  gap: ${({ theme }) => theme.spacing.lg};
-
-  > :last-child {
-    display: none;
-    opacity: 0.55;
-  }
-
-  @container app (min-width: 720px) {
-    grid-template-columns: 480px minmax(0, 1fr);
-
-    > :last-child {
-      display: block;
-    }
-  }
+  max-width: 480px;
+  margin-inline: auto;
 `
 
 /**
