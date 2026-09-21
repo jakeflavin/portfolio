@@ -1,14 +1,32 @@
 import { styled } from 'styled-components'
 
 /**
- * The profile header's measure. The shell widened to 720px for the search bar, the views
- * and the marquee, but the header is a bio and a row of links, and prose reads best at
- * the 480px it was written for. Centred, so it sits on the same axis as everything below.
+ * The profile header's row.
+ *
+ * The shell widened to 720px for the search bar, the views and the marquee, but the
+ * header is a bio and a row of links, and prose reads best at the 480px it was written
+ * for. So the header keeps that measure and the room it leaves is spent on something
+ * that is not useful at all: the Aurora tile, the brand gradient moving. Below the full
+ * measure there is no room, the tile goes, and the header sits centred as before.
  */
-export const HeaderMeasure = styled.div`
+export const HeaderRow = styled.div`
   width: 100%;
-  max-width: 480px;
-  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 480px);
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+
+  > :first-child {
+    display: none;
+  }
+
+  @container app (min-width: 720px) {
+    grid-template-columns: minmax(0, 1fr) 480px;
+
+    > :first-child {
+      display: block;
+    }
+  }
 `
 
 /**

@@ -6,10 +6,11 @@ import { PROJECTS } from '@/lib/projects'
 import { Search } from 'lucide-react'
 import { Select } from '@/components/Select'
 import { ProfileHeader } from '@/components/ProfileHeader'
+import { Aurora } from '@/components/Aurora'
 import { useDeployStatus, bySlug } from '@/hooks/useDeployStatus'
 import {
   CardContainer,
-  HeaderMeasure,
+  HeaderRow,
   SearchContainer,
   SelectWrap,
   EmptyState,
@@ -46,9 +47,10 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
 
   return (
     <>
-      <HeaderMeasure>
+      <HeaderRow>
+        <Aurora />
         <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      </HeaderMeasure>
+      </HeaderRow>
       <SearchContainer>
         {/* Sort first, then the field, then the view: the row reads left to right. */}
         <SelectWrap>
