@@ -53,12 +53,29 @@ grouped anything with anything.
 
 The covers are the whole page. Every other element on a card exists to caption one.
 
-- **A screenshot of the app**, not a graphic about the app.
-- **Of something worth looking at.** The most characteristic screen, not the first one.
+- **A screenshot of the app, caught in the middle of doing its job.** Not the app at rest,
+  and not a graphic about the app. Hat's first cover was a number on a gradient, which is
+  what Hat looks like when nobody is using it, and it said nothing. Its cover now is the
+  roll: the number landing under the app's own confetti. Countdown is captured seven
+  seconds after Start, Hush with the dial swung into red, Mixtape with the case open and
+  the disc half out. The test is whether the frame could only have been taken while
+  someone was using it.
 - **With real data in it.** An app photographed empty tells you nothing: linkit's first
   cover was a board with no links on it, which is a picture of a blank page.
+- **One thing, large.** A whole dashboard at 158px is texture. Cut to the part that
+  carries the app: weather is its numbers and one chart, tack is four tiles, not the board.
+- **Nothing sliced.** A panel cut through the middle of its words reads as a broken
+  screenshot, not as a crop. If the side panel does not fit whole, leave it out.
+- **No name and no words about the app in the image.** The card prints the title; the
+  cover shows the thing. An app's own chrome comes off for the same reason.
 - **Legible at 158px**, which is what the grid gives it, and at 104px in the list. If the
   app has to be read to be understood at that size, it is the wrong frame.
+
+Generated pictures were tried and rejected. An illustration of "a classroom with a loud
+dial" is in somebody else's style, looks like every other generated cover, and is not a
+preview of anything. A phone mockup around a screenshot was tried too, and it read as a
+marketing page. The app's own pixels, at the right moment, are the only material that
+match the app's design and still preview it.
 
 Framing lives in the entry's `shot` key so a capture reproduces in a later session without
 anyone remembering the flags:
@@ -70,16 +87,28 @@ anyone remembering the flags:
   "hide": "header,footer",                        // the app's own chrome duplicates the card
   "wait": 5000,                                   // video, fonts, entry animation
   "env": { "VITE_FIRESTORE_EMULATOR": "1" },      // point at a local emulator, never live data
-  "seed": { "hat.lists": [ /* … */ ] },           // localStorage the app would have written
+  "seed": { "hat.settings": { /* … */ } },        // localStorage the app would have written
   "query": "?timer=5m&names=Ada,Bea",             // for an app that keeps its state in the link
   "actions": [ { "selector": "…", "wait": 900 } ],// clicks and typing, in order
+  "mic": true,                                    // a fake microphone, for an app that listens
   "scale": 3                                      // device pixel ratio (default 2)
 }
 ```
 
 Render at a width the app was designed for and cut the cover out of it. A square viewport
 is a shape no app has a layout for, so it meets a breakpoint it never expects and the
-screenshot shows an arrangement nobody will ever see.
+screenshot shows an arrangement nobody will ever see. Weather is the exception that proves
+it: at desktop width its numbers and its chart cannot share a square, so it is rendered at
+760px, where its own tablet layout stacks them.
+
+**The moment is an action with a wait.** `{ "selector": "button:has-text('Roll')", "wait":
+1350 }` is Hat's roll caught mid-confetti; an action with only a `wait` is a pause for fonts
+before the first click. `wait` at the top level runs *after* the actions, so an app shot
+mid-animation sets it to 0. A step with `click: [x, y]` clicks a point, which is the way to
+press a button whose text several widgets share. `move: [x, y]` only parks the pointer:
+tack's tiles show a toolbar under the mouse, and the pointer is still on the Roll button
+when the shot is taken unless something moves it off. Hush cannot be driven without a microphone;
+`mic: true` grants Chromium's fake one, whose steady tone is loud enough to swing the dial.
 
 Prefer `seed` over `actions` where the state is something the user typed. Writing the
 localStorage the app would have written is faster, does not break when a button moves, and
@@ -90,21 +119,23 @@ exists only as its URL, so the query string *is* the state.
 screen; glyph's is one 400px panel, and at 2 the file would come out smaller than every
 other cover in the folder.
 
+Some captures need a service behind them. linkit reads a Firestore emulator: start it with
+`npm run emulators` in the app, seed it with `npm run seed`, then capture.
+
 ### When the output is the better picture
 
-The rule above is a screenshot of the app, and the reason is that a graphic *about* an app
-says nothing about using it. An app whose output is itself a picture is the exception:
-glyph's cover is the code it just made, with the app's own chrome hidden, because a QR
-code is legible at 158px and a customiser is not. That code points at the app, so the card
-in the grid is a working one — scan the directory page and it opens.
-
-It is still a screenshot of the running app rather than a drawing of one, which is the
-part of the rule that matters. Do not reach for this because the interface is untidy; that
-is a reason to fix the interface.
+An app whose output is itself a picture shows the output: glyph's cover is the code it
+just made, with the app's own chrome hidden, because a QR code is legible at 158px and a
+customiser is not. That code points at the app, so the card in the grid is a working one:
+scan the directory page and it opens. It is still a screenshot of the running app rather
+than a drawing of one, which is the part of the rule that matters.
 
 ```bash
 node scripts/capture-cover.mjs apps/<app> --slug <slug>
 ```
+
+`--clip none` and `--viewport WxH` override the entry while a frame is being found, so the
+whole render can be looked at before the square is chosen.
 
 ### When the shot has to be taken by hand
 
@@ -119,10 +150,6 @@ node scripts/crop-cover.mjs <slug> --x 0 --y 100 --size 830 --save
 `--save` writes the crop back to the entry, so the same square comes back later. The
 source is committed too, which means a cover can be reframed without going back to the app
 for another screenshot.
-
-Crop so nothing is sliced. A panel cut through the middle of its words reads as a broken
-screenshot, not as a crop - if the side panel does not fit whole, leave it out and let the
-cover be the part that carries the app.
 
 ## The date
 

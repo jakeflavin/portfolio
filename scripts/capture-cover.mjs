@@ -25,6 +25,9 @@
  *   --scale <n>        Device pixel ratio           (default: 2)
  *   --keep-chrome      Skip hiding anything
  *   --preview-dir <p>  Where to serve from, for workspace repos (default: the app root)
+ *   --viewport WxH     Render size, overriding the entry's `shot.viewport`
+ *   --clip x,y,size    Square to cut, overriding `shot.clip`; `--clip none` takes it all
+ *   --mic              Grant a fake microphone (`shot.mic` records it)
  *
  * An app that opens empty can record `shot.actions` in apps.json — ordered click/type
  * steps replayed before the shot, so the framing reproduces without anyone remembering it.
@@ -49,7 +52,7 @@ function parseArgs(argv) {
       continue;
     }
     const key = arg.slice(2);
-    if (key === "keep-chrome") flags[key] = true;
+    if (key === "keep-chrome" || key === "mic") flags[key] = true;
     else flags[key] = argv[++i];
   }
   return { positional, flags };
@@ -94,7 +97,9 @@ const HIDE = flags["keep-chrome"]
 
 /**
  * Ordered interaction steps run before the shot. Each is one of `click: [x, y]`,
- * `selector`, `press` or `type`, with an optional `wait` in ms after it.
+ * `move: [x, y]`, `selector`, `press` or `type`, with an optional `wait` in ms after it.
+ * `move` only parks the pointer: a tile that shows a toolbar on hover keeps showing it
+ * after the click that used it, and moving off is the way to make it stop.
  */
 const ACTIONS = Array.isArray(shot.actions) ? shot.actions : [];
 
@@ -108,13 +113,26 @@ const previewDir = path.resolve(appDir, flags["preview-dir"] ?? shot.previewDir 
 /**
  * The shape the app is rendered at. A real width, not the cover's square.
  */
-const VIEWPORT = shot.viewport ?? { width: SIZE, height: SIZE };
+const VIEWPORT = flags.viewport
+  ? (([w, h]) => ({ width: Number(w), height: Number(h) }))(flags.viewport.split("x"))
+  : (shot.viewport ?? { width: SIZE, height: SIZE });
 
 /**
  * The square to cut out of that render, in its own coordinates. `size` is the shorthand
  * for a square; `width`/`height` if it ever needs not to be.
  */
-const CLIP = shot.clip ?? null;
+const CLIP =
+  flags.clip === "none"
+    ? null
+    : flags.clip
+      ? (([x, y, size]) => ({ x: Number(x), y: Number(y), size: Number(size) }))(flags.clip.split(","))
+      : (shot.clip ?? null);
+
+/**
+ * A fake microphone, for an app that listens. Chromium's fake device plays a steady tone,
+ * which is loud enough to swing hush's dial without a person in the room.
+ */
+const MIC = Boolean(flags.mic ?? shot.mic);
 
 /**
  * The device pixel ratio the page renders at.
@@ -199,7 +217,9 @@ try {
   const url = `http://localhost:${PORT}/${slug}/${QUERY}`;
   await waitForServer(`http://localhost:${PORT}/${slug}/`);
 
-  browser = await chromium.launch();
+  browser = await chromium.launch({
+    args: MIC ? ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] : []
+  });
   /*
    * The page is rendered at whatever shape shows the app best, and the cover is cut out of
    * that. A square viewport is a shape no app was designed for: a responsive layout meets
@@ -209,6 +229,7 @@ try {
    */
   const page = await browser.newPage({
     viewport: VIEWPORT,
+    ...(MIC ? { permissions: ["microphone"] } : {}),
     colorScheme: THEME,
     // Over-rendered, so a clipped crop still has pixels to spare.
     deviceScaleFactor: SCALE
@@ -242,6 +263,9 @@ try {
     if (action.click) {
       const [x, y] = action.click;
       await page.mouse.click(x, y);
+    } else if (action.move) {
+      const [x, y] = action.move;
+      await page.mouse.move(x, y);
     } else if (action.selector) {
       await page.click(action.selector);
     } else if (action.press) {

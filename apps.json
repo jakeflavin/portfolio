@@ -85,9 +85,9 @@
           "height": 1000
         },
         "clip": {
-          "x": 98,
-          "y": 92,
-          "size": 648
+          "x": 100,
+          "y": 140,
+          "size": 640
         },
         "wait": 4000,
         "actions": [
@@ -95,7 +95,8 @@
             "selector": "[aria-label='Compact view']",
             "wait": 900
           }
-        ]
+        ],
+        "scale": 3
       },
       "crop": {
         "x": 56,
@@ -154,16 +155,16 @@
       "disabled": false,
       "repo": "jakeflavin/weather",
       "shot": {
-        "hide": "header,footer,.locbar",
+        "hide": "header,footer,.locbar,main > section:nth-of-type(2)",
         "wait": 5000,
         "viewport": {
-          "width": 1240,
-          "height": 1400
+          "width": 760,
+          "height": 1100
         },
         "clip": {
-          "x": 4,
-          "y": 424,
-          "size": 680
+          "x": 5,
+          "y": 112,
+          "size": 750
         }
       },
       "crop": {
@@ -185,11 +186,23 @@
       "disabled": false,
       "repo": "jakeflavin/noise",
       "shot": {
-        "hide": "header,footer,.banner",
-        "wait": 2500,
+        "hide": "header,.banner",
         "viewport": {
           "width": 1180,
           "height": 900
+        },
+        "mic": true,
+        "wait": 2500,
+        "actions": [
+          {
+            "selector": "button:has-text('Start listening')",
+            "wait": 2500
+          }
+        ],
+        "clip": {
+          "x": 240,
+          "y": 0,
+          "size": 700
         }
       },
       "crop": {
@@ -213,7 +226,7 @@
       "repo": "jakeflavin/countdown",
       "shot": {
         "hide": "header,footer",
-        "wait": 4000,
+        "wait": 500,
         "viewport": {
           "width": 1280,
           "height": 860
@@ -222,7 +235,13 @@
           "x": 210,
           "y": 0,
           "size": 860
-        }
+        },
+        "actions": [
+          {
+            "selector": "button:has-text('Start')",
+            "wait": 7000
+          }
+        ]
       },
       "crop": {
         "x": 120,
@@ -245,81 +264,30 @@
       "repo": "jakeflavin/roll",
       "shot": {
         "hide": "header,footer",
-        "wait": 2500,
         "viewport": {
           "width": 1180,
           "height": 900
         },
+        "clip": {
+          "x": 140,
+          "y": 0,
+          "size": 900
+        },
+        "wait": 0,
         "seed": {
-          "hat.lists": [
-            {
-              "id": "custom:classroom",
-              "name": "Class",
-              "items": [
-                "Ada",
-                "Bea",
-                "Caleb",
-                "Dev",
-                "Elena",
-                "Finn",
-                "Grace",
-                "Hugo",
-                "Iris",
-                "Jonah",
-                "Kira",
-                "Leo",
-                "Mara",
-                "Noor",
-                "Omar",
-                "Priya"
-              ]
-            }
-          ],
           "hat.settings": {
-            "sourceIds": [
-              "custom:classroom"
-            ],
-            "themeId": "noir"
-          },
-          "hat.session": {
-            "entries": [
-              {
-                "value": "Priya",
-                "sourceId": "custom:classroom",
-                "sourceName": "Class",
-                "sourceKey": "custom:classroom",
-                "at": 1755000000000
-              },
-              {
-                "value": "Leo",
-                "sourceId": "custom:classroom",
-                "sourceName": "Class",
-                "sourceKey": "custom:classroom",
-                "at": 1754999960000
-              },
-              {
-                "value": "Grace",
-                "sourceId": "custom:classroom",
-                "sourceName": "Class",
-                "sourceKey": "custom:classroom",
-                "at": 1754999920000
-              },
-              {
-                "value": "Noor",
-                "sourceId": "custom:classroom",
-                "sourceName": "Class",
-                "sourceKey": "custom:classroom",
-                "at": 1754999880000
-              }
-            ],
-            "cycleStart": {}
+            "animationId": "confetti"
           }
-        }
-      },
-      "crop": {
-        "x": 68,
-        "y": 0,
-        "size": 1326
+        },
+        "actions": [
+          {
+            "wait": 1500
+          },
+          {
+            "selector": "button:has-text('Roll')",
+            "wait": 1350
+          }
+        ]
       }
     },
     {
@@ -336,10 +304,29 @@
       "repo": "jakeflavin/madlib",
       "shot": {
         "hide": "header,footer,.banner",
-        "wait": 2500,
         "viewport": {
           "width": 1180,
-          "height": 900
+          "height": 1100
+        },
+        "wait": 2500,
+        "query": "?story=cinder-crown",
+        "seed": {
+          "fable.drafts.v1": {
+            "cinder-crown": {
+              "hero": "Ada",
+              "kingdom": "Puddletown",
+              "adj1": "soggy",
+              "adj2": "enormous",
+              "animal1": "hedgehog",
+              "noun1": "spaghetti",
+              "color1": "turquoise"
+            }
+          }
+        },
+        "clip": {
+          "x": 110,
+          "y": 30,
+          "size": 960
         }
       },
       "crop": {
@@ -397,17 +384,41 @@
       "repo": "jakeflavin/tack",
       "shot": {
         "hide": "header,footer",
-        "wait": 2000,
+        "wait": 500,
         "viewport": {
           "width": 940,
           "height": 1080
         },
         "clip": {
-          "x": 0,
-          "y": 0,
-          "size": 940
+          "x": 330,
+          "y": 215,
+          "size": 560
         },
-        "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l;at=0,0,4,2&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5;at=4,0,8,3&light=green;at=0,2,4,3&timer=5m;label=Do+now;at=4,3,4,4&qr=https://portfolio-4b9fe.web.app/tack/;at=8,3,4,4&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo;at=0,5,4,2&list=Read+the+question,Underline+key+words,Plan+first;numbered=on;at=0,7,4,3&dice=2d6;at=4,7,4,3&work=whisper;at=8,7,4,3&date=;at=0,10,6,3&timetable=Maths*9:00,English*10:05,Break*11:05,Science*11:25;at=6,10,6,3"
+        "query": "?title=Period+3&paper=butter&text=Books+out.+Page+42.;label=Do+now;size=l;at=0,0,4,2&agenda=Do+now*5,Mini+lesson*15,Practice*20,Review*5;at=4,0,8,3&light=green;at=0,2,4,3&timer=5m;label=Do+now;at=4,3,4,4&qr=https://portfolio-4b9fe.web.app/tack/;at=8,3,4,4&names=Ada,Bea,Caleb,Dev,Elena,Finn,Grace,Hugo;at=0,5,4,2&list=Read+the+question,Underline+key+words,Plan+first;numbered=on;at=0,7,4,3&dice=2d6;at=4,7,4,3&work=whisper;at=8,7,4,3&date=;at=0,10,6,3&timetable=Maths*9:00,English*10:05,Break*11:05,Science*11:25;at=6,10,6,3",
+        "scale": 3,
+        "actions": [
+          {
+            "wait": 1500
+          },
+          {
+            "selector": "button:has-text('Roll')",
+            "wait": 300
+          },
+          {
+            "click": [
+              382,
+              447
+            ],
+            "wait": 300
+          },
+          {
+            "move": [
+              936,
+              4
+            ],
+            "wait": 2500
+          }
+        ]
       }
     },
     {
@@ -426,15 +437,21 @@
         "hide": "footer",
         "viewport": {
           "width": 1240,
-          "height": 900
+          "height": 1000
         },
         "query": "?t=jazz&m=N4IgbiBcCMA0IDsCGBbApgZygbRAKQFcE0R4AVACzQHsQBdeAEyQBcTIQAmABk4HYAtNwBsA6J1IgWAS3RQQ0YZADM3SWDQIC7EJTQACAEJoANif0AxakUYAnAJ6SAxtJaOOACQKMM1BLH0AOTQAd30ATWpbAGtJFlskDRMcUGlGeRZoSSokRmkEAHN5AHE0FhlC-RYqWxJ4ACNqRncQCxN7fXyWan0AQRN6pAR7AKiqpGiDXpR4if0AM1tqFH0ABU0EfQBlFlZpPyqerx8-ADoQAF8GEHmkAEcsSGxU9I55rPg7+QBJDCqKaR-aoGfJgVx7PwAfkkSHkgWoLH09jKp30lEBnSBVH0fgM1VY+gwiUw-wMzDY5yu8AADiYkPYTICWPIKOVqRhIAB6TnUamaU4YakI6TzeynJzLTm0+mMjAsTnKPjSACcjAAigAtCzQAAiAA0+AVvtQANJ6ljcAooAAekgQCJ0vUYjFJhL8BSR1n0ISGiO6+mYCCceOo53gSAGBBQ8i2xNd5LqUiocg4ACskAAvDOXIA",
         "wait": 3000,
         "clip": {
-          "x": 370,
-          "y": 210,
-          "size": 500
-        }
+          "x": 120,
+          "y": 0,
+          "size": 1000
+        },
+        "actions": [
+          {
+            "selector": "[aria-label='Open the case']",
+            "wait": 3000
+          }
+        ]
       }
     },
     {
