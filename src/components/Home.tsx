@@ -48,8 +48,8 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
   return (
     <>
       <HeaderRow>
-        <Tank />
         <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+        <Tank />
       </HeaderRow>
       <SearchContainer>
         {/* Sort first, then the field, then the view: the row reads left to right. */}
