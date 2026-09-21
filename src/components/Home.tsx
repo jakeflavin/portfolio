@@ -9,6 +9,7 @@ import { ProfileHeader } from '@/components/ProfileHeader'
 import { useDeployStatus, bySlug } from '@/hooks/useDeployStatus'
 import {
   CardContainer,
+  HeaderMeasure,
   SearchContainer,
   SelectWrap,
   EmptyState,
@@ -45,7 +46,9 @@ export function Home({ isDarkMode, onToggleDarkMode }: HomeProps) {
 
   return (
     <>
-      <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+      <HeaderMeasure>
+        <ProfileHeader isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+      </HeaderMeasure>
       <SearchContainer>
         {/* Sort first, then the field, then the view: the row reads left to right. */}
         <SelectWrap>

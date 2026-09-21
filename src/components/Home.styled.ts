@@ -1,6 +1,17 @@
 import { styled } from 'styled-components'
 
 /**
+ * The profile header's measure. The shell widened to 640px for the search bar, the views
+ * and the marquee, but the header is a bio and a row of links, and prose reads best at
+ * the 480px it was written for. Centred, so it sits on the same axis as everything below.
+ */
+export const HeaderMeasure = styled.div`
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+`
+
+/**
  * Search and sort share one surface, matching the hero's border, radius and elevation.
  * Previously they were two separate pills that happened to sit next to each other.
  */
