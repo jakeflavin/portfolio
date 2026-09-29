@@ -128,113 +128,26 @@ Rocket's is the worked example: `.bezl/rocket-cover.json`.
 
 ### Demo videos
 
-A demo for Threads is the same idea as a cover: real gameplay in a Safari window, framed by
-`bezl video` on the `threads` canvas (1080×1350, 4:5). Rocket's is `.bezl/rocket-demo.json`,
-rendered with `npx @jakeflavin/bezl export rocket-demo` to `.bezl/out/rocket-demo.mp4`.
+A demo is the app in a Safari window with padding, like the cover, and nothing else: one
+continuous take of real use. **No intro or outro cards and no caption text** unless it is
+asked for. Rocket's is `.bezl/rocket-demo.json`, on the `threads` canvas (1080×1350, 4:5):
+
+```bash
+npx @jakeflavin/bezl video assets/demos/<slug>.mp4 model=none window=safari \
+  window.url=portfolio-4b9fe.web.app/<slug> window.theme=dark y=0.5 height=0.82 \
+  -c threads -b "#1b2a6b,#8a4fe0@160" -o .bezl/out/<slug>-demo.mp4 --save <slug>-demo
+```
+
+Re-render with `npx @jakeflavin/bezl export <slug>-demo`. The render is in `.bezl/out/`,
+which git ignores.
 
 - **Record with a CDP screencast, not Playwright's `recordVideo`.** The built-in video is
   heavily compressed. Save JPEG frames with their timestamps, then assemble them with
   ffmpeg's concat demuxer at 30fps.
 - **A game with a bot.** Rocket exposes `window.__stardust`, so a dodge bot flies it while
-  the screencast runs. Log timestamps of events (shield pickup, banners) to choose cuts.
-- **Cut the moments, commit only those.** The source is three segments joined into
-  `assets/demos/rocket.mp4` (3.8 MB), not the 29 MB take.
-- **Leave out the app's own title screen** if its name differs from the card's. Rocket's
+  the screencast runs.
+- **Trim the ends, not the middle.** Commit the trimmed take (`assets/demos/<slug>.mp4`),
+  not the raw one.
+- **Start after the app's own title screen** if its name differs from the card's. Rocket's
   title screen says "Stardust Run".
-- **Captions are bold and short**, and set `weight` on each: a caption inherits the look of
-  the text layer before it, which was the thin card subtitle.
 - **Check the disk first.** A render needs a gigabyte or more of temporary frames.
-
-
-Framing lives in the entry's `shot` key so a capture reproduces in a later session without
-anyone remembering the flags:
-
-```jsonc
-"shot": {
-  "viewport": { "width": 1240, "height": 1400 },  // render at a real width
-  "clip": { "x": 4, "y": 424, "size": 680 },      // cut the square out of that
-  "hide": "header,footer",                        // the app's own chrome duplicates the card
-  "wait": 5000,                                   // video, fonts, entry animation
-  "env": { "VITE_FIRESTORE_EMULATOR": "1" },      // point at a local emulator, never live data
-  "seed": { "hat.settings": { /* … */ } },        // localStorage the app would have written
-  "query": "?timer=5m&names=Ada,Bea",             // for an app that keeps its state in the link
-  "actions": [ { "selector": "…", "wait": 900 } ],// clicks and typing, in order
-  "mic": true,                                    // a fake microphone, for an app that listens
-  "css": "main > * { visibility: hidden }",       // framing `hide` cannot express
-  "scale": 3                                      // device pixel ratio (default 2)
-}
-```
-
-Render at a width the app was designed for and cut the cover out of it. A square viewport
-is a shape no app has a layout for, so it meets a breakpoint it never expects and the
-screenshot shows an arrangement nobody will ever see. Weather is the exception that proves
-it: at desktop width its numbers and its chart cannot share a square, so it is rendered at
-760px, where its own tablet layout stacks them.
-
-**The moment is an action with a wait.** `{ "selector": "button:has-text('Roll')", "wait":
-1350 }` is Hat's roll caught mid-confetti; an action with only a `wait` is a pause for fonts
-before the first click. `wait` at the top level runs *after* the actions, so an app shot
-mid-animation sets it to 0. A step with `click: [x, y]` clicks a point, which is the way to
-press a button whose text several widgets share. `move: [x, y]` only parks the pointer:
-tack's tiles show a toolbar under the mouse, and the pointer is still on the Roll button
-when the shot is taken unless something moves it off. Hush cannot be driven without a microphone;
-`mic: true` grants Chromium's fake one, whose steady tone is loud enough to swing the dial.
-
-Prefer `seed` over `actions` where the state is something the user typed. Writing the
-localStorage the app would have written is faster, does not break when a button moves, and
-reproduces exactly. `query` is the same idea for tack, which stores nothing at all: a board
-exists only as its URL, so the query string *is* the state.
-
-`scale` matters only when the clip is small. Two is plenty for a cover cut out of a whole
-screen; glyph's is one 400px panel, and at 2 the file would come out smaller than every
-other cover in the folder.
-
-Some captures need a service behind them. linkit reads a Firestore emulator: start it with
-`npm run emulators` in the app, seed it with `npm run seed`, then capture.
-
-### When the app is not a web page
-
-goals is an iPhone app, and its entry in the directory is its landing page. A screenshot
-of a landing page is a picture of marketing, so its cover is the phone that page draws:
-the landing's own frame component around the real home screen, pulled out of the hero
-with `css` and enlarged to fill the square. That is the one phone mockup in the set, and
-it is there because the product is a phone. A web app in a phone frame was tried for hat
-and rejected; it read as a marketing page for something that is not one.
-
-### When the output is the better picture
-
-An app whose output is itself a picture shows the output: glyph's cover is the code it
-just made, with the app's own chrome hidden, because a QR code is legible at 158px and a
-customiser is not. That code points at the app, so the card in the grid is a working one:
-scan the directory page and it opens. It is still a screenshot of the running app rather
-than a drawing of one, which is the part of the rule that matters.
-
-```bash
-node scripts/capture-cover.mjs apps/<app> --slug <slug>
-```
-
-`--clip none` and `--viewport WxH` override the entry while a frame is being found, so the
-whole render can be looked at before the square is chosen.
-
-### When the shot has to be taken by hand
-
-Some covers cannot be described in a config: the frame needs a route somebody drew, a room
-somebody filled, a moment. Take the screenshot yourself, put it at
-`assets/covers/<slug>.png`, and cut the square out of it:
-
-```bash
-node scripts/crop-cover.mjs <slug> --x 0 --y 100 --size 830 --save
-```
-
-`--save` writes the crop back to the entry, so the same square comes back later. The
-source is committed too, which means a cover can be reframed without going back to the app
-for another screenshot.
-
-## The date
-
-`creationDate` is what the card shows and what the default sort uses. Set it to when the
-app was actually made.
-
-Eight apps all dated the same week reads as one weekend of work rather than a year of it,
-which is the opposite of what a portfolio is for. The current set is spread across nine
-months. A new app takes today's date; a backfilled one takes its real date.
