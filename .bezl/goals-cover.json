@@ -1,0 +1,16 @@
+{
+  "output": "../public/images/goals-cover.jpg",
+  "canvas": "1080x1080",
+  "background": "#4A42A9",
+  "layers": [
+    {
+      "type": "device",
+      "model": "iphone-18-pro",
+      "height": 0.8,
+      "x": 0.5,
+      "y": 0.5,
+      "input": "../assets/covers/goals.png",
+      "id": "device-1"
+    }
+  ]
+}

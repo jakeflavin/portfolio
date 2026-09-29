@@ -1,20 +1,20 @@
 {
-  "output": "../public/images/rocket-cover.jpg",
+  "output": "../public/images/fibo-cover.jpg",
   "canvas": "1080x1080",
-  "background": "#C33C1C",
+  "background": "#2244D8",
   "layers": [
     {
       "type": "device",
       "model": "none",
       "window": {
         "type": "safari",
-        "url": "portfolio-4b9fe.web.app/rocket",
+        "url": "portfolio-4b9fe.web.app/fibo",
         "theme": "dark"
       },
       "height": 0.568,
       "x": 0.5,
       "y": 0.5,
-      "input": "../assets/covers/rocket.png",
+      "input": "../assets/covers/fibo.png",
       "id": "device-1"
     }
   ]

@@ -1,20 +1,20 @@
 {
-  "output": "../public/images/rocket-cover.jpg",
+  "output": "../public/images/sticker-cover.jpg",
   "canvas": "1080x1080",
-  "background": "#C33C1C",
+  "background": "#9B3E4B",
   "layers": [
     {
       "type": "device",
       "model": "none",
       "window": {
         "type": "safari",
-        "url": "portfolio-4b9fe.web.app/rocket",
+        "url": "portfolio-4b9fe.web.app/sticker",
         "theme": "dark"
       },
       "height": 0.568,
       "x": 0.5,
       "y": 0.5,
-      "input": "../assets/covers/rocket.png",
+      "input": "../assets/covers/sticker.png",
       "id": "device-1"
     }
   ]

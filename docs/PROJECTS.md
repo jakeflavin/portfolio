@@ -77,54 +77,75 @@ preview of anything. A phone mockup composed by hand in HTML was tried too, and 
 a marketing page. The app's own pixels, at the right moment, are the only material that
 match the app's design and still preview it.
 
-### New covers are made with bezl
+### Covers are made with bezl
 
-From 2026-09-29 a new cover is the app's own screenshot framed by
-[bezl](https://github.com/jakeflavin/bezl) (`@jakeflavin/bezl`), not a raw crop. Everything
-above still holds: it is the running app, mid-job, with real data, and no words. Bezl
-supplies the frame and the canvas. Covers made before that date stay as they are until they
-are redone.
+Every cover is the app's own screenshot framed by
+[bezl](https://github.com/jakeflavin/bezl) (`@jakeflavin/bezl`). Everything above still
+holds: it is the running app, mid-job, with real data, and no words. Bezl supplies the frame
+and the canvas. On 2026-09-29 all fifteen covers were redone this way, so the older square
+crops are gone.
+
+The rules, as Jake set them:
+
+- **The canvas is a 1080 square.** No exceptions.
+- **The background is one solid colour**, drawn at random from the five stops of the site's
+  gradient (`brandStops` in `src/styles/themes.js`: `#2244D8`, `#4A42A9`, `#72407A`,
+  `#9B3E4B`, `#C33C1C`). No gradient, no text. Two neighbours in `apps.json` never share a
+  colour, so a repeat is rolled again.
+- **The mockup is centred both ways.** Nothing is tilted, cropped or cut by the canvas edge.
+- **A web tool goes in a Safari window**, and its screenshot is a rectangle, never a square.
+  Every web cover uses the same window, so the raw screen is always 16:10 (1280x800 at 2x).
+  Mismatched windows look wrong side by side in the grid, so `bezl-cover.mjs` fixes the window
+  size and refuses a raw of any other shape. A raw that is not 16:10 is trimmed or padded to
+  it first, never scaled: cut from the bottom (`sips --cropToHeightWidth H W --cropOffset 0 0`)
+  or padded with the app's own background colour (`sips --padToHeightWidth`).
+- **An iOS app goes in an iPhone** (`model=iphone-18-pro`). Only Goals is one. Its screen is
+  the landing page's own native screenshot, `apps/goals-web/public/images/home-light.png`.
 
 Three files make a cover, and all three are committed:
 
 | File | What it is |
 |---|---|
 | `assets/covers/<slug>.png` | The raw screen, mid-job, at the shape of the window or device. |
-| `.bezl/<slug>-cover.json` | The bezl document: device, finish, placement, canvas, background. |
+| `.bezl/<slug>-cover.json` | The bezl document: window or phone, placement, canvas, colour. |
 | `public/images/<slug>-cover.jpg` | The render the card shows. |
 
 ```bash
-# A web app: the screen in a Safari window, on a square canvas.
-npx @jakeflavin/bezl image assets/covers/<slug>.png model=none window=safari \
-  window.url=portfolio-4b9fe.web.app/<slug> window.theme=dark height=0.82 y=0.5 \
-  -c 1080x1080 -b "#1b2a6b,#8a4fe0@160" -o public/images/<slug>-cover.jpg --save <slug>-cover
+# 1. The raw screen. It is a viewport, not a crop: --clip none. The shot recorded in
+#    apps.json holds the steps, the seed and the viewport.
+node scripts/capture-cover.mjs apps/<dir> --slug <slug> --clip none --out assets/covers/<slug>.png
 
-# Later: render the same cover again from the document.
-npx @jakeflavin/bezl export <slug>-cover
+# 2. Frame it. Picks a colour, sizes the window from the raw's own shape, renders 1080x1080.
+node scripts/bezl-cover.mjs <slug>            # a web tool
+node scripts/bezl-cover.mjs <slug> --phone    # an iOS app
+node scripts/bezl-cover.mjs <slug> --color '#4A42A9'   # choose the colour
+node scripts/bezl-cover.mjs <slug> --reroll            # draw a new one
 ```
 
+`bezl-cover.mjs` keeps the colour in the bezl document, so running it again reproduces the
+same cover. `npx @jakeflavin/bezl export <slug>-cover` also re-renders from the document.
 `bezl doctor` checks that headless Chrome is available. It needs Node 22.12 or newer.
 
-- **A web app goes in a Safari window.** That is what it is. A tilted phone was tried first
-  for Rocket and rejected. Use a phone (`model=iphone-18-pro`) only where the product is a
-  phone, as Goals is.
-- **Capture the raw screen at the shape of the window**, close to square (Rocket's is
-  900×820 at 2×), so the window fills the canvas and the app is not shrunk to fit. An app
-  with a narrow column, like Rocket, still shows its sides; that is how it looks.
-- **The canvas is a plain square with padding around the window.** Height 0.82 leaves about
-  85px a side at 1080. No tilt, no crop, and the window is never cut by the edge.
-- **Do not let a pop-up cover the subject.** Rocket's first frame had a score pop-up over
-  the rocket. Look at the frame before it is framed.
+- **Look at the frame before it is framed.** Contact-sheet filenames sort differently from
+  how they read, and a pop-up can sit over the subject. Rocket's first frame had a score pop-up
+  over the rocket.
+- **A viewport is allowed to cut the page.** In a browser window the page runs off the
+  bottom, as it does for a real visitor. What is not allowed is a panel sliced through its
+  words that looks broken, or a hide rule that leaves an empty column (Trace's first frame).
 - **No text layers.** The card prints the title, so the cover carries none.
-- **Pick the background from the app's palette**, and against it. Check the render at 158px
-  before it is committed.
+- **Check the render at 158px** before it is committed.
 - **Phone-shaped apps** take the device they are shaped like: capture at its native size
-  (iPhone 18 Pro is 402×874 at 3×), and give the page the safe-area insets a real phone
+  (iPhone 18 Pro is 402x874 at 3x), and give the page the safe-area insets a real phone
   reports, because headless Chrome reports zero and the header lands under the Dynamic
-  Island. Inject `:root { --sat: 59px; --sab: 34px }` before the shot. A Mac app takes
-  `model=macbook-pro-14 window=mac`. `bezl devices` lists them all.
-
-Rocket's is the worked example: `.bezl/rocket-cover.json`.
+  Island. Inject `:root { --sat: 59px; --sab: 34px }` before the shot.
+- **Rocket has no capture entry.** It is played by a dodge bot through `window.__stardust`
+  (`startRun()`, then steer `P.tx` from `obs` and `dust`) at 1000x625, and a frame is picked by
+  eye from screenshots taken every 1.2 s. Call `startRun()` rather than clicking Launch: the
+  button animates, so a click never sees it stable.
+- **Runify, Linkit, Weather and Fibo** keep their earlier hand or emulator raw screens.
+  Runify, Linkit and Weather are trimmed at the bottom to 16:10; Fibo is padded top and bottom
+  with `#242528`. Their recorded `shot` steps reproduce the moment, not the exact pixels.
+  Tack's raw is 1280x900, trimmed the same way, which drops the widget palette strip.
 
 ### Demo videos
 
