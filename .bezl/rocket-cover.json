@@ -13,11 +13,14 @@
   "layers": [
     {
       "type": "device",
-      "model": "iphone-18-pro",
-      "color": "black",
-      "y": 0.52,
-      "height": 1.1,
-      "rotate": -6,
+      "model": "none",
+      "window": {
+        "type": "safari",
+        "url": "portfolio-4b9fe.web.app/rocket",
+        "theme": "dark"
+      },
+      "height": 0.94,
+      "y": 0.5,
       "input": "../assets/covers/rocket.png",
       "id": "device-1"
     }
