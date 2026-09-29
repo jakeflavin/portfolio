@@ -96,7 +96,7 @@ Three files make a cover, and all three are committed:
 ```bash
 # A web app: the screen in a Safari window, on a square canvas.
 npx @jakeflavin/bezl image assets/covers/<slug>.png model=none window=safari \
-  window.url=portfolio-4b9fe.web.app/<slug> window.theme=dark height=0.94 y=0.5 \
+  window.url=portfolio-4b9fe.web.app/<slug> window.theme=dark height=0.82 y=0.5 \
   -c 1080x1080 -b "#1b2a6b,#8a4fe0@160" -o public/images/<slug>-cover.jpg --save <slug>-cover
 
 # Later: render the same cover again from the document.
@@ -111,7 +111,8 @@ npx @jakeflavin/bezl export <slug>-cover
 - **Capture the raw screen at the shape of the window**, close to square (Rocket's is
   900×820 at 2×), so the window fills the canvas and the app is not shrunk to fit. An app
   with a narrow column, like Rocket, still shows its sides; that is how it looks.
-- **The canvas is a plain square with the window nearly filling it.** No tilt, no crop.
+- **The canvas is a plain square with padding around the window.** Height 0.82 leaves about
+  85px a side at 1080. No tilt, no crop, and the window is never cut by the edge.
 - **Do not let a pop-up cover the subject.** Rocket's first frame had a score pop-up over
   the rocket. Look at the frame before it is framed.
 - **No text layers.** The card prints the title, so the cover carries none.
