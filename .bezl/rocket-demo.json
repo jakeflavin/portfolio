@@ -1,0 +1,131 @@
+{
+  "output": "out/rocket-demo.mp4",
+  "canvas": "threads",
+  "background": {
+    "type": "gradient",
+    "colors": [
+      "#1b2a6b",
+      "#8a4fe0"
+    ],
+    "kind": "linear",
+    "angle": 160
+  },
+  "layers": [
+    {
+      "type": "device",
+      "model": "none",
+      "window": {
+        "type": "safari",
+        "url": "portfolio-4b9fe.web.app/rocket",
+        "theme": "dark"
+      },
+      "y": 0.575,
+      "height": 0.82,
+      "id": "device-1"
+    }
+  ],
+  "timeline": [
+    {
+      "type": "card",
+      "duration": 2.2,
+      "layers": [
+        {
+          "type": "text",
+          "size": 190,
+          "weight": 800,
+          "text": "Rocket",
+          "id": "text-1"
+        },
+        {
+          "type": "text",
+          "weight": 400,
+          "y": 0.63,
+          "size": 54,
+          "opacity": 0.85,
+          "text": "A space arcade game.\nRuns in your browser.",
+          "id": "text-2"
+        }
+      ],
+      "id": "card-1"
+    },
+    {
+      "type": "clip",
+      "from": 1.9,
+      "to": 4.8,
+      "transition": "fade",
+      "input": "../assets/demos/rocket.mp4",
+      "layers": [
+        {
+          "type": "text",
+          "weight": 800,
+          "y": 0.075,
+          "size": 68,
+          "opacity": 1,
+          "text": "3, 2, 1. Launch.",
+          "id": "text-3"
+        }
+      ],
+      "id": "clip-1"
+    },
+    {
+      "type": "clip",
+      "from": 4.8,
+      "to": 13.8,
+      "input": "../assets/demos/rocket.mp4",
+      "layers": [
+        {
+          "type": "text",
+          "weight": 800,
+          "y": 0.085,
+          "size": 60,
+          "opacity": 1,
+          "text": "Steer. Grab the stars.\nChain them for combos.",
+          "id": "text-4"
+        }
+      ],
+      "id": "clip-2"
+    },
+    {
+      "type": "clip",
+      "from": 13.8,
+      "to": 21.8,
+      "input": "../assets/demos/rocket.mp4",
+      "layers": [
+        {
+          "type": "text",
+          "weight": 800,
+          "y": 0.075,
+          "size": 68,
+          "opacity": 1,
+          "text": "Dodge the asteroids.",
+          "id": "text-5"
+        }
+      ],
+      "id": "clip-3"
+    },
+    {
+      "type": "card",
+      "duration": 2.6,
+      "transition": "fade",
+      "layers": [
+        {
+          "type": "text",
+          "weight": 800,
+          "size": 150,
+          "text": "Play it free",
+          "id": "text-6"
+        },
+        {
+          "type": "text",
+          "weight": 400,
+          "y": 0.6,
+          "size": 44,
+          "opacity": 0.85,
+          "text": "portfolio-4b9fe.web.app/rocket",
+          "id": "text-7"
+        }
+      ],
+      "id": "card-2"
+    }
+  ]
+}

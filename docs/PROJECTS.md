@@ -126,6 +126,26 @@ npx @jakeflavin/bezl export <slug>-cover
 
 Rocket's is the worked example: `.bezl/rocket-cover.json`.
 
+### Demo videos
+
+A demo for Threads is the same idea as a cover: real gameplay in a Safari window, framed by
+`bezl video` on the `threads` canvas (1080×1350, 4:5). Rocket's is `.bezl/rocket-demo.json`,
+rendered with `npx @jakeflavin/bezl export rocket-demo` to `.bezl/out/rocket-demo.mp4`.
+
+- **Record with a CDP screencast, not Playwright's `recordVideo`.** The built-in video is
+  heavily compressed. Save JPEG frames with their timestamps, then assemble them with
+  ffmpeg's concat demuxer at 30fps.
+- **A game with a bot.** Rocket exposes `window.__stardust`, so a dodge bot flies it while
+  the screencast runs. Log timestamps of events (shield pickup, banners) to choose cuts.
+- **Cut the moments, commit only those.** The source is three segments joined into
+  `assets/demos/rocket.mp4` (3.8 MB), not the 29 MB take.
+- **Leave out the app's own title screen** if its name differs from the card's. Rocket's
+  title screen says "Stardust Run".
+- **Captions are bold and short**, and set `weight` on each: a caption inherits the look of
+  the text layer before it, which was the thin card subtitle.
+- **Check the disk first.** A render needs a gigabyte or more of temporary frames.
+
+
 Framing lives in the entry's `shot` key so a capture reproduces in a later session without
 anyone remembering the flags:
 
