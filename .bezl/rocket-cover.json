@@ -1,0 +1,25 @@
+{
+  "output": "../public/images/rocket-cover.jpg",
+  "canvas": "1080x1080",
+  "background": {
+    "type": "gradient",
+    "colors": [
+      "#1b2a6b",
+      "#8a4fe0"
+    ],
+    "kind": "linear",
+    "angle": 160
+  },
+  "layers": [
+    {
+      "type": "device",
+      "model": "iphone-18-pro",
+      "color": "black",
+      "y": 0.52,
+      "height": 1.1,
+      "rotate": -6,
+      "input": "../assets/covers/rocket.png",
+      "id": "device-1"
+    }
+  ]
+}

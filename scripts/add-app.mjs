@@ -614,6 +614,11 @@ const cover = flags.cover ?? `/images/${slug}-cover.jpg`;
 
 if (flags["skip-cover"]) {
   step("7. Skipping the cover capture");
+} else if (fs.existsSync(path.join(ROOT, "public", cover.replace(/^\//, "")))) {
+  // A bezl cover is made by hand before the app is added (docs/PROJECTS.md), and capturing
+  // here would replace it with a plain screenshot.
+  step("7. Using the cover already in public/");
+  done(`Found ${cover}`);
 } else {
   step("7. Capturing the cover from the app");
   const capture = tryRun(

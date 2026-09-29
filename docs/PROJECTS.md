@@ -73,9 +73,54 @@ The covers are the whole page. Every other element on a card exists to caption o
 
 Generated pictures were tried and rejected. An illustration of "a classroom with a loud
 dial" is in somebody else's style, looks like every other generated cover, and is not a
-preview of anything. A phone mockup around a screenshot was tried too, and it read as a
-marketing page. The app's own pixels, at the right moment, are the only material that
+preview of anything. A phone mockup composed by hand in HTML was tried too, and it read as
+a marketing page. The app's own pixels, at the right moment, are the only material that
 match the app's design and still preview it.
+
+### New covers are made with bezl
+
+From 2026-09-29 a new cover is the app's own screenshot framed by
+[bezl](https://github.com/jakeflavin/bezl) (`@jakeflavin/bezl`), not a raw crop. Everything
+above still holds: it is the running app, mid-job, with real data, and no words. Bezl
+supplies the frame and the canvas. Covers made before that date stay as they are until they
+are redone.
+
+Three files make a cover, and all three are committed:
+
+| File | What it is |
+|---|---|
+| `assets/covers/<slug>.png` | The raw screen, mid-job, at the device's native size. |
+| `.bezl/<slug>-cover.json` | The bezl document: device, finish, placement, canvas, background. |
+| `public/images/<slug>-cover.jpg` | The render the card shows. |
+
+```bash
+# Frame the raw screen and save the document in one go.
+npx @jakeflavin/bezl image assets/covers/<slug>.png model=iphone-18-pro color=black \
+  y=0.52 height=1.1 rotate=-6 -c 1080x1080 -b "#1b2a6b,#8a4fe0@160" \
+  -o public/images/<slug>-cover.jpg --save <slug>-cover
+
+# Later: render the same cover again from the document.
+npx @jakeflavin/bezl export <slug>-cover
+```
+
+`bezl doctor` checks that headless Chrome is available. It needs Node 22.12 or newer.
+
+- **Take the raw screen at the device's native size.** For an iPhone 18 Pro that is a
+  402×874 viewport at 3× (1206×2622). Bezl recognises the size, and nothing gets cropped.
+- **Give the page the safe-area insets a real phone reports.** Headless Chrome reports zero,
+  so an app that honours `env(safe-area-inset-top)` draws its header under the Dynamic
+  Island. Inject `:root { --sat: 59px; --sab: 34px }` (or whatever the app reads) before the
+  shot.
+- **One device, large, running off the edge.** A phone centred on a square is 70px wide at
+  158px. Height 1.1 of the canvas, tilted about six degrees, is legible in the grid.
+- **No text layers.** The card prints the title, so the cover carries none.
+- **Pick the background from the app's palette**, and against it: a teal game on the violet
+  gradient reads, on a teal one the phone disappears. Check the render at 158px before it
+  is committed.
+- **An app that is not phone-shaped** takes the device it is shaped like: `macbook-pro-14`
+  with `window=mac`, or `window=safari` for a web page. `bezl devices` lists them.
+
+Rocket's is the worked example: `.bezl/rocket-cover.json`.
 
 Framing lives in the entry's `shot` key so a capture reproduces in a later session without
 anyone remembering the flags:

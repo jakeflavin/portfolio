@@ -35,6 +35,7 @@ apps.json              the single source of truth: what exists, and where it cam
 scripts/fetchApps.mjs  downloads each app's release artifact into dist/<slug>/
 scripts/add-app.mjs    takes a repo on disk to live in the directory
 scripts/capture-cover.mjs  screenshots an app by driving the real thing
+.bezl/                 bezl documents: how each newer cover is framed (see PROJECTS.md)
 templates/release.yml  the workflow installed into each app repo
 ```
 
@@ -180,6 +181,10 @@ namespaced — Firestore collections and the RTDB `sessions` subtree do not coll
 
 Card images are screenshots of the real apps, captured by building each one, serving its
 own `dist`, and driving it in a headless browser at 1080×1080.
+
+New covers are framed with bezl instead of cut straight from the screenshot. That is a
+separate path, written up in [PROJECTS.md](PROJECTS.md#new-covers-are-made-with-bezl). When
+a cover already exists at the entry's path, `add-app.mjs` uses it rather than capturing one.
 
 Serving the local build rather than the live URL is deliberate: it means a cover can be
 captured *before* the app has ever been deployed, which is the order `add-app.mjs` needs.
