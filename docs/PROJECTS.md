@@ -100,7 +100,8 @@ The rules, as Jake set them:
   it first, never scaled: cut from the bottom (`sips --cropToHeightWidth H W --cropOffset 0 0`)
   or padded with the app's own background colour (`sips --padToHeightWidth`).
 - **An iOS app goes in an iPhone** (`model=iphone-18-pro`). Only Goals is one. Its screen is
-  the landing page's own native screenshot, `apps/goals-web/public/images/home-light.png`.
+  the landing page's own native capture, `apps/goals-web/src/shots/home-light.png`, scaled to
+  720 wide (`sips --resampleWidth 720`).
 
 Three files make a cover, and all three are committed:
 

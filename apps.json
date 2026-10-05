@@ -392,7 +392,7 @@
     {
       "slug": "goals",
       "title": "Goals",
-      "description": "A goal tracker for iPhone, iPad, Mac and Apple Watch with five slots for the year. Not six. No account, nothing to sign up for, and nothing collected. Your goals stay on your devices and in your own iCloud.",
+      "description": "A goal tracker for the year, on iPhone, iPad, Mac and Apple Watch. Each goal holds its milestones, tasks and habits. One goal is free. Nothing to sign up for, and nothing collected.",
       "tags": [
         "planning",
         "focus"
@@ -407,8 +407,7 @@
           "width": 1080,
           "height": 1080
         },
-        "wait": 2500,
-        "css": "main > * { visibility: hidden; } figure:has(img[alt^='The Goals home']) { visibility: visible; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 440px; margin: 0; } figure:has(img[alt^='The Goals home']) > div { max-width: 440px !important; }"
+        "wait": 2500
       }
     },
     {
