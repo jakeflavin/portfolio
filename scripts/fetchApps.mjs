@@ -7,6 +7,10 @@
  *
  * Must run AFTER `vite build` and `generateSocialMeta.js`, both of which write dist/index.html.
  *
+ * The manifest it writes is also the public description of this site's apps: it carries each
+ * app's title, blurb, tags, cover and release date straight from apps.json, so a consumer
+ * (jakeflavin.com's portfolio section) needs one fetch and no GitHub calls.
+ *
  * Usage: node scripts/fetchApps.mjs [--only <slug>]
  */
 
@@ -35,9 +39,13 @@ function apiHeaders() {
   return headers;
 }
 
-/** Resolves the tag an app will actually deploy, so a live release is auditable. */
-async function resolveTag(app) {
-  if (app.ref) return app.ref;
+/**
+ * Resolves the release an app will actually deploy, so a live release is auditable.
+ * The publish date rides along: it is the only honest "last shipped" signal, and
+ * reading it here means nothing downstream has to ask GitHub at runtime.
+ */
+async function resolveRelease(app) {
+  if (app.ref) return { tag: app.ref, releasedAt: null };
 
   const res = await fetch(`https://api.github.com/repos/${app.repo}/releases/latest`, {
     headers: apiHeaders()
@@ -51,7 +59,7 @@ async function resolveTag(app) {
   }
 
   const release = await res.json();
-  return release.tag_name;
+  return { tag: release.tag_name, releasedAt: release.published_at ?? null };
 }
 
 async function download(url, destination) {
@@ -63,7 +71,7 @@ async function download(url, destination) {
 }
 
 async function fetchApp(app) {
-  const tag = await resolveTag(app);
+  const { tag, releasedAt } = await resolveRelease(app);
   const target = path.join(DIST_DIR, app.slug);
   const url = `https://github.com/${app.repo}/releases/download/${tag}/${ASSET_NAME}`;
 
@@ -89,7 +97,23 @@ async function fetchApp(app) {
       `  ${app.slug.padEnd(14)} ${tag.padEnd(16)} ${(bytes / 1024 / 1024).toFixed(1)} MB`
     );
 
-    return { slug: app.slug, repo: app.repo, tag, pinned: Boolean(app.ref) };
+    return {
+      slug: app.slug,
+      repo: app.repo,
+      tag,
+      pinned: Boolean(app.ref),
+      releasedAt,
+      // Everything the directory already knows, carried through verbatim so that
+      // anything consuming this manifest describes an app the way apps.json does
+      // and never has to invent a title or ask GitHub for a description.
+      title: app.title,
+      description: app.description,
+      tags: app.tags ?? [],
+      cover: app.cover,
+      path: `/${app.slug}/`,
+      creationDate: app.creationDate ?? null,
+      disabled: Boolean(app.disabled)
+    };
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
