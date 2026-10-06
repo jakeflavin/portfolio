@@ -33,7 +33,8 @@ production on its own.
 
 `apps.json` is the single source of truth for both the directory cards and the deploy.
 `dist/deploy-manifest.json` records which release tag each slug resolved to, so any live
-deploy is auditable.
+deploy is auditable, and carries each app's title, blurb, tags, cover and dates so that
+jakeflavin.com's portfolio section can describe them from that one file.
 
 ### Why sub-paths and not subdomains
 

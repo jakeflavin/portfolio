@@ -95,6 +95,13 @@ to. The directory fetches that at runtime to show each card's build, which makes
 deploy auditable from the page itself. Rolling an app back is adding a `ref` and
 redeploying.
 
+The manifest is public, and it is the only published description of these apps: besides
+`slug`, `repo`, `tag` and `pinned` it carries each app's `title`, `description`, `tags`,
+`cover`, `path`, `creationDate`, `disabled` and the release's `releasedAt`, copied straight
+out of `apps.json`. That is so anything outside this repo — jakeflavin.com's portfolio
+section — can describe an app from one fetch, without asking GitHub or guessing a title
+from a slug. Adding a field here means adding it to `fetchApp` in `fetchApps.mjs`.
+
 ### No per-app rewrite is needed
 
 Hosting serves static files *before* applying rewrites, and none of the static apps use
